@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"pretty": true,
+		"target": "ESNext",
+		"lib": ["ESNext", "DOM"],
+		"moduleResolution": "NodeNext",
+		"alwaysStrict": true,
+		"skipLibCheck": true,
+		"noEmitHelpers": true,
+		"importHelpers": true,
+		"esModuleInterop": true
+	}
+}
