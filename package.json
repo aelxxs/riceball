@@ -3,6 +3,7 @@
 	"author": "Alexis Vielma",
 	"license": "MIT",
 	"scripts": {
+		"lint": "eslint --fix --ext source",
 		"clean": "rimraf ./dist",
 		"build": "tsc -p ./",
 		"start": "node ./dist/index.js",
