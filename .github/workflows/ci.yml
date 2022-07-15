@@ -17,9 +17,8 @@ jobs:
         uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
         with:
           node-version: 16
-          cache: yarn
       - name: Install Dependencies
-        run: yarn --immutable
+        run: yarn install --immutable --immutable-cache --check-cache
       - name: Run ESLint
         run: yarn lint --fix=false
 
@@ -35,8 +34,7 @@ jobs:
         uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
         with:
           node-version: 16
-          cache: yarn
       - name: Install Dependencies
-        run: yarn --immutable
+        run: yarn install --immutable --immutable-cache --check-cache
       - name: Build code
         run: yarn build
