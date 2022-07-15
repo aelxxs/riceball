@@ -2,11 +2,10 @@
 	"root": true,
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"extraFileExtensions": [".mjs"],
 		"project": "./tsconfig.json",
 		"sourceType": "module",
 		"ecmaVersion": 2020,
-		"warnOnUnslupportedTypeScriptVersion": false
+		"warnOnUnsupportedTypeScriptVersion": false
 	},
 	"extends": ["plugin:@typescript-eslint/recommended"],
 	"env": {
@@ -87,7 +86,7 @@
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/no-extra-non-null-assertion": "error",
 		"@typescript-eslint/no-extraneous-class": "error",
-		"@typescript-eslint/no-floating-promises": "error",
+		// "@typescript-eslint/no-floating-promises": "error",
 		"@typescript-eslint/no-for-in-array": "error",
 		"@typescript-eslint/no-implied-eval": "error",
 		"@typescript-eslint/no-invalid-this": "error",
