@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
+  pull_reqgtuest:
 
 jobs:
   Linting:
@@ -22,7 +22,7 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
       - name: Run ESLint
-        run: yarn lint --fix=false
+        run: yarn lint
 
   Building:
     name: Building NodeJS
