@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  pull_reqgtuest:
+  pull_request:
 
 jobs:
   Linting:
