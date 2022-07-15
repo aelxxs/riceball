@@ -1,14 +1,27 @@
 {
 	"compilerOptions": {
+		// Type Checking
 		"strict": true,
 		"pretty": true,
+
+		// Modules
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"resolveJsonModule": true,
+
+		// Emit
+		"sourceMap": true,
+		"inlineSources": true,
+		"importHelpers": true,
+		"noEmitHelpers": true,
+		"removeComments": false,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+
+		// Lang and Env
 		"target": "ESNext",
 		"lib": ["ESNext", "DOM"],
-		"moduleResolution": "NodeNext",
-		"alwaysStrict": true,
-		"skipLibCheck": true,
-		"noEmitHelpers": true,
-		"importHelpers": true,
-		"esModuleInterop": true
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	}
 }
