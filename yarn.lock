@@ -32,7 +32,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discordjs/rest@npm:^0.5.0":
+"@discordjs/rest@npm:0.5.0":
   version: 0.5.0
   resolution: "@discordjs/rest@npm:0.5.0"
   dependencies:
@@ -172,7 +172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/canvas@npm:^0.1.25":
+"@napi-rs/canvas@npm:0.1.25":
   version: 0.1.25
   resolution: "@napi-rs/canvas@npm:0.1.25"
   dependencies:
@@ -259,7 +259,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@spectacles/brokers@npm:^0.9.0, @spectacles/brokers@npm:^0.9.3":
+"@spectacles/brokers@npm:0.9.3, @spectacles/brokers@npm:^0.9.0":
   version: 0.9.3
   resolution: "@spectacles/brokers@npm:0.9.3"
   dependencies:
@@ -271,7 +271,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@spectacles/proxy@npm:^0.1.3":
+"@spectacles/proxy@npm:0.1.3":
   version: 0.1.3
   resolution: "@spectacles/proxy@npm:0.1.3"
   dependencies:
@@ -280,7 +280,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@spectacles/rest@npm:^0.8.3":
+"@spectacles/rest@npm:0.8.3":
   version: 0.8.3
   resolution: "@spectacles/rest@npm:0.8.3"
   dependencies:
@@ -306,7 +306,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.0.4":
+"@types/node@npm:*, @types/node@npm:18.0.4":
   version: 18.0.4
   resolution: "@types/node@npm:18.0.4"
   checksum: 981284fd57941f233f0e77038087c122f56e3c2b4fc4e090dfc7f0a93abfc526d5ccdd59eb3ef551d713245cf3943e37c7b957f12ba699209341a447c39fab59
@@ -322,7 +322,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.30.5":
+"@typescript-eslint/eslint-plugin@npm:5.30.6":
   version: 5.30.6
   resolution: "@typescript-eslint/eslint-plugin@npm:5.30.6"
   dependencies:
@@ -623,7 +623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"canvas-constructor@npm:^6.0.2":
+"canvas-constructor@npm:6.0.2":
   version: 6.0.2
   resolution: "canvas-constructor@npm:6.0.2"
   dependencies:
@@ -757,6 +757,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"discord-api-types@npm:0.36.2, discord-api-types@npm:^0.36.1":
+  version: 0.36.2
+  resolution: "discord-api-types@npm:0.36.2"
+  checksum: 0275ac9db1bb8354ed3fedb37d7fa66d02b63aa6dc749add1e9ed52b428e94cb8b5111bd60e781cf0c2c5cdb0e948c4e83d00b74f500f1b0ac90ddc38a822798
+  languageName: node
+  linkType: hard
+
 "discord-api-types@npm:^0.33.3":
   version: 0.33.5
   resolution: "discord-api-types@npm:0.33.5"
@@ -764,14 +771,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:^0.36.1, discord-api-types@npm:^0.36.2":
-  version: 0.36.2
-  resolution: "discord-api-types@npm:0.36.2"
-  checksum: 0275ac9db1bb8354ed3fedb37d7fa66d02b63aa6dc749add1e9ed52b428e94cb8b5111bd60e781cf0c2c5cdb0e948c4e83d00b74f500f1b0ac90ddc38a822798
-  languageName: node
-  linkType: hard
-
-"discord.js@npm:^14.0.0-dev.1657757514-fe34f48":
+"discord.js@npm:14.0.0-dev.1657757514-fe34f48":
   version: 14.0.0-dev.1657757514-fe34f48
   resolution: "discord.js@npm:14.0.0-dev.1657757514-fe34f48"
   dependencies:
@@ -799,7 +799,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.1":
+"dotenv@npm:16.0.1":
   version: 16.0.1
   resolution: "dotenv@npm:16.0.1"
   checksum: f459ffce07b977b7f15d8cc4ee69cdff77d4dd8c5dc8c85d2d485ee84655352c2415f9dd09d42b5b5985ced3be186130871b34e2f3e2569ebc72fbc2e8096792
@@ -1148,23 +1148,23 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "handler@workspace:project/handler"
   dependencies:
-    "@discordjs/rest": ^0.5.0
-    "@napi-rs/canvas": ^0.1.25
-    "@spectacles/brokers": ^0.9.3
-    "@spectacles/proxy": ^0.1.3
-    "@spectacles/rest": ^0.8.3
-    "@types/node": ^18.0.4
-    canvas-constructor: ^6.0.2
-    discord-api-types: ^0.36.2
-    discord.js: ^14.0.0-dev.1657757514-fe34f48
-    dotenv: ^16.0.1
-    ioredis: ^5.2.0
-    ley: ^0.7.1
-    postgres: ^3.2.4
-    reflect-metadata: ^0.1.13
-    tslib: ^2.4.0
-    tsyringe: ^4.7.0
-    typescript: ^4.7.4
+    "@discordjs/rest": 0.5.0
+    "@napi-rs/canvas": 0.1.25
+    "@spectacles/brokers": 0.9.3
+    "@spectacles/proxy": 0.1.3
+    "@spectacles/rest": 0.8.3
+    "@types/node": 18.0.4
+    canvas-constructor: 6.0.2
+    discord-api-types: 0.36.2
+    discord.js: 14.0.0-dev.1657757514-fe34f48
+    dotenv: 16.0.1
+    ioredis: 5.2.0
+    ley: 0.7.1
+    postgres: 3.2.4
+    reflect-metadata: 0.1.13
+    tslib: 2.4.0
+    tsyringe: 4.7.0
+    typescript: 4.7.4
   languageName: unknown
   linkType: soft
 
@@ -1216,6 +1216,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ioredis@npm:5.2.0":
+  version: 5.2.0
+  resolution: "ioredis@npm:5.2.0"
+  dependencies:
+    "@ioredis/commands": ^1.1.1
+    cluster-key-slot: ^1.1.0
+    debug: ^4.3.4
+    denque: ^2.0.1
+    lodash.defaults: ^4.2.0
+    lodash.isarguments: ^3.1.0
+    redis-errors: ^1.2.0
+    redis-parser: ^3.0.0
+    standard-as-callback: ^2.1.0
+  checksum: 37189fcd4bd834d66aabb28a754d97da9147a6162c16bd971647750dbb81cbe7d93f4c07a623efdc0fdcb61bca243678b864229ddbcc2b8692755d7be40a2227
+  languageName: node
+  linkType: hard
+
 "ioredis@npm:^4.28.5":
   version: 4.28.5
   resolution: "ioredis@npm:4.28.5"
@@ -1232,23 +1249,6 @@ __metadata:
     redis-parser: ^3.0.0
     standard-as-callback: ^2.1.0
   checksum: a8793c3324cd69fa55b4baacbda118ce6724e574260157761276b31411dd3e168c75490f7155c6ce34d79e01488efa98e0cdb162991970fd56da7cbcdafb8fb8
-  languageName: node
-  linkType: hard
-
-"ioredis@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "ioredis@npm:5.2.0"
-  dependencies:
-    "@ioredis/commands": ^1.1.1
-    cluster-key-slot: ^1.1.0
-    debug: ^4.3.4
-    denque: ^2.0.1
-    lodash.defaults: ^4.2.0
-    lodash.isarguments: ^3.1.0
-    redis-errors: ^1.2.0
-    redis-parser: ^3.0.0
-    standard-as-callback: ^2.1.0
-  checksum: 37189fcd4bd834d66aabb28a754d97da9147a6162c16bd971647750dbb81cbe7d93f4c07a623efdc0fdcb61bca243678b864229ddbcc2b8692755d7be40a2227
   languageName: node
   linkType: hard
 
@@ -1331,7 +1331,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ley@npm:^0.7.1":
+"ley@npm:0.7.1":
   version: 0.7.1
   resolution: "ley@npm:0.7.1"
   dependencies:
@@ -1554,7 +1554,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postgres@npm:^3.2.4":
+"postgres@npm:3.2.4":
   version: 3.2.4
   resolution: "postgres@npm:3.2.4"
   checksum: 613d09d66927bd436e286685881fa40297bac97ca3fc34359abf347f1e9cf00fb3c6fea328b004c632c507129e279883354b4e411d9c0c7478f88d670df78503
@@ -1642,7 +1642,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.1.13":
+"reflect-metadata@npm:0.1.13":
   version: 0.1.13
   resolution: "reflect-metadata@npm:0.1.13"
   checksum: 798d379a7b6f6455501145419505c97dd11cbc23857a386add2b9ef15963ccf15a48d9d15507afe01d4cd74116df8a213247200bac00320bd7c11ddeaa5e8fb4
@@ -1681,14 +1681,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "riceball@workspace:."
   dependencies:
-    "@typescript-eslint/eslint-plugin": ^5.30.5
+    "@typescript-eslint/eslint-plugin": 5.30.6
     "@typescript-eslint/parser": 5.27.1
     eslint: 8.17.0
     eslint-config-prettier: 8.5.0
     eslint-plugin-prettier: 4.0.0
     prettier: 2.6.2
-    tslib: ^2.4.0
-    turbo: ^1.3.1
+    tslib: 2.4.0
+    turbo: 1.3.1
     typescript: 4.7.3
   languageName: unknown
   linkType: soft
@@ -1846,17 +1846,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:2.4.0, tslib@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "tslib@npm:2.4.0"
+  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
+  languageName: node
+  linkType: hard
+
 "tslib@npm:^1.8.1, tslib@npm:^1.9.3":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "tslib@npm:2.4.0"
-  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
   languageName: node
   linkType: hard
 
@@ -1871,7 +1871,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsyringe@npm:^4.7.0":
+"tsyringe@npm:4.7.0":
   version: 4.7.0
   resolution: "tsyringe@npm:4.7.0"
   dependencies:
@@ -1978,7 +1978,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"turbo@npm:^1.3.1":
+"turbo@npm:1.3.1":
   version: 1.3.1
   resolution: "turbo@npm:1.3.1"
   dependencies:
@@ -2057,7 +2057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.7.4":
+"typescript@npm:4.7.4":
   version: 4.7.4
   resolution: "typescript@npm:4.7.4"
   bin:
@@ -2077,7 +2077,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.7.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.7.4#~builtin<compat/typescript>":
   version: 4.7.4
   resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"
   bin:
