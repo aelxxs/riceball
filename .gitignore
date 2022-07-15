@@ -6,6 +6,7 @@
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+!.yarn/releases
 
 .env
 
