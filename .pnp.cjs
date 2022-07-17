@@ -66,36 +66,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@discordjs/collection", [\
-        ["npm:0.8.0", {\
-          "packageLocation": "./.yarn/cache/@discordjs-collection-npm-0.8.0-26d849612c-f61f53be03.zip/node_modules/@discordjs/collection/",\
-          "packageDependencies": [\
-            ["@discordjs/collection", "npm:0.8.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.8.0-dev.1657757511-fe34f48", {\
           "packageLocation": "./.yarn/cache/@discordjs-collection-npm-0.8.0-dev.1657757511-fe34f48-efdafd0d79-1c91ac32b8.zip/node_modules/@discordjs/collection/",\
           "packageDependencies": [\
             ["@discordjs/collection", "npm:0.8.0-dev.1657757511-fe34f48"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.0.0", {\
+          "packageLocation": "./.yarn/cache/@discordjs-collection-npm-1.0.0-c52c2a72f4-d8eafd35e7.zip/node_modules/@discordjs/collection/",\
+          "packageDependencies": [\
+            ["@discordjs/collection", "npm:1.0.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@discordjs/rest", [\
-        ["npm:0.6.0", {\
-          "packageLocation": "./.yarn/cache/@discordjs-rest-npm-0.6.0-c0917ee584-b4fad34a45.zip/node_modules/@discordjs/rest/",\
-          "packageDependencies": [\
-            ["@discordjs/rest", "npm:0.6.0"],\
-            ["@discordjs/collection", "npm:0.8.0"],\
-            ["@sapphire/async-queue", "npm:1.3.2"],\
-            ["@sapphire/snowflake", "npm:3.2.2"],\
-            ["discord-api-types", "npm:0.36.2"],\
-            ["file-type", "npm:17.1.2"],\
-            ["tslib", "npm:2.4.0"],\
-            ["undici", "npm:5.7.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.6.0-dev.1657757537-fe34f48", {\
           "packageLocation": "./.yarn/cache/@discordjs-rest-npm-0.6.0-dev.1657757537-fe34f48-62fce9c6a1-f5ede663f2.zip/node_modules/@discordjs/rest/",\
           "packageDependencies": [\
@@ -104,6 +90,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sapphire/async-queue", "npm:1.3.2"],\
             ["@sapphire/snowflake", "npm:3.2.2"],\
             ["discord-api-types", "npm:0.36.2"],\
+            ["tslib", "npm:2.4.0"],\
+            ["undici", "npm:5.7.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.0.0", {\
+          "packageLocation": "./.yarn/cache/@discordjs-rest-npm-1.0.0-e07143615f-dfe4348ce3.zip/node_modules/@discordjs/rest/",\
+          "packageDependencies": [\
+            ["@discordjs/rest", "npm:1.0.0"],\
+            ["@discordjs/collection", "npm:1.0.0"],\
+            ["@sapphire/async-queue", "npm:1.3.2"],\
+            ["@sapphire/snowflake", "npm:3.2.2"],\
+            ["discord-api-types", "npm:0.36.2"],\
+            ["file-type", "npm:17.1.2"],\
             ["tslib", "npm:2.4.0"],\
             ["undici", "npm:5.7.0"]\
           ],\
@@ -1471,7 +1471,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./project/handler/",\
           "packageDependencies": [\
             ["handler", "workspace:project/handler"],\
-            ["@discordjs/rest", "npm:0.6.0"],\
+            ["@discordjs/rest", "npm:1.0.0"],\
             ["@napi-rs/canvas", "npm:0.1.25"],\
             ["@spectacles/brokers", "npm:0.9.3"],\
             ["@spectacles/proxy", "npm:0.1.3"],\
