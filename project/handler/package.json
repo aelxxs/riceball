@@ -20,7 +20,7 @@
 		"discord-api-types": "^0.36.2",
 		"discord.js": "^14.0.0-dev.1657757514-fe34f48",
 		"dotenv": "^16.0.1",
-		"ioredis": "^5.2.0",
+		"ioredis": "5.2.1",
 		"postgres": "^3.2.4",
 		"reflect-metadata": "^0.1.13",
 		"tsyringe": "^4.7.0"
