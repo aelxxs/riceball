@@ -66,10 +66,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@discordjs/collection", [\
-        ["npm:0.7.0", {\
-          "packageLocation": "./.yarn/cache/@discordjs-collection-npm-0.7.0-b46f2cfd79-141aa35a54.zip/node_modules/@discordjs/collection/",\
+        ["npm:0.8.0", {\
+          "packageLocation": "./.yarn/cache/@discordjs-collection-npm-0.8.0-26d849612c-f61f53be03.zip/node_modules/@discordjs/collection/",\
           "packageDependencies": [\
-            ["@discordjs/collection", "npm:0.7.0"]\
+            ["@discordjs/collection", "npm:0.8.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -82,14 +82,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@discordjs/rest", [\
-        ["npm:0.5.0", {\
-          "packageLocation": "./.yarn/cache/@discordjs-rest-npm-0.5.0-93d8129772-36427fd77f.zip/node_modules/@discordjs/rest/",\
+        ["npm:0.6.0", {\
+          "packageLocation": "./.yarn/cache/@discordjs-rest-npm-0.6.0-c0917ee584-b4fad34a45.zip/node_modules/@discordjs/rest/",\
           "packageDependencies": [\
-            ["@discordjs/rest", "npm:0.5.0"],\
-            ["@discordjs/collection", "npm:0.7.0"],\
+            ["@discordjs/rest", "npm:0.6.0"],\
+            ["@discordjs/collection", "npm:0.8.0"],\
             ["@sapphire/async-queue", "npm:1.3.2"],\
             ["@sapphire/snowflake", "npm:3.2.2"],\
-            ["discord-api-types", "npm:0.33.5"],\
+            ["discord-api-types", "npm:0.36.2"],\
+            ["file-type", "npm:17.1.2"],\
             ["tslib", "npm:2.4.0"],\
             ["undici", "npm:5.7.0"]\
           ],\
@@ -365,6 +366,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@spectacles/util", "npm:0.5.0"],\
             ["@msgpack/msgpack", "npm:2.7.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@tokenizer/token", [\
+        ["npm:0.3.0", {\
+          "packageLocation": "./.yarn/cache/@tokenizer-token-npm-0.3.0-4441352cc5-1d575d02d2.zip/node_modules/@tokenizer/token/",\
+          "packageDependencies": [\
+            ["@tokenizer/token", "npm:0.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -987,13 +997,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["discord-api-types", [\
-        ["npm:0.33.5", {\
-          "packageLocation": "./.yarn/cache/discord-api-types-npm-0.33.5-95071452d2-6dcaad640c.zip/node_modules/discord-api-types/",\
-          "packageDependencies": [\
-            ["discord-api-types", "npm:0.33.5"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.36.2", {\
           "packageLocation": "./.yarn/cache/discord-api-types-npm-0.36.2-cbe93c5d39-0275ac9db1.zip/node_modules/discord-api-types/",\
           "packageDependencies": [\
@@ -1333,6 +1336,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["file-type", [\
+        ["npm:17.1.2", {\
+          "packageLocation": "./.yarn/cache/file-type-npm-17.1.2-3fae3074b7-22103084b4.zip/node_modules/file-type/",\
+          "packageDependencies": [\
+            ["file-type", "npm:17.1.2"],\
+            ["readable-web-to-node-stream", "npm:3.0.2"],\
+            ["strtok3", "npm:7.0.0-alpha.8"],\
+            ["token-types", "npm:5.0.0-alpha.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["fill-range", [\
         ["npm:7.0.1", {\
           "packageLocation": "./.yarn/cache/fill-range-npm-7.0.1-b8b1817caa-cc283f4e65.zip/node_modules/fill-range/",\
@@ -1456,7 +1471,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./project/handler/",\
           "packageDependencies": [\
             ["handler", "workspace:project/handler"],\
-            ["@discordjs/rest", "npm:0.5.0"],\
+            ["@discordjs/rest", "npm:0.6.0"],\
             ["@napi-rs/canvas", "npm:0.1.25"],\
             ["@spectacles/brokers", "npm:0.9.3"],\
             ["@spectacles/proxy", "npm:0.1.3"],\
@@ -1482,6 +1497,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/has-flag-npm-4.0.0-32af9f0536-261a135703.zip/node_modules/has-flag/",\
           "packageDependencies": [\
             ["has-flag", "npm:4.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["ieee754", [\
+        ["npm:1.2.1", {\
+          "packageLocation": "./.yarn/cache/ieee754-npm-1.2.1-fb63b3caeb-5144c0c981.zip/node_modules/ieee754/",\
+          "packageDependencies": [\
+            ["ieee754", "npm:1.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1928,6 +1952,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["peek-readable", [\
+        ["npm:5.0.0-alpha.5", {\
+          "packageLocation": "./.yarn/cache/peek-readable-npm-5.0.0-alpha.5-290fcea102-cab949ed45.zip/node_modules/peek-readable/",\
+          "packageDependencies": [\
+            ["peek-readable", "npm:5.0.0-alpha.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["picomatch", [\
         ["npm:2.3.1", {\
           "packageLocation": "./.yarn/cache/picomatch-npm-2.3.1-c782cfd986-050c865ce8.zip/node_modules/picomatch/",\
@@ -2010,6 +2043,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["inherits", "npm:2.0.4"],\
             ["isarray", "npm:0.0.1"],\
             ["string_decoder", "npm:0.10.31"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:3.6.0", {\
+          "packageLocation": "./.yarn/cache/readable-stream-npm-3.6.0-23a4a5eb56-d4ea81502d.zip/node_modules/readable-stream/",\
+          "packageDependencies": [\
+            ["readable-stream", "npm:3.6.0"],\
+            ["inherits", "npm:2.0.4"],\
+            ["string_decoder", "npm:1.3.0"],\
+            ["util-deprecate", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["readable-web-to-node-stream", [\
+        ["npm:3.0.2", {\
+          "packageLocation": "./.yarn/cache/readable-web-to-node-stream-npm-3.0.2-682f5de297-8c56cc62c6.zip/node_modules/readable-web-to-node-stream/",\
+          "packageDependencies": [\
+            ["readable-web-to-node-stream", "npm:3.0.2"],\
+            ["readable-stream", "npm:3.6.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2205,6 +2258,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["string_decoder", "npm:0.10.31"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.3.0", {\
+          "packageLocation": "./.yarn/cache/string_decoder-npm-1.3.0-2422117fd0-8417646695.zip/node_modules/string_decoder/",\
+          "packageDependencies": [\
+            ["string_decoder", "npm:1.3.0"],\
+            ["safe-buffer", "npm:5.2.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["strip-ansi", [\
@@ -2222,6 +2283,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/strip-json-comments-npm-3.1.1-dcb2324823-492f73e272.zip/node_modules/strip-json-comments/",\
           "packageDependencies": [\
             ["strip-json-comments", "npm:3.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["strtok3", [\
+        ["npm:7.0.0-alpha.8", {\
+          "packageLocation": "./.yarn/cache/strtok3-npm-7.0.0-alpha.8-2140c95c11-00e5c9ed0c.zip/node_modules/strtok3/",\
+          "packageDependencies": [\
+            ["strtok3", "npm:7.0.0-alpha.8"],\
+            ["@tokenizer/token", "npm:0.3.0"],\
+            ["peek-readable", "npm:5.0.0-alpha.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2251,6 +2323,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["to-regex-range", "npm:5.0.1"],\
             ["is-number", "npm:7.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["token-types", [\
+        ["npm:5.0.0-alpha.2", {\
+          "packageLocation": "./.yarn/cache/token-types-npm-5.0.0-alpha.2-1fdc0995e7-ee23eeed6f.zip/node_modules/token-types/",\
+          "packageDependencies": [\
+            ["token-types", "npm:5.0.0-alpha.2"],\
+            ["@tokenizer/token", "npm:0.3.0"],\
+            ["ieee754", "npm:1.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2564,6 +2647,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["url-parse", "npm:1.5.10"],\
             ["querystringify", "npm:2.2.0"],\
             ["requires-port", "npm:1.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["util-deprecate", [\
+        ["npm:1.0.2", {\
+          "packageLocation": "./.yarn/cache/util-deprecate-npm-1.0.2-e3fe1a219c-474acf1146.zip/node_modules/util-deprecate/",\
+          "packageDependencies": [\
+            ["util-deprecate", "npm:1.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
