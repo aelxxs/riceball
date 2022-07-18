@@ -21,15 +21,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:."\
       },\
       {\
+        "name": "api",\
+        "reference": "workspace:project/api"\
+      },\
+      {\
         "name": "handler",\
         "reference": "workspace:project/handler"\
+      },\
+      {\
+        "name": "website",\
+        "reference": "workspace:project/website"\
       }\
     ],\
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
+      ["api", ["workspace:project/api"]],\
       ["handler", ["workspace:project/handler"]],\
-      ["riceball", ["workspace:."]]\
+      ["riceball", ["workspace:."]],\
+      ["website", ["workspace:project/website"]]\
     ],\
     "fallbackPool": [\
     ],\
@@ -721,6 +731,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["color-convert", "npm:2.0.1"]\
           ],\
           "linkType": "HARD"\
+        }]\
+      ]],\
+      ["api", [\
+        ["workspace:project/api", {\
+          "packageLocation": "./project/api/",\
+          "packageDependencies": [\
+            ["api", "workspace:project/api"]\
+          ],\
+          "linkType": "SOFT"\
         }]\
       ]],\
       ["argparse", [\
@@ -2676,6 +2695,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["webidl-conversions", "npm:3.0.1"]\
           ],\
           "linkType": "HARD"\
+        }]\
+      ]],\
+      ["website", [\
+        ["workspace:project/website", {\
+          "packageLocation": "./project/website/",\
+          "packageDependencies": [\
+            ["website", "workspace:project/website"]\
+          ],\
+          "linkType": "SOFT"\
         }]\
       ]],\
       ["whatwg-url", [\
