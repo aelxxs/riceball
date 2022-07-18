@@ -6,7 +6,7 @@
 	"scripts": {
 		"lint": "",
 		"watch": "tsc -w ./",
-		"build": "tsc -b ./",
+		"build": "",
 		"start": "node build/index.js"
 	}
 }
