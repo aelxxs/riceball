@@ -552,6 +552,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"api@workspace:project/api":
+  version: 0.0.0-use.local
+  resolution: "api@workspace:project/api"
+  languageName: unknown
+  linkType: soft
+
 "argparse@npm:^2.0.1":
   version: 2.0.1
   resolution: "argparse@npm:2.0.1"
@@ -2217,6 +2223,12 @@ __metadata:
   checksum: c92a0a6ab95314bde9c32e1d0a6dfac83b578f8fa5f21e675bc2706ed6981bc26b7eb7e6a1fab158e5ce4adf9caa4a0aee49a52505d4d13c7be545f15021b17c
   languageName: node
   linkType: hard
+
+"website@workspace:project/website":
+  version: 0.0.0-use.local
+  resolution: "website@workspace:project/website"
+  languageName: unknown
+  linkType: soft
 
 "whatwg-url@npm:^5.0.0":
   version: 5.0.0

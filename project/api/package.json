@@ -1,1 +1,12 @@
-{}
+{
+	"name": "api",
+	"author": "Alexis Vielma",
+	"license": "MIT",
+	"private": true,
+	"scripts": {
+		"lint": "",
+		"watch": "tsc -w ./",
+		"build": "tsc -b ./",
+		"start": "node build/index.js"
+	}
+}
