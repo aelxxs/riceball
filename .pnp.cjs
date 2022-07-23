@@ -1468,7 +1468,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["discord-api-types", "npm:0.36.2"],\
             ["discord.js", "npm:14.0.0-dev.1657757514-fe34f48"],\
             ["dotenv", "npm:16.0.1"],\
-            ["ioredis", "npm:5.2.1"],\
+            ["ioredis", "npm:5.2.2"],\
             ["ley", "npm:0.7.1"],\
             ["postgres", "npm:3.2.4"],\
             ["reflect-metadata", "npm:0.1.13"],\
@@ -1565,10 +1565,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:5.2.1", {\
-          "packageLocation": "./.yarn/cache/ioredis-npm-5.2.1-4715745718-cd744f4d8b.zip/node_modules/ioredis/",\
+        ["npm:5.2.2", {\
+          "packageLocation": "./.yarn/cache/ioredis-npm-5.2.2-762f3ee75d-8d65032606.zip/node_modules/ioredis/",\
           "packageDependencies": [\
-            ["ioredis", "npm:5.2.1"],\
+            ["ioredis", "npm:5.2.2"],\
             ["@ioredis/commands", "npm:1.2.0"],\
             ["cluster-key-slot", "npm:1.1.0"],\
             ["debug", "virtual:1f3c51be25fef20e854261431be23d317093b3b463e81e911f4f45a636ff582620db066c9d2a5922a428e07e10fe4788eee8196c796ce2c9bd49d22743fec207#npm:4.3.4"],\
