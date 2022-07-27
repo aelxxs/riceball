@@ -83,10 +83,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:1.0.0", {\
-          "packageLocation": "./.yarn/cache/@discordjs-collection-npm-1.0.0-c52c2a72f4-d8eafd35e7.zip/node_modules/@discordjs/collection/",\
+        ["npm:1.0.1", {\
+          "packageLocation": "./.yarn/cache/@discordjs-collection-npm-1.0.1-8eb3d3e34e-6477ae9870.zip/node_modules/@discordjs/collection/",\
           "packageDependencies": [\
-            ["@discordjs/collection", "npm:1.0.0"]\
+            ["@discordjs/collection", "npm:1.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -105,17 +105,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:1.0.0", {\
-          "packageLocation": "./.yarn/cache/@discordjs-rest-npm-1.0.0-e07143615f-dfe4348ce3.zip/node_modules/@discordjs/rest/",\
+        ["npm:1.0.1", {\
+          "packageLocation": "./.yarn/cache/@discordjs-rest-npm-1.0.1-6f3110a347-d83b57de5b.zip/node_modules/@discordjs/rest/",\
           "packageDependencies": [\
-            ["@discordjs/rest", "npm:1.0.0"],\
-            ["@discordjs/collection", "npm:1.0.0"],\
+            ["@discordjs/rest", "npm:1.0.1"],\
+            ["@discordjs/collection", "npm:1.0.1"],\
             ["@sapphire/async-queue", "npm:1.3.2"],\
             ["@sapphire/snowflake", "npm:3.2.2"],\
-            ["discord-api-types", "npm:0.36.2"],\
-            ["file-type", "npm:17.1.2"],\
+            ["discord-api-types", "npm:0.36.3"],\
+            ["file-type", "npm:17.1.4"],\
             ["tslib", "npm:2.4.0"],\
-            ["undici", "npm:5.7.0"]\
+            ["undici", "npm:5.8.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -990,6 +990,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["discord-api-types", "npm:0.36.2"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.36.3", {\
+          "packageLocation": "./.yarn/cache/discord-api-types-npm-0.36.3-63aa977556-3089c0fb37.zip/node_modules/discord-api-types/",\
+          "packageDependencies": [\
+            ["discord-api-types", "npm:0.36.3"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["discord.js", [\
@@ -1324,12 +1331,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["file-type", [\
-        ["npm:17.1.2", {\
-          "packageLocation": "./.yarn/cache/file-type-npm-17.1.2-3fae3074b7-22103084b4.zip/node_modules/file-type/",\
+        ["npm:17.1.4", {\
+          "packageLocation": "./.yarn/cache/file-type-npm-17.1.4-72b08f1f60-07ae79cda0.zip/node_modules/file-type/",\
           "packageDependencies": [\
-            ["file-type", "npm:17.1.2"],\
+            ["file-type", "npm:17.1.4"],\
             ["readable-web-to-node-stream", "npm:3.0.2"],\
-            ["strtok3", "npm:7.0.0-alpha.8"],\
+            ["strtok3", "npm:7.0.0-alpha.9"],\
             ["token-types", "npm:5.0.0-alpha.2"]\
           ],\
           "linkType": "HARD"\
@@ -1458,7 +1465,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./project/handler/",\
           "packageDependencies": [\
             ["handler", "workspace:project/handler"],\
-            ["@discordjs/rest", "npm:1.0.0"],\
+            ["@discordjs/rest", "npm:1.0.1"],\
             ["@napi-rs/canvas", "npm:0.1.25"],\
             ["@spectacles/brokers", "npm:0.9.3"],\
             ["@spectacles/proxy", "npm:0.1.3"],\
@@ -2275,10 +2282,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["strtok3", [\
-        ["npm:7.0.0-alpha.8", {\
-          "packageLocation": "./.yarn/cache/strtok3-npm-7.0.0-alpha.8-2140c95c11-00e5c9ed0c.zip/node_modules/strtok3/",\
+        ["npm:7.0.0-alpha.9", {\
+          "packageLocation": "./.yarn/cache/strtok3-npm-7.0.0-alpha.9-7e615744e3-30639f4f57.zip/node_modules/strtok3/",\
           "packageDependencies": [\
-            ["strtok3", "npm:7.0.0-alpha.8"],\
+            ["strtok3", "npm:7.0.0-alpha.9"],\
             ["@tokenizer/token", "npm:0.3.0"],\
             ["peek-readable", "npm:5.0.0-alpha.5"]\
           ],\
@@ -2613,6 +2620,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/undici-npm-5.7.0-4ca9d09083-3a8133697e.zip/node_modules/undici/",\
           "packageDependencies": [\
             ["undici", "npm:5.7.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:5.8.0", {\
+          "packageLocation": "./.yarn/cache/undici-npm-5.8.0-905e943aab-7b486ad064.zip/node_modules/undici/",\
+          "packageDependencies": [\
+            ["undici", "npm:5.8.0"]\
           ],\
           "linkType": "HARD"\
         }]\
