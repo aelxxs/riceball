@@ -726,6 +726,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"discord-api-types@npm:0.37.0":
+  version: 0.37.0
+  resolution: "discord-api-types@npm:0.37.0"
+  checksum: a411d1f5a04301507e095af4b311fdf31593f42e57ff5259eaf1b8e6f3a1828b5899c9a5123cae005cad567c765367fcf20d434154ecba3e6fcdd79e53aa9f20
+  languageName: node
+  linkType: hard
+
 "discord-api-types@npm:^0.36.1, discord-api-types@npm:^0.36.2":
   version: 0.36.2
   resolution: "discord-api-types@npm:0.36.2"
@@ -1128,7 +1135,7 @@ __metadata:
     "@spectacles/rest": ^0.8.3
     "@types/node": ^18.0.4
     canvas-constructor: ^6.0.2
-    discord-api-types: ^0.36.2
+    discord-api-types: 0.37.0
     discord.js: ^14.0.0-dev.1657757514-fe34f48
     dotenv: ^16.0.1
     ioredis: 5.2.1
