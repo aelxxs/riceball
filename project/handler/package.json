@@ -18,7 +18,7 @@
 		"@spectacles/rest": "^0.8.3",
 		"canvas-constructor": "^6.0.2",
 		"discord-api-types": "^0.36.2",
-		"discord.js": "^14.0.0-dev.1657757514-fe34f48",
+		"discord.js": "14.2.0",
 		"dotenv": "^16.0.1",
 		"ioredis": "5.2.1",
 		"postgres": "^3.2.4",
