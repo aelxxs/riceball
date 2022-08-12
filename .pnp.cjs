@@ -998,6 +998,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["discord-api-types", "npm:0.36.3"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.37.2", {\
+          "packageLocation": "./.yarn/cache/discord-api-types-npm-0.37.2-e468d52991-cf89c232a7.zip/node_modules/discord-api-types/",\
+          "packageDependencies": [\
+            ["discord-api-types", "npm:0.37.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["discord.js", [\
@@ -1483,7 +1490,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@spectacles/rest", "npm:0.8.3"],\
             ["@types/node", "npm:18.0.4"],\
             ["canvas-constructor", "npm:6.0.2"],\
-            ["discord-api-types", "npm:0.36.2"],\
+            ["discord-api-types", "npm:0.37.2"],\
             ["discord.js", "npm:14.2.0"],\
             ["dotenv", "npm:16.0.1"],\
             ["ioredis", "npm:5.2.1"],\
