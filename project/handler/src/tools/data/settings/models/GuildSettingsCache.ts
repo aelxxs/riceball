@@ -1,4 +1,4 @@
-import { Tokens } from "#lib/utils";
+import { Injectors } from "../../../utilities/common/injectors";
 import type { Sql } from "postgres";
 import { inject, injectable } from "tsyringe";
 import { SettingsCache } from "../base/SettingsCache";
@@ -6,7 +6,7 @@ import type { GuildSchema } from "../../schema/Guild";
 
 @injectable()
 export class GuildSettingsCache extends SettingsCache<GuildSchema> {
-	public constructor(@inject(Tokens.SQL) public sql: Sql<any>) {
+	public constructor(@inject(Injectors.SQL) public sql: Sql<any>) {
 		super();
 	}
 

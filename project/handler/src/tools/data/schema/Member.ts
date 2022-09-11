@@ -16,7 +16,7 @@ export interface MemberSchema {
 		accent: string;
 		opacity: number;
 		textColor: string;
-		shadowColo: string;
+		shadowColor: string;
 		progressOpacity: number;
 	};
 }

@@ -10,10 +10,4 @@ export class CacheManager {
 		public members: MemberSettingsCache,
 		public users: UserSettingsCache
 	) {}
-
-	public sweep() {
-		this.guilds.clear();
-		this.members.clear();
-		this.users.clear();
-	}
 }

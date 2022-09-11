@@ -1,26 +1,8 @@
-import { Collection } from "discord.js";
-
-export function isObject(value: any): boolean {
-	return value && value.constructor === Object;
-}
-
-export function merge(target: any, ...source: any[]): any {
-	for (const obj of source) {
-		for (const [key, value] of Object.entries(obj)) {
-			if (isObject(value) && isObject(target[key])) {
-				merge(target[key], value);
-			} else target[key] = value;
-		}
-	}
-
-	return target;
-}
-
 export type RecursivePartial<T> = {
 	[P in keyof T]?: RecursivePartial<T[P]>;
 };
 
-export abstract class SettingsCache<T> extends Collection<string, T> {
+export abstract class SettingsCache<T> extends Map<string, T> {
 	private queue: Map<string, Promise<T>> = new Map();
 
 	public read(key: string): T | Promise<T> {
@@ -70,4 +52,20 @@ export abstract class SettingsCache<T> extends Collection<string, T> {
 
 	public abstract fetch(key: string): Promise<T>;
 	public abstract upsert(key: string, query: RecursivePartial<T>): Promise<void>;
+}
+
+export function isObject(value: any): boolean {
+	return value && value.constructor === Object;
+}
+
+export function merge(target: any, ...source: any[]): any {
+	for (const obj of source) {
+		for (const [key, value] of Object.entries(obj)) {
+			if (isObject(value) && isObject(target[key])) {
+				merge(target[key], value);
+			} else target[key] = value;
+		}
+	}
+
+	return target;
 }
