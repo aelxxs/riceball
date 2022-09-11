@@ -17,12 +17,12 @@ jobs:
         uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
         with:
           node-version: 16
-          cache: yarn
+          cache: pnpm
           registry-url: https://registry.npmjs.org/
       - name: Install Dependencies
-        run: yarn install --immutable
+        run: pnpm install
       - name: Run ESLint
-        run: yarn lint
+        run: pnpm lint
 
   Building:
     name: Building NodeJS
@@ -36,9 +36,9 @@ jobs:
         uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
         with:
           node-version: 16
-          cache: yarn
+          cache: pnpm
           registry-url: https://registry.npmjs.org/
       - name: Install Dependencies
-        run: yarn install --immutable
+        run: pnpm install
       - name: Build code
-        run: yarn build
+        run: pnpm build
