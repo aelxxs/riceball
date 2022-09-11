@@ -1,101 +1,55 @@
-import "dotenv/config";
+import { config } from "dotenv";
 import "reflect-metadata";
 
-import { CacheManager } from "#lib/db";
-import { transformInteraction, walk } from "#lib/funcs";
-import { Tokens } from "#lib/utils";
-import { Client, CommandInteraction, GatewayIntentBits, GuildMember, InteractionType, Partials } from "discord.js";
-import { basename, join } from "path";
+config({
+	path: "../../.env",
+	debug: true,
+});
+
+import { REST } from "@discordjs/rest";
+import { handle, load } from "@lib/core";
+import { CacheManager } from "@lib/data";
+import { Constants, Injectors, logger } from "@lib/util";
+import { Redis } from "@spectacles/brokers";
+import RedisClient from "ioredis";
 import postgres from "postgres";
 import { container } from "tsyringe";
 
-const client = new Client({
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.DirectMessages,
-		GatewayIntentBits.GuildEmojisAndStickers,
-		GatewayIntentBits.GuildMessageReactions,
-	],
-	partials: [
-		//
-		Partials.Message,
-		Partials.Reaction,
-		Partials.User,
-		Partials.GuildMember,
-	],
-});
+const start = async () => {
+	const redis = new RedisClient(Constants.RedisURL);
+	const query = postgres(Constants.PostgresOptions);
 
-const plugins = new Map<string, Command>();
-const pluginFiles = walk(join(__dirname, "/plugins"));
+	const gateway = new Redis(Constants.GatewayGroup, redis);
+	const discord = new Redis(Constants.DiscordGroup, redis);
 
-container.register(Tokens.Client, { useValue: client });
-container.register(Tokens.SQL, { useFactory: () => postgres() });
-container.register(Tokens.Cache, { useValue: container.resolve(CacheManager) });
-container.register(Tokens.Plugins, { useValue: plugins });
+	const rest = new REST().setToken(process.env.DISCORD_TOKEN!);
 
-(async () => {
-	for await (const file of pluginFiles) {
-		const plugin = container.resolve<Command>((await import(file)).default);
+	await gateway.subscribe(Constants.GatewayEvents);
 
-		let name = plugin.name ?? basename(file, ".js");
+	container.register(Injectors.Gateway, { useValue: gateway });
+	container.register(Injectors.SQL, { useValue: query });
+	container.register(Injectors.Redis, { useValue: redis });
+	container.register(Injectors.Rest, { useValue: rest });
+	container.register(Injectors.Cache, { useValue: container.resolve(CacheManager) });
 
-		if (plugin.base) {
-			name = `${plugin.base}/${name}`;
-		}
+	const { actions, plugins } = await load();
 
-		plugins.set(name, plugin);
-	}
+	logger.info(`Registered ${actions.size} actions`);
+	logger.info(`Registered ${plugins.size} plugins`);
 
-	client.on("interactionCreate", async (interaction) => {
-		if (!interaction.inCachedGuild()) return;
+	void handle();
 
-		const notACommand = interaction.type !== InteractionType.ApplicationCommand;
-		const notAutocomplete = interaction.type !== InteractionType.ApplicationCommandAutocomplete;
+	return { gateway, discord };
+};
 
-		if (notACommand && notAutocomplete) {
-			return;
-		}
-
-		let { root, args } = transformInteraction(interaction as CommandInteraction);
-
-		let command = plugins.get(root);
-
-		if (!command) {
-			const [[subCommandName, subCommandArgs]] = Object.entries(args);
-
-			command = plugins.get(`${root}/${subCommandName}`);
-			args = subCommandArgs;
-		}
-
-		if (!command) return;
-
-		const ctx: Context = {
-			t: (s) => s,
-			member: interaction.member as GuildMember,
-			user: interaction.user,
-			guild: interaction.guild,
-			client,
-		};
-
-		if (interaction.type === InteractionType.ApplicationCommand) {
-			const response = await command.exec(ctx, args);
-
-			if (response) {
-				interaction.reply(response as string);
-			}
-		} else if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
-			if (!command.feed) return;
-
-			const response = await command.feed(ctx, args);
-
-			if (response) {
-				interaction.respond(response);
-			}
-		}
+try {
+	logger.info("Starting");
+	start().then(({ gateway, discord }) => {
+		logger.info(`Discord Broker: (redis ${discord.redis.status})`);
+		logger.info(`Gateway Broker: (redis ${gateway.redis.status})`);
+		logger.info(`Subscribed to ${Constants.GatewayEvents.length} Events`);
+		logger.info("Handler Service Started");
 	});
-
-	await client.login();
-
-	console.info("Logged in.");
-})();
+} catch (error) {
+	logger.error(`An error occured while starting the Handler Service: ${error}`);
+}
