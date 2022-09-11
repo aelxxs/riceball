@@ -6,6 +6,7 @@ CREATE TABLE "Guild" (
 	"reactionRoles" JSONB DEFAULT '[]',
 	"levelingRoles" JSONB DEFAULT '[]',
     "levels" JSONB DEFAULT '{
+		"enabled": true,
 		"replaceRewards": true,
 		"expRate": {
 			"min": null,
@@ -32,6 +33,7 @@ CREATE TABLE "Guild" (
 		}
     }',
 	"economy" JSONB DEFAULT '{
+		"enabled": true,
 		"debugMode": false,
 		"autoUseItems": false,
 		"clearOnLeave": false,
@@ -59,7 +61,8 @@ CREATE TABLE "Guild" (
 		}
 	}',
 	"starboard" JSONB DEFAULT '{
-		"emoji": "⭐",
+		"enabled": true,
+		"emoji": null,
 		"channel": null,
 		"threshold": 1,
 		"embedColor": null,
@@ -102,10 +105,10 @@ CREATE TABLE "Member" (
 		"color": null,
 		"theme": null,
 		"accent": null,
-		"opacity": 1,
+		"opacity": null,
 		"textColor": null,
 		"shadowColor": null,
-		"progressOpacity": 1
+		"progressOpacity": null
 	}',
 
     PRIMARY KEY ("id")
