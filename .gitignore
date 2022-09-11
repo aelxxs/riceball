@@ -1,12 +1,8 @@
-/node_modules
+docker-compose.local.yaml
+docker-compose.yaml
 
-.yarn/*
-!.yarn/cache
-!.yarn/patches
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-!.yarn/releases
+node_modules/
 
 .env
-**/.turbo
+**/.turbo/
+**/.build/
