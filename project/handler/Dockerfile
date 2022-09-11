@@ -1,14 +1,10 @@
 FROM node:18
 
-WORKDIR /handler
+COPY package.json .
 
-COPY package.json ./
-COPY yarn.lock ./
-
-RUN yarn
+RUN yarn install
 
 COPY . .
 
 RUN yarn build
-
 CMD yarn start
