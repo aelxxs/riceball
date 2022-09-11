@@ -1,13 +1,35 @@
 {
-	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"outDir": "build",
+		// Build
+		"outDir": ".build",
 		"baseUrl": "src",
 		"paths": {
-			"#lib/db": ["project/database"],
-			"#lib/utils": ["project/utilities"],
-			"#lib/funcs": ["project/functions"]
-		}
+			"@lib/core": ["tools/core"],
+			"@lib/data": ["tools/data"],
+			"@lib/util": ["tools/utilities"]
+		},
+
+		// Type Checking
+		"strict": true,
+		"pretty": true,
+
+		// Modules
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+
+		// Emit
+		"importHelpers": true,
+		"noEmitHelpers": true,
+		"removeComments": false,
+		"esModuleInterop": true,
+
+		// Lang and Env
+		"lib": ["ESNext", "DOM"],
+		"target": "ESNext",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
-	"include": ["src/**/*.ts"]
+	"include": ["src/**/*.ts", "bin/**/*.*js"]
 }

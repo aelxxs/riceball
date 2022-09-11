@@ -8,6 +8,7 @@
 		"module": "CommonJS",
 		"moduleResolution": "Node",
 		"resolveJsonModule": true,
+		"skipLibCheck": true,
 
 		// Emit
 		"sourceMap": true,
@@ -16,11 +17,10 @@
 		"noEmitHelpers": true,
 		"removeComments": false,
 		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
 
 		// Lang and Env
-		"target": "ESNext",
 		"lib": ["ESNext", "DOM"],
+		"target": "ESNext",
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true
 	}
