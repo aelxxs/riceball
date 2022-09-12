@@ -21,7 +21,7 @@
 		"canvas-constructor": "7.0.0",
 		"colorette": "2.0.19",
 		"common-tags": "1.8.2",
-		"discord-api-types": "0.36.3",
+		"discord-api-types": "0.37.9",
 		"dotenv": "16.0.2",
 		"ioredis": "5.2.3",
 		"postgres": "3.2.4",
