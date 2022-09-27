@@ -4,9 +4,15 @@
 	"license": "MIT",
 	"private": true,
 	"scripts": {
-		"lint": "",
-		"watch": "tsc -w ./",
-		"build": "",
-		"start": "node build/index.js"
+		"lint": "eslint . --ext .ts",
+		"build": "tsc -b ./",
+		"start": "node .build"
+	},
+	"dependencies": {
+		"next": "^12.2.3",
+		"next-seo": "^5.5.0",
+		"next-spa": "^0.3.9",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
 	}
 }

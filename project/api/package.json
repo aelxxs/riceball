@@ -3,10 +3,20 @@
 	"author": "Alexis Vielma",
 	"license": "MIT",
 	"private": true,
+	"main": "./build/index.js",
 	"scripts": {
-		"lint": "",
-		"watch": "tsc -w ./",
-		"build": "",
-		"start": "node build/index.js"
+		"lint": "eslint . --ext .ts",
+		"build": "tsc -b ./",
+		"start": "node .build"
+	},
+	"dependencies": {
+		"apollo-server": "^3.10.0",
+		"graphql": "^16.5.0",
+		"ioredis": "^5.2.2",
+		"postgres": "^3.2.4"
+	},
+	"devDependencies": {
+		"@types/node": "^18.0.6",
+		"typescript": "^4.7.4"
 	}
 }
