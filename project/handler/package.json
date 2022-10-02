@@ -22,7 +22,7 @@
 		"colorette": "2.0.19",
 		"common-tags": "1.8.2",
 		"discord-api-types": "0.37.11",
-		"dotenv": "16.0.2",
+		"dotenv": "16.0.3",
 		"ioredis": "5.2.3",
 		"postgres": "3.2.4",
 		"reflect-metadata": "0.1.13",
