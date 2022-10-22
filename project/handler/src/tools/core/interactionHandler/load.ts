@@ -2,7 +2,6 @@ import { Injectors, logger } from "@lib/util";
 import { opendir } from "fs/promises";
 import { basename, dirname, join } from "path";
 import { container } from "tsyringe";
-import { fileURLToPath } from "url";
 
 export async function* walk(path: string): AsyncIterableIterator<string> {
 	for await (const item of await opendir(path)) {
@@ -50,7 +49,6 @@ async function loadPlugins(): Promise<[string, Command][]> {
 
 			plugins.push([name, pluginFile]);
 		} catch {
-			console.log({ file });
 			logger.error("An error occured");
 		}
 	}

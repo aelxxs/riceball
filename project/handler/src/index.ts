@@ -1,10 +1,7 @@
-import { config } from "dotenv";
 import "reflect-metadata";
+import { config } from "dotenv";
 
-config({
-	path: "../../.env",
-	debug: true,
-});
+config({ path: "../../.env" });
 
 import { REST } from "@discordjs/rest";
 import { handle, load } from "@lib/core";
@@ -28,8 +25,8 @@ const start = async () => {
 
 	container.register(Injectors.Gateway, { useValue: gateway });
 	container.register(Injectors.SQL, { useValue: query });
-	container.register(Injectors.Redis, { useValue: redis });
 	container.register(Injectors.Rest, { useValue: rest });
+	container.register(Injectors.Redis, { useValue: redis });
 	container.register(Injectors.Cache, { useValue: container.resolve(CacheManager) });
 
 	const { actions, plugins } = await load();
