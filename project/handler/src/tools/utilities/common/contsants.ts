@@ -4,12 +4,14 @@ export const Constants = {
 	GatewayGroup: "gateway",
 	DiscordGroup: "discord",
 	GatewayEvents: [
-		GatewayDispatchEvents.Ready,
 		GatewayDispatchEvents.GuildCreate,
 		GatewayDispatchEvents.GuildDelete,
 		GatewayDispatchEvents.GuildUpdate,
 		GatewayDispatchEvents.InteractionCreate,
 		GatewayDispatchEvents.MessageCreate,
+		GatewayDispatchEvents.MessageReactionAdd,
+		GatewayDispatchEvents.MessageReactionRemove,
+		GatewayDispatchEvents.MessageReactionRemoveAll,
 	],
 	PostgresOptions: {
 		host: process.env.POSTGRES_HOST ?? "localhost",
