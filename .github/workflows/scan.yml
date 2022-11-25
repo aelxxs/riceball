@@ -17,9 +17,9 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@807578363a7869ca324a79039e6db9c843e0e100 # tag=v2
+        uses: github/codeql-action/init@312e093a1892bd801f026f1090904ee8e460b9b6 # v2
         with:
           languages: typescript
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@807578363a7869ca324a79039e6db9c843e0e100 # tag=v2
+        uses: github/codeql-action/analyze@312e093a1892bd801f026f1090904ee8e460b9b6 # v2
