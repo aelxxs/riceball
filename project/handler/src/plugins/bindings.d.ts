@@ -34,5 +34,5 @@ declare global {
 		exec(...args: unknown[]): unknown | Promise<unknown>;
 	}
 
-	export type Component = (ctx: Context, ...args: any) => unknown;
+	export type Component = (ctx: Context, ...args: string[]) => unknown;
 }

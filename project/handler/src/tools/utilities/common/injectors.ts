@@ -1,12 +1,10 @@
 export const Injectors = {
+	SQL: Symbol("SQL"),
 	Rest: Symbol("Rest"),
-	Query: Symbol("Query"),
 	Redis: Symbol("Redis"),
+	Cache: Symbol("Cache"),
 	Client: Symbol("Client"),
 	Plugins: Symbol("Plugins"),
 	Actions: Symbol("Actions"),
 	Gateway: Symbol("Gateway"),
-	MongoDB: Symbol("MongoDB"),
-	Cache: Symbol("Cache"),
-	SQL: Symbol("SQL"),
 };
