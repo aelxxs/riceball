@@ -29,13 +29,13 @@ importers:
       '@types/node': 18.7.23
       apollo-server: 3.10.3
       graphql: 16.6.0
-      ioredis: 5.2.3
+      ioredis: 5.2.4
       postgres: 3.3.1
       typescript: 4.8.4
     dependencies:
       apollo-server: 3.10.3_graphql@16.6.0
       graphql: 16.6.0
-      ioredis: 5.2.3
+      ioredis: 5.2.4
       postgres: 3.3.1
     devDependencies:
       '@types/node': 18.7.23
@@ -57,7 +57,7 @@ importers:
       common-tags: 1.8.2
       discord-api-types: 0.37.20
       dotenv: 16.0.3
-      ioredis: 5.2.3
+      ioredis: 5.2.4
       postgres: 3.3.1
       reflect-metadata: 0.1.13
       tslib: 2.4.0
@@ -77,7 +77,7 @@ importers:
       common-tags: 1.8.2
       discord-api-types: 0.37.20
       dotenv: 16.0.3
-      ioredis: 5.2.3
+      ioredis: 5.2.4
       postgres: 3.3.1
       reflect-metadata: 0.1.13
       tsyringe: 4.7.0
@@ -2784,8 +2784,8 @@ packages:
       - supports-color
     dev: false
 
-  /ioredis/5.2.3:
-    resolution: {integrity: sha512-gQNcMF23/NpvjCaa1b5YycUyQJ9rBNH2xP94LWinNpodMWVUPP5Ai/xXANn/SM7gfIvI62B5CCvZxhg5pOgyMw==}
+  /ioredis/5.2.4:
+    resolution: {integrity: sha512-qIpuAEt32lZJQ0XyrloCRdlEdUUNGG9i0UOk6zgzK6igyudNWqEBxfH6OlbnOOoBBvr1WB02mm8fR55CnikRng==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@ioredis/commands': 1.2.0
