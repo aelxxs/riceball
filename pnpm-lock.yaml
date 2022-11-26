@@ -89,13 +89,13 @@ importers:
   project/website:
     specifiers:
       next: 12.3.1
-      next-seo: 5.5.0
+      next-seo: 5.14.1
       next-spa: 0.3.9
       react: 18.2.0
       react-dom: 18.2.0
     dependencies:
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      next-seo: 5.5.0_azq6kxkn3od7qdylwkyksrwopy
+      next-seo: 5.14.1_azq6kxkn3od7qdylwkyksrwopy
       next-spa: 0.3.9_azq6kxkn3od7qdylwkyksrwopy
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -3350,8 +3350,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /next-seo/5.5.0_azq6kxkn3od7qdylwkyksrwopy:
-    resolution: {integrity: sha512-5ouBHFtx8YrSDW44lj0qIEQ+oMcz6stgoITB+SqHUZbhgizoJsyLmq73gJ0lxtEKpcN8vG2QgRIJfdb8OAPChw==}
+  /next-seo/5.14.1_azq6kxkn3od7qdylwkyksrwopy:
+    resolution: {integrity: sha512-NiJeQbxYP3z+EMp52q8k3Q+OfX2+Yv2WehERDj98r2wjXxL+woKpRBdsSVYolTD0Hm8IWs42SzaISE93RoQdOw==}
     peerDependencies:
       next: ^8.1.1-canary.54 || >=9.0.0
       react: '>=16.0.0'
