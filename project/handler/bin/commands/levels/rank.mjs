@@ -3,7 +3,7 @@ import { ApplicationCommandOptionType, ApplicationCommandType } from "discord-ap
 export default {
 	type: ApplicationCommandType.ChatInput,
 	name: "rank",
-	description: "View your or another user rank",
+	description: "View your or another users rank",
 	options: [
 		{
 			type: ApplicationCommandOptionType.User,
