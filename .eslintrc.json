@@ -7,7 +7,7 @@
 		"ecmaVersion": 2020,
 		"warnOnUnsupportedTypeScriptVersion": false
 	},
-	"extends": ["plugin:@typescript-eslint/recommended"],
+	"extends": ["plugin:@typescript-eslint/recommended", "plugin:@next/next/recommended"],
 	"env": {
 		"node": true,
 		"es6": true,

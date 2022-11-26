@@ -1,8 +1,25 @@
-docker-compose.local.yaml
+# docker
 docker-compose.yaml
+docker-compose.local.yaml
 
+# node modules
 node_modules/
 
-.env
+# ouput files
 **/.turbo/
 **/.build/
+**/build
+
+# next.js
+**/.next/
+**/out/
+
+# env file
+.env
+
+# debug
+.pnpm-debug.log*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
