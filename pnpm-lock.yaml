@@ -57,7 +57,7 @@ importers:
       canvas-constructor: 7.0.0
       colorette: 2.0.19
       common-tags: 1.8.2
-      discord-api-types: 0.37.22
+      discord-api-types: 0.37.23
       dotenv: 16.0.3
       ioredis: 5.2.4
       postgres: 3.3.2
@@ -77,7 +77,7 @@ importers:
       canvas-constructor: 7.0.0
       colorette: 2.0.19
       common-tags: 1.8.2
-      discord-api-types: 0.37.22
+      discord-api-types: 0.37.23
       dotenv: 16.0.3
       ioredis: 5.2.4
       postgres: 3.3.2
@@ -254,7 +254,7 @@ packages:
       '@discordjs/util': 0.1.0
       '@sapphire/async-queue': 1.5.0
       '@sapphire/snowflake': 3.2.2
-      discord-api-types: 0.37.22
+      discord-api-types: 0.37.23
       file-type: 18.0.0
       tslib: 2.4.1
       undici: 5.13.0
@@ -1414,8 +1414,8 @@ packages:
       path-type: 4.0.0
     dev: true
 
-  /discord-api-types/0.37.22:
-    resolution: {integrity: sha512-1FSm5hIUaxt3e+3H6lhY5Hg32DTJCPp3Q5gf3CM2CPSr95ZnqkSNEV0s7EdiBrlv5QoPrpcPIDYC3hWqZT2mIg==}
+  /discord-api-types/0.37.23:
+    resolution: {integrity: sha512-IixodMf9PjOSrsPorbti5aGv6sJVSPJybAlFMYsYDQXFS7zJyhSmA/ofpPTR9ZYqL1KEDY+xU74oZgBQa52eSQ==}
     dev: false
 
   /doctrine/3.0.0:
