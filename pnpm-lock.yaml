@@ -45,7 +45,7 @@ importers:
 
   project/handler:
     specifiers:
-      '@discordjs/rest': 1.4.0
+      '@discordjs/rest': 1.5.0
       '@lib/core': link:.build/tools/core/
       '@lib/data': link:.build/tools/data/
       '@lib/util': link:.build/tools/utilities/
@@ -66,7 +66,7 @@ importers:
       tsyringe: 4.7.0
       typescript: 4.9.4
     dependencies:
-      '@discordjs/rest': 1.4.0
+      '@discordjs/rest': 1.5.0
       '@lib/core': link:.build/tools/core
       '@lib/data': link:.build/tools/data
       '@lib/util': link:.build/tools/utilities
@@ -246,8 +246,8 @@ packages:
     engines: {node: '>=16.9.0'}
     dev: false
 
-  /@discordjs/rest/1.4.0:
-    resolution: {integrity: sha512-k3Ip7ffFSAfp7Mu4H/3BEXFvFz+JsbXRrRtpeBMnSp1LefhtlZWJE6xdXzNlblktKNQltnRwY+z0NZrGQdxAMw==}
+  /@discordjs/rest/1.5.0:
+    resolution: {integrity: sha512-lXgNFqHnbmzp5u81W0+frdXN6Etf4EUi8FAPcWpSykKd8hmlWh1xy6BmE0bsJypU1pxohaA8lQCgp70NUI3uzA==}
     engines: {node: '>=16.9.0'}
     dependencies:
       '@discordjs/collection': 1.3.0
@@ -1413,6 +1413,10 @@ packages:
     dependencies:
       path-type: 4.0.0
     dev: true
+
+  /discord-api-types/0.37.23:
+    resolution: {integrity: sha512-IixodMf9PjOSrsPorbti5aGv6sJVSPJybAlFMYsYDQXFS7zJyhSmA/ofpPTR9ZYqL1KEDY+xU74oZgBQa52eSQ==}
+    dev: false
 
   /discord-api-types/0.37.23:
     resolution: {integrity: sha512-IixodMf9PjOSrsPorbti5aGv6sJVSPJybAlFMYsYDQXFS7zJyhSmA/ofpPTR9ZYqL1KEDY+xU74oZgBQa52eSQ==}
