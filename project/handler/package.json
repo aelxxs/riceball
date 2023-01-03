@@ -24,7 +24,7 @@
 		"discord-api-types": "0.37.25",
 		"dotenv": "16.0.3",
 		"ioredis": "5.2.4",
-		"postgres": "3.3.2",
+		"postgres": "3.3.3",
 		"reflect-metadata": "0.1.13",
 		"tsyringe": "4.7.0"
 	},
