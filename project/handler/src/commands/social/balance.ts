@@ -31,7 +31,7 @@ export default class implements Command {
 		const { bal } = await getMember(user?.id ?? member.id, guild.id);
 		const { economy } = await getGuild(guild.id);
 
-		return `${user ? `${user.username} has` : "You have"} a balance of ${bal.toLocaleString()} ${
+		return `${user ? `${user.username} has` : "You have"} a balance of \`${bal.toLocaleString()}\` ${
 			economy.currencyIcon
 		}`;
 	}
