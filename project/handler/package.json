@@ -14,7 +14,7 @@
 		"@lib/core": "link:.build/tools/core/",
 		"@lib/data": "link:.build/tools/data/",
 		"@lib/util": "link:.build/tools/utilities/",
-		"@napi-rs/canvas": "0.1.33",
+		"@napi-rs/canvas": "0.1.34",
 		"@spectacles/brokers": "0.9.3",
 		"@spectacles/proxy": "0.1.3",
 		"@types/common-tags": "1.8.1",
