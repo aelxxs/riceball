@@ -13,7 +13,7 @@
 		"@prisma/client": "^4.8.0"
 	},
 	"devDependencies": {
-		"@types/node": "18.11.9",
+		"@types/node": "18.19.81",
 		"prisma": "^4.8.0"
 	}
 }
