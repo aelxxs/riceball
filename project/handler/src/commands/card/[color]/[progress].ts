@@ -27,14 +27,14 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public async chatInputRun({ guild, user }: Context, { value }: Options) {
+	public async chatInputRun({ guild, author }: Context, { value }: Options) {
 		const { valid, color } = parseHex(value);
 
 		if (!valid) {
 			throw `Invalid color \`${value}\`. Please try again with a valid hex value.`;
 		}
 
-		await updateMember(guild.id, user.id, {
+		await updateMember(guild.id, author.id, {
 			card: { progressColor: color },
 		});
 

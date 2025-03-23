@@ -17,50 +17,34 @@
  **/
 
 import type { Command, Context } from "@lib/core";
-import { stripIndents } from "common-tags";
-import { getGuild } from "db";
 
 export default class implements Command {
+	public async autocompleteRun({ guild }: Context) {
+		// const rewards = await getLevelingRewards(guild.id);
+		// return rewards.map((reward) => ({
+		// 	name: `Level ${reward.level}`,
+		// 	value: `${reward.level}`,
+		// }));
+	}
+
 	/**
-	 * View your server's Starboard settings
+	 * Remove a reward from the leveling rewards list
 	 *
 	 * @param {Context} context - The context of the command
+	 * @param {Options} options - The options of the command`
 	 **/
-	public async chatInputRun({ guild }: Context) {
-		const { stars } = await getGuild(guild.id);
+	public async chatInputRun({ guild }: Context, { level }: Options) {
+		try {
+			// await deleteLevelingReward(guild.id, level);
 
-		return {
-			title: "Starboard Settings",
-			description: stripIndents`
-				\`\`\`
-				Here are your server's current starboard settings.
-				\`\`\`
-			`,
-			fields: [
-				{
-					name: "Enabled",
-					value: stars.enabled ? "Yes" : "No",
-					inline: true,
-				},
-				{
-					name: "Channel",
-					value: stars.channelId ? `<#${stars.channelId}>` : "None",
-					inline: true,
-				},
-				{
-					name: "Minimum Star Threshold",
-					value: stars.threshold.toString(),
-					inline: true,
-				},
-				{
-					name: "Allow Self-Starring",
-					value: stars.selfStarEnabled ? "Yes" : "No",
-				},
-				{
-					name: "Warn on Self-Starring",
-					value: stars.selfStarWarning ? "Yes" : "No",
-				},
-			],
-		};
+			return `Successfully removed the reward for level \`${level}\`.`;
+		} catch {
+			throw `No reward was found for level \`${level}\`.`;
+		}
 	}
+}
+
+interface Options {
+	/* The level to remove the reward from */
+	level: number;
 }

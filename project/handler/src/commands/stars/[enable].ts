@@ -29,6 +29,7 @@ export default class implements Command {
 		await updateGuild(guild.id, {
 			stars: { enabled: true },
 		});
+
 		return "The starboard has been enabled.";
 	}
 }

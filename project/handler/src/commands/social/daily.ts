@@ -28,21 +28,21 @@ export default class implements Command {
 	 *
 	 * @param {Context} context - The context of the command
 	 **/
-	public async chatInputRun({ user, guild }: Context) {
-		const { lastDaily } = await getMember(user.id, guild.id);
+	public async chatInputRun({ author, guild }: Context) {
+		const { lastDaily } = await getMember(guild.id, author.id);
 
 		const now = Date.now();
-		const diff = now - lastDaily;
+		const dif = now - lastDaily;
 
-		if (diff >= ONE_DAY) {
+		if (dif >= ONE_DAY) {
 			const { economy } = await getGuild(guild.id);
 			const { dailyRewardMin, dailyRewardMax } = economy;
 
 			const reward = Math.floor(Math.random() * (dailyRewardMax - dailyRewardMin + 1)) + dailyRewardMin;
 
-			const { bal } = await getMember(user.id, guild.id);
+			const { bal } = await getMember(guild.id, author.id);
 
-			await updateMember(user.id, guild.id, {
+			await updateMember(guild.id, author.id, {
 				bal: bal + reward,
 				lastDaily: now,
 			});
@@ -52,8 +52,8 @@ export default class implements Command {
 			}! You now have a balance of \`${(bal + reward).toLocaleString()}\` ${economy.currencyIcon}`;
 		}
 
-		const timeLeft = ONE_DAY - diff;
+		const timeLeft = ONE_DAY - dif;
 
-		return `You can claim your daily reward in \`${ms(timeLeft, { long: true })}\`!`;
+		throw `You can claim your daily reward in \`${ms(timeLeft, { long: true })}\`!`;
 	}
 }

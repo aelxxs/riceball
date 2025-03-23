@@ -1,35 +1,56 @@
 {
+	"extends": "@riceball/ts-config/base.json",
 	"compilerOptions": {
 		// Build
 		"outDir": ".build",
 		"baseUrl": "src",
 		"paths": {
-			"@lib/core": ["tools/core"],
-			"@lib/data": ["tools/data"],
-			"@lib/util": ["tools/utilities"]
+			"@lib/core": ["/library/core/index"],
+			"@lib/utilities": ["/library/utilities"],
+			"@lib/common": ["/library/common"],
+			"@lib/components": ["/library/components"],
+			"@lib/plugins": ["/library/plugins"]
 		},
-
-		// Type Checking
-		"strict": true,
-		"pretty": true,
-
-		// Modules
-		"module": "CommonJS",
-		"moduleResolution": "Node",
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-
-		// Emit
-		"importHelpers": true,
-		"noEmitHelpers": true,
-		"removeComments": false,
-		"esModuleInterop": true,
-
-		// Lang and Env
 		"lib": ["ESNext", "DOM"],
 		"target": "ESNext",
 		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true
+		"emitDecoratorMetadata": true,
+		"allowJs": true,
+		"checkJs": true
 	},
-	"include": ["src/**/*.ts", "bin/**/*.*js"]
+	"include": [
+		"src/**/*.ts",
+		"bin/**/*.*js",
+		"src/index.d.ts",
+		"bin/gen-cmds.ts",
+		"bin/dep-cmds.ts",
+		"bin/plugins/stars.ts",
+		"bin/plugins/reaction-role.ts",
+		"bin/plugins/levels.ts",
+		"bin/plugins/economy.ts",
+		"bin/plugins/card.ts",
+		"bin/plugins/badge.ts",
+		"bin/plugins/utility/ping.ts",
+		"bin/plugins/social/reputation.ts",
+		"bin/plugins/social/daily.ts",
+		"bin/plugins/social/balance.ts",
+		"bin/plugins/shop/use.ts",
+		"bin/plugins/shop/trade.ts",
+		"bin/plugins/shop/inventory.ts",
+		"bin/plugins/shop/gift.ts",
+		"bin/plugins/shop/buy.ts",
+		"bin/plugins/reaction-role/reaction-roles.ts",
+		"bin/plugins/levels/rewards.ts",
+		"bin/plugins/levels/rank.ts",
+		"bin/plugins/levels/leaderboard.ts",
+		"bin/plugins/gamble/slots.ts",
+		"bin/plugins/gamble/coinflip.ts",
+		"bin/plugins/gamble/chohan.ts",
+		"bin/plugins/economy/shop.ts",
+		"bin/plugins/badge/badges.ts"
+	],
+	"ts-node": {
+		"files": true
+	},
+	"files": ["src/index.d.ts"]
 }

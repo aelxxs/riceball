@@ -27,11 +27,11 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public async chatInputRun({ guild, user: member }: Context, { user }: Options) {
-		const { bal } = await getMember(user?.id ?? member.id, guild.id);
+	public async chatInputRun({ guild, author }: Context, { user }: Options) {
+		const { bal } = await getMember(guild.id, author.id);
 		const { economy } = await getGuild(guild.id);
 
-		return `${user ? `${user.username} has` : "You have"} a balance of \`${bal.toLocaleString()}\` ${
+		return `${user ? `${user.username} has` : "You have"} a balance of **${bal.toLocaleString()}** ${
 			economy.currencyIcon
 		}`;
 	}

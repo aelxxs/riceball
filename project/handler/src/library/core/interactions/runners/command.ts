@@ -1,56 +1,62 @@
-import { Injectors } from "@lib/common";
-import { reply, send } from "@lib/core";
-import { Command } from "@lib/core/structure";
-import { logger } from "@lib/util";
-import { ApplicationCommandType, type APIApplicationCommandInteraction } from "discord-api-types/v10";
+import { DebugMessages, Deps, ErrorMessages } from "@lib/common";
+import { defer, edit, send, type Command } from "@lib/core";
+import { logger } from "@riceball/logger";
+import { isChatInputApplicationCommandInteraction } from "discord-api-types/utils/v10";
+import type { APIApplicationCommandInteraction } from "discord-api-types/v10";
 import { container } from "tsyringe";
 import { createContext } from "./create-context";
 import { getCommandName, transformInteraction } from "./utils";
 
+/**
+ * Executes a command based on the provided interaction.
+ *
+ * @param interaction - The interaction object representing the command invocation.
+ * @returns A promise that resolves when the command execution is complete.
+ */
 export async function runCommand(interaction: APIApplicationCommandInteraction) {
-	const plugins = container.resolve<Map<string, Command>>(Injectors.Plugins);
+	if (!isChatInputApplicationCommandInteraction(interaction)) return;
 
-	const name = getCommandName(interaction);
-	const command = plugins.get(name);
+	const plugins = container.resolve<Map<string, Command>>(Deps.Plugins);
 
-	if (!command) {
-		logger.warn(`Attempted to run unknown command "${name}"`);
-		return;
+	const commandName = getCommandName(interaction);
+	const commandFile = plugins.get(commandName);
+
+	if (!commandFile) {
+		return logger.debug(ErrorMessages.UnknownCommand(commandName));
 	}
 
-	switch (interaction.data.type) {
-		case ApplicationCommandType.ChatInput: {
-			if (!command.chatInputRun) {
-				logger.warn(`"chatInputRun" not defined for command "${name}"`);
-				return;
-			}
+	if (!commandFile.chatInputRun) {
+		return logger.debug(ErrorMessages.CommandChatInputRunNotDefined(commandName));
+	}
 
-			// @ts-ignore - I don't feel like casting this
-			const options = transformInteraction(interaction);
-			const context = await createContext(interaction);
+	await defer(interaction);
 
-			try {
-				const output = await command.chatInputRun(context, options);
+	const context = await createContext(interaction);
+	const options = transformInteraction(interaction);
 
-				if (output === undefined || output === null) {
-					return;
-				}
+	logger.debug(DebugMessages.RunningCommand(commandName));
 
-				return reply(interaction, output);
-			} catch (error) {
-				if (typeof error === "string") {
-					return reply(interaction, error, true);
-				}
+	const startTime = performance.now();
+	try {
+		const output = await commandFile.chatInputRun(context, options);
 
-				logger.error(`Error running command "${name}"`);
-				logger.error(error);
-
-				return send(interaction, `An unexpected error occurred while running command \`${name}\`.`, true);
-			}
+		if (output) {
+			return edit(interaction, output);
 		}
-		case ApplicationCommandType.User: {
+	} catch (error) {
+		if (typeof error === "string") {
+			return edit(interaction, error, { prefix: "error" });
 		}
-		case ApplicationCommandType.Message: {
-		}
+
+		logger.error(ErrorMessages.CommandRunFailure(commandName));
+		logger.trace(error);
+
+		return edit(interaction, ErrorMessages.CommandRunFailure(commandName), {
+			prefix: "error",
+			ephemeral: true,
+		});
+	} finally {
+		const executionTime = performance.now() - startTime;
+		logger.debug(DebugMessages.CommandRan(commandName, executionTime));
 	}
 }

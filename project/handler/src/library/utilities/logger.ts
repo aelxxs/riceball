@@ -1,4 +1,4 @@
-import { blue, Color, cyan, gray, green, magenta, red, yellow } from "colorette";
+import { Color, gray, green, magenta, red, yellow } from "colorette";
 import { format, inspect } from "util";
 
 function time() {
@@ -21,7 +21,7 @@ function log(color: Color, name: string, method: Method, value: unknown, args: r
 		formatted
 			.split("\n")
 			.map((line) => `${header + line}`)
-			.join("\n")
+			.join("\n"),
 	);
 }
 

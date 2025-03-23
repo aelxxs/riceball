@@ -27,8 +27,8 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public async chatInputRun({ guild, user }: Context, { key }: Options) {
-		await updateMember(guild.id, user.id, {
+	public async chatInputRun({ guild, author }: Context, { key }: Options) {
+		await updateMember(guild.id, author.id, {
 			card: { [key]: true },
 		});
 

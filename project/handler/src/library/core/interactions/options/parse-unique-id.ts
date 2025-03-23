@@ -6,6 +6,6 @@ export function parseUniqueID(id: string) {
 	return { name, method, state };
 }
 
-export function makeUniqueID(command: string, method: string, state?: string) {
+export function makeUniqueID(command: string, method: string, state = "") {
 	return `${command}:${method}${state && `|${state}`}`;
 }

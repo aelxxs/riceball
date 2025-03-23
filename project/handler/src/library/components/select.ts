@@ -1,18 +1,26 @@
-import { APISelectMenuComponent, APIStringSelectComponent, ComponentType } from "discord-api-types/v10";
+import { APISelectMenuComponent, APIStringSelectComponent, ChannelType, ComponentType } from "discord-api-types/v10";
+
+type SelectType =
+	| ComponentType.StringSelect
+	| ComponentType.UserSelect
+	| ComponentType.ChannelSelect
+	| ComponentType.RoleSelect;
 
 export function select(args: SelectMenuOptions): APISelectMenuComponent {
-	const { method, options, placeholder } = args;
+	const { type = ComponentType.StringSelect, method, options, placeholder } = args;
 
 	return {
-		type: ComponentType.StringSelect,
-		custom_id: method,
-		options,
+		channel_types: [ChannelType.GuildText],
+		type,
+		custom_id: typeof method === "string" ? method : method.name,
 		placeholder,
+		options: options ?? [],
 	};
 }
 
 interface SelectMenuOptions {
-	method: string;
-	options: APIStringSelectComponent["options"];
+	type?: SelectType;
+	method: Function | string;
+	options?: APIStringSelectComponent["options"];
 	placeholder: string;
 }
