@@ -84,8 +84,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/db
       discord-api-types:
-        specifier: 0.37.20
-        version: 0.37.20
+        specifier: 0.37.119
+        version: 0.37.119
       dotenv:
         specifier: 16.4.7
         version: 16.4.7
@@ -1921,9 +1921,6 @@ packages:
 
   discord-api-types@0.37.119:
     resolution: {integrity: sha512-WasbGFXEB+VQWXlo6IpW3oUv73Yuau1Ig4AZF/m13tXcTKnMpc/mHjpztIlz4+BM9FG9BHQkEXiPto3bKduQUg==}
-
-  discord-api-types@0.37.20:
-    resolution: {integrity: sha512-uAO+55E11rMkYR36/paE1vKN8c2bZa1mgrIaiQIBgIZRKZTDIGOZB+8I5eMRPFJcGxrg16riUu+0aTu2JQEPew==}
 
   discord-markdown-parser@1.2.0:
     resolution: {integrity: sha512-RSvx1cEBT/k7Vgvj5yW+RZ+uvGcIHem86CTsWnCEivoker0UrRqmZagQCYS/jj0OM1C7HXFsqOPu8OwwcBLCuA==}
@@ -4939,8 +4936,6 @@ snapshots:
   diff@4.0.2: {}
 
   discord-api-types@0.37.119: {}
-
-  discord-api-types@0.37.20: {}
 
   discord-markdown-parser@1.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
