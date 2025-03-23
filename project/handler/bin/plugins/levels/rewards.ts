@@ -1,7 +1,7 @@
 import { ApplicationCommandType } from "discord-api-types/v10";
 
 export default {
-	name: "reaction-roles",
+	name: "rewards",
 	type: ApplicationCommandType.ChatInput,
-	description: "View your server's reaction roles",
+	description: "View this server's leveling rewards",
 };

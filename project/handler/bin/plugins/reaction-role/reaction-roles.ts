@@ -1,7 +1,8 @@
 import { ApplicationCommandType } from "discord-api-types/v10";
 
 export default {
+	name: "reaction-roles",
 	type: ApplicationCommandType.ChatInput,
-	name: "ping",
-	description: "Health check",
+	description: "View your server's reaction roles",
+	default_member_permissions: "0",
 };

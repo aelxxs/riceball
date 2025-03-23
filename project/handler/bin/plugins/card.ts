@@ -194,14 +194,14 @@ export default {
 					],
 				},
 				{
-					name: "blur",
+					name: "opacity",
 					type: ApplicationCommandOptionType.Subcommand,
 					description: "Set the blur of the background image",
 					options: [
 						{
 							name: "value",
 							type: ApplicationCommandOptionType.Integer,
-							description: "The blur value",
+							description: "The opacity value",
 							required: true,
 							min_value: 0,
 							max_value: 100,

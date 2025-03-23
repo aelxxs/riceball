@@ -1,25 +1,25 @@
-import { ApplicationCommandOptionType, ApplicationCommandType } from "discord-api-types/v10";
+import { ApplicationCommandOptionType, ApplicationCommandType, PermissionFlagsBits } from "discord-api-types/v10";
 
 export default {
 	name: "stars",
 	type: ApplicationCommandType.ChatInput,
 	description: "Presets Plugin",
-	dm_permission: false,
-	default_member_permissions: "0",
+	default_member_permissions: PermissionFlagsBits.ManageGuild,
+	contexts: [],
 	options: [
 		{
 			type: ApplicationCommandOptionType.Subcommand,
-			name: "config",
+			name: "settings",
 			description: "View your server's Starboard settings",
 		},
 		{
 			name: "enable",
-			description: "Enable the Starboard",
+			description: "Enable the Starboard for your server",
 			type: ApplicationCommandOptionType.Subcommand,
 		},
 		{
 			name: "disable",
-			description: "Disable the Starboard",
+			description: "Disable the Starboard for your server",
 			type: ApplicationCommandOptionType.Subcommand,
 		},
 		{
@@ -32,7 +32,7 @@ export default {
 					description: "The channel to send starred messages to",
 					type: ApplicationCommandOptionType.Channel,
 					required: true,
-					channel_types: 0,
+					channel_types: [0],
 				},
 			],
 		},
@@ -60,6 +60,24 @@ export default {
 					type: ApplicationCommandOptionType.Integer,
 					required: true,
 					min_value: 1,
+				},
+			],
+		},
+		{
+			name: "reset",
+			description: "Reset your server's Starboard settings",
+			type: ApplicationCommandOptionType.Subcommand,
+			options: [
+				{
+					name: "key",
+					description: "The setting to reset",
+					type: ApplicationCommandOptionType.String,
+					choices: [
+						{ name: "settings", value: "settings" },
+						{ name: "channel", value: "channel" },
+						{ name: "emoji", value: "emoji" },
+						{ name: "threshold", value: "threshold" },
+					],
 				},
 			],
 		},

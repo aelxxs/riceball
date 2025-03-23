@@ -8,6 +8,11 @@ export default {
 	default_member_permissions: "0",
 	options: [
 		{
+			name: "settings",
+			type: ApplicationCommandOptionType.Subcommand,
+			description: "View your server's Economy settings",
+		},
+		{
 			name: "enable",
 			type: ApplicationCommandOptionType.Subcommand,
 			description: "Enable the economy plugin",

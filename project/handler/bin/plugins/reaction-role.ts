@@ -4,6 +4,7 @@ export default {
 	name: "reaction-role",
 	type: ApplicationCommandType.ChatInput,
 	description: "Configure reaction roles",
+	default_member_permissions: "0",
 	options: [
 		{
 			name: "add",
