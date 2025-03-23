@@ -1,0 +1,33 @@
+{
+	"name": "@riceball/markdown",
+	"type": "module",
+	"version": "0.0.0",
+	"private": true,
+	"license": "GPL-3.0-only",
+	"publishConfig": {
+		"access": "public"
+	},
+	"main": "./dist/es/index.js",
+	"module": "./dist/es/index.js",
+	"types": "./dist/es/index.d.ts",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"files": [
+		"dist"
+	],
+	"devDependencies": {
+		"@riceball/ts-config": "workspace:*",
+		"@types/markdown-it": "^14.1.2",
+		"@types/node": "18.11.9",
+		"typescript": "^5.7.3"
+	},
+	"dependencies": {
+		"@khanacademy/simple-markdown": "^0.14.0",
+		"discord-api-types": "^0.37.119",
+		"discord-markdown-parser": "^1.2.0",
+		"markdown-it": "^14.1.0",
+		"prosemirror-model": "^1.24.1",
+		"twemoji": "^14.0.2"
+	}
+}
