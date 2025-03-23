@@ -25,7 +25,7 @@
     "discord-api-types": "0.37.119",
     "emoji-picker-element": "^1.26.1",
     "formsnap": "^2.0.0",
-    "lucide-svelte": "^0.477.0",
+    "lucide-svelte": "^0.483.0",
     "sass": "^1.85.1",
     "svelte": "5.25.2",
     "svelte-check": "^4.1.4",
