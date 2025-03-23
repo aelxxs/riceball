@@ -42,8 +42,8 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0
       '@discordjs/rest':
-        specifier: 1.3.0
-        version: 1.3.0
+        specifier: 1.7.1
+        version: 1.7.1
       '@lib/common':
         specifier: link:src/library/common
         version: link:src/library/common
@@ -568,7 +568,7 @@ packages:
       discord-api-types: 0.37.119
       fast-deep-equal: 3.1.3
       ts-mixer: 6.0.4
-      tslib: 2.8.1
+      tslib: 2.6.3
     dev: false
 
   /@discordjs/collection@1.5.3:
@@ -607,20 +607,6 @@ packages:
       discord-api-types: 0.37.119
     dev: false
 
-  /@discordjs/rest@1.3.0:
-    resolution: {integrity: sha512-U6X5J+r/MxYpPTlHFuPxXEf92aKsBaD2teBC7sWkKILIr30O8c9+XshfL7KFBCavnAqS/qE+PF9fgRilO3N44g==}
-    engines: {node: '>=16.9.0'}
-    dependencies:
-      '@discordjs/collection': 1.5.3
-      '@discordjs/util': 0.1.0
-      '@sapphire/async-queue': 1.5.5
-      '@sapphire/snowflake': 3.5.5
-      discord-api-types: 0.37.20
-      file-type: 18.7.0
-      tslib: 2.4.1
-      undici: 5.29.0
-    dev: false
-
   /@discordjs/rest@1.7.1:
     resolution: {integrity: sha512-Ofa9UqT0U45G/eX86cURQnX7gzOJLG2oC28VhIk/G6IliYgQF7jFByBJEykPSHE4MxPhqCleYvmsrtfKh1nYmQ==}
     engines: {node: '>=16.9.0'}
@@ -631,7 +617,7 @@ packages:
       '@sapphire/snowflake': 3.5.5
       discord-api-types: 0.37.119
       file-type: 18.7.0
-      tslib: 2.8.1
+      tslib: 2.6.3
       undici: 5.29.0
     dev: false
 
@@ -674,7 +660,7 @@ packages:
       '@types/ws': 8.18.0
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.119
-      tslib: 2.4.1
+      tslib: 2.6.3
       ws: 8.18.1
     transitivePeerDependencies:
       - bufferutil
@@ -692,7 +678,7 @@ packages:
       '@types/ws': 8.18.0
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.119
-      tslib: 2.8.1
+      tslib: 2.6.3
       ws: 8.18.1
     transitivePeerDependencies:
       - bufferutil
@@ -703,7 +689,7 @@ packages:
     resolution: {integrity: sha512-kEBmG8KyqtxJZv+ygbEim+KCGtIq1fC22Ms3S4ziXmYKm8uyoLX0MHONVKwp+9opg390VaKRNt4a7A9NwmpNhw==}
     requiresBuild: true
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.6.3
     dev: false
     optional: true
 
@@ -5567,7 +5553,6 @@ packages:
 
   /tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
-    dev: true
 
   /tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
