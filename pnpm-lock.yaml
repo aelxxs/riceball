@@ -36,8 +36,8 @@ importers:
   project/handler:
     dependencies:
       '@discordjs/core':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.6.0
+        version: 0.6.0
       '@discordjs/formatters':
         specifier: ^0.5.0
         version: 0.5.0
@@ -580,12 +580,14 @@ packages:
     resolution: {integrity: sha512-LiSusze9Tc7qF03sLCujF5iZp7K+vRNEDBZ86FT9aQAv3vxMLihUvKvpsCWiQ2DJq1tVckopKm1rxomgNUc9hg==}
     engines: {node: '>=18'}
 
-  /@discordjs/core@0.3.0:
-    resolution: {integrity: sha512-yp3H+NnaZ/sg0Z4PIVgfH4Ab88MwkXxnzwG5lNxjYiwp7+8qkYjb726qf3OxZOhFXQFt7gYaAaBevHgmPz9vjA==}
+  /@discordjs/core@0.6.0:
+    resolution: {integrity: sha512-Z8utdvCtT+ukOL38AHmGjwVYc8WR7NpTVAKINX+HVBq870GcUMFCQl7nJT+whnUdo+NbnC96LmP11+onEhdL6A==}
     engines: {node: '>=16.9.0'}
     dependencies:
       '@discordjs/rest': 1.7.1
-      '@discordjs/ws': 0.6.0
+      '@discordjs/util': 0.3.1
+      '@discordjs/ws': 0.8.3
+      '@sapphire/snowflake': 3.5.5
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.119
     transitivePeerDependencies:
@@ -631,7 +633,7 @@ packages:
       '@sapphire/snowflake': 3.5.5
       discord-api-types: 0.37.119
       file-type: 18.7.0
-      tslib: 2.8.1
+      tslib: 2.6.3
       undici: 5.29.0
     dev: false
 
@@ -663,18 +665,18 @@ packages:
     resolution: {integrity: sha512-eddz6UnOBEB1oITPinyrB2Pttej49M9FZQY8NxgEvc3tq6ZICZ19m70RsmzRdDHk80O9NoYN/25AqJl8vPVf/g==}
     engines: {node: '>=18'}
 
-  /@discordjs/ws@0.6.0:
-    resolution: {integrity: sha512-CGXmDnskIWyitBejQG07ao6MTkxK5OnFJQLan/cNIoMF61mlbTXpcKGnyrD7dhE7B/q2MEWPKfpuYXtFBog1cg==}
+  /@discordjs/ws@0.8.3:
+    resolution: {integrity: sha512-hcYtppanjHecbdNyCKQNH2I4RP9UrphDgmRgLYrATEQF1oo4sYSve7ZmGsBEXSzH72MO2tBPdWSThunbxUVk0g==}
     engines: {node: '>=16.9.0'}
     dependencies:
       '@discordjs/collection': 1.5.3
       '@discordjs/rest': 1.7.1
-      '@discordjs/util': 0.1.0
+      '@discordjs/util': 0.3.1
       '@sapphire/async-queue': 1.5.5
       '@types/ws': 8.18.0
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.119
-      tslib: 2.4.1
+      tslib: 2.6.3
       ws: 8.18.1
     transitivePeerDependencies:
       - bufferutil
@@ -703,7 +705,7 @@ packages:
     resolution: {integrity: sha512-kEBmG8KyqtxJZv+ygbEim+KCGtIq1fC22Ms3S4ziXmYKm8uyoLX0MHONVKwp+9opg390VaKRNt4a7A9NwmpNhw==}
     requiresBuild: true
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.6.3
     dev: false
     optional: true
 
@@ -5567,7 +5569,6 @@ packages:
 
   /tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
-    dev: true
 
   /tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
