@@ -1,5 +1,4 @@
-import { Guild, Prisma, PrismaClient, RestrictionType } from "@prisma/client";
-import { Restriction } from "prisma-frontend";
+import { Guild, Prisma, PrismaClient, Restriction, RestrictionType } from "@prisma/client";
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
