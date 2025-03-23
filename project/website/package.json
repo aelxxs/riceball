@@ -17,7 +17,7 @@
     "@auth/sveltekit": "^1.8.0",
     "@discordjs/rest": "2.4.3",
     "@riceball/ts-config": "workspace:*",
-    "@sveltejs/adapter-auto": "^4.0.0",
+    "@sveltejs/adapter-auto": "^5.0.0",
     "@sveltejs/kit": "^2.17.3",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "bits-ui": "^1.3.4",
