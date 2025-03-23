@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@riceball/logger": "workspace:*",
-		"@discordjs/core": "^0.6.0",
+		"@discordjs/core": "^2.0.0",
 		"@discordjs/formatters": "^0.6.0",
 		"@discordjs/rest": "1.7.1",
 		"@lib/common": "link:src/library/common",
