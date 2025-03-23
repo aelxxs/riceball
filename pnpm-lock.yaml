@@ -62,6 +62,9 @@ importers:
       '@napi-rs/canvas':
         specifier: 0.1.68
         version: 0.1.68
+      '@riceball/color-utils':
+        specifier: workspace:*
+        version: link:../../shared/color-utils
       '@riceball/logger':
         specifier: workspace:*
         version: link:../../shared/logger

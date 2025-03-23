@@ -67,7 +67,8 @@ export const composeLevelCard = (card: CardWithRelations) => {
 	};
 };
 
-export const getHSLAOpacity = (hsla: HSLAColorObject) => {
+export const getHSLAOpacity = (hsla: HSLAColorObject | null) => {
+	if (!hsla) return 1;
 	return hsla.a;
 };
 
