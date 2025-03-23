@@ -1,4 +1,4 @@
-FROM node:19
+FROM node:22
 
 RUN curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm
 
