@@ -23,3 +23,14 @@ node_modules/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# svelte
+**/build
+**/.svelte-kit
+**/package
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+/project/db/generated/**/*
+
+.DS_Store
