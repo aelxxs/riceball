@@ -17,7 +17,7 @@
 		"dist"
 	],
 	"dependencies": {
-		"colorette": "2.0.19"
+		"colorette": "2.0.20"
 	},
 	"devDependencies": {
 		"@types/node": "18.11.9",
