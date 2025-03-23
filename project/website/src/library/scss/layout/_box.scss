@@ -1,0 +1,21 @@
+.box {
+  padding: var(--padding, var(--space-s));
+  border-radius: var(--radius, var(--border-radius));
+  outline: var(--border-thin) transparent;
+  outline-offset: calc(var(--border-thin) * -1);
+  color: var(--text-main);
+  background-color: var(--bg, var(--clr-bg-accent));
+}
+
+.box.invert {
+  background-color: var(--bg-invert, var(--clr-bg-invert));
+}
+
+.box.outline {
+  background-color: transparent;
+}
+
+.box.transparent {
+  background-color: transparent;
+  border-color: transparent;
+}

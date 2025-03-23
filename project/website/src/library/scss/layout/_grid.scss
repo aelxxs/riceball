@@ -1,0 +1,15 @@
+.grid {
+  display: grid;
+  gap: var(--gap, var(--space-s));
+  --minimum: 40ch;
+  --repeat: auto-fit;
+}
+
+@supports (width: min(var(--minimum), 100%)) {
+  .grid {
+    grid-template-columns: repeat(
+      var(--repeat, auto-fill),
+      minmax(min(var(--minimum), 100%), 1fr)
+    );
+  }
+}

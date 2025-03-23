@@ -1,0 +1,46 @@
+@property --cluster-gap {
+  syntax: "<length>";
+  inherits: false;
+}
+
+.cluster {
+  --cluster-gap: var(--space-s);
+  --space: var(--cluster-gap);
+  display: flex;
+  flex-wrap: var(--wrap, wrap);
+  justify-content: var(--justify, flex-start);
+  align-items: var(--align, center);
+  gap: var(--cluster-gap, var(--space-s));
+}
+
+.cluster.column {
+  flex-direction: column;
+}
+
+.cluster.reverse {
+  flex-direction: row-reverse;
+}
+
+.cluster.column.reverse {
+  flex-direction: column-reverse;
+}
+
+.cluster.justify-center {
+  justify-content: center;
+}
+
+.cluster.align-center {
+  align-items: center;
+}
+
+.cluster.align-start {
+  align-items: flex-start;
+}
+
+.cluster.align-end {
+  --justify: flex-end;
+}
+
+.cluster.no-wrap {
+  flex-wrap: nowrap;
+}

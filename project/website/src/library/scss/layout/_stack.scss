@@ -1,0 +1,29 @@
+@property --space {
+  syntax: "<length>";
+  inherits: false;
+}
+
+.stack {
+  --space: var(--space-s);
+  /* ↓ The flex context */
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.stack > * {
+  /* ↓ Any extant vertical margins are removed */
+  margin-block: 0;
+}
+
+.stack > * + * {
+  /* ↓ Top margin is only applied to successive elements */
+  margin-block-start: var(--space, var(--space-s));
+}
+
+// exlude screen reader only styles
+.stack > .sr-only + *,
+.stack > * + .sr-only {
+  margin-block-start: 0;
+}

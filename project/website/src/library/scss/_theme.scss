@@ -1,0 +1,163 @@
+@use "sass:color";
+
+:root {
+  --border-radius: var(--radius-xs);
+}
+
+:root:not([dark]) {
+  color-scheme: dark;
+
+  --theme-hue: 230deg;
+  --theme-saturation: 25%;
+  --theme-saturation-high: calc(var(--theme-saturation) * 3);
+  --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 60%);
+  --clr-theme-2-translucent: hsl(
+    var(--theme-hue),
+    var(--theme-saturation-high),
+    60%,
+    0.25
+  );
+  --clr-theme-error: hsl(0, var(--theme-saturation-high), 60%);
+  --clr-theme-error-transparent: hsl(
+    0,
+    var(--theme-saturation-high),
+    60%,
+    0.45
+  );
+  --clr-theme-error: rgb(255 107 134 / 0.75);
+  --clr-theme-error-transparent: rgb(255 107 134 / 0.25);
+  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 11%);
+  --clr-bg-translucent: hsl(
+    var(--theme-hue),
+    var(--theme-saturation),
+    11%,
+    0.75
+  );
+  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 16%);
+  --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.3);
+  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 11%);
+  --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 30%, 1);
+  --clr-bg-input-hover: hsl(
+    var(--theme-hue),
+    var(--theme-saturation),
+    20%,
+    0.75
+  );
+  --clr-bg-input-active: hsl(
+    var(--theme-hue),
+    var(--theme-saturation),
+    18%,
+    0.75
+  );
+  --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 25%, 0.5);
+  --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 25%);
+  --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 30%);
+  --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 65%);
+  --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 75%;
+  --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 15%);
+  --txt-bold: hsl(var(--theme-hue), var(--theme-saturation), 90%);
+  --txt-main: hsl(var(--theme-hue), var(--theme-saturation), 70%);
+  --txt-themed: hsl(
+    var(--theme-hue),
+    calc(var(--theme-saturation-high) - 10%),
+    67%
+  );
+  --txt-muted: hsl(var(--theme-hue), var(--theme-saturation), 70%, 0.85);
+
+  // layout
+  --header-height: clamp(3.75rem, 10vw, 4.25rem);
+}
+
+// light mode
+
+body {
+  background-color: var(--clr-bg);
+  color: var(--txt-main);
+}
+
+em-emoji-picker {
+  $theme-hue: 230deg;
+  $theme-saturation: 23%;
+  $theme-saturation-high: calc($theme-saturation * 3);
+  $theme-lightness: 10%;
+
+  $theme-rgb: hsl($theme-hue, $theme-saturation, $theme-lightness);
+
+  $theme-2-rgb: hsl($theme-hue, $theme-saturation-high, 60%);
+  $input: hsl($theme-hue, $theme-saturation, 11%);
+  $input-light: hsl($theme-hue, $theme-saturation, 30%);
+  $border: hsl($theme-hue, $theme-saturation, 25%, 0.5);
+  $text-main: hsl($theme-hue, $theme-saturation, 70%);
+  $text-bold: hsl($theme-hue, $theme-saturation, 90%);
+
+  --border-radius: var(--radius-xs);
+  --category-icon-size: 1.35rem;
+
+  --font-family: inherit;
+  --font-size: inherit;
+
+  --preview-placeholder-size: 1.1em;
+  --preview-title-size: 1.1em;
+  --preview-subtitle-size: 0.9em;
+
+  --color-border: var(--clr-bg-border);
+  --color-border-over: var(--clr-theme-2);
+  --rgb-accent:
+    #{color.red($theme-2-rgb)}, #{color.green($theme-2-rgb)},
+    #{color.blue($theme-2-rgb)};
+  --rgb-background:
+    #{color.red($input)}, #{color.green($input)}, #{color.blue($input)};
+  --rgb-color:
+    #{color.red($text-main)}, #{color.green($text-main)},
+    #{color.blue($text-main)};
+  --rgb-input:
+    #{color.red($input)}, #{color.green($input)}, #{color.blue($input)};
+  --shadow: 0 0 10px 1px var(--clr-shadow);
+
+  height: 50vh;
+  min-height: 400px;
+  max-height: 800px;
+}
+
+.clr-dark {
+  background-color: var(--clr-bg-input);
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.example {
+  flex-shrink: 0;
+  width: 300px;
+  margin-bottom: 30px;
+}
+
+.square .clr-field button,
+.circle .clr-field button {
+  width: 22px;
+  height: 22px;
+  left: 5px;
+  right: auto;
+  border-radius: 5px;
+}
+
+.square .clr-field input,
+.circle .clr-field input {
+  padding-left: 36px;
+}
+
+.circle .clr-field button {
+  border-radius: 50%;
+}
+
+.full .clr-field button {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.clr-field .clr-dark {
+  background-color: var(--clr-bg-input-light);
+}

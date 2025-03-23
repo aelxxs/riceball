@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap");
+
+.font-monospace {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.font-serif {
+  font-family: "Lora", serif;
+}
+
+.font-sans {
+  font-family: "Roboto", sans-serif;
+}
+
+.font-handwritten {
+  font-family: "Pacifico", cursive;
+}
+
+.font-cursive {
+  font-family: "Dancing Script", cursive;
+}
