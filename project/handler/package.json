@@ -37,7 +37,7 @@
 	},
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
-		"@types/common-tags": "1.8.1",
+		"@types/common-tags": "1.8.4",
 		"@types/ms": "^2.0.0",
 		"@types/node": "18.11.9",
 		"@types/node-emoji": "^2.0.0",
