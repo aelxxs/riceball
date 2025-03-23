@@ -1,13 +1,18 @@
 {
-	"baseBranch": "origin/main",
-	"pipeline": {
-		"build": {
-			"dependsOn": ["^build"],
-			"outputs": [".build/**"]
+	"tasks": {
+		"db:generate": {
+			"cache": false
+		},
+		"db:push": {
+			"cache": false
 		},
 		"lint": {
 			"dependsOn": ["^lint"],
 			"outputs": []
+		},
+		"build": {
+			"dependsOn": ["^build", "^db:generate"],
+			"outputs": [".build/**"]
 		}
 	}
 }
