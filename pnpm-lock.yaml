@@ -112,8 +112,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/ts-configs
       '@types/common-tags':
-        specifier: 1.8.1
-        version: 1.8.1
+        specifier: 1.8.4
+        version: 1.8.4
       '@types/ms':
         specifier: ^2.0.0
         version: 2.1.0
@@ -1476,8 +1476,8 @@ packages:
   '@twemoji/parser@15.1.0':
     resolution: {integrity: sha512-3HTiSxPvkWUJ4kZeCvwyKlIwkpTUfBOk6igpBBRQni58ceQMv5YK4smkc8vX/eqOlMMNER/9qobv+Q6Q8LVrqA==}
 
-  '@types/common-tags@1.8.1':
-    resolution: {integrity: sha512-20R/mDpKSPWdJs5TOpz3e7zqbeCNuMCPhV7Yndk9KU2Rbij2r5W4RzwDPkzC+2lzUqXYu9rFzTktCBnDjHuNQg==}
+  '@types/common-tags@1.8.4':
+    resolution: {integrity: sha512-S+1hLDJPjWNDhcGxsxEbepzaxWqURP/o+3cP4aa2w7yBXgdcmKGQtZzP8JbyfOd0m+33nh+8+kvxYE2UJtBDkg==}
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
@@ -4490,7 +4490,7 @@ snapshots:
 
   '@twemoji/parser@15.1.0': {}
 
-  '@types/common-tags@1.8.1': {}
+  '@types/common-tags@1.8.4': {}
 
   '@types/cookie@0.6.0': {}
 
