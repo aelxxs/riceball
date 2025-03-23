@@ -26,9 +26,9 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public async chatInputRun({ guild, user }: Context, { value }: Options) {
-		await updateMember(guild.id, user.id, {
-			card: { primaryOpacity: value / 100 },
+	public async chatInputRun({ guild, author }: Context, { value }: Options) {
+		await updateMember(guild.id, author.id, {
+			card: { primaryOpacity: value },
 		});
 
 		return `Your primary opacity has been set to \`${value}%\`.`;

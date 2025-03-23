@@ -1,0 +1,260 @@
+/* typography util classes*/
+//
+
+.fw\:bold {
+  font-weight: 600 !important;
+  color: var(--txt-bold) !important;
+}
+
+.fw\:md {
+  font-weight: 500 !important;
+  color: var(--txt-bold) !important;
+}
+
+.fw-md {
+  font-weight: 500 !important;
+  color: var(--txt-bold) !important;
+}
+
+.fw\:600 {
+  font-weight: 600;
+}
+
+.txt\:bold {
+  color: var(--txt-bold);
+}
+
+.txt\:color-2 {
+  color: var(--txt-themed);
+}
+
+.txt-bold {
+  color: var(--txt-bold);
+}
+
+.txt-muted {
+  color: var(--txt-muted) !important;
+}
+
+.txt-main {
+  color: var(--txt-main);
+}
+
+button[data-type="link"] {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+body {
+  font-weight: var(--font-weight-normal);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--txt-bold);
+  font-weight: var(--font-weight-bold);
+}
+
+h1 {
+  font-size: var(--step-3);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-condensed);
+}
+
+h2 {
+  font-size: var(--step-2);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-condensed);
+}
+
+h3 {
+  font-size: var(--step-1);
+  line-height: var(--line-height-tight);
+}
+
+h4 {
+  font-size: var(--step-0);
+  line-height: var(--line-height-tight);
+}
+
+h5 {
+  font-size: var(--step-0);
+  line-height: var(--line-height-tight);
+}
+
+.fs\:xs {
+  font-size: var(--step--1) !important;
+}
+
+.fs\:sm {
+  font-size: var(--step-0) !important;
+}
+
+.fs\:md {
+  font-size: var(--step-1) !important;
+}
+
+.fs\:lg {
+  font-size: var(--step-2) !important;
+}
+
+.fs\:xl {
+  font-size: var(--step-3) !important;
+}
+
+.sr-only {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important; /* 2 */
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important; /* 3 */
+}
+
+.sr-only-focusable:focus,
+.sr-only-focusable:active {
+  clip: auto !important;
+  -webkit-clip-path: none !important;
+  clip-path: none !important;
+  height: auto !important;
+  margin: auto !important;
+  overflow: visible !important;
+  width: auto !important;
+  white-space: normal !important;
+}
+
+// Our forms show the label elsewhere so this is only for screen readers
+// [data-fs-label] {
+//   @extend .txt-muted;
+// }
+
+[data-fs-legend] {
+  @extend .fw\:md;
+  margin-bottom: 0.25rem;
+}
+
+[data-fs-label][data-sr-only] {
+  @extend .sr-only;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.show\:md {
+  display: none;
+}
+
+.hide\:md {
+  display: flex;
+}
+
+@media (min-width: 875px) {
+  .show\:md {
+    display: flex;
+  }
+
+  .hide\:md {
+    display: none;
+  }
+}
+
+.tiptap * {
+  font-weight: inherit;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: var(--txt-main);
+  opacity: 0.75;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tiptap p {
+  vertical-align: bottom;
+}
+
+.tiptap p span {
+  vertical-align: bottom;
+  display: inline-flex;
+}
+
+.tiptap strong {
+  font-weight: 500;
+  color: var(--txt-bold);
+}
+.tiptap pre {
+  background: var(--clr-bg-accent);
+  padding: var(--space-2xs) var(--space-2xs);
+  border-radius: var(--border-radius);
+  font-family: monospace;
+  margin-block: 0rem;
+}
+
+.tiptap pre code {
+  all: unset;
+}
+
+.tiptap code {
+  background: var(--clr-bg-accent);
+  padding: 0.35rem;
+  border-radius: var(--border-radius);
+  font-family: monospace;
+}
+
+.tiptap blockquote {
+  position: relative;
+  padding-left: var(--space-s);
+}
+
+.tiptap blockquote::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.25rem;
+  height: 100%;
+  border-radius: 0.15rem;
+  background: var(--clr-bg-input-light);
+}
+
+.tiptap ul,
+.tiptap ol {
+  margin: 0;
+  padding: 0;
+  margin-left: var(--space-m);
+}
+
+.tiptap h1 {
+  font-size: var(--step-1);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-condensed);
+}
+
+.tiptap h2 {
+  font-size: var(--step-0);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-condensed);
+}
+
+.tiptap h3 {
+  font-size: 0.9rem;
+  line-height: var(--line-height-tight);
+}
+
+.svelte-easy-crop-container {
+  background-color: var(--clr-bg-accent);
+  border-radius: var(--border-radius);
+}

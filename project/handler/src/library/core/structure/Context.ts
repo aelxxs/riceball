@@ -1,9 +1,9 @@
-import { APIApplicationCommandInteraction, APIGuild, APIGuildMember, APIUser } from "discord-api-types/v10";
+import { APIGuild, APIInteraction, APIInteractionGuildMember, APIUser } from "discord-api-types/v10";
 
 export interface Context {
-	i: APIApplicationCommandInteraction;
-	t: (s: string, args?: Record<string, string>) => string;
+	i: APIInteraction;
+	t: (key: string, ...args: any[]) => string;
 	guild: APIGuild;
-	user: APIUser;
-	member: APIGuildMember;
+	author: APIUser;
+	member: APIInteractionGuildMember;
 }

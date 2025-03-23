@@ -1,0 +1,10 @@
+{
+	"name": "@riceball/ts-config",
+	"type": "module",
+	"version": "0.0.0",
+	"private": true,
+	"license": "GPL-3.0-only",
+	"publishConfig": {
+		"access": "public"
+	}
+}

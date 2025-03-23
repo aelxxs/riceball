@@ -1,7 +1,7 @@
-import { opendir } from "fs/promises";
-import { Injectors } from "@lib/common";
+import { Deps } from "@lib/common";
 import { Command, Event } from "@lib/core";
-import { logger } from "@lib/util";
+import { logger } from "@riceball/logger";
+import { opendir } from "fs/promises";
 import { basename, dirname, join } from "path";
 import { container } from "tsyringe";
 
@@ -14,34 +14,36 @@ export async function* walk(path: string): AsyncIterableIterator<string> {
 	}
 }
 
-async function loadActions(): Promise<[string, Event][]> {
-	const actionFiles = walk(join(__dirname, "../../../../", "events"));
+async function loadEvents(): Promise<[string, Event][]> {
+	logger.debug("Loading events");
+	const eventFiles = walk(join(__dirname, "../../../../", "events"));
 
-	const actions: [string, Event][] = [];
+	const events: [string, Event][] = [];
 
-	for await (const file of actionFiles) {
-		const action = container.resolve<Event>((await import(file)).default);
+	for await (const file of eventFiles) {
+		const event = container.resolve<Event>((await import(file)).default);
 
-		actions.push([basename(file, ".ts"), action]);
+		events.push([basename(file, ".ts"), event]);
 	}
 
-	return actions;
+	return events;
 }
 
 const BRACKET = /\[([^}]*)\]/g;
 
-async function loadPlugins(): Promise<[string, Command][]> {
-	const pluginFiles = walk(join(__dirname, "../../../../", "commands"));
+async function loadCommands(): Promise<[string, Command][]> {
+	logger.debug("Loading commands");
+	const commandFiles = walk(join(__dirname, "../../../../", "commands"));
 
-	const plugins: [string, Command][] = [];
+	const commands: [string, Command][] = [];
 
-	for await (const file of pluginFiles) {
+	for await (const file of commandFiles) {
 		if (file.includes("__")) {
 			continue;
 		}
 
 		try {
-			const pluginFile = container.resolve<Command>((await import(file)).default);
+			const commandFile = container.resolve<Command>((await import(file)).default);
 			const directory = dirname(file);
 
 			let root = basename(directory);
@@ -52,24 +54,24 @@ async function loadPlugins(): Promise<[string, Command][]> {
 			root = root.replace(BRACKET, (_, args) => args);
 			name = name.replace(BRACKET, (_, args) => `${root}/${args}`);
 
-			plugins.push([name, pluginFile]);
+			commands.push([name, commandFile]);
 		} catch (error) {
 			logger.error("An error occured while loading a plugin: \n", file);
 			logger.error(error);
 		}
 	}
 
-	return plugins;
+	return commands;
 }
 
 export async function load() {
-	const events = new Map(await loadActions());
-	const plugins = new Map(await loadPlugins());
+	const events = new Map(await loadEvents());
+	const plugins = new Map(await loadCommands());
 
-	container.register(Injectors.Actions, {
+	container.register(Deps.Actions, {
 		useValue: events,
 	});
-	container.register(Injectors.Plugins, {
+	container.register(Deps.Plugins, {
 		useValue: plugins,
 	});
 

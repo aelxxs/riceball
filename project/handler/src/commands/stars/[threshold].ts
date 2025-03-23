@@ -16,6 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { bold } from "@discordjs/formatters";
 import type { Command, Context } from "@lib/core";
 import { updateGuild } from "db";
 
@@ -31,7 +32,7 @@ export default class implements Command {
 			stars: { threshold },
 		});
 
-		return `Messages will now be posted to the starboard if they have \`${threshold}\` or more reactions.`;
+		return `Messages will now be posted to the starboard if they have ${bold(threshold.toString())} or more reactions.`;
 	}
 }
 

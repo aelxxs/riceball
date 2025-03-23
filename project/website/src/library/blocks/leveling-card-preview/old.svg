@@ -1,0 +1,164 @@
+<svg
+  viewBox="0 0 380 112"
+  xmlns="http://www.w3.org/2000/svg"
+  preserveAspectRatio="xMidYMid meet"
+  class="level-card"
+>
+  <defs>
+    <clipPath id="bgClip">
+      <rect
+        x="0"
+        y="0"
+        width="380"
+        height="112"
+        rx= {cornerRadius / 4}
+        ry= {cornerRadius / 4}
+      />
+    </clipPath>
+    <clipPath id="clipUserAvatar">
+      <circle cx="56" cy="45" r="32" />
+    </clipPath>
+    <clipPath id="clipServerIcon">
+      <circle cx="355" cy="90" r="7.5" />
+    </clipPath>
+  </defs>
+
+  <!-- Main Container & Background -->
+  <rect
+    width="100%"
+    height="100%"
+    fill= {backgroundColor}
+    rx= {radius}
+    ry= {radius}
+  />
+  <image
+    href= {backgroundImage}
+    width="100%"
+    height="100%"
+    clip-path="url(#bgClip)"
+    preserveAspectRatio="xMidYMid slice"
+  />
+
+  <!-- Background Overlay -->
+  <rect
+    x="8"
+    y="8"
+    width="364"
+    height="96"
+    {opacity}
+    fill= {primaryColor}
+    rx= {radius}
+    ry= {radius}
+  />
+
+  <!-- User Avatar Container -->
+  <rect x="19" y="8" width="74" height="96" {opacity} fill= {secondaryColor} />
+  <circle cx="56" cy="45" r="32" fill= {primaryColor} />
+  <image
+    x="24"
+    y="13"
+    width="64"
+    height="64"
+    clip-path="url(#clipUserAvatar)"
+    href= {userAvatar}
+  />
+
+  <!-- Server Icon Container -->
+  <circle cx="355" cy="90" r="7" fill= {secondaryColor} />
+  <image
+    x="347.5"
+    y="82.5"
+    width="15"
+    height="15"
+    clip-path="url(#clipServerIcon)"
+    href= {serverIcon}
+  />
+
+  <!-- Progress Bar -->
+  <rect
+    x="101.5"
+    y="84"
+    width="239.5"
+    height="12.5"
+    rx= {radius}
+    ry= {radius}
+    {opacity}
+    fill= {secondaryColor}
+  />
+
+  <rect
+    x="101.5"
+    y="84"
+    width= {progress}
+    height="12.5"
+    rx= {radius}
+    ry= {radius}
+    fill= {progressColor}
+  />
+
+  <!-- Stats Panel -->
+  <rect
+    x="287"
+    y="15.5"
+    width="77.5"
+    height="58"
+    rx= {radius}
+    ry= {radius}
+    {opacity}
+    fill= {secondaryColor}
+  />
+
+  <rect
+    x="296.5"
+    y="25"
+    width="59.5"
+    height="14.75"
+    rx= {cornerRadius / 4}
+    ry= {cornerRadius / 4}
+    {opacity}
+    fill= {primaryColor}
+  />
+
+  <rect
+    x="296.5"
+    y="48.5"
+    width="59.5"
+    height="14.75"
+    rx= {radius}
+    ry= {radius}
+    {opacity}
+    fill= {primaryColor}
+  />
+
+  <!-- Badge Panel -->
+  <rect
+    x="101.5"
+    y="48.5"
+    width="178"
+    height="20"
+    rx= {radius}
+    ry= {radius}
+    {opacity}
+    fill= {secondaryColor}
+  />
+
+  <g transform="translate(122.5 58.5)" class="small-screen-scale"> {#each Array(6) as _, i}
+  {#if badges[i]} <image
+      x= {i * 27 - 5}
+      y="-7"
+      width="14"
+      height="14"
+      href= {badges[i].url}
+    /> {:else} <circle cx= {i * 27} cy="0" r="2.5" fill= {primaryColor} /> {/if} {/each} </g>
+
+  <!-- Text Elements -->
+  <text x="101.5"
+    y="28.75" font-weight="700" font-size="18" fill= {textColor}>
+    {username}
+  </text> {#each bio as { type, value, url, x }} {#if type === "text"} <text {x}
+    y="43.125" font-size="9" fill= {subTextColor}>
+    {value}
+  </text> {:else if type === "emote"} <image {x} y="35.5" width="8" height="8"
+    href= {url} /> {/if} {/each} {@render text(`Lvl. ${level}`, 101.5, 79.625, "start")} {@render text(
+  `${abbreviateNumber(currentXP)}/${abbreviateNumber(maxXP)}`, 279.5, 79.625, "end", )} {@render
+  text(`#${rank}`, 327.5, 35.5, "middle")} {@render text(`+${reputation}rep`, 327.5, 59, "middle")} </svg>

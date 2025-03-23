@@ -16,6 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { channelMention } from "@discordjs/formatters";
 import type { Command, Context } from "@lib/core";
 import { updateGuild } from "db";
 import type { APIPartialChannel } from "discord-api-types/v10";
@@ -32,7 +33,7 @@ export default class implements Command {
 			stars: { channelId: channel.id },
 		});
 
-		return `Starred messages will now be sent to <#${channel.id}>`;
+		return `Starred messages will now be sent to ${channelMention(channel.id)}.`;
 	}
 }
 

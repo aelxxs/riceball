@@ -1,4 +1,4 @@
-export const Injectors = {
+export const Deps = {
 	Rest: Symbol("Rest"),
 	Redis: Symbol("Redis"),
 	Client: Symbol("Client"),

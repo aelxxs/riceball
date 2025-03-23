@@ -1,18 +1,24 @@
 import {
-	APIApplicationCommandInteraction,
-	APIChatInputApplicationCommandInteraction,
 	ApplicationCommandOptionType,
+	ApplicationCommandType,
+	type APIApplicationCommandInteraction,
 	type APIApplicationCommandInteractionDataBasicOption,
 	type APIApplicationCommandInteractionDataMentionableOption,
 	type APIApplicationCommandInteractionDataOption,
+	type APIAttachment,
+	type APIChatInputApplicationCommandInteraction,
+	type APIInteractionDataResolved,
 	type APIInteractionDataResolvedChannel,
 	type APIRole,
 	type APIUser,
-	ApplicationCommandType,
-	APIAttachment,
-	type APIInteractionDataResolved,
 } from "discord-api-types/v10";
 
+/**
+ * Retrieves the command name from an interaction, including subcommand if present.
+ *
+ * @param interaction - The interaction object containing command data.
+ * @returns The command name, optionally including the subcommand name if it exists.
+ */
 export function getCommandName(interaction: APIApplicationCommandInteraction) {
 	const command = interaction.data.name;
 
@@ -25,13 +31,19 @@ export function getCommandName(interaction: APIApplicationCommandInteraction) {
 	return subCommand ? `${command}/${subCommand}` : command;
 }
 
+/**
+ * Retrieves the name of the subcommand or subcommand group from the provided options.
+ *
+ * @param options - An array of APIApplicationCommandInteractionDataOption objects.
+ * @returns The name of the subcommand or subcommand group in the format `group/subcommand` if a subcommand group is present,
+ *          the name of the subcommand if a subcommand is present, or `null` if no subcommand or subcommand group is found.
+ */
 function getSubCommand(options: APIApplicationCommandInteractionDataOption[]) {
 	if (options.length) {
 		const [option] = options;
 
 		if (option.type === ApplicationCommandOptionType.SubcommandGroup) {
 			const [subCommand] = option.options;
-
 			return `${option.name}/${subCommand.name}`;
 		}
 
@@ -68,14 +80,14 @@ export function extractOptions(options: readonly APIApplicationCommandInteractio
 
 function transformArguments(
 	resolved: APIInteractionDataResolved,
-	options: readonly APIApplicationCommandInteractionDataBasicOption[]
+	options: readonly APIApplicationCommandInteractionDataBasicOption[],
 ): NonNullObject {
 	return Object.fromEntries(options.map((option) => [option.name, transformArgument(resolved, option)]));
 }
 
 function transformArgument(
 	resolved: APIInteractionDataResolved,
-	option: APIApplicationCommandInteractionDataBasicOption
+	option: APIApplicationCommandInteractionDataBasicOption,
 ): TransformedArguments.Any {
 	if (option.type === ApplicationCommandOptionType.User) {
 		return resolved.users?.[option.value] as TransformedArguments.User;
@@ -102,7 +114,7 @@ function transformArgument(
 
 function transformMentionable(
 	resolved: APIInteractionDataResolved,
-	option: APIApplicationCommandInteractionDataMentionableOption
+	option: APIApplicationCommandInteractionDataMentionableOption,
 ): TransformedArguments.Mentionable {
 	const id = option.value;
 

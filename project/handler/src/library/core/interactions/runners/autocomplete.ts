@@ -1,16 +1,16 @@
-import { APIApplicationCommandAutocompleteInteraction, Routes, InteractionResponseType } from "discord-api-types/v10";
-import { Injectors } from "@lib/common";
-import { logger } from "@lib/util";
-import { container } from "tsyringe";
-import { getCommandName, transformInteraction } from "./utils";
-import { Command } from "@lib/core";
-import { createContext } from "./create-context";
 import { REST } from "@discordjs/rest";
+import { Deps } from "@lib/common";
+import { Command } from "@lib/core";
+import { logger } from "@riceball/logger";
+import { APIApplicationCommandAutocompleteInteraction, InteractionResponseType, Routes } from "discord-api-types/v10";
+import { container } from "tsyringe";
+import { createContext } from "./create-context";
+import { getCommandName, transformInteraction } from "./utils";
 
 export async function runAutocomplete(interaction: APIApplicationCommandAutocompleteInteraction) {
-	const plugins = container.resolve<Map<string, Command>>(Injectors.Plugins);
-	const discord = container.resolve<REST>(Injectors.Rest);
-	// @ts-ignore - I don't feel like casting this
+	const plugins = container.resolve<Map<string, Command>>(Deps.Plugins);
+	const discord = container.resolve<REST>(Deps.Rest);
+
 	const name = getCommandName(interaction);
 	const command = plugins.get(name);
 
@@ -26,13 +26,9 @@ export async function runAutocomplete(interaction: APIApplicationCommandAutocomp
 		return;
 	}
 
-	// @ts-ignore - I don't feel like casting this
 	const options = transformInteraction(interaction);
-	// @ts-ignore - I don't feel like casting this
-
 	const context = await createContext(interaction);
 
-	console.log("lskjdlfkj");
 	try {
 		// @ts-ignore - I don't feel like casting this
 		const output = await runner(context, options);

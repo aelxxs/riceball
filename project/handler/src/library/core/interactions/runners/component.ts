@@ -1,48 +1,56 @@
-import { logger } from "@lib/util";
-import { APIMessageComponentInteraction, APIModalSubmitInteraction } from "discord-api-types/v10";
+import { DebugMessages, Deps, ErrorMessages } from "@lib/common";
+import { modal, update, type Command, type Component } from "@lib/core";
+import { logger } from "@riceball/logger";
+import type { APIMessageComponentInteraction, APIModalSubmitInteraction } from "discord-api-types/v10";
 import { container } from "tsyringe";
+import { parseUniqueID } from "../options/parse-unique-id";
 import { createContext } from "./create-context";
-import { Injectors } from "@lib/common";
-import { Command, Component } from "@lib/core/structure";
-import { parseUniqueID } from "../options/parseUniqueID";
 
 export async function runComponent(interaction: APIMessageComponentInteraction | APIModalSubmitInteraction) {
-	const plugins = container.resolve<Map<string, Command>>(Injectors.Plugins);
+	const plugins = container.resolve<Map<string, Command>>(Deps.Plugins);
 
-	const { name, method, state } = parseUniqueID(interaction.data.custom_id);
+	const customId = interaction.data.custom_id;
+	const { name, method, state } = parseUniqueID(customId);
 
 	if (!name || !method) {
-		logger.debug(`Attempted to run component with invalid unique ID: ${interaction.data.custom_id}`);
-		return;
+		return logger.debug(ErrorMessages.InvalidComponentId(customId));
 	}
 
 	const command = plugins.get(name);
 
 	if (!command) {
-		logger.debug(`Attempted to run unknown component from an unkown command: ${name}`);
-		return;
+		return logger.debug(ErrorMessages.InvalidComponentCommand(name));
 	}
 
 	const runner = Reflect.get(command, method) as Component | undefined;
 
-	if (!runner) {
-		logger.debug(`Attempted to run unknown component from command ${name}: ${method}`);
-		return;
+	if (runner === undefined) {
+		return logger.debug(ErrorMessages.InvalidComponentMethod(name, method));
+	} else if (typeof runner !== "function") {
+		return logger.debug(ErrorMessages.InvalidComponentMethodType(name, method));
 	}
 
-	// @ts-ignore - <3 (temporary)
 	const context = await createContext(interaction);
-	// @ts-ignore - <3 (temporary)
-	const options = interaction.data.values ?? [state];
+	const options = "values" in interaction.data ? [...interaction.data.values, state] : [state];
+
+	logger.debug(DebugMessages.RunningComponent(name, method));
+	const startTime = performance.now();
 
 	try {
-		const output = await runner(context, options);
+		const output = await runner(context, options as unknown as string);
 
-		if (output === undefined || output === null) {
-			return;
+		if (output) {
+			if (output.type === "modal") {
+				return modal(interaction, output.data);
+			}
+			console.log("updating interaction");
+			return update(interaction, output);
 		}
-
-		// @ts-ignore - <3 (temporary)
-		return send(interaction, output);
-	} catch (error) {}
+	} catch (error) {
+		logger.trace(error);
+		logger.error(ErrorMessages.ComponentExecutionFailure(name, method));
+	} finally {
+		const executionTime = performance.now() - startTime;
+		logger.debug(DebugMessages.ComponentRan(name, method, executionTime));
+	}
 }

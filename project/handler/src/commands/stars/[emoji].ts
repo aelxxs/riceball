@@ -17,9 +17,8 @@
  **/
 
 import type { Command, Context } from "@lib/core";
+import { Starboard } from "@lib/plugins";
 import { updateGuild } from "db";
-import { APIGuild } from "discord-api-types/v10";
-import emojis from "node-emoji";
 
 export default class implements Command {
 	/**
@@ -29,38 +28,19 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { emoji }: Options) {
-		if (!validateEmoji(guild, emoji)) {
-			throw `\`${emoji}\` is currently not a supported emoji. Please try again.`;
+		if (!Starboard.validateEmoji(guild, emoji)) {
+			throw `${emoji} is not a supported emoji.`;
 		}
 
 		await updateGuild(guild.id, {
 			stars: { emoji },
 		});
 
-		return `The emoji for starring messages has been set to ${emoji}`;
+		return `The emoji for starring messages has been set to ${emoji}.`;
 	}
 }
 
-// TODO: Move this to a separate file or define as a [class method (Broken ATM)]
-function validateEmoji(guild: APIGuild, emoji: string) {
-	const unicode = emojis.find(emoji);
-
-	if (unicode) {
-		return unicode.emoji;
-	}
-
-	const custom = guild.emojis.find(({ id }) => {
-		return emoji.includes(id!);
-	});
-
-	if (custom) {
-		return custom.id;
-	}
-
-	return null;
-}
-
-interface Options {
+type Options = {
 	/* The emoji to use to star messages */
 	emoji: string;
-}
+};

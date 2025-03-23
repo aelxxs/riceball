@@ -30,12 +30,12 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public async chatInputRun({ guild, user: member, i }: Context, { user }: Options) {
-		if (user.id === member.id) {
-			throw "You can't give yourself reputation!";
+	public async chatInputRun({ author: sender }: Context, { user }: Options) {
+		if (user.id === sender.id) {
+			throw "You can't give yourself reputation.";
 		}
 
-		const { lastReputation } = await getUser(member.id);
+		const { lastReputation } = await getUser(sender.id);
 
 		const now = Date.now();
 		const timeDiff = now - (lastReputation ?? 0);
@@ -44,20 +44,19 @@ export default class implements Command {
 			const { reputation } = await getUser(user.id);
 
 			await updateUser(user.id, {
-				// TODO: Use Prisma's increment method instead [01/03/2023 @ 19:00]
 				reputation: reputation + 1,
 			});
 
-			await updateUser(member.id, {
+			await updateUser(sender.id, {
 				lastReputation: now,
 			});
 
-			return `You have given <@${user.id}> a reputation point!`;
+			return `You have given <@${user.id}> a reputation point.`;
 		}
 
 		const timeLeft = ms(ONE_DAY - timeDiff, { long: true });
 
-		throw `You must wait **${timeLeft}** in order to give another reputation.`;
+		throw `You must wait \`${timeLeft}\` in order to give another reputation.`;
 	}
 }
 
