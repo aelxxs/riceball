@@ -39,8 +39,8 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0
       '@discordjs/formatters':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.0
+        version: 0.6.0
       '@discordjs/rest':
         specifier: 1.7.1
         version: 1.7.1
@@ -563,13 +563,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
-
-  /@discordjs/formatters@0.5.0:
-    resolution: {integrity: sha512-98b3i+Y19RFq1Xke4NkVY46x8KjJQjldHUuEbCqMvp1F5Iq9HgnGpu91jOi/Ufazhty32eRsKnnzS8n4c+L93g==}
-    engines: {node: '>=18'}
-    dependencies:
-      discord-api-types: 0.37.97
     dev: false
 
   /@discordjs/formatters@0.6.0:
@@ -3112,10 +3105,6 @@ packages:
 
   /discord-api-types@0.37.20:
     resolution: {integrity: sha512-uAO+55E11rMkYR36/paE1vKN8c2bZa1mgrIaiQIBgIZRKZTDIGOZB+8I5eMRPFJcGxrg16riUu+0aTu2JQEPew==}
-    dev: false
-
-  /discord-api-types@0.37.97:
-    resolution: {integrity: sha512-No1BXPcVkyVD4ZVmbNgDKaBoqgeQ+FJpzZ8wqHkfmBnTZig1FcH3iPPersiK1TUIAzgClh2IvOuVUYfcWLQAOA==}
     dev: false
 
   /discord-markdown-parser@1.2.0(react-dom@18.3.1)(react@18.3.1):
