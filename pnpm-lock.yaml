@@ -42,8 +42,8 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0
       '@discordjs/rest':
-        specifier: 1.7.1
-        version: 1.7.1
+        specifier: 2.4.3
+        version: 2.4.3
       '@lib/common':
         specifier: link:src/library/common
         version: link:src/library/common
@@ -597,7 +597,7 @@ packages:
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.119
       magic-bytes.js: 1.10.0
-      tslib: 2.8.1
+      tslib: 2.6.3
       undici: 6.21.1
 
   /@discordjs/util@0.3.1:
