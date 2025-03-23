@@ -1,4 +1,8 @@
 packages:
-  - ./project/api
   - ./project/handler
   - ./project/website
+  - ./shared/ts-configs
+  - ./shared/markdown
+  - ./shared/logger
+  - ./shared/db
+  - ./shared/color-utils
