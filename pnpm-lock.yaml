@@ -21,8 +21,8 @@ importers:
         specifier: 9.1.0
         version: 9.1.0(eslint@9.23.0)
       eslint-plugin-prettier:
-        specifier: 5.1.3
-        version: 5.1.3(eslint-config-prettier@9.1.0)(eslint@9.23.0)(prettier@3.5.3)
+        specifier: 5.2.3
+        version: 5.2.3(eslint-config-prettier@9.1.0)(eslint@9.23.0)(prettier@3.5.3)
       prettier:
         specifier: ^3.5.1
         version: 3.5.3
@@ -568,7 +568,7 @@ packages:
       discord-api-types: 0.37.119
       fast-deep-equal: 3.1.3
       ts-mixer: 6.0.4
-      tslib: 2.8.1
+      tslib: 2.6.3
     dev: false
 
   /@discordjs/collection@1.5.3:
@@ -631,7 +631,7 @@ packages:
       '@sapphire/snowflake': 3.5.5
       discord-api-types: 0.37.119
       file-type: 18.7.0
-      tslib: 2.8.1
+      tslib: 2.6.3
       undici: 5.29.0
     dev: false
 
@@ -674,7 +674,7 @@ packages:
       '@types/ws': 8.18.0
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.119
-      tslib: 2.4.1
+      tslib: 2.6.3
       ws: 8.18.1
     transitivePeerDependencies:
       - bufferutil
@@ -692,7 +692,7 @@ packages:
       '@types/ws': 8.18.0
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.119
-      tslib: 2.8.1
+      tslib: 2.6.3
       ws: 8.18.1
     transitivePeerDependencies:
       - bufferutil
@@ -703,7 +703,7 @@ packages:
     resolution: {integrity: sha512-kEBmG8KyqtxJZv+ygbEim+KCGtIq1fC22Ms3S4ziXmYKm8uyoLX0MHONVKwp+9opg390VaKRNt4a7A9NwmpNhw==}
     requiresBuild: true
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.6.3
     dev: false
     optional: true
 
@@ -3350,8 +3350,8 @@ packages:
       eslint: 9.23.0
     dev: true
 
-  /eslint-plugin-prettier@5.1.3(eslint-config-prettier@9.1.0)(eslint@9.23.0)(prettier@3.5.3):
-    resolution: {integrity: sha512-C9GCVAs4Eq7ZC/XFQHITLiHJxQngdtraXaM+LoUFoFp/lHNl2Zn8f3WQbe9HvTBBQ9YnKFB0/2Ajdqwo5D1EAw==}
+  /eslint-plugin-prettier@5.2.3(eslint-config-prettier@9.1.0)(eslint@9.23.0)(prettier@3.5.3):
+    resolution: {integrity: sha512-qJ+y0FfCp/mQYQ/vWQ3s7eUlFEL4PyKfAJxsnYTJ4YT73nsJBWqmEpFryxV9OeUiqmsTsYJ5Y+KDNaeP31wrRw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       '@types/eslint': '>=8.0.0'
@@ -3368,7 +3368,7 @@ packages:
       eslint-config-prettier: 9.1.0(eslint@9.23.0)
       prettier: 3.5.3
       prettier-linter-helpers: 1.0.0
-      synckit: 0.8.8
+      synckit: 0.9.2
     dev: true
 
   /eslint-scope@8.3.0:
@@ -5366,8 +5366,8 @@ packages:
       - typescript
     dev: true
 
-  /synckit@0.8.8:
-    resolution: {integrity: sha512-HwOKAP7Wc5aRGYdKH+dw0PRRpbO841v2DENBtjnR5HFWoiNByAl7vrx3p0G/rCyYXQsrxqtX48TImFtPcIHSpQ==}
+  /synckit@0.9.2:
+    resolution: {integrity: sha512-vrozgXDQwYO72vHjUb/HnFbQx1exDjoKzqx23aXEg2a9VIg2TSFZ8FmeZpTjUCFMYw7mpX4BE2SFu8wI7asYsw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     dependencies:
       '@pkgr/core': 0.1.2
@@ -5567,7 +5567,6 @@ packages:
 
   /tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
-    dev: true
 
   /tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
