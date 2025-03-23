@@ -309,8 +309,8 @@ importers:
         specifier: latest
         version: 6.5.0(prisma@6.5.0)(typescript@5.8.2)
       prisma-frontend:
-        specifier: ^0.1.6
-        version: 0.1.6(prisma@6.5.0)
+        specifier: ^0.2.0
+        version: 0.2.0(@prisma/client@6.5.0)(@prisma/generator-helper@6.5.0)(@prisma/internals@5.22.0)(typescript@5.8.2)
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -409,17 +409,6 @@ packages:
     dev: true
     optional: true
 
-  /@augment-vir/assert@30.8.4:
-    resolution: {integrity: sha512-kxak+lDEYo14pStluTCss+/wH05SqlSv3mEN/yBvtV5lMJBXhoPcJGMua7zWXNCEnOCGVU36+hDBwuh9IQxT/A==}
-    engines: {node: '>=22'}
-    dependencies:
-      '@augment-vir/core': 30.8.4
-      '@date-vir/duration': 7.3.1
-      deep-eql: 5.0.2
-      expect-type: 1.2.0
-      type-fest: 4.37.0
-    dev: false
-
   /@augment-vir/assert@31.10.1:
     resolution: {integrity: sha512-XNSpPHmjXOwJqxaPEjYt9dxk1mzgiaNio6sJ11GQd+8HPFSFRj67AlFeSZKAHgXaYw1vQCd2tmgLyqWJxvTcAQ==}
     engines: {node: '>=22'}
@@ -429,19 +418,6 @@ packages:
       deep-eql: 5.0.2
       expect-type: 1.2.0
       type-fest: 4.37.0
-    dev: false
-
-  /@augment-vir/common@30.8.4:
-    resolution: {integrity: sha512-3w4WJOQKycuHmSod0BMjVyrUjHlHj+6vmabKvtRT96mz+b9Rstqg2EfM4zzlkuoM2k9biAbjeYSllwpmf631uQ==}
-    engines: {node: '>=22'}
-    dependencies:
-      '@augment-vir/assert': 30.8.4
-      '@augment-vir/core': 30.8.4
-      '@date-vir/duration': 7.3.1
-      ansi-styles: 6.2.1
-      json5: 2.2.3
-      type-fest: 4.37.0
-      typed-event-target: 4.0.3
     dev: false
 
   /@augment-vir/common@31.10.1:
@@ -457,16 +433,6 @@ packages:
       typed-event-target: 4.0.3
     dev: false
 
-  /@augment-vir/core@30.8.4:
-    resolution: {integrity: sha512-fOp0W+z2xkkkcH9lpsY6AUVp2vPbR5qo3fbVui9IrA4RJ6wXzio6+sP1yYw2iLJVmOOEYIWSbvZddDn+Ih6Ppw==}
-    engines: {node: '>=22'}
-    dependencies:
-      '@date-vir/duration': 7.3.1
-      browser-or-node: 3.0.0
-      json5: 2.2.3
-      type-fest: 4.37.0
-    dev: false
-
   /@augment-vir/core@31.10.1:
     resolution: {integrity: sha512-SW8saxkOnkZjMajwFlZuX9EMzYFcyl6TuEnlBzcjGndUtYZkfIScQ/rMn+XFoETpPpb5VasoUotPnmO6s6Lxaw==}
     engines: {node: '>=22'}
@@ -477,17 +443,21 @@ packages:
       type-fest: 4.37.0
     dev: false
 
-  /@augment-vir/node@30.8.4:
-    resolution: {integrity: sha512-yeqzGXg2GrB93CCaYATS/YKleywO+PmFHYd8MT5hTcIsWJpp/wML4LS5eR7hDoIpjppW/fQtEuKCjIkn6e0YKg==}
+  /@augment-vir/node@31.10.1(typescript@5.8.2):
+    resolution: {integrity: sha512-hNNkQlH5xzNl+Zc6e6v1r50H9zahAN/Ao9REjtZXoQVcvF1zav60zYLqJgRQrkbmLfbzo0wgYVM9we8ojMCUUA==}
     engines: {node: '>=22'}
+    peerDependencies:
+      typescript: '*'
     dependencies:
-      '@augment-vir/assert': 30.8.4
-      '@augment-vir/common': 30.8.4
+      '@augment-vir/assert': 31.10.1
+      '@augment-vir/common': 31.10.1
       '@date-vir/duration': 7.3.1
       ansi-styles: 6.2.1
       terminate: 2.8.0
+      tsx: 4.19.3
       type-fest: 4.37.0
       typed-event-target: 4.0.3
+      typescript: 5.8.2
     dev: false
 
   /@auth/core@0.38.0:
@@ -1617,19 +1587,6 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
-
-  /@prisma/client@5.22.0(prisma@6.5.0):
-    resolution: {integrity: sha512-M0SVXfyHnQREBKxCgyo7sffrKttwE6R8PMq330MIUF0pTwjUhLbW84pFDlf06B27XyCR++VtjugEnIHdr07SVA==}
-    engines: {node: '>=16.13'}
-    requiresBuild: true
-    peerDependencies:
-      prisma: '*'
-    peerDependenciesMeta:
-      prisma:
-        optional: true
-    dependencies:
-      prisma: 6.5.0(typescript@5.8.2)
-    dev: false
 
   /@prisma/client@6.5.0(prisma@6.5.0)(typescript@5.8.2):
     resolution: {integrity: sha512-M6w1Ql/BeiGoZmhMdAZUXHu5sz5HubyVcKukbLs3l0ELcQb8hTUJxtGEChhv4SVJ0QJlwtLnwOLgIRQhpsm9dw==}
@@ -4306,8 +4263,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /object-shape-tester@3.1.8:
-    resolution: {integrity: sha512-tXxSnm6ORN6McGrdnsxFkK+fg4Z51tKXLUHJvLLFeH0KDq5S7CgXVx5pABqvfcC+sS4bpHkfvuz8/IY7owGW9Q==}
+  /object-shape-tester@5.1.5:
+    resolution: {integrity: sha512-COLJq4vZFNMPdU0czkd/OUd8Tkdnm9FMkaqxjqfSarCJ+PyzhGWR1ZA2QuIL/7CnSM7s3Lr0nCbYHTSkGeyhCQ==}
     engines: {node: '>=22'}
     dependencies:
       '@augment-vir/assert': 31.10.1
@@ -4464,21 +4421,25 @@ packages:
     hasBin: true
     dev: true
 
-  /prisma-frontend@0.1.6(prisma@6.5.0):
-    resolution: {integrity: sha512-hkGRikRU5d0XB6bRuqO+es2zshgxAYdLsk0P38KSFeiEb2in8FbuoJE+l4qO4yxjfqiR9DZggp29z2D1EquA7A==}
-    engines: {node: '>=18'}
+  /prisma-frontend@0.2.0(@prisma/client@6.5.0)(@prisma/generator-helper@6.5.0)(@prisma/internals@5.22.0)(typescript@5.8.2):
+    resolution: {integrity: sha512-w9ZhkiInXAJrpTFuSJD60ZbwN2OkbhU0Hg2efKKOzuem3AAknpiMz/5JT9gZFcQ7M9VTVbupgJriuwWfW6BYKQ==}
+    engines: {node: '>=22'}
     hasBin: true
+    peerDependencies:
+      '@prisma/client': '*'
+      '@prisma/generator-helper': '*'
+      '@prisma/internals': '*'
     dependencies:
-      '@augment-vir/assert': 30.8.4
-      '@augment-vir/common': 30.8.4
-      '@augment-vir/node': 30.8.4
-      '@prisma/client': 5.22.0(prisma@6.5.0)
-      '@prisma/generator-helper': 5.22.0
+      '@augment-vir/assert': 31.10.1
+      '@augment-vir/common': 31.10.1
+      '@augment-vir/node': 31.10.1(typescript@5.8.2)
+      '@prisma/client': 6.5.0(prisma@6.5.0)(typescript@5.8.2)
+      '@prisma/generator-helper': 6.5.0
       '@prisma/internals': 5.22.0
-      object-shape-tester: 3.1.8
+      object-shape-tester: 5.1.5
       tsx: 4.19.3
     transitivePeerDependencies:
-      - prisma
+      - typescript
     dev: false
 
   /prisma@6.5.0(typescript@5.8.2):
