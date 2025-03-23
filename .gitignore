@@ -34,3 +34,5 @@ vite.config.ts.timestamp-*
 /project/db/generated/**/*
 
 .DS_Store
+
+shared/db/generated/**/*
