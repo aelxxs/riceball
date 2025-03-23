@@ -13,7 +13,7 @@
 		"@riceball/logger": "workspace:*",
 		"@discordjs/core": "^0.6.0",
 		"@discordjs/formatters": "^0.6.0",
-		"@discordjs/rest": "1.7.1",
+		"@discordjs/rest": "2.4.3",
 		"@lib/common": "link:src/library/common",
 		"@lib/components": "link:src/library/components",
 		"@lib/core": "link:src/library/core",
