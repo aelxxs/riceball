@@ -1,7 +1,3 @@
-# docker
-docker-compose.yaml
-docker-compose.local.yaml
-
 # node modules
 node_modules/
 

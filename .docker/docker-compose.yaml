@@ -1,0 +1,121 @@
+version: "3.7"
+name: riceball
+
+services:
+  # handler:
+  #   build:
+  #     context: ../
+  #     dockerfile: ./project/handler/Dockerfile
+  #   env_file: ../.env
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - gateway
+
+  gateway:
+    image: spectacles/gateway
+    container_name: gateway
+    env_file: ../.env
+    environment:
+      REDIS_URL: redis:6379
+      BROKER_TYPE: redis
+      BROKER_GROUP: gateway
+      DISCORD_EVENTS: >-
+        READY,
+        GUILD_CREATE,
+        GUILD_DELETE,
+        GUILD_UPDATE,
+        MESSAGE_CREATE,
+        MESSAGE_DELETE,
+        MESSAGE_DELETE_BULK,
+        INTERACTION_CREATE,
+        MESSAGE_REACTION_ADD,
+        MESSAGE_REACTION_REMOVE,
+        MESSAGE_REACTION_REMOVE_ALL
+      DISCORD_INTENTS: >-
+        GUILDS,
+        GUILD_MESSAGES,
+        GUILD_MESSAGE_REACTIONS,
+        DIRECT_MESSAGES,
+        MESSAGE_CONTENT
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  proxy:
+    image: spectacles/proxy
+    container_name: proxy
+    environment:
+      REDIS_URL: redis:6379
+      BROKER_GROUP: discord
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    volumes:
+      - redis:/data
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping"]
+      interval: 10s
+      timeout: 5s
+
+  mongo1:
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    ports:
+      - 27017:27017
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017',priority:1},{_id:1,host:'host.docker.internal:27018',priority:0.5},{_id:2,host:'host.docker.internal:27019',priority:0.5}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
+    volumes:
+      - "mongo1_data:/data/db"
+      - "mongo1_config:/data/configdb"
+
+  mongo2:
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27018"]
+    ports:
+      - 27018:27018
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - "mongo2_data:/data/db"
+      - "mongo2_config:/data/configdb"
+
+  mongo3:
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27019"]
+    ports:
+      - 27019:27019
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - "mongo3_data:/data/db"
+      - "mongo3_config:/data/configdb"
+
+networks:
+  mongo:
+
+volumes:
+  redis:
+  mongo1_data:
+  mongo2_data:
+  mongo3_data:
+  mongo1_config:
+  mongo2_config:
+  mongo3_config:
