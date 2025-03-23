@@ -260,8 +260,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(svelte@5.20.5)(sveltekit-superforms@2.24.0)
       lucide-svelte:
-        specifier: ^0.477.0
-        version: 0.477.0(svelte@5.20.5)
+        specifier: ^0.483.0
+        version: 0.483.0(svelte@5.20.5)
       sass:
         specifier: ^1.85.1
         version: 1.86.0
@@ -703,7 +703,7 @@ packages:
     resolution: {integrity: sha512-kEBmG8KyqtxJZv+ygbEim+KCGtIq1fC22Ms3S4ziXmYKm8uyoLX0MHONVKwp+9opg390VaKRNt4a7A9NwmpNhw==}
     requiresBuild: true
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.6.3
     dev: false
     optional: true
 
@@ -4084,8 +4084,8 @@ packages:
       js-tokens: 4.0.0
     dev: false
 
-  /lucide-svelte@0.477.0(svelte@5.20.5):
-    resolution: {integrity: sha512-w/zj6/CXTtTizIeo8SuWGYu0u45CJ7cD2AtNzIObVHZrWXNgaIIX/2cI25wybjSmYHIi4pub2TLv/kNPKiB3ww==}
+  /lucide-svelte@0.483.0(svelte@5.20.5):
+    resolution: {integrity: sha512-MyMgEVLlFfPbyodGpkB+KCpyPkpjI7EKiFw1crA92B1ZXRK5hq5vTsGWAm9Nt3GAKHunoNc5MVsq3EOCz0DZSQ==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5.0.0-next.42
     dependencies:
@@ -5567,7 +5567,6 @@ packages:
 
   /tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
-    dev: true
 
   /tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
