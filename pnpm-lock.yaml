@@ -354,7 +354,7 @@ importers:
     dependencies:
       '@khanacademy/simple-markdown':
         specifier: ^0.14.0
-        version: 0.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 0.14.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       discord-api-types:
         specifier: ^0.37.119
         version: 0.37.119
@@ -850,14 +850,17 @@ packages:
   '@khanacademy/perseus-core@3.7.0':
     resolution: {integrity: sha512-S79VoKCZ6K66HSqHGu6F6S1aIfMFrib79TWRAtkQqcTWS+O1EEGQPyPy5FNSWtDkAZX9N6+HQ9Ywo2jZY9iBcA==}
 
+  '@khanacademy/perseus-utils@0.0.2':
+    resolution: {integrity: sha512-lMYveINTA+KdEXfvfTjt5bT08Wfl6nz2VB3uX5z2cvmtmzulapAdKcrWHONVGuOYg89VteoD4eDybjDWhaTrlg==}
+
   '@khanacademy/simple-markdown@0.13.20':
     resolution: {integrity: sha512-OPp1drMgRRG2Mi0DxtfCiR4kXMngNJxPW9lG8aA05OrXUjLSXcsHb0jYcqfNeXOyqD4uwiLEtprDfJWgK1Hkpw==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
 
-  '@khanacademy/simple-markdown@0.14.0':
-    resolution: {integrity: sha512-Kz++CIC/YiCC7CLYl6iuwEZLLD4LsMjzf7pmAVCEsB67VnzsRIFvunQgTw6jxlH1Kjse5Mw4PZLGSu6HCBzCUw==}
+  '@khanacademy/simple-markdown@0.14.1':
+    resolution: {integrity: sha512-CLQ99fWxJQlh62pfH4YLyZuZghk/1fBeJQxMF2rWstVbGViWVuigrIqnWPindjmzGQvoXn0VDl/vDC/XlAqPzQ==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -3732,14 +3735,17 @@ snapshots:
 
   '@khanacademy/perseus-core@3.7.0': {}
 
+  '@khanacademy/perseus-utils@0.0.2': {}
+
   '@khanacademy/simple-markdown@0.13.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@khanacademy/perseus-core': 3.7.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@khanacademy/simple-markdown@0.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@khanacademy/simple-markdown@0.14.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
+      '@khanacademy/perseus-utils': 0.0.2
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
