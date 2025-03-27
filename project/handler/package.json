@@ -40,7 +40,7 @@
 		"@riceball/ts-config": "workspace:*",
 		"@types/common-tags": "1.8.4",
 		"@types/ms": "^2.0.0",
-		"@types/node": "22.13.13",
+		"@types/node": "22.13.14",
 		"@types/node-emoji": "^2.0.0",
 		"ts-node-dev": "^2.0.0",
 		"tslib": "2.8.1",
