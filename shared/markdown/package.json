@@ -25,7 +25,7 @@
 		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"@khanacademy/simple-markdown": "^1.0.0",
+		"@khanacademy/simple-markdown": "^2.0.0",
 		"discord-api-types": "^0.37.119",
 		"discord-markdown-parser": "^1.2.0",
 		"markdown-it": "^14.1.0",
