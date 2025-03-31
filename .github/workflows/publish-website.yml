@@ -8,6 +8,7 @@ on:
       - 'project/website/**'
       - 'shared/**'
       - 'project/handler/pnpm-lock.yaml'
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
