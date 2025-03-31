@@ -37,7 +37,7 @@ jobs:
       - name: Build and push Website Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./project/website
+          context: .
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.WEBSITE_IMAGE_NAME }}:latest
