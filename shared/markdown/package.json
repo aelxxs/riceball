@@ -20,12 +20,12 @@
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
 		"@types/markdown-it": "^14.1.2",
-		"@types/node": "22.13.11",
+		"@types/node": "22.13.14",
 		"bunchee": "^6.5.0",
 		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"@khanacademy/simple-markdown": "^0.14.0",
+		"@khanacademy/simple-markdown": "^1.0.0",
 		"discord-api-types": "^0.37.119",
 		"discord-markdown-parser": "^1.2.0",
 		"markdown-it": "^14.1.0",

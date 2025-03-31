@@ -66,7 +66,7 @@
 	},
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
-		"@types/node": "22.13.11",
+		"@types/node": "22.13.14",
 		"prisma": "latest",
 		"typescript": "^5.7.3",
 		"zod-prisma": "^0.5.4"
