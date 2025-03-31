@@ -4,7 +4,8 @@ node_modules/
 # ouput files
 **/.turbo/
 **/.build/
-**/build
+**/dist
+**/generated
 
 # next.js
 **/.next/
@@ -31,4 +32,3 @@ vite.config.ts.timestamp-*
 
 .DS_Store
 
-shared/db/generated/**/*
