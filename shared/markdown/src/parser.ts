@@ -1,5 +1,5 @@
-import { SingleASTNode } from "@khanacademy/simple-markdown";
-import { APIChannel, APIRole } from "discord-api-types/v10";
+import type { SingleASTNode } from "@khanacademy/simple-markdown";
+import type { APIChannel, APIRole } from "discord-api-types/v10";
 import parse from "discord-markdown-parser";
 import twemoji from "twemoji";
 
@@ -21,9 +21,7 @@ function parseDiscordEmoji(emoji: PartialEmoji): string {
 	}
 
 	const codepoints = twemoji.convert
-		.toCodePoint(
-			emoji.name!.includes(String.fromCharCode(0x200d)) ? emoji.name! : emoji.name!.replace(/\uFE0F/g, ""),
-		)
+		.toCodePoint(emoji.name?.includes(String.fromCharCode(0x200d)) ? emoji.name : emoji.name.replace(/\uFE0F/g, ""))
 		.toLowerCase();
 
 	return `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${codepoints}.svg`;
@@ -63,9 +61,10 @@ function interpret(tokens: SingleASTNode | SingleASTNode[], ctx: Context): strin
 			}
 			return `<blockquote>${interpret(tokens.content, ctx)}</blockquote>`;
 		case "emoji":
-		case "twemoji":
+		case "twemoji": {
 			const emoji = tokens as unknown as PartialEmoji;
 			return `<img src="${parseDiscordEmoji(emoji)}" alt="${tokens.name}" class="emoji" />`;
+		}
 		case "channel":
 			return makeMention("channel", tokens.id, ctx);
 		case "role":
@@ -97,7 +96,8 @@ const getName = (type: MentionType, id: string, ctx: Context): string => {
 	if (type === "role") {
 		const role = ctx.roles.find((role) => role.id === id);
 		return role?.name || "Unknown Role";
-	} else if (type === "channel") {
+	}
+	if (type === "channel") {
 		console.log(ctx.channels, id);
 		const channel = ctx.channels.find((channel) => channel.id === id);
 		return channel?.name || "Unknown Channel";

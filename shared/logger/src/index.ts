@@ -1,5 +1,5 @@
-import { Color, gray, green, magenta, red, yellow } from "colorette";
-import { format, inspect } from "util";
+import { format, inspect } from "node:util";
+import { type Color, gray, green, magenta, red, yellow } from "colorette";
 
 function time() {
 	const date = new Date();
@@ -13,7 +13,7 @@ function time() {
 
 type Method = "debug" | "error" | "info" | "trace" | "warn";
 
-function log(color: Color, name: string, method: Method, value: unknown, args: readonly any[]) {
+function log(color: Color, name: string, method: Method, value: unknown, args: readonly unknown[]) {
 	const header = `${gray(time())} ${color(name)} ➜  `;
 	const formatted = typeof value === "string" ? format(value, ...args) : inspect(value, { colors: true });
 
@@ -26,7 +26,7 @@ function log(color: Color, name: string, method: Method, value: unknown, args: r
 }
 
 function make(color: Color, name: string, method: Method) {
-	return (value: unknown, ...args: readonly any[]) => log(color, name, method, value, args);
+	return (value: unknown, ...args: readonly unknown[]) => log(color, name, method, value, args);
 }
 
 export const logger = {
