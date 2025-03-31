@@ -260,8 +260,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(svelte@5.25.3)(sveltekit-superforms@2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.3)(vite@6.2.4(@types/node@22.13.14)(sass@1.86.0)))(svelte@5.25.3)(vite@6.2.4(@types/node@22.13.14)(sass@1.86.0)))(@types/json-schema@7.0.15)(svelte@5.25.3)(typescript@5.8.2))
       lucide-svelte:
-        specifier: ^0.483.0
-        version: 0.483.0(svelte@5.25.3)
+        specifier: ^0.486.0
+        version: 0.486.0(svelte@5.25.3)
       sass:
         specifier: ^1.85.1
         version: 1.86.0
@@ -2939,8 +2939,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lucide-svelte@0.483.0:
-    resolution: {integrity: sha512-MyMgEVLlFfPbyodGpkB+KCpyPkpjI7EKiFw1crA92B1ZXRK5hq5vTsGWAm9Nt3GAKHunoNc5MVsq3EOCz0DZSQ==}
+  lucide-svelte@0.486.0:
+    resolution: {integrity: sha512-NehCMb9tJ7XD8e0X85RtdcD4R7/z+2J93XTIsUvhwZB11hVhb9fXCSbnUCtTNifZj5d5ftkkCrmIPMP7DsdWyA==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5.0.0-next.42
 
@@ -6448,7 +6448,7 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lucide-svelte@0.483.0(svelte@5.25.3):
+  lucide-svelte@0.486.0(svelte@5.25.3):
     dependencies:
       svelte: 5.25.3
 
