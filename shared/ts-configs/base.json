@@ -1,20 +1,29 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"compilerOptions": {
+		"composite": false,
 		"strict": true,
 		"strictNullChecks": true,
+		"removeComments": true,
 		"declaration": true,
 		"declarationMap": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
-		"allowImportingTsExtensions": true,
 		"inlineSources": false,
 		"isolatedModules": true,
 		"module": "ESNext",
-		"moduleResolution": "bundler",
-		"preserveWatchOutput": true,
+		"moduleResolution": "Bundler",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"useDefineForClassFields": true,
 		"skipLibCheck": true,
+		"target": "ESNext",
+		"moduleDetection": "force",
+		"resolveJsonModule": true,
+		"allowJs": true,
 		"noEmit": true,
+		"verbatimModuleSyntax": true,
+		"sourceMap": false
 	},
 	"exclude": ["node_modules"]
 }
