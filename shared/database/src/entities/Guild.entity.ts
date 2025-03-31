@@ -39,6 +39,6 @@ export class Guild {
 	@Embedded(() => Restriction, { object: true })
 	channelRestriction: Restriction & Opt = new Restriction();
 
-	@Property()
-	embedColor?: number;
+	@Property({ nullable: true })
+	embedColor?: number | null | Opt = null;
 }
