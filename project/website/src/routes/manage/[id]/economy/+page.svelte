@@ -1,13 +1,13 @@
 <script lang="ts">
-  import SuperDebug, { superForm } from "sveltekit-superforms";
+import SuperDebug, { superForm } from "sveltekit-superforms";
 
-  let { data } = $props();
+const { data } = $props();
 
-  const settingsForm = superForm(data.form, {
-    dataType: "json",
-  });
+const settingsForm = superForm(data.form, {
+	dataType: "json",
+});
 
-  const { form } = settingsForm;
+const { form } = settingsForm;
 </script>
 
 <SuperDebug data={$form} />

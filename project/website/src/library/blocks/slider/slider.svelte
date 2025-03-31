@@ -1,22 +1,22 @@
 <script lang="ts">
-  import {
-    Slider as SliderPrimitive,
-    Tooltip,
-    type WithoutChildrenOrChild,
-  } from "bits-ui";
+import {
+	Slider as SliderPrimitive,
+	Tooltip,
+	type WithoutChildrenOrChild,
+} from "bits-ui";
 
-  let {
-    ref = $bindable(null),
-    value = $bindable([0]),
-    ticks: tickLabels,
-    ...restProps
-  }: WithoutChildrenOrChild<
-    SliderPrimitive.RootProps & {
-      ticks?: any[];
-    }
-  > = $props();
+let {
+	ref = $bindable(null),
+	value = $bindable([0]),
+	ticks: tickLabels,
+	...restProps
+}: WithoutChildrenOrChild<
+	SliderPrimitive.RootProps & {
+		ticks?: string[];
+	}
+> = $props();
 
-  const val = $derived.by(() => tickLabels?.[Math.round(value as number)]);
+const val = $derived.by(() => tickLabels?.[Math.round(value as number)]);
 </script>
 
 <div style="width: 100%;">

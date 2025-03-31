@@ -16,12 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { edit, reply, update, type Command, type Component, type Context } from "@lib/core";
+import { getGuild, getMember, updateMember } from "@riceball/db";
 import { stripIndents } from "common-tags";
-import { getGuild, getMember, updateMember } from "db";
 import { ButtonStyle } from "discord-api-types/v10";
 import { Constants } from "library/common";
 import { actionRow, button } from "library/components";
+import { type Command, type Component, type Context, edit, reply, update } from "library/core";
 import { randomItem, randomNItems, shuffle } from "library/utilities/arrays";
 
 type SpinResult = {
@@ -44,7 +44,10 @@ export default class implements Command {
 
 		const currency = `${economy.currencyIcon ?? economy.currencyName}`;
 
-		if (wager < economy.wagerMin || wager > (economy.wagerMax === 0 ? Infinity : economy.wagerMax)) {
+		if (
+			wager < economy.wagerMin ||
+			wager > (economy.wagerMax === 0 ? Number.POSITIVE_INFINITY : economy.wagerMax)
+		) {
 			const message = `You must wager between ${currency} ${economy.wagerMin.toLocaleString()} and ${currency} ${economy.wagerMax.toLocaleString()}.`;
 
 			if (replay) reply(i, message, { prefix: "error" });
@@ -194,7 +197,7 @@ export default class implements Command {
 				components: [
 					button({
 						method: this.spinAgin,
-						label: "🎰 " + wager.toLocaleString(),
+						label: `🎰 ${wager.toLocaleString()}`,
 						style: ButtonStyle.Secondary,
 						disabled,
 					}),
@@ -221,7 +224,10 @@ export default class implements Command {
 		const maxCount = Math.max(...Object.values(counts));
 		if (maxCount < 2) return 0;
 
-		const symbol = Object.keys(counts).find((s) => counts[s] === maxCount)!;
+		const symbol = Object.keys(counts).find((s) => counts[s] === maxCount);
+
+		if (!symbol) return 0;
+
 		return Constants.Slots.Paytable[symbol][maxCount as 2 | 3];
 	}
 

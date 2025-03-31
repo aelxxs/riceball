@@ -16,10 +16,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Command, Context, getGuildIcon } from "@lib/core";
-import { Levels } from "@lib/plugins";
+// import { getLevelingRewards } from "@riceball/db";
 import { stripIndents } from "common-tags";
-import { getLevelingRewards } from "db";
+import { type Command, type Context, getGuildIcon } from "library/core";
+import { Levels } from "library/plugins";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -32,33 +32,32 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ guild }: Context) {
-		const rewards = await getLevelingRewards(guild.id);
-
-		return {
-			embeds: [
-				{
-					thumbnail: {
-						url: getGuildIcon(guild),
-					},
-					author: {
-						name: `${guild.name} – Rewards`,
-						icon_url: getGuildIcon(guild),
-					},
-					description: stripIndents`
-						\`\`\`
-						Viewing Leveling Rewards
-						\`\`\`
-						> ${rewards.length === 0 ? "No rewards have been set up yet." : ""}
-					`,
-					fields: rewards.map((reward) => ({
-						name: `${reward.level} – ${this.levels.totalXpReq(reward.level)} exp.`,
-						value: `> ${reward.roles.map((role) => `<@&${role}>`).join(" ")}`,
-					})),
-					footer: {
-						text: `Rice Ball – Rewards`,
-					},
-				},
-			],
-		};
+		// const rewards = await getLevelingRewards(guild.id);
+		// return {
+		// 	embeds: [
+		// 		{
+		// 			thumbnail: {
+		// 				url: getGuildIcon(guild),
+		// 			},
+		// 			author: {
+		// 				name: `${guild.name} – Rewards`,
+		// 				icon_url: getGuildIcon(guild),
+		// 			},
+		// 			description: stripIndents`
+		// 				\`\`\`
+		// 				Viewing Leveling Rewards
+		// 				\`\`\`
+		// 				> ${rewards.length === 0 ? "No rewards have been set up yet." : ""}
+		// 			`,
+		// 			fields: rewards.map((reward) => ({
+		// 				name: `${reward.level} – ${this.levels.totalXpReq(reward.level)} exp.`,
+		// 				value: `> ${reward.roles.map((role) => `<@&${role}>`).join(" ")}`,
+		// 			})),
+		// 			footer: {
+		// 				text: "Rice Ball – Rewards",
+		// 			},
+		// 		},
+		// 	],
+		// };
 	}
 }

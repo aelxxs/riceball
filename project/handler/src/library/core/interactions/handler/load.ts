@@ -1,8 +1,8 @@
-import { Deps } from "@lib/common";
-import { Command, Event } from "@lib/core";
+import { opendir } from "node:fs/promises";
+import { basename, dirname, extname, join } from "node:path";
 import { logger } from "@riceball/logger";
-import { opendir } from "fs/promises";
-import { basename, dirname, join } from "path";
+import { Deps } from "library/common";
+import type { Command, Event } from "library/core";
 import { container } from "tsyringe";
 
 export async function* walk(path: string): AsyncIterableIterator<string> {
@@ -14,16 +14,26 @@ export async function* walk(path: string): AsyncIterableIterator<string> {
 	}
 }
 
+const __dirname = import.meta.dirname;
+
 async function loadEvents(): Promise<[string, Event][]> {
 	logger.debug("Loading events");
-	const eventFiles = walk(join(__dirname, "../../../../", "events"));
+
+	const eventFiles = walk(join(__dirname, "events"));
 
 	const events: [string, Event][] = [];
 
 	for await (const file of eventFiles) {
-		const event = container.resolve<Event>((await import(file)).default);
+		try {
+			const eventHandler = await import(file);
 
-		events.push([basename(file, ".ts"), event]);
+			const event = container.resolve<Event>(eventHandler.default);
+
+			events.push([basename(file, extname(file)), event]);
+		} catch (error) {
+			logger.error("An error occured while loading an event: \n", file);
+			logger.error(error);
+		}
 	}
 
 	return events;
@@ -33,7 +43,7 @@ const BRACKET = /\[([^}]*)\]/g;
 
 async function loadCommands(): Promise<[string, Command][]> {
 	logger.debug("Loading commands");
-	const commandFiles = walk(join(__dirname, "../../../../", "commands"));
+	const commandFiles = walk(join(__dirname, "commands"));
 
 	const commands: [string, Command][] = [];
 
@@ -43,11 +53,12 @@ async function loadCommands(): Promise<[string, Command][]> {
 		}
 
 		try {
-			const commandFile = container.resolve<Command>((await import(file)).default);
+			const commandHanler = await import(file);
+			const commandFile = container.resolve<Command>(commandHanler.default);
 			const directory = dirname(file);
 
 			let root = basename(directory);
-			let name = basename(file, ".ts");
+			let name = basename(file, extname(file));
 
 			root = BRACKET.test(root) ? `${basename(dirname(directory))}/${root}` : root;
 			name = name === "index" ? root : name;

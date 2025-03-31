@@ -17,22 +17,30 @@
  **/
 
 import { bold, channelMention, codeBlock, subtext } from "@discordjs/formatters";
-import { Command, Component, Context, MessagePayload } from "@lib/core";
+import { Database } from "@riceball/db";
 import { stripIndents } from "common-tags";
-import { getGuild, Levels, updateGuild } from "db";
 import { ButtonStyle, ComponentType, TextInputStyle } from "discord-api-types/v10";
 import { actionRow, button, modal, select } from "library/components";
+import type { Command, Component, Context, MessagePayload } from "library/core";
 import { booleanFromString } from "library/utilities";
 import { formatBoolean, formatBooleanForButton } from "library/utilities/formatters";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
+
 	/**
 	 * View your server's Leveling settings
 	 *
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ guild }: Context): Promise<MessagePayload> {
-		const { levels } = await getGuild(guild.id);
+		const { levels } = await this.db.getGuildSettings(guild.id);
 
 		return {
 			embeds: [this.generateEmbed(levels)],
@@ -61,7 +69,7 @@ export default class implements Command {
 	}
 
 	public editSettings: Component = async ({ guild }: Context) => {
-		const { levels } = await getGuild(guild.id);
+		const { levels } = await this.db.getGuildSettings(guild.id);
 
 		return {
 			embeds: [this.generateEmbed(levels)],
@@ -110,7 +118,7 @@ export default class implements Command {
 	};
 
 	public editMessage: Component = async (ctx: Context, [message]) => {
-		await updateGuild(ctx.guild.id, {
+		await this.db.setGuildSettings(ctx.guild.id, {
 			levels: { notifyMessageContent: message },
 		});
 
@@ -145,7 +153,7 @@ export default class implements Command {
 	// when a user selects a setting with sub settings like notify, textRate, talkRate, restrictions, etc.
 	// show another select menu with the sub settings
 	public editSubSettings: Component = async (ctx: Context, setting) => {
-		const { levels } = await getGuild(ctx.guild.id);
+		const { levels } = await this.db.getGuildSettings(ctx.guild.id);
 
 		return {
 			embeds: [this.generateEmbed(levels, setting)],
@@ -202,7 +210,7 @@ export default class implements Command {
 	};
 
 	public editBoolean: Component = async ({ guild }: Context, setting) => {
-		const { levels } = await getGuild(guild.id);
+		const { levels } = await this.db.getGuildSettings(guild.id);
 
 		const { text, emoji } = formatBooleanForButton(levels[setting as keyof Levels] as boolean);
 
@@ -230,7 +238,7 @@ export default class implements Command {
 	public toggleSetting: Component = async (ctx: Context, [json]) => {
 		const { setting, value } = JSON.parse(json);
 
-		await updateGuild(ctx.guild.id, {
+		await this.db.setGuildSettings(ctx.guild.id, {
 			levels: { [setting]: !booleanFromString(value) },
 		});
 
@@ -323,7 +331,6 @@ export default class implements Command {
 									"yaml",
 									stripIndents`
 										Roles    :: ${levels.roleRestriction?.omit.length ?? 0} ${levels.roleRestriction?.type ?? "Not Set"}
-										Users    :: ${levels.userRestriction?.omit.length ?? 0} ${levels.userRestriction?.type ?? "Not Set"}
 										Channels :: ${levels.channelRestriction?.omit.length ?? 0} ${levels.channelRestriction?.type ?? "Not Set"}
 									`,
 								)}

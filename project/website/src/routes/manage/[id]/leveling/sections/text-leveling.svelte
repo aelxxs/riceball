@@ -1,26 +1,26 @@
 <script lang="ts">
-  import ChartLine from "lucide-svelte/icons/chart-line";
+import ChartLine from "lucide-svelte/icons/chart-line";
 
-  import { DashboardCard } from "$lib/blocks/dashboard-card";
-  import { Control, Field } from "$lib/blocks/forms";
-  import { Input } from "$lib/blocks/input";
-  import { Select } from "$lib/blocks/select";
-  import { Slider } from "$lib/blocks/slider/slider";
-  import { Switch } from "$lib/blocks/switch";
-  import { getGuild } from "$lib/utility/context.svelte";
-  import { type LevelsWithRelations } from "db/zod";
-  import type { SuperForm } from "sveltekit-superforms";
+import { DashboardCard } from "$lib/blocks/dashboard-card";
+import { Control, Field } from "$lib/blocks/forms";
+import { Input } from "$lib/blocks/input";
+import { Select } from "$lib/blocks/select";
+import { Slider } from "$lib/blocks/slider/slider";
+import { Switch } from "$lib/blocks/switch";
+import { getGuild } from "$lib/utility/context.svelte";
+import type { LevelsWithRelations } from "@riceball/db/zod";
+import type { SuperForm } from "sveltekit-superforms";
 
-  type Props = {
-    form: SuperForm<LevelsWithRelations>;
-  };
+type Props = {
+	form: SuperForm<LevelsWithRelations>;
+};
 
-  const { form }: Props = $props();
-  const { form: formData } = form;
+const { form }: Props = $props();
+const { form: formData } = form;
 
-  const guild = getGuild();
+const guild = getGuild();
 
-  const multipliers = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+const multipliers = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 </script>
 
 <DashboardCard

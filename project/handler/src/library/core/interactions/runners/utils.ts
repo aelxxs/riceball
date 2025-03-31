@@ -1,6 +1,4 @@
 import {
-	ApplicationCommandOptionType,
-	ApplicationCommandType,
 	type APIApplicationCommandInteraction,
 	type APIApplicationCommandInteractionDataBasicOption,
 	type APIApplicationCommandInteractionDataMentionableOption,
@@ -11,6 +9,8 @@ import {
 	type APIInteractionDataResolvedChannel,
 	type APIRole,
 	type APIUser,
+	ApplicationCommandOptionType,
+	ApplicationCommandType,
 } from "discord-api-types/v10";
 
 /**

@@ -1,24 +1,24 @@
 <script lang="ts">
-  import { page } from "$app/state";
-  import { layoutState } from "$lib/utility/context.svelte";
-  import { DiscordUser } from "../discord-user";
-  import { Divider } from "../divider";
+import { page } from "$app/state";
+import { layoutState } from "$lib/utility/context.svelte";
+import { DiscordUser } from "../discord-user";
+import { Divider } from "../divider";
 
-  const user = page.data.session?.user;
+const user = page.data.session?.user;
 </script>
 
 <div class="header-wrapper" class:bg-solid={layoutState.sideBarOpen}>
   <header class="repel">
-    <div class="cluster space-l">
+    <div class="cluster space-xl">
       <a href="/" class="cluster">
         <img class="icon" src="/icon.svg" alt="riceball-icon" />
         <p class="fs:md fw:bold">Rice Ball</p>
       </a>
       <div class="cluster space-l | show:md">
-        <Divider orientation="vertical" />
+        <!-- <Divider orientation="vertical" /> -->
         <nav class="cluster space-m">
-          <a href="/"> Home </a>
-          <a href="/support"> Support </a>
+          <a href="/"> Invite </a>
+          <a href="/support"> Community </a>
           <a href="/commands"> Commands </a>
         </nav>
       </div>
@@ -29,7 +29,6 @@
 
 <style lang="scss">
   .icon {
-    // width: clamp(1.5rem, 1.75rem, 2.15rem);
     height: var(--space-l);
   }
   .header-wrapper {
@@ -51,7 +50,6 @@
   }
 
   header {
-    // max-width: 75rem;
     margin: auto;
   }
 

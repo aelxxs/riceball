@@ -1,7 +1,7 @@
+import { EventEmitter } from "node:stream";
 import { logger } from "@riceball/logger";
-import Redis from "ioredis";
+import type Redis from "ioredis";
 import { Deps } from "library/common";
-import { EventEmitter } from "stream";
 import { container } from "tsyringe";
 
 export type CollectorConfig = {
@@ -88,7 +88,7 @@ export abstract class Collector<T> extends EventEmitter {
 		}
 	}
 
-	public decodeListener(handler: (data: any) => void) {
+	public decodeListener(handler: (data: unknown) => void) {
 		return (data: string, { ack }: { ack: () => Promise<unknown> }) => {
 			logger.debug("Collector Event Received");
 			ack().then(() => {

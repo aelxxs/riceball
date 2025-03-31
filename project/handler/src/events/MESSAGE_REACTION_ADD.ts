@@ -1,6 +1,6 @@
-import { API, Event, send } from "@lib/core";
-import { getGuild as getGuildSettings } from "db";
+import { getGuild as getGuildSettings } from "@riceball/db";
 import type { GatewayMessageReactionAddDispatchData } from "discord-api-types/v10";
+import { API, type Event, send } from "library/core";
 import { Starboard } from "library/plugins/Starboard";
 import { inject, injectable } from "tsyringe";
 

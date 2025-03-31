@@ -1,9 +1,9 @@
 <script lang="ts">
-  import LoaderCircleIcon from "lucide-svelte/icons/loader-circle";
+import LoaderCircleIcon from "lucide-svelte/icons/loader-circle";
 
-  import { Button } from "$lib/blocks/button";
-  import { saveModal, shake } from "$lib/utility/context.svelte";
-  import { flyAndScale } from "$lib/utility/transitions";
+import { Button } from "$lib/blocks/button";
+import { saveModal, shake } from "$lib/utility/context.svelte";
+import { flyAndScale } from "$lib/utility/transitions";
 </script>
 
 <div

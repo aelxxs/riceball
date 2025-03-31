@@ -1,207 +1,45 @@
-import { ApplicationCommandOptionType, ApplicationCommandType } from "discord-api-types/v10";
-
-const sections = [
-	{ name: "The Bio Section", value: "showBio" },
-	{ name: "The Stats Box", value: "showStatsBox" },
-	{ name: "The Stats Bar", value: "showStatsBar" },
-	{ name: "The Badges Section", value: "showBadges" },
-	{ name: "The Server Icon", value: "showIcon" },
-	{ name: "Your Country Flah", value: "showFlag" },
-];
+import {
+	type APIApplicationCommand,
+	ApplicationCommandOptionType,
+	ApplicationCommandType,
+} from "discord-api-types/v10";
 
 export default {
 	name: "card",
 	type: ApplicationCommandType.ChatInput,
-	description: "Configure your leveling card",
+	description: "Customize and configure your personal leveling card with various options",
 	options: [
-		{
-			name: "show",
-			type: ApplicationCommandOptionType.Subcommand,
-			description: "Show specific sections of your card",
-			options: [
-				{
-					name: "key",
-					type: ApplicationCommandOptionType.String,
-					description: "The key of the section you want to show",
-					required: true,
-					choices: sections,
-				},
-			],
-		},
-		{
-			name: "hide",
-			type: ApplicationCommandOptionType.Subcommand,
-			description: "Hide specific sections of your card",
-			options: [
-				{
-					name: "key",
-					type: ApplicationCommandOptionType.String,
-					description: "The key of the section you want to hide",
-					required: true,
-					choices: sections,
-				},
-			],
-		},
-		{
-			name: "opacity",
-			type: ApplicationCommandOptionType.SubcommandGroup,
-			description: "Set the opacity of various parts of your level card",
-			options: [
-				{
-					name: "primary",
-					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the opacity of the primary background",
-					options: [
-						{
-							name: "value",
-							type: ApplicationCommandOptionType.Integer,
-							description: "The opacity value",
-							required: true,
-							min_value: 0,
-							max_value: 100,
-						},
-					],
-				},
-				{
-					name: "accent",
-					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the opacity of the accent background",
-					options: [
-						{
-							name: "value",
-							type: ApplicationCommandOptionType.Integer,
-							description: "The opacity value",
-							required: true,
-							min_value: 0,
-							max_value: 100,
-						},
-					],
-				},
-				{
-					name: "progress",
-					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the opacity of the progress bar",
-					options: [
-						{
-							name: "value",
-							type: ApplicationCommandOptionType.Integer,
-							description: "The opacity value",
-							required: true,
-							min_value: 0,
-							max_value: 100,
-						},
-					],
-				},
-			],
-		},
-		{
-			name: "border",
-			type: ApplicationCommandOptionType.SubcommandGroup,
-			description: "Set the border radius of your card",
-			options: [
-				{
-					name: "radius",
-					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the border radius of your card",
-					options: [
-						{
-							name: "value",
-							type: ApplicationCommandOptionType.Integer,
-							description: "The border radius value",
-							required: true,
-							min_value: 0,
-							max_value: 100,
-						},
-					],
-				},
-			],
-		},
-		{
-			name: "color",
-			type: ApplicationCommandOptionType.SubcommandGroup,
-			description: "Set the color of various parts of your level card",
-			options: [
-				{
-					name: "primary",
-					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the color of the primary background",
-					options: [
-						{
-							name: "value",
-							type: ApplicationCommandOptionType.String,
-							description: "The color value",
-							required: true,
-						},
-					],
-				},
-				{
-					name: "accent",
-					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the color of the accent background",
-					options: [
-						{
-							name: "value",
-							type: ApplicationCommandOptionType.String,
-							description: "The color value",
-							required: true,
-						},
-					],
-				},
-				{
-					name: "progress",
-					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the color of the progress bar",
-					options: [
-						{
-							name: "value",
-							type: ApplicationCommandOptionType.String,
-							description: "The color value",
-							required: true,
-						},
-					],
-				},
-				{
-					name: "text",
-					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the color of the text",
-					options: [
-						{
-							name: "value",
-							type: ApplicationCommandOptionType.String,
-							description: "The color value",
-							required: true,
-						},
-					],
-				},
-			],
-		},
 		{
 			name: "background",
 			type: ApplicationCommandOptionType.SubcommandGroup,
-			description: "Configure the background of your card",
+			description: "Modify the background settings of your leveling card",
 			options: [
 				{
 					name: "image",
 					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the background image of your card",
+					description: "Set a custom background image for your leveling card",
 					options: [
 						{
 							name: "value",
-							type: ApplicationCommandOptionType.Attachment,
-							description: "The image attachment",
-							required: true,
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the URL of the image to use as the background",
+						},
+						{
+							name: "attachment",
+							type: ApplicationCommandOptionType.Boolean,
+							description: "Set the image as an attachment instead of a URL",
 						},
 					],
 				},
 				{
 					name: "opacity",
 					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the blur of the background image",
+					description: "Adjust the blur or transparency of the background image",
 					options: [
 						{
 							name: "value",
 							type: ApplicationCommandOptionType.Integer,
-							description: "The opacity value",
+							description: "Specify the opacity value (0 for fully transparent, 100 for fully opaque)",
 							required: true,
 							min_value: 0,
 							max_value: 100,
@@ -211,17 +49,256 @@ export default {
 				{
 					name: "color",
 					type: ApplicationCommandOptionType.Subcommand,
-					description: "Set the color of the background",
+					description: "Set a solid color as the background for your card",
 					options: [
 						{
 							name: "value",
 							type: ApplicationCommandOptionType.String,
-							description: "The color value",
+							description: "Provide the color value (e.g., HEX, RGB, or color name)",
 							required: true,
 						},
 					],
 				},
+				{
+					name: "reset",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset the background settings to default",
+				},
+			],
+		},
+		{
+			name: "overlay",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Customize the overlay settings of your leveling card",
+			options: [
+				{
+					name: "opacity",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Set the transparency level of the overlay layer",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.Integer,
+							description: "Specify the opacity value (0 for fully transparent, 100 for fully opaque)",
+							required: true,
+							min_value: 0,
+							max_value: 100,
+						},
+					],
+				},
+				{
+					name: "color",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Choose a color for the overlay layer of your card",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the color value (e.g., HEX, RGB, or color name)",
+							required: true,
+						},
+					],
+				},
+				{
+					name: "reset",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset the overlay settings to default",
+				},
+			],
+		},
+		{
+			name: "accent",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Adjust the accent details of your leveling card",
+			options: [
+				{
+					name: "opacity",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Set the transparency level of the accent elements",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.Integer,
+							description: "Specify the opacity value (0 for fully transparent, 100 for fully opaque)",
+							required: true,
+							min_value: 0,
+							max_value: 100,
+						},
+					],
+				},
+				{
+					name: "color",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Choose a color for the accent elements of your card",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the color value (e.g., HEX, RGB, or color name)",
+							required: true,
+						},
+					],
+				},
+				{
+					name: "reset",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset the accent settings to default",
+				},
+			],
+		},
+		{
+			name: "text",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Configure the text appearance on your leveling card",
+			options: [
+				{
+					name: "opacity",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Set the transparency level of the main text",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.Integer,
+							description: "Specify the opacity value (0 for fully transparent, 100 for fully opaque)",
+							required: true,
+							min_value: 0,
+							max_value: 100,
+						},
+					],
+				},
+				{
+					name: "color",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Choose a color for the main text on your card",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the color value (e.g., HEX, RGB, or color name)",
+							required: true,
+						},
+					],
+				},
+				{
+					name: "reset",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset the text settings to default",
+				},
+			],
+		},
+		{
+			name: "subtext",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Customize the subtext appearance on your leveling card",
+			options: [
+				{
+					name: "opacity",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Set the transparency level of the subtext",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.Integer,
+							description: "Specify the opacity value (0 for fully transparent, 100 for fully opaque)",
+							required: true,
+							min_value: 0,
+							max_value: 100,
+						},
+					],
+				},
+				{
+					name: "color",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Choose a color for the subtext on your card",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the color value (e.g., HEX, RGB, or color name)",
+							required: true,
+						},
+					],
+				},
+				{
+					name: "reset",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset the subtext settings to default",
+				},
+			],
+		},
+		{
+			name: "border",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Configure the border appearance of your leveling card",
+			options: [
+				{
+					name: "radius",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Set the border radius of the card",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.Integer,
+							description: "Specify the radius value in pixels",
+							required: true,
+							min_value: 0,
+							max_value: 100,
+						},
+					],
+				},
+				{
+					name: "reset",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset the border settings to default",
+				},
+			],
+		},
+		{
+			name: "font",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Customize the font style of your leveling card",
+			options: [
+				{
+					name: "family",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Set the font family for the text on your card",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the font family name or URL",
+							required: true,
+							choices: [
+								{
+									name: "Monospace",
+									value: "MONOSPACE",
+								},
+								{
+									name: "Sans-serif",
+									value: "SANS_SERIF",
+								},
+								{
+									name: "Serif",
+									value: "SERIF",
+								},
+								{
+									name: "Handwriting",
+									value: "HANDWRITING",
+								},
+								{
+									name: "Cursive",
+									value: "CURSIVE",
+								},
+							],
+						},
+					],
+				},
+				{
+					name: "reset",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset the font settings to default",
+				},
 			],
 		},
 	],
-};
+} as APIApplicationCommand;

@@ -1,48 +1,48 @@
 <script lang="ts">
-  import { Select } from "bits-ui";
-  import { AtSignIcon, HashIcon } from "lucide-svelte";
-  import type { SelectItem } from "../select/select.svelte";
+import { Select } from "bits-ui";
+import { AtSignIcon, HashIcon } from "lucide-svelte";
+import type { SelectItem } from "../select/select.svelte";
 
-  type Props = {
-    type: "channel" | "role";
-    items: SelectItem[];
-    command: (item: SelectItem) => void;
-  };
+type Props = {
+	type: "channel" | "role";
+	items: SelectItem[];
+	command: (item: SelectItem) => void;
+};
 
-  const { type, items, command }: Props = $props();
+const { type, items, command }: Props = $props();
 
-  let highlightedIndex = $state(0);
-  const flatItems = $derived(
-    items.flatMap((item) => ("items" in item ? item.items : item)),
-  );
-  const ItemIcon = $derived(type === "channel" ? HashIcon : AtSignIcon);
+let highlightedIndex = $state(0);
+const flatItems = $derived(
+	items.flatMap((item) => ("items" in item ? item.items : item)),
+);
+const ItemIcon = $derived(type === "channel" ? HashIcon : AtSignIcon);
 
-  // Exposed API methods
-  export function scrollUp() {
-    highlightedIndex = Math.max(highlightedIndex - 1, 0);
-    scrollToHighlighted();
-  }
+// Exposed API methods
+export function scrollUp() {
+	highlightedIndex = Math.max(highlightedIndex - 1, 0);
+	scrollToHighlighted();
+}
 
-  export function scrollDown() {
-    highlightedIndex = Math.min(highlightedIndex + 1, flatItems.length - 1);
-    scrollToHighlighted();
-  }
+export function scrollDown() {
+	highlightedIndex = Math.min(highlightedIndex + 1, flatItems.length - 1);
+	scrollToHighlighted();
+}
 
-  export function selectHighlighted() {
-    if (highlightedIndex >= 0 && highlightedIndex < flatItems.length) {
-      const item = flatItems[highlightedIndex];
-      if (item) {
-        command(item);
-      }
-    }
-  }
+export function selectHighlighted() {
+	if (highlightedIndex >= 0 && highlightedIndex < flatItems.length) {
+		const item = flatItems[highlightedIndex];
+		if (item) {
+			command(item);
+		}
+	}
+}
 
-  function scrollToHighlighted() {
-    const item = document.querySelector(`[data-index="${highlightedIndex}"]`);
-    if (item) {
-      item.scrollIntoView({ block: "nearest" });
-    }
-  }
+function scrollToHighlighted() {
+	const item = document.querySelector(`[data-index="${highlightedIndex}"]`);
+	if (item) {
+		item.scrollIntoView({ block: "nearest" });
+	}
+}
 </script>
 
 <Select.Root

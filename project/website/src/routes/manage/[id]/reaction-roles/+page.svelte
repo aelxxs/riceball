@@ -1,8 +1,8 @@
 <script>
-  import { Button } from "$lib/blocks/button";
-  import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
+import { Button } from "$lib/blocks/button";
+import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
 
-  const { data } = $props();
+const { data } = $props();
 </script>
 
 <DashboardCard

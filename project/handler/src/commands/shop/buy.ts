@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { getActiveShopItems } from "db";
+// import { getActiveShopItems } from "@riceball/db";
+import type { Command, Context } from "library/core";
 
 export default class implements Command {
 	/**
@@ -26,15 +26,15 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {string} input - The input of the user
 	 **/
-	public async autocompleteRun({ guild }: Context, input: string) {
-		const shop = await getActiveShopItems(guild.id);
+	// public async autocompleteRun({ guild }: Context, input: string) {
+	// 	const shop = await getActiveShopItems(guild.id);
 
-		const similarItems = shop.filter((item) => item.name.toLowerCase().startsWith(input.toLowerCase()));
+	// 	const similarItems = shop.filter((item) => item.name.toLowerCase().startsWith(input.toLowerCase()));
 
-		return similarItems.map((item) => {
-			return { name: item.name, value: item.id };
-		});
-	}
+	// 	return similarItems.map((item) => {
+	// 		return { name: item.name, value: item.id };
+	// 	});
+	// }
 
 	/**
 	 * Buy an item from the shop
@@ -42,7 +42,7 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({}: Context, { item }: Options) {
+	public chatInputRun({ guild }: Context, { item }: Options) {
 		return "Sorry, this command was registered but not implemented. Please try again later.";
 	}
 }

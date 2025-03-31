@@ -1,10 +1,10 @@
 <script lang="ts" module>
-  import type { FormPath } from "sveltekit-superforms";
+import type { FormPath } from "sveltekit-superforms";
 
-  // the form object
-  type T = Record<string, unknown>;
-  // the path/name of the field in the form object
-  type U = unknown;
+// the form object
+type T = Record<string, unknown>;
+// the path/name of the field in the form object
+type U = unknown;
 </script>
 
 <script

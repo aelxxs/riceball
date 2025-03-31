@@ -1,62 +1,71 @@
 <script lang="ts">
-  import CheckIcon from "lucide-svelte/icons/check";
-  import PlusIcon from "lucide-svelte/icons/plus";
-  import Trash2 from "lucide-svelte/icons/trash-2";
+import CheckIcon from "lucide-svelte/icons/check";
+import PlusIcon from "lucide-svelte/icons/plus";
+import Trash2 from "lucide-svelte/icons/trash-2";
 
-  import { ButtonWithConfirmation } from "$lib/blocks/button-with-confirmation";
-  import { Constants } from "$lib/constants";
-  import type { DashboardGuild } from "$lib/types";
-  import type { DiscordEmbedWithRelations } from "db/zod";
-  import type { APIApplication } from "discord-api-types/v10";
-  import { onMount } from "svelte";
-  import { slide } from "svelte/transition";
-  import { Button } from "../button";
-  import { DiscordIcon } from "../discord-icon";
-  import Editable from "../editable/editable.svelte";
-  import EmbedCreator from "../embed-creator/embed-creator.svelte";
+import { ButtonWithConfirmation } from "$lib/blocks/button-with-confirmation";
+import { Constants } from "$lib/constants";
+import type { DashboardGuild } from "$lib/types";
+import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
+import type { APIApplication } from "discord-api-types/v10";
+import { slide } from "svelte/transition";
+import { Button } from "../button";
+import { DiscordIcon } from "../discord-icon";
+import Editable from "../editable/editable.svelte";
+import EmbedCreator from "../embed-creator/embed-creator.svelte";
 
-  type Props = {
-    client: APIApplication;
-    guild: DashboardGuild;
-    content?: string | null;
-    embeds?: DiscordEmbedWithRelations[];
-    withEmbed?: boolean;
-    maxEmbeds?: number;
-  };
+type Props = {
+	client: APIApplication;
+	guild: DashboardGuild;
+	content?: string | null;
+	embeds?: DiscordEmbedWithRelations[] | DiscordEmbedWithRelations | null;
+	withEmbed?: boolean;
+	maxEmbeds?: number;
+	reactions?: string[];
+	noContent?: boolean;
+};
 
-  let {
-    guild,
-    client,
-    content = $bindable(),
-    embeds = $bindable([]),
-    withEmbed = $bindable(false),
-    maxEmbeds = $bindable(1),
-  }: Props = $props();
+let {
+	guild,
+	client,
+	content = $bindable(),
+	embeds = $bindable(),
+	withEmbed = $bindable(false),
+	maxEmbeds = $bindable(1),
+	reactions = $bindable([]),
+	noContent = $bindable(false),
+}: Props = $props();
 
-  const getTime = () => {
-    return new Date().toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-    });
-  };
+console.log({ embeds });
 
-  let time = $state(getTime());
+const getTime = () => {
+	return new Date().toLocaleTimeString("en-US", {
+		hour: "numeric",
+		minute: "numeric",
+	});
+};
 
-  $effect(() => {
-    const interval = setInterval(() => {
-      time = getTime();
-    }, 1000);
+let time = $state(getTime());
 
-    if (withEmbed) {
-      embeds = [Constants.EmptyEmbed];
-    }
+$effect(() => {
+	const interval = setInterval(() => {
+		time = getTime();
+	}, 1000);
 
-    return () => clearInterval(interval);
-  });
+	if (withEmbed) {
+		addEmbed();
+	}
 
-  const addEmbed = () => {
-    embeds = [...embeds, Constants.EmptyEmbed];
-  };
+	return () => clearInterval(interval);
+});
+
+const addEmbed = () => {
+	if (Array.isArray(embeds)) {
+		embeds = [...embeds, Constants.EmptyEmbed];
+	} else {
+		embeds = Constants.EmptyEmbed;
+	}
+};
 </script>
 
 <div class="stack space-xs">
@@ -81,34 +90,64 @@
           <span>Today at {time}</span>
         </small>
       </div>
-      <Editable
-        type="text"
-        {guild}
-        maxLength={2000}
-        placeholder="Type your message here..."
-        styled
-        bind:value={content}
-      />
-      {#each embeds as _, i}
+      {#if !noContent}
+        <Editable
+          type="text"
+          {guild}
+          maxLength={2000}
+          placeholder="Type your message here..."
+          styled
+          bind:value={content}
+        />
+      {/if}
+      {#if Array.isArray(embeds)}
+        {#each embeds as _, i}
+          <div transition:slide class="max-w-form">
+            <EmbedCreator
+              {guild}
+              bind:embed={embeds[i]}
+              handleDelete={maxEmbeds === 1
+                ? undefined
+                : () => {
+                    embeds = (embeds as DiscordEmbedWithRelations[]).filter(
+                      (_, index) => index !== i,
+                    );
+                  }}
+            />
+          </div>
+        {/each}
+      {:else if embeds}
         <div transition:slide class="max-w-form">
           <EmbedCreator
             {guild}
-            bind:embed={embeds[i]}
+            bind:embed={embeds}
             handleDelete={maxEmbeds === 1
               ? undefined
               : () => {
-                  embeds = embeds.filter((_, index) => index !== i);
+                  embeds = [];
                 }}
           />
         </div>
-      {/each}
+      {/if}
+      <div class="cluster">
+        {#each reactions as reaction}
+          <span class="reaction cluster">
+            <p class="fw:bold">{reaction}</p>
+            <p>1</p>
+          </span>
+        {/each}
+      </div>
     </div>
   </div>
   <div class="cluster space-xs">
-    {#if maxEmbeds === 1 && embeds.length}
+    {#if maxEmbeds === 1 && ((Array.isArray(embeds) && embeds.length === 1) || (!Array.isArray(embeds) && embeds))}
       <ButtonWithConfirmation
         onConfirm={() => {
-          embeds = [];
+          if (Array.isArray(embeds)) {
+            embeds = [];
+          } else {
+            embeds = null;
+          }
         }}
         title="Remove Embed"
         description="Are you sure you want to remove the embed?"
@@ -121,7 +160,7 @@
       </ButtonWithConfirmation>
       <span style="color: var(--clr-theme-error);"> Remove Embed </span>
     {/if}
-    {#if (maxEmbeds > 1 || !embeds.length) && embeds.length !== 10}
+    {#if maxEmbeds > 1 || !embeds || (Array.isArray(embeds) && !embeds.length && embeds.length !== 10)}
       <Button variant="secondary" size="icon" onclick={addEmbed}>
         <PlusIcon size={16} strokeWidth={3.5} />
       </Button>
@@ -140,5 +179,15 @@
     color: var(--txt-bold);
     border-radius: 0.3rem;
     padding-inline: 0.3rem;
+  }
+
+  .reaction {
+    --cluster-gap: 0.5rem;
+    background-color: var(--clr-theme-2-trasnslucent);
+    color: var(--txt-bold);
+    border-radius: 0.3rem;
+    padding-inline: 0.35rem;
+    padding-block: 0.15rem;
+    border: 1px solid var(--clr-theme-2);
   }
 </style>

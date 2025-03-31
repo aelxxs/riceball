@@ -1,46 +1,46 @@
 <script lang="ts">
-  import { Select } from "bits-ui";
+import { Select } from "bits-ui";
 
-  type SelectItem = {
-    value: any;
-    label: any;
-    src: any;
-  };
+type SelectItem = {
+	value: string;
+	label: string;
+	src: string;
+};
 
-  type Props = {
-    items: SelectItem[];
-    command: (item: SelectItem) => void;
-  };
+type Props = {
+	items: SelectItem[];
+	command: (item: SelectItem) => void;
+};
 
-  const { items, command }: Props = $props();
+const { items, command }: Props = $props();
 
-  let highlightedIndex = $state(0);
+let highlightedIndex = $state(0);
 
-  export function scrollUp() {
-    highlightedIndex = Math.max(highlightedIndex - 1, 0);
-    scrollToHighlighted();
-  }
+export function scrollUp() {
+	highlightedIndex = Math.max(highlightedIndex - 1, 0);
+	scrollToHighlighted();
+}
 
-  export function scrollDown() {
-    highlightedIndex = Math.min(highlightedIndex + 1, items.length - 1);
-    scrollToHighlighted();
-  }
+export function scrollDown() {
+	highlightedIndex = Math.min(highlightedIndex + 1, items.length - 1);
+	scrollToHighlighted();
+}
 
-  export function selectHighlighted() {
-    if (highlightedIndex >= 0 && highlightedIndex < items.length) {
-      const item = items[highlightedIndex];
-      if (item) {
-        command(item);
-      }
-    }
-  }
+export function selectHighlighted() {
+	if (highlightedIndex >= 0 && highlightedIndex < items.length) {
+		const item = items[highlightedIndex];
+		if (item) {
+			command(item);
+		}
+	}
+}
 
-  function scrollToHighlighted() {
-    const item = document.querySelector(`[data-index="${highlightedIndex}"]`);
-    if (item) {
-      item.scrollIntoView({ block: "nearest" });
-    }
-  }
+function scrollToHighlighted() {
+	const item = document.querySelector(`[data-index="${highlightedIndex}"]`);
+	if (item) {
+		item.scrollIntoView({ block: "nearest" });
+	}
+}
 </script>
 
 {#if items.length}

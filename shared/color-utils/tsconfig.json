@@ -1,8 +1,0 @@
-{
-	"extends": "@riceball/ts-config/base.json",
-	"compilerOptions": {
-		"lib": ["ESNext", "DOM"]
-	},
-	"include": ["**/*.ts"],
-	"exclude": ["node_modules"]
-}

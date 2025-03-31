@@ -1,0 +1,29 @@
+{
+	"name": "@riceball/colorify",
+	"type": "module",
+	"version": "0.0.0",
+	"private": true,
+	"license": "GPL-3.0-only",
+	"scripts": {
+		"build": "bunchee",
+		"dev": "bunchee --watch",
+		"check-types": "tsc --noEmit"
+	},
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": ["dist"],
+	"dependencies": {
+		"@riceball/db": "workspace:*"
+	},
+	"devDependencies": {
+		"@riceball/ts-config": "workspace:*",
+		"@types/node": "22.13.14",
+		"bunchee": "^6.5.0",
+		"typescript": "^5.7.3"
+	}
+}

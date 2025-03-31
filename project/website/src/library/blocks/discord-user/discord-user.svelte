@@ -1,29 +1,29 @@
 <script lang="ts">
-  // - Icons
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
+// - Icons
+import ChevronDown from "lucide-svelte/icons/chevron-down";
 
-  import type { ManagedGuild } from "$lib/types";
-  import { flyAndScale } from "$lib/utility/transitions";
-  import type { User } from "@auth/sveltekit";
-  import { signIn, signOut } from "@auth/sveltekit/client";
-  import { DropdownMenu } from "bits-ui";
-  import {
-    BoxIcon,
-    HomeIcon,
-    LogOutIcon,
-    Settings2,
-    UserIcon,
-  } from "lucide-svelte";
-  import { Button } from "../button";
-  import Divider from "../divider/divider.svelte";
+import type { ManagedGuild } from "$lib/types";
+import { flyAndScale } from "$lib/utility/transitions";
+import type { User } from "@auth/sveltekit";
+import { signIn, signOut } from "@auth/sveltekit/client";
+import { DropdownMenu } from "bits-ui";
+import {
+	BoxIcon,
+	HomeIcon,
+	LogOutIcon,
+	Settings2,
+	UserIcon,
+} from "lucide-svelte";
+import { Button } from "../button";
+import Divider from "../divider/divider.svelte";
 
-  type Props = {
-    user?: User;
-  };
+type Props = {
+	user?: User;
+};
 
-  const { user }: Props = $props();
+const { user }: Props = $props();
 
-  let open = $state(false);
+let open = $state(false);
 </script>
 
 {#if user}

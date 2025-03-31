@@ -17,8 +17,8 @@
  **/
 
 import { bold } from "@discordjs/formatters";
-import type { Command, Context } from "@lib/core";
-import { updateGuild } from "db";
+import { updateGuild } from "@riceball/db";
+import type { Command, Context } from "library/core";
 
 export default class implements Command {
 	/**

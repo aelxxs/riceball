@@ -1,18 +1,18 @@
 import type { REST } from "@discordjs/rest";
+import { getGuild, getMember, updateMember } from "@riceball/db";
 import { logger } from "@riceball/logger";
-import { getGuild, getMember, prisma, updateMember } from "db";
 import {
-	Routes,
 	type APIGuild,
 	type APIGuildMember,
 	type APIMessage,
 	type GatewayMessageCreateDispatchData,
+	Routes,
 	type Snowflake,
 } from "discord-api-types/v10";
-import Redis from "ioredis";
+import type Redis from "ioredis";
 import { CacheKeys, Deps } from "library/common";
 import { API, getGuild as getAPIGuild, sendMessage } from "library/core";
-import { RestrictionChecker } from "library/utilities/restriction-checker";
+// import { RestrictionChecker } from "library/utilities/restriction-checker";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -49,10 +49,11 @@ export class Levels {
 	 * */
 	public totalXpReq(level: number): number {
 		let xp = 0;
-		while (level > 0) {
-			xp += this.expReq(level);
+		let currentLevel = level;
+		while (currentLevel > 0) {
+			xp += this.expReq(currentLevel);
 
-			level--;
+			currentLevel--;
 		}
 		return xp;
 	}
@@ -67,9 +68,10 @@ export class Levels {
 	 * console.log(level); // 10
 	 **/
 	public getLvl(xp: number): number {
+		let expRemaining = xp;
 		let level = 1;
-		while (xp >= this.expReq(level)) {
-			xp -= this.expReq(level);
+		while (expRemaining >= this.expReq(level)) {
+			expRemaining -= this.expReq(level);
 			level++;
 		}
 		return level;
@@ -85,12 +87,13 @@ export class Levels {
 	 * console.log(progress); // 0
 	 * */
 	public getProgress(xp: number): number {
+		let expRemaining = xp;
 		let level = 1;
-		while (xp >= this.expReq(level)) {
-			xp -= this.expReq(level);
+		while (expRemaining >= this.expReq(level)) {
+			expRemaining -= this.expReq(level);
 			level++;
 		}
-		return xp;
+		return expRemaining;
 	}
 
 	/**
@@ -115,30 +118,30 @@ export class Levels {
 
 		const { levels } = await getGuild(message.guild_id);
 
-		if (!RestrictionChecker.isRestricted(levels, message)) {
-			const cooldownKey = CacheKeys.TextExpCooldown(message.guild_id, author.id);
+		// if (!RestrictionChecker.isRestricted(levels, message)) {
+		const cooldownKey = CacheKeys.TextExpCooldown(message.guild_id, author.id);
 
-			if (await this.redis.exists(cooldownKey)) return;
+		if (await this.redis.exists(cooldownKey)) return;
 
-			const guild = await getAPIGuild(message.guild_id);
+		const guild = await getAPIGuild(message.guild_id);
 
-			const { textRateMin, textRateMax, textCooldown } = levels;
+		const { textRateMin, textRateMax, textCooldown } = levels;
 
-			await this.redis.set(cooldownKey, "1", "EX", textCooldown);
+		await this.redis.set(cooldownKey, "1", "EX", textCooldown);
 
-			const { exp } = await getMember(guild.id, author.id);
+		const { exp } = await getMember(guild.id, author.id);
 
-			const currentLvl = this.getLvl(exp);
-			const expToGive = textRateMax ? ~~(Math.random() * textRateMax) + textRateMin : textRateMin;
+		const currentLvl = this.getLvl(exp);
+		const expToGive = textRateMax ? ~~(Math.random() * textRateMax) + textRateMin : textRateMin;
 
-			await updateMember(guild.id, author.id, {
-				exp: exp + expToGive,
-			});
+		await updateMember(guild.id, author.id, {
+			exp: exp + expToGive,
+		});
 
-			if (currentLvl !== this.getLvl(exp + expToGive)) {
-				return this.updateRoles(guild, member, message);
-			}
+		if (currentLvl !== this.getLvl(exp + expToGive)) {
+			return this.updateRoles(guild, member, message);
 		}
+		// }
 	}
 
 	/**
@@ -159,7 +162,7 @@ export class Levels {
 	 *
 	 * @throws Will log an error if the role update fails.
 	 */
-	public async updateRoles(guild: APIGuild, member: APIGuildMember, message: APIMessage) {
+	public async updateRoles(guild: APIGuild, member: Omit<APIGuildMember, "user">, message: APIMessage) {
 		const { levels } = await getGuild(guild.id);
 
 		const { exp } = await getMember(guild.id, message.author.id);
@@ -176,8 +179,13 @@ export class Levels {
 					return level > lvl ? roles : [];
 				});
 
-				toAdd.forEach((role) => roles.add(role));
-				toRmv.forEach((role) => roles.delete(role));
+				for (const role of toAdd) {
+					roles.add(role);
+				}
+
+				for (const role of toRmv) {
+					roles.delete(role);
+				}
 
 				if (roles.size !== member.roles.length) {
 					this.proxy.patch(Routes.guildMember(guild.id, message.author.id), {
@@ -196,9 +204,13 @@ export class Levels {
 					return level < lvl || level > lvl ? roles : [];
 				});
 
-				toAdd.forEach((role) => roles.add(role));
+				for (const role of toAdd) {
+					roles.add(role);
+				}
 				if (levels.rewards.some(({ level }) => level === lvl)) {
-					toRmv.forEach((role) => roles.delete(role));
+					for (const role of toRmv) {
+						roles.delete(role);
+					}
 				}
 
 				const highestRewardRole = levels.rewards
@@ -207,10 +219,12 @@ export class Levels {
 						(highest, reward) => {
 							return reward.level > highest.level ? reward : highest;
 						},
-						{ id: "", level: -1, roles: [] },
+						{ level: -1, roles: [] },
 					).roles;
 
-				highestRewardRole.forEach((role) => roles.add(role));
+				for (const role of highestRewardRole) {
+					roles.add(role);
+				}
 
 				if (roles.size !== member.roles.length) {
 					this.proxy.patch(Routes.guildMember(guild.id, message.author.id), {
@@ -254,19 +268,20 @@ export class Levels {
 	private async deleteReward(guild: APIGuild, lvl: number, allRoles: Snowflake[], toRemove: Snowflake) {
 		const roles = allRoles.filter((role) => role !== toRemove);
 
-		await prisma.levelingReward.update({
-			where: {
-				guildLevel: {
-					level: lvl,
-					guildId: guild.id,
-				},
-			},
-			data: {
-				roles: {
-					set: roles,
-				},
-			},
-		});
+		// await prisma.guild.update({
+		// 	where: {
+		// 		levels: {
+		// 			rewards: [{
+		// 				level: lvl,
+		// 			}]
+		// 		},
+		// 	},
+		// 	data: {
+		// 		roles: {
+		// 			set: roles,
+		// 		},
+		// 	},
+		// });
 	}
 
 	/**
@@ -275,8 +290,10 @@ export class Levels {
 	 * @param userId - The id of the user to get the rank from
 	 * */
 	public async getMemberRank(guildId: string, userId: string) {
-		const leaderboard = await this.getLeaderboard(guildId);
-		return leaderboard.findIndex((member) => member.userId === userId) + 1;
+		// const leaderboard = await this.getLeaderboard(guildId);
+		// return leaderboard.findIndex((member) => member.userId === userId) + 1;
+
+		return 0;
 	}
 
 	/**
@@ -284,18 +301,18 @@ export class Levels {
 	 * @param guildId - The id of the guild to get the leaderboard from
 	 * */
 	public getLeaderboard(guildId: string) {
-		return prisma.member.findMany({
-			where: {
-				guildId,
-			},
-			select: {
-				userId: true,
-				exp: true,
-			},
-			orderBy: {
-				exp: "desc",
-			},
-		});
+		// return prisma.member.findMany({
+		// 	where: {
+		// 		guildId,
+		// 	},
+		// 	select: {
+		// 		userId: true,
+		// 		exp: true,
+		// 	},
+		// 	orderBy: {
+		// 		exp: "desc",
+		// 	},
+		// });
 	}
 }
 

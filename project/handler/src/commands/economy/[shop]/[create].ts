@@ -16,11 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { actionRow, select } from "@lib/components";
-import type { Command, Context } from "@lib/core";
-import {} from "db";
-
-type CommandMethods<T extends string> = Record<T, (context: Context, options: any[]) => Promise<any>> | any;
+import {} from "@riceball/db";
+import { actionRow, select } from "library/components";
+import type { Command, Context } from "library/core";
 
 /**
  * The methods of the shop create command
@@ -45,33 +43,13 @@ enum ShopCreateMethods {
  * 		8. User inputs the item's channel
  * 		9. User inputs the item's emoji
  */
-export default class implements Command, CommandMethods<ShopCreateMethods> {
-	public async *args() {
-		const itemType = yield {
-			type: "select",
-			options: [
-				{ label: "Role", value: "role" },
-				{ label: "Channel", value: "channel" },
-				{ label: "Emoji", value: "emoji" },
-			],
-		};
-
-		const item = yield {
-			type: "select",
-			options: [
-				{ label: "Role", value: "role" },
-				{ label: "Channel", value: "channel" },
-				{ label: "Emoji", value: "emoji" },
-			],
-		};
-	}
-
+export default class implements Command {
 	/**
 	 * Create a shop item
 	 *
 	 * @param {Context} context - The context of the command
 	 **/
-	public chatInputRun({}: Context) {
+	public chatInputRun({ t }: Context) {
 		return {
 			embeds: [
 				{

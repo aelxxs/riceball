@@ -1,109 +1,119 @@
 <script lang="ts">
-  import Button from "$lib/blocks/button/button.svelte";
-  import { Slider } from "$lib/blocks/slider/slider";
-  import { AlertDialog, AspectRatio } from "bits-ui";
-  import { XIcon } from "lucide-svelte";
-  import ImageUpIcon from "lucide-svelte/icons/image-up";
-  import Trash2Icon from "lucide-svelte/icons/trash-2";
-  import Cropper, {
-    type CropArea,
-    type OnCropCompleteEvent,
-  } from "svelte-easy-crop";
+import Button from "$lib/blocks/button/button.svelte";
+import { Slider } from "$lib/blocks/slider/slider";
+import { AlertDialog, AspectRatio } from "bits-ui";
+import { XIcon } from "lucide-svelte";
+import ImageUpIcon from "lucide-svelte/icons/image-up";
+import Trash2Icon from "lucide-svelte/icons/trash-2";
+import Cropper, {
+	type CropArea,
+	type OnCropCompleteEvent,
+} from "svelte-easy-crop";
 
-  let {
-    url = $bindable(),
-    w = $bindable(null),
-    h = $bindable(null),
-    ratio = $bindable(760 / 224),
-    cropper = $bindable(true),
-    previewMode = false,
-    onNewImage = $bindable(() => {}),
-  } = $props();
+let {
+	url = $bindable(),
+	w = $bindable(null),
+	h = $bindable(null),
+	ratio = $bindable(760 / 224),
+	cropper = $bindable(true),
+	previewMode = false,
+	onNewImage = $bindable(() => {}),
+} = $props();
 
-  let files = $state<FileList | null>(null);
+let inputElement: HTMLInputElement | null = $state(null);
 
-  let inputElement: HTMLInputElement = $state(null!);
-  let cropModalOpen = $state(false);
-  let crop = $state({ x: 0, y: 0 });
-  let zoom = $state(1);
-  let croppedAreaPixels: any = null;
-  let imageSrc: string | null = $state(null);
+let cropModalOpen = $state(false);
+let crop = $state({ x: 0, y: 0 });
+let zoom = $state(1);
 
-  function handleFileChange(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        imageSrc = e.target?.result as string;
-        if (cropper) {
-          cropModalOpen = true;
-        } else {
-          url = imageSrc;
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  }
+let croppedAreaPixels: CropArea | null = $state(null);
+let imageSrc: string | null = $state(null);
 
-  function handleClick() {
-    inputElement?.click();
-  }
+function handleFileChange(event: Event) {
+	const file = (event.target as HTMLInputElement).files?.[0];
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			imageSrc = e.target?.result as string;
+			if (cropper) {
+				cropModalOpen = true;
+			} else {
+				url = imageSrc;
+			}
+		};
+		reader.readAsDataURL(file);
+	}
+}
 
-  function deleteImage(e: MouseEvent) {
-    e.stopPropagation();
-    url = null;
-    if (inputElement) {
-      inputElement.value = "";
-    }
-  }
+function handleClick() {
+	inputElement?.click();
+}
 
-  async function onCropComplete(e: OnCropCompleteEvent) {
-    croppedAreaPixels = e.pixels;
-  }
+function deleteImage(e: MouseEvent) {
+	e.stopPropagation();
+	url = null;
+	if (inputElement) {
+		inputElement.value = "";
+	}
+}
 
-  const createImage = (url: string): Promise<HTMLImageElement> =>
-    new Promise((resolve, reject) => {
-      const image = new Image();
-      image.setAttribute("crossOrigin", "anonymous");
-      image.addEventListener("load", () => resolve(image));
-      image.addEventListener("error", (error) => reject(error));
-      image.src = url;
-    });
+async function onCropComplete(e: OnCropCompleteEvent) {
+	croppedAreaPixels = e.pixels;
+}
 
-  /**
-   * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
-   * @param {File} src - Image File url
-   * @param {CropArea} pixelCrop - pixelCrop Object provided by react-easy-crop
-   */
-  async function getCroppedImg(src: string, { width, height, x, y }: CropArea) {
-    const image = await createImage(src);
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d")!;
+const createImage = (url: string): Promise<HTMLImageElement> =>
+	new Promise((resolve, reject) => {
+		const image = new Image();
+		image.setAttribute("crossOrigin", "anonymous");
+		image.addEventListener("load", () => resolve(image));
+		image.addEventListener("error", (error) => reject(error));
+		image.src = url;
+	});
 
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
+/**
+ * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
+ * @param {File} src - Image File url
+ * @param {CropArea} pixelCrop - pixelCrop Object provided by react-easy-crop
+ */
+async function getCroppedImg(src: string, { width, height, x, y }: CropArea) {
+	const image = await createImage(src);
+	const canvas = document.createElement("canvas");
+	canvas.width = width;
+	canvas.height = height;
+	const ctx = canvas.getContext("2d");
 
-    return new Promise((resolve, reject) => {
-      canvas.toBlob((file) => {
-        if (!file) reject(new Error("Canvas is empty"));
-        else resolve(file);
-      }, "image/jpeg");
-    });
-  }
+	if (!ctx) {
+		throw new Error("Could not create canvas context");
+	}
 
-  async function handleCrop() {
-    const croppedImageUrl = await getCroppedImg(imageSrc!, croppedAreaPixels);
-    if (croppedImageUrl) {
-      url = croppedImageUrl;
-      onNewImage(croppedImageUrl);
-      cropModalOpen = false;
-    }
-  }
+	ctx.fillStyle = "#ffffff";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
 
-  const closeModal = () => (cropModalOpen = false);
+	return new Promise((resolve, reject) => {
+		canvas.toBlob((file) => {
+			if (!file) reject(new Error("Canvas is empty"));
+			else resolve(file);
+		}, "image/jpeg");
+	});
+}
+
+async function handleCrop() {
+	if (!imageSrc || !croppedAreaPixels) {
+		return;
+	}
+
+	const croppedImageUrl = await getCroppedImg(imageSrc, croppedAreaPixels);
+	if (croppedImageUrl) {
+		url = croppedImageUrl;
+		onNewImage(croppedImageUrl);
+		cropModalOpen = false;
+	}
+}
+
+const closeModal = () => {
+	cropModalOpen = false;
+};
 </script>
 
 <AlertDialog.Root bind:open={cropModalOpen}>
@@ -182,7 +192,6 @@
         accept="image/*"
         onchange={handleFileChange}
         bind:this={inputElement}
-        bind:files
         hidden
       />
     </div>

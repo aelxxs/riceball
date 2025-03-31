@@ -1,32 +1,32 @@
 <script lang="ts">
-  // - Icons
-  import ArrowDownFromLineIcon from "lucide-svelte/icons/arrow-down-from-line";
-  import ArrowRightFromLineIcon from "lucide-svelte/icons/arrow-right-from-line";
-  import TrashIcon from "lucide-svelte/icons/trash";
+// - Icons
+import ArrowDownFromLineIcon from "lucide-svelte/icons/arrow-down-from-line";
+import ArrowRightFromLineIcon from "lucide-svelte/icons/arrow-right-from-line";
+import TrashIcon from "lucide-svelte/icons/trash";
 
-  import type { APIEmbedField } from "discord-api-types/v10";
+import type { APIEmbedField } from "discord-api-types/v10";
 
-  import { Button } from "$lib/blocks/button";
-  import Editable from "$lib/blocks/editable/editable.svelte";
-  import type { DashboardGuild } from "$lib/types";
+import { Button } from "$lib/blocks/button";
+import Editable from "$lib/blocks/editable/editable.svelte";
+import type { DashboardGuild } from "$lib/types";
 
-  type Props = {
-    field: APIEmbedField;
-    onDelete: () => void;
-    onToggleInline: () => void;
-    guild: DashboardGuild;
-  };
+type Props = {
+	field: APIEmbedField;
+	onDelete: () => void;
+	onToggleInline: () => void;
+	guild: DashboardGuild;
+};
 
-  let {
-    field = $bindable<APIEmbedField>({
-      name: "",
-      value: "",
-      inline: false,
-    }),
-    onDelete = $bindable(() => {}),
-    onToggleInline = $bindable(() => {}),
-    guild,
-  }: Props = $props();
+const {
+	field = $bindable<APIEmbedField>({
+		name: "",
+		value: "",
+		inline: false,
+	}),
+	onDelete = $bindable(() => {}),
+	onToggleInline = $bindable(() => {}),
+	guild,
+}: Props = $props();
 </script>
 
 <div class="field" class:inline={field.inline}>

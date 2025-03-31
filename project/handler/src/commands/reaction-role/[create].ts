@@ -17,11 +17,10 @@
  **/
 
 import { roleMention } from "@discordjs/formatters";
-import { Component, edit, update, type Command, type Context } from "@lib/core";
 import { stripIndents } from "common-tags";
-import { APIEmoji, ComponentType } from "discord-api-types/v10";
+import { type APIEmoji, ComponentType } from "discord-api-types/v10";
 import { actionRow, select } from "library/components";
-import { ReactionCollector } from "library/core/collectors/ReactionCollector";
+import { type Command, type Component, type Context, edit, update } from "library/core";
 
 export default class implements Command {
 	/**
@@ -31,99 +30,99 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild, i }: Context) {
-		return {
-			embeds: [
-				{
-					title: guild.name,
-					description: "Interactive Reaction Role Creation",
-				},
-			],
-			components: [
-				actionRow({
-					command: "reaction-role/create",
-					components: [
-						select({
-							method: this.selectReactionRole,
-							placeholder: "Select a role...",
-							type: ComponentType.RoleSelect,
-						}),
-					],
-				}),
-			],
-		};
+		// return {
+		// 	embeds: [
+		// 		{
+		// 			title: guild.name,
+		// 			description: "Interactive Reaction Role Creation",
+		// 		},
+		// 	],
+		// 	components: [
+		// 		actionRow({
+		// 			command: "reaction-role/create",
+		// 			components: [
+		// 				select({
+		// 					method: this.selectReactionRole,
+		// 					placeholder: "Select a role...",
+		// 					type: ComponentType.RoleSelect,
+		// 				}),
+		// 			],
+		// 		}),
+		// 	],
+		// };
 	}
 
-	public selectReactionRole: Component = async (ctx, [role]: any) => {
-		await update(ctx.i, {
-			embeds: [
-				{
-					title: "Create a reaction role",
-					description: stripIndents`
-						React to this message with the emoji you want to use for the role.
+	// public selectReactionRole: Component = async (ctx, [role]: string) => {
+	// 	await update(ctx.i, {
+	// 		embeds: [
+	// 			{
+	// 				title: "Create a reaction role",
+	// 				description: stripIndents`
+	// 					React to this message with the emoji you want to use for the role.
 
-						${roleMention(role)} – \`Emoji\`
-					`,
-				},
-			],
-			components: [],
-		});
+	// 					${roleMention(role)} – \`Emoji\`
+	// 				`,
+	// 			},
+	// 		],
+	// 		components: [],
+	// 	});
 
-		try {
-			const emoji = await awaitSingleEmojiReaction(ctx);
+	// 	try {
+	// 		const emoji = await awaitSingleEmojiReaction(ctx);
 
-			console.log({ emoji });
+	// 		console.log({ emoji });
 
-			edit(ctx.i, {
-				embeds: [
-					{
-						title: "Create a reaction role",
-						description: stripIndents`
-						React to this message with the emoji you want to use for the role.
+	// 		edit(ctx.i, {
+	// 			embeds: [
+	// 				{
+	// 					title: "Create a reaction role",
+	// 					description: stripIndents`
+	// 					React to this message with the emoji you want to use for the role.
 
-						${roleMention(role)} – ${emoji.name}
-					`,
-					},
-				],
-				components: [
-					actionRow({
-						command: "reaction-role/create",
-						components: [
-							select({
-								method: this.selectReactionRole,
-								placeholder: "Select a role...",
-								type: ComponentType.RoleSelect,
-							}),
-						],
-					}),
-				],
-			});
-		} catch (error) {
-			edit(ctx.i, {
-				description: "Timed out",
-			});
-		}
-	};
+	// 					${roleMention(role)} – ${emoji.name}
+	// 				`,
+	// 				},
+	// 			],
+	// 			components: [
+	// 				actionRow({
+	// 					command: "reaction-role/create",
+	// 					components: [
+	// 						select({
+	// 							method: this.selectReactionRole,
+	// 							placeholder: "Select a role...",
+	// 							type: ComponentType.RoleSelect,
+	// 						}),
+	// 					],
+	// 				}),
+	// 			],
+	// 		});
+	// 	} catch (error) {
+	// 		edit(ctx.i, {
+	// 			description: "Timed out",
+	// 		});
+	// 	}
+	// };
 }
 
-const awaitSingleEmojiReaction = async ({ i }: Context): Promise<APIEmoji> => {
-	const collector = new ReactionCollector(
-		i,
-		(reaction) => {
-			return reaction.member!.user!.id === i.member!.user.id;
-		},
-		{
-			timeout: 10000,
-			max: 1,
-		},
-	);
+// const awaitSingleEmojiReaction = async ({ i }: Context): Promise<APIEmoji> => {
+// 	const collector = new ReactionCollector(
+// 		i,
+// 		(reaction) => {
+// 			return reaction.member?.user?.id === i.member?.user.id;
+// 		},
+// 		{
+// 			timeout: 10000,
+// 			max: 1,
+// 		},
+// 	);
 
-	return new Promise((resolve, reject) => {
-		collector.on("collect", async (reaction) => {
-			resolve(reaction.emoji);
-		});
+// 	return new Promise((resolve, reject) => {
+// 		collector.on("collect", async (reaction) => {
+// 			resolve(reaction.emoji);
+// 		});
 
-		collector.on("end", () => {
-			reject("No reaction collected");
-		});
-	});
-};
+// 		collector.on("end", () => {
+// 			reject("No reaction collected");
+// 		});
+// 	});
+// };

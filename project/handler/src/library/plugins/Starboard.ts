@@ -1,10 +1,10 @@
+import path from "node:path";
 import { channelMention, hyperlink, messageLink } from "@discordjs/formatters";
-import { getGuild, prisma, Stars } from "db";
-import { APIEmbed, APIEmoji, APIGuild, APIMessage, APIPartialEmoji, Snowflake } from "discord-api-types/v10";
+// import { type Stars, getGuild, prisma } from "@riceball/db";
+import type { APIEmbed, APIEmoji, APIGuild, APIMessage, APIPartialEmoji, Snowflake } from "discord-api-types/v10";
 import { deleteMessage, editMessage, getUserAvatar, sendMessage } from "library/core";
 import { Queue } from "library/utilities/queue";
-import emojis from "node-emoji";
-import path from "path";
+import * as emojis from "node-emoji";
 
 export class Starboard {
 	private queues: Map<Snowflake, Queue> = new Map();
@@ -50,25 +50,20 @@ export class Starboard {
 	 * @returns A promise that resolves to a string if self-starring is disabled, otherwise void.
 	 */
 	public async add(guild: APIGuild, message: APIMessage, starredByUserId: Snowflake, emoji: APIEmoji) {
-		const { stars } = await getGuild(guild.id);
-
-		if (!stars.channelId) return;
-
-		if (!Starboard.emojiEquals(emoji, parseEmoji(stars.emoji))) return;
-
-		if (message.author.id === starredByUserId) {
-			if (stars.selfStarEnabled) {
-				return this.queue(message, () => this.addStar(guild, message, starredByUserId, stars));
-			}
-			if (stars.selfStarWarning) {
-				this.recentlySelfStarred.add(starredByUserId);
-				setTimeout(() => this.recentlySelfStarred.delete(starredByUserId), this.SELF_STAR_COOLDOWN);
-
-				return "Self starring is disabled in this server.";
-			}
-		}
-
-		return this.queue(message, () => this.addStar(guild, message, starredByUserId, stars));
+		// const { stars } = await getGuild(guild.id);
+		// if (!stars.channelId) return;
+		// if (!Starboard.emojiEquals(emoji, parseEmoji(stars.emoji))) return;
+		// if (message.author.id === starredByUserId) {
+		// 	if (stars.selfStarEnabled) {
+		// 		return this.queue(message, () => this.addStar(guild, message, starredByUserId, stars));
+		// 	}
+		// 	if (stars.selfStarWarning) {
+		// 		this.recentlySelfStarred.add(starredByUserId);
+		// 		setTimeout(() => this.recentlySelfStarred.delete(starredByUserId), this.SELF_STAR_COOLDOWN);
+		// 		return "Self starring is disabled in this server.";
+		// 	}
+		// }
+		// return this.queue(message, () => this.addStar(guild, message, starredByUserId, stars));
 	}
 
 	/**
@@ -80,56 +75,48 @@ export class Starboard {
 	 * @param stars - The starboard configuration including channel ID and threshold.
 	 * @returns A promise that resolves to a string if the user has already starred the message, otherwise void.
 	 */
-	private async addStar(guild: APIGuild, message: APIMessage, starredByUserId: Snowflake, stars: Stars) {
-		if (!stars.channelId) return;
-
-		const star = await prisma.star.findFirst({
-			where: { refMessageId: message.id },
-		});
-
-		const embed = this.buildStarboardEmbed(guild, message, star?.count ?? 1);
-
-		if (!star) {
-			let messageId = null;
-
-			if (stars.threshold === 1) {
-				const starboardMessage = await sendMessage(stars.channelId, embed);
-				messageId = starboardMessage.id;
-			}
-
-			await prisma.star.create({
-				data: {
-					refAuthorId: message.author.id,
-					refMessageId: message.id,
-					refChannelId: message.channel_id,
-					messageId,
-					count: 1,
-					users: [starredByUserId],
-				},
-			});
-		} else {
-			if (star.users.includes(starredByUserId)) {
-				return "You have already starred this message.";
-			}
-
-			let starboardMessage: APIMessage | null = null;
-			if (star.count + 1 >= stars.threshold) {
-				const embed = this.buildStarboardEmbed(guild, message, star.count + 1);
-
-				starboardMessage = star.messageId
-					? await editMessage(stars.channelId, star.messageId, embed)
-					: await sendMessage(stars.channelId, embed);
-			}
-
-			await prisma.star.update({
-				where: { id: star.id },
-				data: {
-					count: star.count + 1,
-					users: { push: starredByUserId },
-					messageId: starboardMessage?.id,
-				},
-			});
-		}
+	private async addStar(guild: APIGuild, message: APIMessage, starredByUserId: Snowflake, stars: unknown) {
+		// if (!stars.channelId) return;
+		// const star = await prisma.star.findFirst({
+		// 	where: { refMessageId: message.id },
+		// });
+		// const embed = this.buildStarboardEmbed(guild, message, star?.count ?? 1);
+		// if (!star) {
+		// 	let messageId = null;
+		// 	if (stars.threshold === 1) {
+		// 		const starboardMessage = await sendMessage(stars.channelId, embed);
+		// 		messageId = starboardMessage.id;
+		// 	}
+		// 	await prisma.star.create({
+		// 		data: {
+		// 			refAuthorId: message.author.id,
+		// 			refMessageId: message.id,
+		// 			refChannelId: message.channel_id,
+		// 			messageId,
+		// 			count: 1,
+		// 			users: [starredByUserId],
+		// 		},
+		// 	});
+		// } else {
+		// 	if (star.users.includes(starredByUserId)) {
+		// 		return "You have already starred this message.";
+		// 	}
+		// 	let starboardMessage: APIMessage | null = null;
+		// 	if (star.count + 1 >= stars.threshold) {
+		// 		const embed = this.buildStarboardEmbed(guild, message, star.count + 1);
+		// 		starboardMessage = star.messageId
+		// 			? await editMessage(stars.channelId, star.messageId, embed)
+		// 			: await sendMessage(stars.channelId, embed);
+		// 	}
+		// 	await prisma.star.update({
+		// 		where: { id: star.id },
+		// 		data: {
+		// 			count: star.count + 1,
+		// 			users: { push: starredByUserId },
+		// 			messageId: starboardMessage?.id,
+		// 		},
+		// 	});
+		// }
 	}
 
 	/**
@@ -142,13 +129,11 @@ export class Starboard {
 	 * @returns A promise that resolves when the star has been removed.
 	 */
 	public async remove(guild: APIGuild, message: APIMessage, starredByUserId: Snowflake, emoji: APIEmoji) {
-		const { stars } = await getGuild(guild.id);
-
-		if (!stars.channelId) return;
-		if (!stars.selfStarEnabled && message.author.id === starredByUserId) return;
-		if (!Starboard.emojiEquals(emoji, parseEmoji(stars.emoji))) return;
-
-		return this.queue(message, () => this.removeStar(guild, message, starredByUserId, stars));
+		// const { stars } = await getGuild(guild.id);
+		// if (!stars.channelId) return;
+		// if (!stars.selfStarEnabled && message.author.id === starredByUserId) return;
+		// if (!Starboard.emojiEquals(emoji, parseEmoji(stars.emoji))) return;
+		// return this.queue(message, () => this.removeStar(guild, message, starredByUserId, stars));
 	}
 
 	/**
@@ -160,36 +145,36 @@ export class Starboard {
 	 * @param stars - The starboard configuration and state.
 	 * @returns A promise that resolves when the star has been removed and the starboard message has been updated or deleted.
 	 */
-	private async removeStar(guild: APIGuild, message: APIMessage, starredByUserId: Snowflake, stars: Stars) {
-		if (!stars.channelId) return;
-
-		const star = await prisma.star.findFirst({
-			where: { refMessageId: message.id },
-		});
-
-		if (!star || !star.users.includes(starredByUserId)) {
-			return;
-		}
-
-		const newUsers = star.users.filter((id) => id !== starredByUserId);
-
-		if (newUsers.length === 0) {
-			await prisma.star.delete({ where: { id: star.id } });
-			await deleteMessage(stars.channelId, star.messageId!);
-		} else {
-			await prisma.star.update({
-				where: { id: star.id },
-				data: { users: newUsers, count: star.count - 1 },
-			});
-
-			const embed = this.buildStarboardEmbed(guild, message, star.count - 1);
-
-			if (star.count - 1 < stars.threshold) {
-				await deleteMessage(stars.channelId, star.messageId!);
-			} else {
-				await editMessage(stars.channelId, star.messageId!, embed);
-			}
-		}
+	private async removeStar(guild: APIGuild, message: APIMessage, starredByUserId: Snowflake, stars: unknown) {
+		// if (!stars.channelId) return;
+		// const star = await prisma.star.findFirst({
+		// 	where: { refMessageId: message.id },
+		// });
+		// if (!star || !star.users.includes(starredByUserId)) {
+		// 	return;
+		// }
+		// const newUsers = star.users.filter((id) => id !== starredByUserId);
+		// if (newUsers.length === 0) {
+		// 	await prisma.star.delete({ where: { id: star.id } });
+		// 	if (star.messageId) {
+		// 		await deleteMessage(stars.channelId, star.messageId);
+		// 	}
+		// } else {
+		// 	await prisma.star.update({
+		// 		where: { id: star.id },
+		// 		data: { users: newUsers, count: star.count - 1 },
+		// 	});
+		// 	const embed = this.buildStarboardEmbed(guild, message, star.count - 1);
+		// 	if (star.count - 1 < stars.threshold) {
+		// 		if (star.messageId) {
+		// 			await deleteMessage(stars.channelId, star.messageId);
+		// 		}
+		// 	} else {
+		// 		if (star.messageId) {
+		// 			await editMessage(stars.channelId, star.messageId, embed);
+		// 		}
+		// 	}
+		// }
 	}
 
 	private buildStarboardEmbed(guild: APIGuild, message: APIMessage, count: number) {
@@ -225,7 +210,7 @@ export class Starboard {
 	}
 
 	static findAttachment(message: APIMessage) {
-		let attachmentImage;
+		let attachmentImage: string | undefined;
 		const extensions = [".png", ".jpg", ".jpeg", ".gif", ".webp"];
 		const linkRegex = /https?:\/\/(?:\w+\.)?[\w-]+\.[\w]{2,3}(?:\/[\w-_.]+)+\.(?:png|jpg|jpeg|gif|webp)/;
 
@@ -278,20 +263,24 @@ export class Starboard {
 	 * @param y - The second emoji to compare. Can be a string or an object with `id` and `name` properties.
 	 * @returns `true` if the emojis are equal, `false` otherwise.
 	 */
-	static emojiEquals(x: any, y: any) {
+	static emojiEquals(x: string | APIPartialEmoji, y: string | APIPartialEmoji | null) {
+		if (!x || !y) return false;
+
 		if (typeof x === "string" && typeof y === "string") {
 			return x === y;
 		}
 
-		if (typeof x === "string") {
+		if (typeof x === "string" && typeof y === "object") {
 			return x === y.name;
 		}
 
-		if (typeof y === "string") {
+		if (typeof y === "string" && typeof x === "object") {
 			return x.name === y;
 		}
 
-		return x?.id === y?.id || x?.name === y?.name;
+		if (typeof x === "object" && typeof y === "object") {
+			return x?.id === y?.id || x?.name === y?.name;
+		}
 	}
 
 	static validateEmoji(guild: APIGuild, emoji: string) {
@@ -302,7 +291,7 @@ export class Starboard {
 		}
 
 		const custom = guild.emojis.find(({ id }) => {
-			return emoji.includes(id!);
+			return id ? emoji.includes(id) : null;
 		});
 
 		if (custom) {
@@ -322,7 +311,8 @@ export class Starboard {
  * @returns {?APIPartialEmoji}
  */
 function parseEmoji(text: string): APIPartialEmoji | null {
-	if (text.includes("%")) text = decodeURIComponent(text);
+	let decodedText = text;
+	if (decodedText.includes("%")) decodedText = decodeURIComponent(decodedText);
 	if (!text.includes(":")) return { animated: false, name: text, id: null };
 	const match = text.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
 	return match && { animated: Boolean(match[1]), name: match[2], id: match[3] };

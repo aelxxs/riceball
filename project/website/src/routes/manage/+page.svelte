@@ -1,17 +1,17 @@
 <script lang="ts">
-  import { Button } from "$lib/blocks/button";
-  import { DiscordIcon } from "$lib/blocks/discord-icon";
-  import { CDN } from "@discordjs/rest";
-  import { slide } from "svelte/transition";
-  import type { PageProps } from "./$types";
+import { Button } from "$lib/blocks/button";
+import { DiscordIcon } from "$lib/blocks/discord-icon";
+import { CDN } from "@discordjs/rest";
+import { slide } from "svelte/transition";
+import type { PageProps } from "./$types";
 
-  const { data }: PageProps = $props();
+const { data }: PageProps = $props();
 
-  function createGuildInviteUrl(id: string) {
-    return `https://discord.com/oauth2/authorize?client_id=${id}&scope=bot%20applications.commands&permissions=8`;
-  }
+function createGuildInviteUrl(id: string) {
+	return `https://discord.com/oauth2/authorize?client_id=${id}&scope=bot%20applications.commands&permissions=8`;
+}
 
-  const cdn = new CDN();
+const cdn = new CDN();
 </script>
 
 <article class="wrap flow" transition:slide>
@@ -95,7 +95,6 @@
   .bg {
     position: absolute;
     inset: 0px;
-    // z-index: 1;
     background: var(--bg) center center / cover no-repeat;
     transform: scale(1.4);
     filter: blur(10px);

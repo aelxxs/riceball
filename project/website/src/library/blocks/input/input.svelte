@@ -1,18 +1,18 @@
 <script lang="ts">
-  import type { WithElementRef } from "bits-ui";
-  import type { Icon } from "lucide-svelte";
-  import type { HTMLInputAttributes } from "svelte/elements";
+import type { WithElementRef } from "bits-ui";
+import type { Icon } from "lucide-svelte";
+import type { HTMLInputAttributes } from "svelte/elements";
 
-  let {
-    label,
-    ref = $bindable(null),
-    value = $bindable(),
-    class: className,
-    icon,
-    ...restProps
-  }: WithElementRef<
-    HTMLInputAttributes & { label?: string; icon?: typeof Icon }
-  > = $props();
+let {
+	label,
+	ref = $bindable(null),
+	value = $bindable(),
+	class: className,
+	icon,
+	...restProps
+}: WithElementRef<
+	HTMLInputAttributes & { label?: string; icon?: typeof Icon }
+> = $props();
 </script>
 
 <div class="container">

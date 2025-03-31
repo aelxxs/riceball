@@ -1,4 +1,4 @@
-import { Node } from "prosemirror-model";
+import type { Node } from "prosemirror-model";
 
 export type NodeSerializerOptions = {
 	state: MarkdownSerializerState;
@@ -32,7 +32,7 @@ export class MarkdownSerializerState {
 				let delimMin = this.delimiter;
 				const trim = /\s+$/.exec(delimMin);
 				if (trim) delimMin = delimMin.slice(0, delimMin.length - trim[0].length);
-				for (let i = 1; i < size; i++) this.out += delimMin + "\n";
+				for (let i = 1; i < size; i++) this.out += `${delimMin}\n`;
 			}
 			this.closed = null;
 		}
@@ -67,13 +67,13 @@ export class MarkdownSerializerState {
 		this.closed = node;
 	}
 
-	public text(text: string, escape = true) {
+	public text(text: string, shouldEscape = true) {
 		const lines = text.split("\n");
 		for (let i = 0; i < lines.length; i++) {
 			const startOfLine = this.atBlank() || this.closed;
 			this.write();
-			this.out += escape ? this.esc(lines[i], Boolean(startOfLine)) : lines[i];
-			if (i != lines.length - 1) this.out += "\n";
+			this.out += shouldEscape ? this.esc(lines[i], Boolean(startOfLine)) : lines[i];
+			if (i !== lines.length - 1) this.out += "\n";
 		}
 	}
 
@@ -90,7 +90,7 @@ export class MarkdownSerializerState {
 	}
 
 	// Serialize a mark on a piece of text
-	public renderMark(mark: any, text: string) {
+	public renderMark(mark: { type: { name: string } }, text: string) {
 		switch (mark.type.name) {
 			case "bold":
 				return `**${text}**`;
@@ -114,9 +114,9 @@ export class MarkdownSerializerState {
 				let text = node.text ?? "";
 
 				if (node.marks) {
-					node.marks.forEach((mark) => {
+					for (const mark of node.marks) {
 						text = this.renderMark(mark, text);
-					});
+					}
 				}
 				this.text(text, false);
 			} else {
@@ -144,13 +144,13 @@ export class MarkdownSerializerState {
 	}
 
 	public esc(str: string, startOfLine?: boolean): string {
-		str = str.replace(/[`*\\~\[\]]/g, "\\$&");
-		if (startOfLine) str = str.replace(/^[:#\-*+]/, "\\$&").replace(/^(\d+)\./, "$1\\.");
-		return str;
+		let cleanedStr = str.replace(/[`*\\~\[\]]/g, "\\$&");
+		if (startOfLine) cleanedStr = str.replace(/^[:#\-*+]/, "\\$&").replace(/^(\d+)\./, "$1\\.");
+		return cleanedStr;
 	}
 
 	public quote(str: string): string {
-		const wrap = !str.includes(`"`) ? `""` : !str.includes(`'`) ? `''` : `()`;
+		const wrap = !str.includes(`"`) ? `""` : !str.includes(`'`) ? `''` : "()";
 		return wrap[0] + str + wrap[1];
 	}
 
@@ -210,13 +210,13 @@ export const serializer = new MarkdownSerializer({
 		state.write(node.attrs.title);
 	},
 	heading: ({ state, node }) => {
-		state.write(state.repeat("#", node.attrs.level) + " ");
+		state.write(`${state.repeat("#", node.attrs.level)} `);
 		state.renderInline(node);
 		state.closeBlock(node);
 		state.write("<!--HEADING_END-->"); // Add a marker after each heading
 	},
 	bulletList: ({ state, node }) => {
-		state.renderList(node, "  ", () => (node.attrs.bullet || "*") + " ");
+		state.renderList(node, "  ", () => `${node.attrs.bullet || "*"} `);
 	},
 	listItem: ({ state, node }) => {
 		state.renderContent(node);
@@ -224,9 +224,9 @@ export const serializer = new MarkdownSerializer({
 	codeBlock: ({ state, node }) => {
 		// Make sure the front matter fences are longer than any dash sequence within it
 		const backticks = node.textContent.match(/`{3,}/gm);
-		const fence = backticks ? backticks.sort().slice(-1)[0] + "`" : "```";
+		const fence = backticks ? `${backticks.sort().slice(-1)[0]}\`` : "```";
 
-		state.write(fence + (node.attrs.params || "") + "\n");
+		state.write(`${fence + (node.attrs.params || "")}\n`);
 		state.text(node.textContent, false);
 		// Add a newline to the current content before adding closing marker
 		state.write("\n");
@@ -238,7 +238,7 @@ export const serializer = new MarkdownSerializer({
 	},
 	hardBreak: ({ parent, state, node, index }) => {
 		for (let i = index + 1; i < parent.childCount; i++) {
-			if (parent.child(i).type != node.type) {
+			if (parent.child(i).type !== node.type) {
 				state.write("\n");
 				return;
 			}

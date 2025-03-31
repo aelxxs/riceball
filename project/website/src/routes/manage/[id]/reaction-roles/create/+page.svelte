@@ -1,94 +1,94 @@
 <script lang="ts">
-  import { beforeNavigate, goto } from "$app/navigation";
-  import { Button } from "$lib/blocks/button";
-  import {
-    DashboardCard,
-    DashboardCardSideBySide,
-  } from "$lib/blocks/dashboard-card";
-  import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
-  import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
-  import { Control, Field } from "$lib/blocks/forms";
-  import { Input } from "$lib/blocks/input";
-  import { RadioGroup, RadioGroupItem } from "$lib/blocks/radio-group";
-  import { ChannelSelect } from "$lib/blocks/select";
-  import SelectDiscord from "$lib/blocks/select-discord/select-discord.svelte";
-  import { WebsiteRoutes } from "$lib/constants";
-  import { getAppState } from "$lib/utility/context.svelte.js";
-  import {
-    type DiscordEmbedWithRelations,
-    ReactionRoleWithRelationsSchema,
-  } from "db/zod";
-  import { Trash2Icon } from "lucide-svelte";
-  import { toast } from "svelte-sonner";
-  import SuperDebug, { superForm } from "sveltekit-superforms";
-  import { zodClient } from "sveltekit-superforms/adapters";
+import { beforeNavigate, goto } from "$app/navigation";
+import { Button } from "$lib/blocks/button";
+import {
+	DashboardCard,
+	DashboardCardSideBySide,
+} from "$lib/blocks/dashboard-card";
+import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
+import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
+import { Control, Field } from "$lib/blocks/forms";
+import { Input } from "$lib/blocks/input";
+import { RadioGroup, RadioGroupItem } from "$lib/blocks/radio-group";
+import { ChannelSelect } from "$lib/blocks/select";
+import SelectDiscord from "$lib/blocks/select-discord/select-discord.svelte";
+import { WebsiteRoutes } from "$lib/constants";
+import { getAppState } from "$lib/utility/context.svelte.js";
+import {
+	type DiscordEmbedWithRelations,
+	ReactionRoleWithRelationsSchema,
+} from "@riceball/db/zod";
+import { Trash2Icon } from "lucide-svelte";
+import { toast } from "svelte-sonner";
+import SuperDebug, { superForm } from "sveltekit-superforms";
+import { zodClient } from "sveltekit-superforms/adapters";
 
-  const appState = getAppState();
+const appState = getAppState();
 
-  const { data } = $props();
+const { data } = $props();
 
-  const goBack = () => goto(WebsiteRoutes.ReactionRoles(data.guild.id));
+const goBack = () => goto(WebsiteRoutes.ReactionRoles(data.guild.id));
 
-  const reactionRoleForm = superForm(data.form, {
-    validators: zodClient(ReactionRoleWithRelationsSchema),
-    dataType: "json",
-    onUpdate: ({ result }) => {
-      switch (result.type) {
-        case "success":
-          toast.success("Settings saved successfully!");
-          goBack();
-          break;
-        case "failure":
-          console.log({ result });
-          toast.error("Failed to save settings.");
-          break;
-        default:
-          break;
-      }
-    },
-  });
+const reactionRoleForm = superForm(data.form, {
+	validators: zodClient(ReactionRoleWithRelationsSchema),
+	dataType: "json",
+	onUpdate: ({ result }) => {
+		switch (result.type) {
+			case "success":
+				toast.success("Settings saved successfully!");
+				goBack();
+				break;
+			case "failure":
+				console.log({ result });
+				toast.error("Failed to save settings.");
+				break;
+			default:
+				break;
+		}
+	},
+});
 
-  const { form, submit, enhance } = reactionRoleForm;
+const { form, submit, enhance } = reactionRoleForm;
 
-  const types = [
-    {
-      value: "NORMAL",
-      label: "Toggle Role",
-      description:
-        "Adds or removes a role from a user when they react to the message.",
-    },
-    {
-      value: "ADD",
-      label: "Add Role",
-      description: "Add a role to a user when they react to the message.",
-    },
-    {
-      value: "REMOVE",
-      label: "Remove Role",
-      description: "Remove a role from a user when they react to the message.",
-    },
-    {
-      value: "UNIQUE",
-      label: "Unique Role",
-      description:
-        "Remove all other roles from a user when they react to the message.",
-    },
-  ];
+const types = [
+	{
+		value: "NORMAL",
+		label: "Toggle Role",
+		description:
+			"Adds or removes a role from a user when they react to the message.",
+	},
+	{
+		value: "ADD",
+		label: "Add Role",
+		description: "Add a role to a user when they react to the message.",
+	},
+	{
+		value: "REMOVE",
+		label: "Remove Role",
+		description: "Remove a role from a user when they react to the message.",
+	},
+	{
+		value: "UNIQUE",
+		label: "Unique Role",
+		description:
+			"Remove all other roles from a user when they react to the message.",
+	},
+];
 
-  $effect.pre(() => {
-    appState.setControlTitle("New Reaction Role");
-    appState.setControlsVisible(true);
-    appState.setControls([
-      { label: "Cancel", handler: goBack, variant: "destructive" },
-      { label: "Submit", handler: submit },
-    ]);
-  });
+$effect.pre(() => {
+	appState.setControlTitle("New Reaction Role");
+	appState.setControlsVisible(true);
+	appState.setControls([
+		{ label: "Cancel", handler: goBack, variant: "destructive" },
+		{ label: "Submit", handler: submit },
+	]);
+});
 
-  beforeNavigate(() => {
-    appState.destroyControls();
-  });
+beforeNavigate(() => {
+	appState.destroyControls();
+});
 
-  let pair = $state({ emoji: "", roles: [] });
+const pair = $state({ emoji: "", roles: [] });
 </script>
 
 <SuperDebug data={$form} />
@@ -146,8 +146,8 @@
         client={data.client}
         guild={data.guild}
         bind:content={$form.messageContent}
-        bind:embed={$form.messageEmbed as DiscordEmbedWithRelations}
-        withEmbed
+        bind:embeds={$form.messageEmbed as DiscordEmbedWithRelations}
+        reactions={$form.pairs.map((pair) => pair.emoji)}
       />
     </div>
   </DashboardCard>
@@ -156,7 +156,7 @@
     title="Reactions"
     description="The reactions that will be added to the message."
   >
-    <div class="max-w-form stack">
+    <div class="max-w-form flow">
       <Button
         variant="secondary"
         onclick={() => {
@@ -166,38 +166,45 @@
         Add New Reaction
       </Button>
 
-      <div class="stack">
-        {#each $form.pairs as pair, i}
-          <SelectDiscord
-            type="role"
-            items={data.guild.itemizedRoles}
-            bind:selected={pair.roles}
-          >
-            {#snippet left()}
-              <EmojiPicker
-                guild={data.guild}
-                bind:value={pair.emoji}
-                onEmojiPick={(emoji) => {
-                  pair.emoji = emoji.native || emoji.id;
-                }}
-                showSelected
-                hideAfterPick
-              />
-            {/snippet}
-            {#snippet right()}
-              <Button
-                size="icon"
-                variant="destructive"
-                onclick={() => {
+      {#each $form.pairs as pair, i}
+        <SelectDiscord
+          type="role"
+          items={data.guild.itemizedRoles}
+          bind:selected={pair.roles}
+        >
+          {#snippet left()}
+            <EmojiPicker
+              guild={data.guild}
+              bind:value={pair.emoji}
+              onEmojiPick={(emoji) => {
+                pair.emoji = emoji.native || emoji.id;
+              }}
+              showSelected
+              hideAfterPick
+            />
+          {/snippet}
+          {#snippet right()}
+            <Button
+              size="icon"
+              variant="destructive"
+              onclick={() => {
+                if ($form.pairs.length === 1) {
+                  $form.pairs = [
+                    {
+                      emoji: "🍙",
+                      roles: [],
+                    },
+                  ];
+                } else {
                   $form.pairs = $form.pairs.filter((_, index) => index !== i);
-                }}
-              >
-                <Trash2Icon size="1rem" />
-              </Button>
-            {/snippet}
-          </SelectDiscord>
-        {/each}
-      </div>
+                }
+              }}
+            >
+              <Trash2Icon size="1rem" />
+            </Button>
+          {/snippet}
+        </SelectDiscord>
+      {/each}
     </div>
   </DashboardCard>
 
@@ -230,10 +237,3 @@
     </div>
   </DashboardCard>
 </form>
-
-<style>
-  .reactions {
-    --repeat: auto-fill;
-    --minimum: 50ch;
-  }
-</style>

@@ -16,14 +16,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { getUser, updateUser } from "db";
+import { Database } from "@riceball/db";
 import type { APIUser } from "discord-api-types/v10";
+import type { Command, Context } from "library/core";
 import ms from "ms";
+import { inject, injectable } from "tsyringe";
 
 const ONE_DAY = 86400000;
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * Give a user reputation
 	 *
@@ -35,19 +42,19 @@ export default class implements Command {
 			throw "You can't give yourself reputation.";
 		}
 
-		const { lastReputation } = await getUser(sender.id);
+		const { lastReputation } = await this.db.getUserSettings(sender.id);
 
 		const now = Date.now();
 		const timeDiff = now - (lastReputation ?? 0);
 
 		if (!lastReputation || timeDiff >= ONE_DAY) {
-			const { reputation } = await getUser(user.id);
+			const { reputation } = await this.db.getUserSettings(user.id);
 
-			await updateUser(user.id, {
+			await this.db.setUserSettings(user.id, {
 				reputation: reputation + 1,
 			});
 
-			await updateUser(sender.id, {
+			await this.db.setUserSettings(sender.id, {
 				lastReputation: now,
 			});
 

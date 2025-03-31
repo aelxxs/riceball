@@ -1,139 +1,134 @@
 <script lang="ts">
-  import { Icon } from "lucide-svelte";
-  // - Icons
-  import AtSignIcon from "lucide-svelte/icons/at-sign";
-  import HashIcon from "lucide-svelte/icons/hash";
-  import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
-  import XIcon from "lucide-svelte/icons/x";
+import type { Icon } from "lucide-svelte";
+// - Icons
+import AtSignIcon from "lucide-svelte/icons/at-sign";
+import HashIcon from "lucide-svelte/icons/hash";
+import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
+import XIcon from "lucide-svelte/icons/x";
 
-  import { flyAndScale } from "$lib/utility/transitions";
-  import { Combobox, type Selected } from "bits-ui";
+import { flyAndScale } from "$lib/utility/transitions";
+import { Combobox, type Selected } from "bits-ui";
 
-  import type { Snippet } from "svelte";
-  import { Button } from "../button";
-  import { Checkbox } from "../checkbox";
+import type { Snippet } from "svelte";
+import { Button } from "../button";
+import { Checkbox } from "../checkbox";
 
-  type Item = {
-    value: string;
-    label: string;
-    icon?: typeof Icon;
-    desc?: string;
-  };
+type Item = {
+	value: string;
+	label: string;
+	icon?: typeof Icon;
+	desc?: string;
+};
 
-  type Group = {
-    label: string;
-    items: Item[];
-  };
+type Group = {
+	label: string;
+	items: Item[];
+};
 
-  type SelectItem = Item | Group;
+type SelectItem = Item | Group;
 
-  interface Props {
-    name?: string;
-    type: "role" | "channel" | "member";
-    items: SelectItem[];
-    selected?: string[];
-    max?: number | null;
-    closeAfterSelect?: boolean;
-    left?: Snippet;
-    right?: Snippet;
-  }
+interface Props {
+	name?: string;
+	type: "role" | "channel" | "member";
+	items: SelectItem[];
+	selected?: string[];
+	max?: number | null;
+	closeAfterSelect?: boolean;
+	left?: Snippet;
+	right?: Snippet;
+}
 
-  let {
-    name,
-    type,
-    items,
-    selected = $bindable([]),
-    max = null,
-    closeAfterSelect = false,
-    left,
-    right,
-  }: Props = $props();
+let {
+	name,
+	type,
+	items,
+	selected = $bindable([]),
+	max = null,
+	closeAfterSelect = false,
+	left,
+	right,
+}: Props = $props();
 
-  const icon =
-    type === "role" ? AtSignIcon : type === "channel" ? HashIcon : null;
+const icon =
+	type === "role" ? AtSignIcon : type === "channel" ? HashIcon : null;
 
-  let inputValue = $state("");
+let inputValue = $state("");
 
-  const flatItems = items.flatMap((item) => {
-    if ("items" in item) return item.items;
-    return item;
-  });
+const flatItems = items.flatMap((item) => {
+	if ("items" in item) return item.items;
+	return item;
+});
 
-  const filteredItems = $derived(() => {
-    return inputValue
-      ? items.filter((item) =>
-          item.label.toLowerCase().includes(inputValue.toLowerCase()),
-        )
-      : items;
-  });
+const filteredItems = $derived(() => {
+	return inputValue
+		? items.filter((item) =>
+				item.label.toLowerCase().includes(inputValue.toLowerCase()),
+			)
+		: items;
+});
 
-  let selectedItems = $state<Selected<string>[]>([]);
+let selectedItems = $state<Selected<string>[]>([]);
 
-  $effect(() => {
-    selectedItems = selected.map((id) => {
-      const item = flatItems.find((i) => i.value === id)!;
-      return { value: id, label: item.label };
-    });
-  });
+$effect(() => {
+	selectedItems = selected.map((id) => {
+		const item = flatItems.find((i) => i.value === id);
+		return { value: id, label: item?.label };
+	});
+});
 
-  const onValueChange = (value: string[]) => {
-    if (closeAfterSelect) {
-      isOpen = false;
-    }
-    if (max && value.length > max) {
-      return;
-    }
-    selectedItems = value.map((id) => {
-      const item = flatItems.find((i) => i.value === id)!;
-      return { value: id, label: item.label };
-    });
-    inputValue = "";
-  };
+const onValueChange = (value: string[]) => {
+	if (closeAfterSelect) {
+		isOpen = false;
+	}
+	if (max && value.length > max) {
+		return;
+	}
+	selectedItems = value.map((id) => {
+		const item = flatItems.find((i) => i.value === id);
+		return { value: id, label: item?.label };
+	});
+	inputValue = "";
+};
 
-  let isOpen = $state(false);
+let isOpen = $state(false);
 
-  let inputPlaceholder = $derived(() => {
-    if (isOpen) return `Search for ${type}...`;
-    if (selectedItems.length) return `Add more ${type}s...`;
-    return `Select a ${type}...`;
-  });
+const inputPlaceholder = $derived(() => {
+	if (isOpen) return `Search for ${type}...`;
+	if (selectedItems.length) return `Add more ${type}s...`;
+	return `Select a ${type}...`;
+});
 
-  const noItemsFoundMessage = `No ${type}s found`;
+const noItemsFoundMessage = `No ${type}s found`;
 
-  let customAnchor = $state<HTMLElement>(null!);
+let customAnchor = $state<HTMLElement | null>(null);
 
-  function isGroup(item: SelectItem): item is Group {
-    return "items" in item;
-  }
+function isGroup(item: SelectItem): item is Group {
+	return "items" in item;
+}
 
-  let lastClickTime = 0;
-  const DOUBLE_CLICK_THRESHOLD = 300; // milliseconds
+let lastClickTime = $state(0);
+const DOUBLE_CLICK_THRESHOLD = 300; // milliseconds
 
-  let internalInputValue = $state("");
-  let inputElement;
+const internalInputValue = $state("");
 
-  function handleInput(e: Event & { currentTarget: HTMLInputElement }) {
-    inputValue = e.currentTarget.value;
-  }
+function handleInput(e: Event & { currentTarget: HTMLInputElement }) {
+	inputValue = e.currentTarget.value;
+}
 
-  function focusInput(node: HTMLElement, isOpen: boolean) {
-    function focus() {
-      if (isOpen && node) {
-        node.focus();
-      }
-    }
+function focusInput(node: HTMLElement, _isOpen: boolean) {
+	function focus() {
+		if (_isOpen && node) {
+			node.focus();
+		}
+	}
 
-    return {
-      update(newIsOpen: boolean) {
-        isOpen = newIsOpen;
-        focus();
-      },
-    };
-
-    // $effect(() => {
-    //   focus();
-    // });
-  }
+	return {
+		update(newIsOpen: boolean) {
+			isOpen = newIsOpen;
+			focus();
+		},
+	};
+}
 </script>
 
 <Combobox.Root
@@ -247,7 +242,6 @@
                 <input
                   {...props}
                   size={8}
-                  bind:this={inputElement}
                   use:focusInput={isOpen}
                   value={internalInputValue}
                   oninput={handleInput}

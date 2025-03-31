@@ -16,19 +16,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Command, Context, getGuildIcon, getUserAvatar } from "@lib/core";
-import { Levels } from "@lib/plugins";
-import { abbreviateNumber, composeLevelCard } from "@riceball/color-utils";
-import { Canvas, loadFont, loadImage } from "canvas-constructor/napi-rs";
-import { getEquippedBadges, getMember, getUser } from "db";
+import { join } from "node:path";
+import { abbreviateNumber, composeLevelCard } from "@riceball/colorify";
+import { Database } from "@riceball/db";
+import { Canvas, loadFont, loadImage, registerFont } from "canvas-constructor/napi-rs";
 import type { APIGuild, APIUser } from "discord-api-types/v10";
-import Redis from "ioredis";
+import type Redis from "ioredis";
 import { Deps } from "library/common";
-import { join } from "path";
+import { type Command, type Context, getGuildIcon, getUserAvatar } from "library/core";
+import { Levels } from "library/plugins";
 import { inject, injectable } from "tsyringe";
 
 // load fonts
 // JetBrainsMono-VariableFont_wght.ttf
+
+const __dirname = import.meta.dirname;
 
 loadFont(join(__dirname, "../../../assets/fonts/JetBrainsMono-VariableFont_wght.ttf"), "Onigiri");
 loadFont(join(__dirname, "../../../assets/fonts/TwitterColorEmoji-SVGinOT.ttf"), "Emoji");
@@ -38,6 +40,7 @@ export default class implements Command {
 	public constructor(
 		@inject(Levels) private levels: Levels,
 		@inject(Deps.Redis) private redis: Redis,
+		@inject(Database) private db: Database,
 	) {}
 
 	/**
@@ -66,8 +69,8 @@ export default class implements Command {
 	 * @private
 	 * */
 	public async generateRankCard(guild: APIGuild, user: APIUser): Promise<Buffer> {
-		const { reputation, country, bio } = await getUser(user.id);
-		const { card, badges, exp } = await getMember(guild.id, user.id);
+		const { reputation, country, bio } = await this.db.getUserSettings(user.id);
+		const { card, badges, exp } = await this.db.getMemberSettings(guild.id, user.id);
 
 		const rank = await this.levels.getMemberRank(guild.id, user.id);
 
@@ -94,7 +97,7 @@ export default class implements Command {
 			loadImage(join(__dirname, `../../../assets/flags/flag-${country ?? "mx"}.png`)),
 		]);
 
-		const equippedBadges = await getEquippedBadges(user.id, guild.id);
+		// const equippedBadges = await getEquippedBadges(user.id, guild.id);
 
 		const bioText = user.bot ? "Beep boop, I'm a bot!" : (bio ?? "No bio set... 🍙");
 
@@ -155,22 +158,18 @@ export default class implements Command {
 					ctx.printCircularImage(icon, 358 * s, 90 * s, 6 * s);
 				}
 
-				if (true) {
-					ctx.setTextFont(`medium ${8 * s}px Onigiri, Emoji`);
-					ctx.setColor(subtextColor);
-					ctx.printText(bioText, 98 * s, 43 * s);
-				}
+				ctx.setTextFont(`medium ${8 * s}px Onigiri, Emoji`);
+				ctx.setColor(subtextColor);
+				ctx.printText(bioText, 98 * s, 43 * s);
 
-				if (true) {
-					ctx.setColor(overlayColor);
-					ctx.process((canvas) => {
-						let distance = 980 * s;
-						for (let i = 0; i < 6; i++) {
-							canvas.printCircle(distance, 480 * s, 20 * s);
-							distance += 216 * s;
-						}
-					});
-				}
+				ctx.setColor(overlayColor);
+				ctx.process((canvas) => {
+					let distance = 980 * s;
+					for (let i = 0; i < 6; i++) {
+						canvas.printCircle(distance, 480 * s, 20 * s);
+						distance += 216 * s;
+					}
+				});
 			})
 			.printCircularImage(avatar, 53 * s, 45 * s, 29 * s)
 			.printRoundedImage(flag, 350 * s, 660 * s, 180 * s, 120 * s, 25 * s)

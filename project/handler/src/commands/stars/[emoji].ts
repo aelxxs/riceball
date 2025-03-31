@@ -16,9 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { Starboard } from "@lib/plugins";
-import { updateGuild } from "db";
+import { updateGuild } from "@riceball/db";
+import type { Command, Context } from "library/core";
+import { Starboard } from "library/plugins";
 
 export default class implements Command {
 	/**

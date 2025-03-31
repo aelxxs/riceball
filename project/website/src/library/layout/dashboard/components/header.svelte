@@ -1,31 +1,31 @@
 <script lang="ts">
-  // - Icons
-  import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
-  import HashIcon from "lucide-svelte/icons/hash";
-  import MenuIcon from "lucide-svelte/icons/menu";
-  import XIconIcon from "lucide-svelte/icons/x";
-  // @ts-ignore
-  import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
+// - Icons
+import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
+import HashIcon from "lucide-svelte/icons/hash";
+import MenuIcon from "lucide-svelte/icons/menu";
+import XIconIcon from "lucide-svelte/icons/x";
+// @ts-ignore
+import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
 
-  let duration = 0.3;
+const duration = 0.3;
 
-  import { enhance } from "$app/forms";
-  import { Button } from "$lib/blocks/button";
-  import { Divider } from "$lib/blocks/divider";
-  import Switch from "$lib/blocks/switch/switch.svelte";
-  import {
-    getAppState,
-    getGuild,
-    layoutState,
-  } from "$lib/utility/context.svelte";
-  import { fade, fly } from "svelte/transition";
+import { enhance } from "$app/forms";
+import { Button } from "$lib/blocks/button";
+import { Divider } from "$lib/blocks/divider";
+import Switch from "$lib/blocks/switch/switch.svelte";
+import {
+	getAppState,
+	getGuild,
+	layoutState,
+} from "$lib/utility/context.svelte";
+import { fade, fly } from "svelte/transition";
 
-  let { plugin, toggleOpen } = $props();
+const { plugin, toggleOpen } = $props();
 
-  const goBack = () => window.history.back();
+const goBack = () => window.history.back();
 
-  const state = getAppState();
-  const guild = getGuild();
+const state = getAppState();
+const guild = getGuild();
 </script>
 
 <div class="transition-wrapper" class:bg-solid={layoutState.sideBarOpen}>
@@ -108,7 +108,7 @@
                   }}
                   let:motion
                 >
-                  <span use:motion class="text char fs:md fw:bold">
+                  <span use:motion class="text char fs:sm fw:bold">
                     {item}
                   </span>
                 </Motion>
@@ -171,7 +171,7 @@
     background-color: var(--clr-bg-translucent);
     backdrop-filter: blur(5rem);
     transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    height: var(--header-height);
+    height: var(--header-height-lg);
     &.bg-solid {
       background-color: var(--clr-bg);
     }
@@ -194,6 +194,7 @@
 
   @media (max-width: 875px) {
     .transition-wrapper {
+      height: var(--header-height);
       top: 0;
     }
   }

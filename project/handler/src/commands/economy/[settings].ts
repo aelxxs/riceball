@@ -17,10 +17,10 @@
  **/
 
 import { bold, codeBlock, subtext } from "@discordjs/formatters";
-import type { Command, Context } from "@lib/core";
+import { getGuild } from "@riceball/db";
 import { stripIndents } from "common-tags";
-import { getGuild } from "db";
 import { Constants } from "library/common";
+import type { Command, Context } from "library/core";
 import { formatBoolean, formatEconomyRate } from "library/utilities/formatters";
 
 export default class implements Command {
@@ -51,7 +51,6 @@ export default class implements Command {
 		//     debugMode: false,
 		//     clearOnLeave: false,
 		//     autoUseItems: false,
-		//     userRestriction: null,
 		//     roleRestriction: null,
 		//     channelRestriction: null
 		// }
@@ -168,7 +167,6 @@ export default class implements Command {
 									"yaml",
 									stripIndents`
 										Roles    :: ${economy.roleRestriction?.omit.length ?? 0} ${economy.roleRestriction?.type ?? "Not Set"}
-										Users    :: ${economy.userRestriction?.omit.length ?? 0} ${economy.userRestriction?.type ?? "Not Set"}
 										Channels :: ${economy.channelRestriction?.omit.length ?? 0} ${economy.channelRestriction?.type ?? "Not Set"}
 									`,
 								)}

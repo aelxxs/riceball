@@ -1,0 +1,77 @@
+{
+	"name": "@riceball/db",
+	"author": "Alexis Vielma",
+	"license": "MIT",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "tsup --onSuccess 'pnpm run build:cache'",
+		"build:cache": "mikro-orm-esm cache:generate --combined",
+		"dev": "tsup --watch",
+		"start": "node ./dist/index.js",
+		"check-types": "tsc --noEmit"
+	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
+		},
+		"./zod": {
+			"import": {
+				"types": "./dist/zod.d.ts",
+				"default": "./dist/zod.js"
+			},
+			"require": {
+				"types": "./dist/zod.d.cts",
+				"default": "./dist/zod.cjs"
+			}
+		},
+		"./custom": {
+			"import": {
+				"types": "./dist/custom.d.ts",
+				"default": "./dist/custom.js"
+			},
+			"require": {
+				"types": "./dist/custom.d.cts",
+				"default": "./dist/custom.cjs"
+			}
+		}
+	},
+	"files": ["dist"],
+	"dependencies": {
+		"@mikro-orm/cli": "^6.4.11",
+		"@mikro-orm/core": "^6.4.11",
+		"@mikro-orm/migrations-mongodb": "^6.4.11",
+		"@mikro-orm/mongodb": "^6.4.11",
+		"@mikro-orm/reflection": "^6.4.11",
+		"@prisma/client": "latest",
+		"@riceball/logger": "workspace:*",
+		"dotenv": "16.4.7",
+		"ioredis": "5.6.0",
+		"reflect-metadata": "0.2.2",
+		"ts-node": "^10.9.2",
+		"tsup": "^8.4.0",
+		"tsyringe": "4.8.0",
+		"zod": "^3.24.2",
+		"zod-prisma-types": "^3.2.4"
+	},
+	"devDependencies": {
+		"@riceball/ts-config": "workspace:*",
+		"@types/node": "22.13.14",
+		"prisma": "latest",
+		"typescript": "^5.7.3",
+		"zod-prisma": "^0.5.4"
+	},
+	"mikro-orm": {
+		"configPaths": ["./src/mikro-orm.config.ts", "./dist/mikro-orm.config.js"]
+	}
+}

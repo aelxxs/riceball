@@ -1,59 +1,59 @@
 <script lang="ts">
-  // - Icons
-  import type { Icon as IconType } from "lucide-svelte";
-  import CheckIcon from "lucide-svelte/icons/check";
-  import ChevronDownIcon from "lucide-svelte/icons/chevron-down";
+// - Icons
+import type { Icon as IconType } from "lucide-svelte";
+import CheckIcon from "lucide-svelte/icons/check";
+import ChevronDownIcon from "lucide-svelte/icons/chevron-down";
 
-  import { flyAndScale } from "$lib/utility/transitions";
-  import { Select } from "bits-ui";
-  import { Checkbox } from "../checkbox";
+import { flyAndScale } from "$lib/utility/transitions";
+import { Select } from "bits-ui";
+import { Checkbox } from "../checkbox";
 
-  export type Item = {
-    value: string;
-    label: string;
-    icon?: typeof IconType;
-    desc?: string;
-  };
+export type Item = {
+	value: string;
+	label: string;
+	icon?: typeof IconType;
+	desc?: string;
+};
 
-  export type Group = {
-    label: string;
-    items: Item[];
-  };
+export type Group = {
+	label: string;
+	items: Item[];
+};
 
-  export type SelectItem = Item | Group;
+export type SelectItem = Item | Group;
 
-  type Props = {
-    icon?: typeof IconType;
-    showIconBeforeItems?: boolean;
-    items: SelectItem[];
-    value?: string | string[];
-    selected?: string | string[];
-    selectedValue?: string | string[] | null;
-    placeholder: string;
-    multiple?: boolean;
-    width?: string;
-  };
+type Props = {
+	icon?: typeof IconType;
+	showIconBeforeItems?: boolean;
+	items: SelectItem[];
+	value?: string | string[];
+	selected?: string | string[];
+	selectedValue?: string | string[] | null;
+	placeholder: string;
+	multiple?: boolean;
+	width?: string;
+};
 
-  let {
-    icon,
-    showIconBeforeItems = true,
-    items,
-    value = $bindable(),
-    placeholder,
-    multiple = false,
-    ...props
-  }: Props = $props();
+let {
+	icon,
+	showIconBeforeItems = true,
+	items,
+	value = $bindable(),
+	placeholder,
+	multiple = false,
+	...props
+}: Props = $props();
 
-  function isGroup(item: SelectItem): item is Group {
-    return "items" in item;
-  }
+function isGroup(item: SelectItem): item is Group {
+	return "items" in item;
+}
 
-  let isOpen = $state(false);
+let isOpen = $state(false);
 
-  // flatten items from groups to a single array
-  const allItems = items.flatMap((item) => (isGroup(item) ? item.items : item));
+// flatten items from groups to a single array
+let allItems = items.flatMap((item) => (isGroup(item) ? item.items : item));
 
-  const selectedItem = $derived(allItems.find((item) => item.value === value));
+let selectedItem = $derived(allItems.find((item) => item.value === value));
 </script>
 
 <Select.Root

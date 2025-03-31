@@ -1,8 +1,10 @@
 {
 	"extends": "@riceball/ts-config/base.json",
 	"compilerOptions": {
-		"lib": ["ESNext", "DOM"]
+		"lib": ["ES2015"],
+		"outDir": "./dist",
+		"types": ["node"]
 	},
-	"include": ["**/*.ts"],
-	"exclude": ["node_modules"]
+	"include": ["."],
+	"exclude": ["node_modules", "dist"]
 }

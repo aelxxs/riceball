@@ -1,0 +1,9 @@
+{
+	"name": "@riceball/docker",
+	"description": "For development purposes only, production does not use docker-compose",
+	"private": true,
+	"scripts": {
+		"compose": "docker compose up -d",
+		"db:reset": "docker compose rm --force --stop postgres && docker compose up -d"
+	}
+}

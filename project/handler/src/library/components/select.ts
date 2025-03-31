@@ -1,4 +1,9 @@
-import { APISelectMenuComponent, APIStringSelectComponent, ChannelType, ComponentType } from "discord-api-types/v10";
+import {
+	type APISelectMenuComponent,
+	type APIStringSelectComponent,
+	ChannelType,
+	ComponentType,
+} from "discord-api-types/v10";
 
 type SelectType =
 	| ComponentType.StringSelect
@@ -20,7 +25,7 @@ export function select(args: SelectMenuOptions): APISelectMenuComponent {
 
 interface SelectMenuOptions {
 	type?: SelectType;
-	method: Function | string;
+	method: ((...args: unknown[]) => unknown) | string;
 	options?: APIStringSelectComponent["options"];
 	placeholder: string;
 }

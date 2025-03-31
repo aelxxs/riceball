@@ -1,45 +1,45 @@
 <script lang="ts">
-  import { CDN } from "@discordjs/rest";
-  import { Avatar } from "bits-ui";
+import { CDN } from "@discordjs/rest";
+import { Avatar } from "bits-ui";
 
-  type Props = {
-    type?: "app" | "guild" | "user";
-    size?: number;
+type Props = {
+	type?: "app" | "guild" | "user";
+	size?: number;
 
-    id: string;
-    icon: string | null;
-    name: string;
-  };
+	id: string;
+	icon: string | null;
+	name: string;
+};
 
-  const { size = 12, type, id, icon, name }: Props = $props();
+const { size = 12, type, id, icon, name }: Props = $props();
 
-  const cdn = new CDN();
+const cdn = new CDN();
 
-  let iconUrl: string = $state("");
-  switch (type) {
-    case "app":
-      if (icon) {
-        iconUrl = cdn.appIcon(id, icon);
-      } else {
-        iconUrl = cdn.defaultAvatar((parseInt(id) >> 22) % 6);
-      }
-      break;
-    case "guild":
-      if (icon) {
-        iconUrl = cdn.icon(id, icon);
-      }
-      break;
-    case "user":
-      if (icon) {
-        iconUrl = cdn.avatar(id, icon);
-      } else {
-        iconUrl = cdn.defaultAvatar((parseInt(id) >> 22) % 6);
-      }
-      break;
-  }
+let iconUrl: string = $state("");
+switch (type) {
+	case "app":
+		if (icon) {
+			iconUrl = cdn.appIcon(id, icon);
+		} else {
+			iconUrl = cdn.defaultAvatar((Number.parseInt(id) >> 22) % 6);
+		}
+		break;
+	case "guild":
+		if (icon) {
+			iconUrl = cdn.icon(id, icon);
+		}
+		break;
+	case "user":
+		if (icon) {
+			iconUrl = cdn.avatar(id, icon);
+		} else {
+			iconUrl = cdn.defaultAvatar((Number.parseInt(id) >> 22) % 6);
+		}
+		break;
+}
 
-  const getAcryonym = (name: string) =>
-    name.replace(/\w+/g, (name) => name[0]).replace(/\s/g, "");
+const getAcryonym = (name: string) =>
+	name.replace(/\w+/g, (name) => name[0]).replace(/\s/g, "");
 </script>
 
 <Avatar.Root

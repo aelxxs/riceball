@@ -1,5 +1,7 @@
+import "dotenv/config";
+
 import { formatEmoji } from "@discordjs/formatters";
-import { GatewayDispatchEvents, Snowflake } from "discord-api-types/v10";
+import { GatewayDispatchEvents, type Snowflake } from "discord-api-types/v10";
 import ms from "ms";
 
 enum WebsiteDispatchEvents {
@@ -9,7 +11,7 @@ enum WebsiteDispatchEvents {
 
 export const Constants = {
 	GatewayGroup: "gateway",
-	DiscordGroup: "discord",
+	DiscordGroup: "proxy",
 	WebsiteGroup: "website",
 	Intents: [],
 	GatewayEvents: [
@@ -31,19 +33,13 @@ export const Constants = {
 		WebsiteDispatchEvents.ReactionRoleAdd,
 		WebsiteDispatchEvents.SendMessage,
 	],
-	PostgresOptions: {
-		host: process.env.POSTGRES_HOST ?? "localhost",
-	},
+	MongoURL: process.env.MONGO_URL ?? "mongodb://localhost:27017",
 	RedisURL: process.env.REDIS_URL ?? "localhost",
 	Emoji: {
 		Disabled: formatEmoji("1337095456727236640"),
 		Enabled: formatEmoji("1337095458232729692"),
 		Success: formatEmoji("1337095460128690286"),
 		Error: formatEmoji("1337095459235172465"),
-		// Disabled: formatEmoji("1336875357227319387"),
-		// Enabled: formatEmoji("1336875358401593405"),
-		// Success: formatEmoji("1336744544980435067"),
-		// Error: formatEmoji("1336744543818879107"),
 	},
 	Slots: {
 		Symbols: ["🍒", "🍌", "🍉", "🍓", "🍎", "🍇", "🍐", "💎"],

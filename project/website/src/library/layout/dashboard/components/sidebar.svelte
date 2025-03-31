@@ -1,28 +1,28 @@
 <script lang="ts">
-  // - Icons
-  import CheckIcon from "lucide-svelte/icons/check";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
-  import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
+// - Icons
+import CheckIcon from "lucide-svelte/icons/check";
+import ChevronDown from "lucide-svelte/icons/chevron-down";
+import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
 
-  import { DiscordIcon } from "$lib/blocks/discord-icon";
-  import { Divider } from "$lib/blocks/divider";
-  import { generateSidebarRoutes, type SidebarRoute } from "$lib/constants";
-  import type { DashboardGuild, ManagedGuild } from "$lib/types";
-  import { layoutState } from "$lib/utility/context.svelte";
-  import { flyAndScale } from "$lib/utility/transitions";
-  import { ScrollArea, Select } from "bits-ui";
+import { DiscordIcon } from "$lib/blocks/discord-icon";
+import { Divider } from "$lib/blocks/divider";
+import { type SidebarRoute, generateSidebarRoutes } from "$lib/constants";
+import type { DashboardGuild, ManagedGuild } from "$lib/types";
+import { layoutState } from "$lib/utility/context.svelte";
+import { flyAndScale } from "$lib/utility/transitions";
+import { ScrollArea, Select } from "bits-ui";
 
-  type Props = {
-    guild: DashboardGuild;
-    guilds: ManagedGuild[];
-    plugin: SidebarRoute;
-  };
+type Props = {
+	guild: DashboardGuild;
+	guilds: ManagedGuild[];
+	plugin: SidebarRoute;
+};
 
-  const { guild, guilds, plugin }: Props = $props();
+const { guild, guilds, plugin }: Props = $props();
 
-  const sections = generateSidebarRoutes(guild.id);
+const sections = generateSidebarRoutes(guild.id);
 
-  let open = $state(false);
+let open = $state(false);
 </script>
 
 <svelte:window
@@ -39,7 +39,7 @@
       <div {...props}>
         <div class="cluster">
           <DiscordIcon
-            size={2.35}
+            size={2}
             id={guild.id}
             icon={guild.icon}
             name={guild.name}
@@ -113,7 +113,7 @@
 <nav class="flow">
   {#each Object.entries(sections) as [name, items]}
     <div class="stack">
-      <small class="fw:md txt-bold">{name}</small>
+      <small class="fw-md txt-bold">{name}</small>
       <div class="stack space-2xs">
         {#each items as { link, name, icon }}
           {@const Icon = icon}
@@ -124,7 +124,7 @@
             data-sveltekit-preload-data
           >
             <div class="cluster space-xs">
-              <Icon size={18} />
+              <Icon class="icon" size={18} />
               <p>{name}</p>
             </div>
           </a>
@@ -135,8 +135,12 @@
 </nav>
 
 <style>
+  nav {
+    padding-inline: var(--space-xs);
+  }
+
   .header-trigger {
-    height: var(--header-height);
+    height: var(--header-height-lg);
     width: 100%;
     cursor: pointer;
     font-weight: var(--font-weight-normal);
@@ -153,6 +157,7 @@
 
   @media (max-width: 875px) {
     .header-trigger {
+      height: var(--header-height);
       padding: var(--space-xs) var(--space-xs);
       background-color: var(--clr-bg-accent);
       margin-bottom: 1.5rem;
@@ -210,16 +215,19 @@
     border: none;
     border-radius: var(--border-radius);
     padding: var(--space-xs) var(--space-s);
+    transition: all 0.2s;
 
     &:hover {
+      transform: scale(1.005);
       background-color: var(--clr-bg-input-active);
     }
 
-    &:hover .lucide-icon {
-      transform: rotate(12);
+    &:hover .icon {
+      color: var(--clr-theme-2);
     }
 
     &.active {
+      transform: scale(1.025);
       background-color: var(--clr-bg-input-active);
       color: var(--txt-themed);
       font-weight: 500;

@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { updateGuild } from "db";
+import { updateGuild } from "@riceball/db";
+import type { Command, Context } from "library/core";
 
 export default class implements Command {
 	/**

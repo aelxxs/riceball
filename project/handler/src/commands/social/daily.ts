@@ -16,33 +16,37 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { getGuild, getMember, updateMember } from "db";
+import { Database } from "@riceball/db";
+import type { Command, Context } from "library/core";
 import ms from "ms";
+import { inject, injectable } from "tsyringe";
 
 const ONE_DAY = 86400000;
 
+@injectable()
 export default class implements Command {
-	/**
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	} /**
 	 * Claim your daily reward
 	 *
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ author, guild }: Context) {
-		const { lastDaily } = await getMember(guild.id, author.id);
+		const { lastDaily, bal } = await this.db.getMemberSettings(guild.id, author.id);
 
 		const now = Date.now();
 		const dif = now - lastDaily;
 
 		if (dif >= ONE_DAY) {
-			const { economy } = await getGuild(guild.id);
+			const { economy } = await this.db.getGuildSettings(guild.id);
 			const { dailyRewardMin, dailyRewardMax } = economy;
 
 			const reward = Math.floor(Math.random() * (dailyRewardMax - dailyRewardMin + 1)) + dailyRewardMin;
 
-			const { bal } = await getMember(guild.id, author.id);
-
-			await updateMember(guild.id, author.id, {
+			await this.db.setMemberSettings(guild.id, author.id, {
 				bal: bal + reward,
 				lastDaily: now,
 			});

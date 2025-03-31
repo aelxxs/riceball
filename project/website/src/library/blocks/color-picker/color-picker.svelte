@@ -1,23 +1,23 @@
 <script lang="ts">
-  // - Icons
-  import Palette from "lucide-svelte/icons/palette";
+// - Icons
+import Palette from "lucide-svelte/icons/palette";
 
-  import { flyAndScale } from "$lib/utility/transitions";
-  import { Popover } from "bits-ui";
-  import { Button } from "../button";
-  import Picker from "./picker.svelte";
+import { flyAndScale } from "$lib/utility/transitions";
+import { Popover } from "bits-ui";
+import { Button } from "../button";
+import Picker from "./picker.svelte";
 
-  let isOpen = $state(false);
+const onClickClose = () => {
+	isOpen = false;
+};
 
-  const onClickClose = () => {
-    isOpen = false;
-  };
+let {
+	format = "hex",
+	color = $bindable("#ff0000"),
+	showSelectedColor = $bindable(false),
+} = $props();
 
-  let {
-    format = "hex",
-    color = $bindable("#ff0000"),
-    showSelectedColor = $bindable(false),
-  } = $props();
+let isOpen = $state(false);
 </script>
 
 <Popover.Root bind:open={isOpen} onOpenChange={(open) => (isOpen = open)}>

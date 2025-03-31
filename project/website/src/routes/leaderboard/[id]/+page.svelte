@@ -1,14 +1,14 @@
 <script lang="ts">
-  import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
+import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
 
-  const users = [
-    { id: 1, name: "Alice", exp: 10 },
-    { id: 2, name: "Bob", exp: 20 },
-    { id: 3, name: "Charlie", exp: 30 },
-  ];
+const users = [
+	{ id: 1, name: "Alice", exp: 10 },
+	{ id: 2, name: "Bob", exp: 20 },
+	{ id: 3, name: "Charlie", exp: 30 },
+];
 </script>
 
-{#snippet leaderboardItem(user: any)}
+<!-- {#snippet leaderboardItem(user: any)}
   <div class="user">
     <div class="repel">
       <div class="avatar"></div>
@@ -65,4 +65,4 @@
     flex-grow: 999;
     min-inline-size: 50%;
   }
-</style>
+</style> -->

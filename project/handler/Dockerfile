@@ -1,18 +1,54 @@
-FROM node:22
+FROM node:22-alpine AS base
 
-RUN curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-# COPY pnpm-lock.yaml ./
-RUN pnpm fetch --prod
+# ================= #
+#   Builder Stage   #
+# ================= #
 
-COPY package.json .
+FROM base AS builder
 
-RUN pnpm install
+    WORKDIR /riceball
 
-COPY . .
-COPY ../db db
+    RUN apk update
+    RUN apk add --no-cache libc6-compat
 
-RUN pnpm prisma generate
+    RUN pnpm add -g turbo
+    COPY . .
+    RUN turbo prune @riceball/handler --docker
 
-RUN pnpm build
-CMD pnpm start
+# ================= #
+#  Installer Stage  #
+# ================= #
+
+FROM base AS installer
+
+    WORKDIR /riceball
+
+    RUN apk update
+    RUN apk add --no-cache libc6-compat
+
+    COPY --from=builder /riceball/out/json/ .
+    RUN pnpm install --frozen-lockfile
+    COPY --from=builder /riceball/out/full/ .
+
+    RUN pnpm turbo build
+
+# ================= #
+#   Runner Stage    #
+# ================= #
+
+FROM base AS runner
+
+    WORKDIR /riceball
+
+    RUN addgroup --system --gid 1001 riceball
+    RUN adduser --system --uid 1001 riceball
+
+    USER riceball
+
+    COPY --from=installer /riceball .
+
+    CMD ["node", "project/handler/dist"]

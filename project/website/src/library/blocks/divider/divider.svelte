@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Separator } from "bits-ui";
+import { Separator } from "bits-ui";
 
-  const {
-    orientation = "horizontal",
-  }: { orientation?: "horizontal" | "vertical" } = $props();
+const {
+	orientation = "horizontal",
+}: { orientation?: "horizontal" | "vertical" } = $props();
 </script>
 
 <Separator.Root {orientation} class="separator">

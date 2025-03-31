@@ -1,6 +1,5 @@
-import { RawFile, REST } from "@discordjs/rest";
-import { Constants, Deps } from "@lib/common";
-import Client from "@spectacles/proxy";
+import { REST, type RawFile } from "@discordjs/rest";
+import type Client from "@spectacles/proxy";
 import {
 	type APIApplicationCommandInteraction,
 	type APIEmbed,
@@ -10,8 +9,9 @@ import {
 	InteractionResponseType,
 	MessageFlags,
 	Routes,
-	Snowflake,
+	type Snowflake,
 } from "discord-api-types/v10";
+import { Constants, Deps } from "library/common";
 import { container } from "tsyringe";
 
 export type MessagePayload =
@@ -34,8 +34,8 @@ type TransformContentOptions = {
  * @param obj - The object to check.
  * @returns True if the object is an APIEmbed, otherwise false.
  */
-function isEmbed(obj: any): obj is APIEmbed {
-	return obj?.description !== undefined;
+function isEmbed(obj: unknown): obj is APIEmbed {
+	return typeof obj === "object" && obj !== null && "description" in obj;
 }
 
 /**
@@ -44,7 +44,7 @@ function isEmbed(obj: any): obj is APIEmbed {
  * @param obj - The object to check.
  * @returns True if the object is a string, otherwise false.
  */
-function isString(obj: any): obj is string {
+function isString(obj: unknown): obj is string {
 	return typeof obj === "string";
 }
 
@@ -56,8 +56,8 @@ function isString(obj: any): obj is string {
  * @param obj - The object to check.
  * @returns `true` if the object is of type `APIInteractionResponseCallbackData`, otherwise `false`.
  */
-function isInteractionResponseCallbackData(obj: any): obj is APIInteractionResponseCallbackData {
-	return obj.embeds !== undefined || obj.content !== undefined || obj.components !== undefined;
+function isInteractionResponseCallbackData(obj: unknown): obj is APIInteractionResponseCallbackData {
+	return typeof obj === "object" && obj !== null && ("embeds" in obj || "content" in obj || "components" in obj);
 }
 
 /**
@@ -141,7 +141,10 @@ export const reply = (interaction: APIInteraction, content: MessagePayload, opti
  */
 export const update = (interaction: APIInteraction, content: MessagePayload, options: TransformContentOptions = {}) => {
 	const rest = container.resolve<Client>(Deps.Rest);
-	const transformedContent = transformContent(content, { ...options, ephemeral: true });
+	const transformedContent = transformContent(content, {
+		...options,
+		ephemeral: true,
+	});
 
 	return rest.post(Routes.interactionCallback(interaction.id, interaction.token), {
 		type: InteractionResponseType.UpdateMessage,
@@ -161,7 +164,10 @@ export const edit = (interaction: APIInteraction, content: MessagePayload, optio
 	// const rest = container.resolve<Client>(Deps.Rest);
 
 	const rest = new REST().setToken(process.env.DISCORD_TOKEN as string);
-	const transformedContent = transformContent(content, { ...options, ephemeral: true });
+	const transformedContent = transformContent(content, {
+		...options,
+		ephemeral: true,
+	});
 
 	// @ts-ignore
 	const files = transformedContent.files;
@@ -263,7 +269,12 @@ export function sendMessage(
 	let content: MessagePayload;
 	let options: TransformContentOptions = {};
 	let messageReference:
-		| { guild_id: Snowflake; channel_id: Snowflake; message_id: Snowflake; fail_if_not_exists: boolean }
+		| {
+				guild_id: Snowflake;
+				channel_id: Snowflake;
+				message_id: Snowflake;
+				fail_if_not_exists: boolean;
+		  }
 		| undefined;
 
 	// Handle different call signatures

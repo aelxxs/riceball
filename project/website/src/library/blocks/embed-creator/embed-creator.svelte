@@ -1,111 +1,87 @@
 <script lang="ts">
-  // - Icons
-  import EyeIcon from "lucide-svelte/icons/eye";
-  import PlusIcon from "lucide-svelte/icons/plus";
+// - Icons
+import EyeIcon from "lucide-svelte/icons/eye";
+import PlusIcon from "lucide-svelte/icons/plus";
 
-  import type { DiscordEmbedWithRelations } from "db/zod";
-  import { Button } from "../button";
-  import ColorPicker from "../color-picker/color-picker.svelte";
-  import EmbedField from "./blocks/embed-field.svelte";
-  import ImageUpload from "./blocks/image-upload.svelte";
+import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
+import { Button } from "../button";
+import ColorPicker from "../color-picker/color-picker.svelte";
+import EmbedField from "./blocks/embed-field.svelte";
+import ImageUpload from "./blocks/image-upload.svelte";
 
-  import type { DashboardGuild } from "$lib/types";
-  import { PencilIcon, Trash2 } from "lucide-svelte";
-  import { ButtonWithConfirmation } from "../button-with-confirmation";
-  import Editable from "../editable/editable.svelte";
+import type { DashboardGuild } from "$lib/types";
+import { PencilIcon, Trash2 } from "lucide-svelte";
+import { ButtonWithConfirmation } from "../button-with-confirmation";
+import Editable from "../editable/editable.svelte";
 
-  type Props = {
-    embed: DiscordEmbedWithRelations;
-    guild: DashboardGuild;
-    handleDelete?: () => void;
-  };
+type Props = {
+	embed: DiscordEmbedWithRelations;
+	guild: DashboardGuild;
+	handleDelete?: () => void;
+};
 
-  const hexToInteger = (hex: string) => parseInt(hex.replace("#", ""), 16);
-  const integerToHex = (int: number) =>
-    `#${int?.toString(16).padStart(6, "0")}`;
+const hexToInteger = (hex: string) => Number.parseInt(hex.replace("#", ""), 16);
+const integerToHex = (int: number) => `#${int?.toString(16).padStart(6, "0")}`;
 
-  let {
-    embed = $bindable<DiscordEmbedWithRelations>(),
-    guild,
-    handleDelete,
-  }: Props = $props();
+let {
+	embed = $bindable<DiscordEmbedWithRelations>(),
+	guild,
+	handleDelete,
+}: Props = $props();
 
-  /**
-   * Adds a new field to the embed
-   */
-  const addField = () => {
-    embed.fields.push({ name: "", value: "", inline: false });
-  };
+/**
+ * Adds a new field to the embed
+ */
+const addField = () => {
+	embed.fields.push({ name: "", value: "", inline: false });
+};
 
-  /**
-   * Deletes a field from the embed
-   * @param index
-   */
-  function handleFieldDelete(index: number) {
-    if (embed.fields) {
-      embed.fields = embed.fields.filter((_, i) => i !== index);
-    }
-  }
+/**
+ * Deletes a field from the embed
+ * @param index
+ */
+function handleFieldDelete(index: number) {
+	if (embed.fields) {
+		embed.fields = embed.fields.filter((_, i) => i !== index);
+	}
+}
 
-  /**
-   * Toggles the inline property of a field
-   * @param index
-   */
-  function handleFieldToggleInline(index: number) {
-    if (embed.fields) {
-      embed.fields = embed.fields.map((field, i) => {
-        return i === index ? { ...field, inline: !field.inline } : field;
-      });
-    }
-  }
+/**
+ * Toggles the inline property of a field
+ * @param index
+ */
+function handleFieldToggleInline(index: number) {
+	if (embed.fields) {
+		embed.fields = embed.fields.map((field, i) => {
+			return i === index ? { ...field, inline: !field.inline } : field;
+		});
+	}
+}
 
-  const color = {
-    get value() {
-      return integerToHex(embed.color);
-    },
-    set value(color: string) {
-      embed.color = hexToInteger(color);
-    },
-  };
+const color = {
+	get value() {
+		return integerToHex(embed.color);
+	},
+	set value(color: string) {
+		embed.color = hexToInteger(color);
+	},
+};
 
-  let previewMode = $state(false);
+let preview = $state(false);
 </script>
 
-<!-- <div class="cluster hide:md">
-  <ColorPicker bind:color={color.value} />
-  <Button
-    size="sm"
-    variant="secondary-alt"
-    onclick={() => (previewMode = !previewMode)}
-  >
-    {#if previewMode}
-      <PencilIcon size={16} />
-    {:else}
-      <EyeIcon size={16} />
-    {/if}
-  </Button>
-  {#if handleDelete}
-    <Button size="sm" variant="secondary-alt" onclick={handleDelete}>
-      Delete
-    </Button>
-  {/if}
-</div> -->
-
 <div class="with-sidebar">
-  <div
-    class="box embed max-w-form stack"
-    style:--embed-color={integerToHex(embed.color)}
-  >
+  <div class="box embed stack" style:--embed-color={integerToHex(embed.color)}>
     <div class="repel" style:--repel-vertical-alignment="start">
       <div class="stack text-group-1">
-        {#if !previewMode || embed.author.icon_url.length || embed.author.name.length}
+        {#if !preview || embed.author.icon_url.length || embed.author.name.length}
           <div class="cluster space-2xs">
-            {#if !previewMode && !embed.author.icon_url.length}
+            {#if !preview && !embed.author.icon_url.length}
               <ImageUpload bind:url={embed.author.icon_url} w={23.5} h={23.5} />
             {/if}
-            {#if !previewMode && !embed.author.name.length}
+            {#if !preview && !embed.author.name.length}
               <Editable
-                editable={!previewMode}
+                editable={!preview}
                 type="text"
                 class="fs:xs fw:bold"
                 placeholder="Author Name"
@@ -118,7 +94,7 @@
         {/if}
         <div class="stack space-2xs">
           <Editable
-            editable={!previewMode}
+            editable={!preview}
             type="text"
             class="fs:sm fw:bold txt:bold"
             placeholder="Title"
@@ -127,7 +103,7 @@
             {guild}
           />
           <Editable
-            editable={!previewMode}
+            editable={!preview}
             type="textarea"
             placeholder="Description"
             bind:value={embed.description}
@@ -136,7 +112,7 @@
           />
         </div>
       </div>
-      {#if !previewMode && !embed.thumbnail.url.length}
+      {#if !preview && !embed.thumbnail.url.length}
         <ImageUpload bind:url={embed.thumbnail.url} w={80} h={80} />
       {/if}
     </div>
@@ -154,31 +130,26 @@
       </div>
     {/if}
 
-    {#if !previewMode}
-      <div>
-        <Button
-          variant="secondary"
-          size="sm"
-          class="cluster"
-          onclick={addField}
-        >
+    {#if !preview}
+      <div class="cluster space-xs">
+        <Button variant="secondary" size="icon" onclick={addField}>
           <PlusIcon size={16} />
-          Add Field
         </Button>
+        Add Field
       </div>
     {/if}
 
-    {#if !previewMode && !embed.image.url.length}
+    {#if !preview && !embed.image.url.length}
       <ImageUpload ratio={2 / 0.85} bind:url={embed.image.url} />
     {/if}
 
-    {#if !previewMode || embed.footer.icon_url.length || embed.footer.text.length}
+    {#if !preview || embed.footer.icon_url.length || embed.footer.text.length}
       <div class="cluster space-2xs text-group-2">
-        {#if !previewMode && !embed.footer.icon_url.length}
+        {#if !preview && !embed.footer.icon_url.length}
           <ImageUpload w={23.5} h={23.5} bind:url={embed.footer.icon_url} />
         {/if}
 
-        {#if !previewMode && !embed.footer.text.length}
+        {#if !preview && !embed.footer.text.length}
           <Editable
             type="text"
             class="fs:xs fw:bold"
@@ -191,17 +162,21 @@
       </div>
     {/if}
   </div>
-
+  <!-- Controls -->
   <div class="cluster space-2xs align-start">
-    <Button size="icon" onclick={() => (previewMode = !previewMode)}>
-      {#if previewMode}
+    <Button
+      size="icon"
+      onclick={() => {
+        preview = !preview;
+      }}
+    >
+      {#if preview}
         <PencilIcon size={16} />
       {:else}
         <EyeIcon size={16} />
       {/if}
     </Button>
     <ColorPicker bind:color={color.value} />
-
     {#if handleDelete}
       <ButtonWithConfirmation
         onConfirm={handleDelete}
@@ -240,7 +215,7 @@
   .text-group-1 {
     flex: 1;
     /* ImageUpload - Padding: var(--space-s) */
-    max-width: calc(100% - 5.5rem - var(--space-s));
+    max-width: calc(100% - 5rem - var(--space-s));
   }
 
   .text-group-2 {
@@ -274,7 +249,7 @@
     inset-inline-start: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 4px;
+    width: 5px;
     height: 100%;
     background-color: var(--embed-color);
     border-top-left-radius: var(--border-radius);

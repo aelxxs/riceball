@@ -1,7 +1,7 @@
-import { Deps } from "@lib/common/injectors";
-import { Event } from "@lib/core";
-import { GatewayMessageDeleteDispatchData } from "discord-api-types/v10";
+import type { GatewayMessageDeleteDispatchData } from "discord-api-types/v10";
 import type Redis from "ioredis";
+import { Deps } from "library/common";
+import type { Event } from "library/core";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

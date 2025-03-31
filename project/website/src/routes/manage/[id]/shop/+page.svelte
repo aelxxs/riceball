@@ -1,5 +1,5 @@
 <script>
-  import { DashboardCard } from "$lib/blocks/dashboard-card";
+import { DashboardCard } from "$lib/blocks/dashboard-card";
 </script>
 
 <div class="stack">

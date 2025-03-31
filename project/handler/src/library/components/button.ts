@@ -1,5 +1,4 @@
-import { type APIButtonComponent, ButtonStyle } from "discord-api-types/v10";
-import { PartialEmoji } from "discord.js";
+import { type APIButtonComponent, type APIMessageComponentEmoji, ButtonStyle } from "discord-api-types/v10";
 
 export function button(options: ButtonOptions): APIButtonComponent {
 	const { method, label, style = ButtonStyle.Secondary, disabled = false, url = "", emoji } = options;
@@ -7,7 +6,7 @@ export function button(options: ButtonOptions): APIButtonComponent {
 	return {
 		type: 2,
 		label,
-		style,
+		style: url ? ButtonStyle.Link : style,
 		disabled,
 		url,
 		emoji,
@@ -17,10 +16,10 @@ export function button(options: ButtonOptions): APIButtonComponent {
 
 interface ButtonOptions {
 	// name of method or a function
-	method?: string | Function;
+	method?: string | ((...args: unknown[]) => unknown);
 	label: string;
-	style?: any;
+	style?: ButtonStyle;
 	disabled?: boolean;
 	url?: string;
-	emoji?: PartialEmoji;
+	emoji?: APIMessageComponentEmoji;
 }

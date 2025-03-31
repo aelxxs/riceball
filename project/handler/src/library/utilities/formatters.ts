@@ -1,5 +1,5 @@
 import { bold } from "@discordjs/formatters";
-import { APIPartialEmoji } from "discord-api-types/v10";
+import type { APIPartialEmoji } from "discord-api-types/v10";
 import { Constants } from "library/common";
 
 export const formatBoolean = (value: boolean, presentTense = true) => {
@@ -41,8 +41,9 @@ export const emptyField = {
  * @returns {?APIPartialEmoji}
  */
 function parseEmoji(text: string): APIPartialEmoji | null {
-	if (text.includes("%")) text = decodeURIComponent(text);
-	if (!text.includes(":")) return { animated: false, name: text, id: null };
-	const match = text.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
+	let decodedText = text;
+	if (text.includes("%")) decodedText = decodeURIComponent(text);
+	if (!text.includes(":")) return { animated: false, name: decodedText, id: null };
+	const match = decodedText.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
 	return match && { animated: Boolean(match[1]), name: match[2], id: match[3] };
 }
