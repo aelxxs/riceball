@@ -7,7 +7,14 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": [".svelte-kit/*/**", "**/dist", "**/generated"],
+		"ignore": [
+			"**/.svelte-kit",
+			"**/dist",
+			"**/generated",
+			"**/build",
+			"**/node_modules",
+			"shared/database/temp/metadata.json"
+		],
 		"include": ["project/**", "shared/**"]
 	},
 	"formatter": {
@@ -23,7 +30,14 @@
 		"rules": {
 			"recommended": true
 		},
-		"ignore": ["**/dist", "**/generated"]
+		"ignore": [
+			"**/.svelte-kit",
+			"**/dist",
+			"**/generated",
+			"**/build",
+			"**/node_modules",
+			"shared/database/temp/metadata.json"
+		]
 	},
 	"javascript": {
 		"parser": {
