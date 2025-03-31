@@ -120,21 +120,6 @@ importers:
       '@melloware/coloris':
         specifier: ^0.24.0
         version: 0.24.0
-      '@mikro-orm/cli':
-        specifier: ^6.4.11
-        version: 6.4.11
-      '@mikro-orm/core':
-        specifier: ^6.4.11
-        version: 6.4.11
-      '@mikro-orm/migrations-mongodb':
-        specifier: ^6.4.11
-        version: 6.4.11(@mikro-orm/core@6.4.11)(@types/node@22.13.14)
-      '@mikro-orm/mongodb':
-        specifier: ^6.4.11
-        version: 6.4.11(@mikro-orm/core@6.4.11)
-      '@mikro-orm/reflection':
-        specifier: ^6.4.11
-        version: 6.4.11(@mikro-orm/core@6.4.11)
       '@riceball/colorify':
         specifier: workspace:*
         version: link:../../shared/colorify

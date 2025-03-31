@@ -9,7 +9,10 @@ import { handle as authenticationHandle } from "./auth.js";
 
 const authorizationHandle: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname.startsWith("/manage")) {
-		await setupDatabase(env.DATABASE_URL);
+		await setupDatabase({
+			mongoUrl: env.MONGO_URL,
+			redisUrl: env.REDIS_URL,
+		});
 
 		const session = await event.locals.auth();
 
