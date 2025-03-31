@@ -1,4 +1,4 @@
-import type { Guild as PrismaGuild } from "@riceball/db";
+import type { Guild } from "@riceball/db/zod";
 import type {
 	APIApplication,
 	APIChannel,
@@ -23,7 +23,7 @@ export type DashboardChannels = Array<
 export type DashboardGuild = ManagedGuild &
 	APIGuild & {
 		client: APIApplication;
-		settings: PrismaGuild;
+		settings: Guild;
 		channels: APIChannel[];
 		itemizedChannels: Array<
 			{ value: string; label: string } | { label: string; items: Array<{ value: string; label: string }> }

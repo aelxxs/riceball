@@ -53,7 +53,6 @@
 		"@mikro-orm/migrations-mongodb": "^6.4.11",
 		"@mikro-orm/mongodb": "^6.4.11",
 		"@mikro-orm/reflection": "^6.4.11",
-		"@prisma/client": "latest",
 		"@riceball/logger": "workspace:*",
 		"dotenv": "16.4.7",
 		"ioredis": "5.6.0",
@@ -61,15 +60,12 @@
 		"ts-node": "^10.9.2",
 		"tsup": "^8.4.0",
 		"tsyringe": "4.8.0",
-		"zod": "^3.24.2",
-		"zod-prisma-types": "^3.2.4"
+		"zod": "^3.24.2"
 	},
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
 		"@types/node": "22.13.14",
-		"prisma": "latest",
-		"typescript": "^5.7.3",
-		"zod-prisma": "^0.5.4"
+		"typescript": "^5.7.3"
 	},
 	"mikro-orm": {
 		"configPaths": ["./src/mikro-orm.config.ts", "./dist/mikro-orm.config.js"]

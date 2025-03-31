@@ -5,7 +5,7 @@ import { REST } from "@discordjs/rest";
 import { Database, container, setupDatabase } from "@riceball/db";
 import { type Handle, redirect } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
-import { handle as authenticationHandle } from "./auth.js";
+import { handle as authenticationHandle } from "./auth";
 
 const authorizationHandle: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname.startsWith("/manage")) {
