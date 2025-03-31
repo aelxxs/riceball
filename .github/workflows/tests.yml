@@ -20,7 +20,7 @@ jobs:
         run: biome ci .
 
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     # To use Remote Caching, uncomment the next lines and follow the steps below.
     # env:
     #  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
