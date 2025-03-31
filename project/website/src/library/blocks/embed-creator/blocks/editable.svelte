@@ -1,36 +1,36 @@
 <script lang="ts">
-  import type { WithoutChildrenOrChild } from "bits-ui";
+import type { WithoutChildrenOrChild } from "bits-ui";
 
-  type EditableTag = keyof HTMLElementTagNameMap;
+type EditableTag = keyof HTMLElementTagNameMap;
 
-  interface Props<T extends EditableTag> {
-    value?: string;
-    tag?: T;
-    class?: string;
-    multiline?: boolean;
-    maxChars?: number;
-    placeholder?: string;
-    hideIfEmpty?: boolean;
-  }
+interface Props<T extends EditableTag> {
+	value?: string;
+	tag?: T;
+	class?: string;
+	multiline?: boolean;
+	maxChars?: number;
+	placeholder?: string;
+	hideIfEmpty?: boolean;
+}
 
-  let {
-    value = $bindable(""),
-    tag = $bindable<EditableTag>("div"),
-    class: className = $bindable(""),
-    multiline = false,
-    maxChars = 200,
-    placeholder = $bindable(""),
-    hideIfEmpty = false,
-    ...restProps
-  }: WithoutChildrenOrChild<Props<EditableTag>> = $props();
+let {
+	value = $bindable(""),
+	tag = $bindable<EditableTag>("div"),
+	class: className = $bindable(""),
+	multiline = false,
+	maxChars = 200,
+	placeholder = $bindable(""),
+	hideIfEmpty = false,
+	...restProps
+}: WithoutChildrenOrChild<Props<EditableTag>> = $props();
 
-  function handleInput(event: Event) {
-    const target = event.target as HTMLElement;
-    if (target.innerHTML === "<br>") {
-      target.innerHTML = "";
-    }
-    value = target.textContent || "";
-  }
+function handleInput(event: Event) {
+	const target = event.target as HTMLElement;
+	if (target.innerHTML === "<br>") {
+		target.innerHTML = "";
+	}
+	value = target.textContent || "";
+}
 </script>
 
 <svelte:element

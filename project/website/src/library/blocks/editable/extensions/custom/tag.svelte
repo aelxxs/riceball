@@ -1,14 +1,14 @@
 <script lang="ts">
-  import type { NodeViewProps } from "@tiptap/core";
-  import { NodeViewWrapper } from "svelte-tiptap";
+import type { NodeViewProps } from "@tiptap/core";
+import { NodeViewWrapper } from "svelte-tiptap";
 
-  const { node }: NodeViewProps = $props();
+const { node }: NodeViewProps = $props();
 
-  type Attrs = {
-    id: string;
-  };
+type Attrs = {
+	id: string;
+};
 
-  const { id } = node.attrs as Attrs;
+const { id } = node.attrs as Attrs;
 </script>
 
 <NodeViewWrapper id="tag">

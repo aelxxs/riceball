@@ -1,173 +1,180 @@
 <script lang="ts">
-  import { abbreviateNumber, composeLevelCard } from "@riceball/color-utils";
+import { abbreviateNumber, composeLevelCard } from "@riceball/colorify";
 
-  import type { CardWithRelations } from "db/zod";
-  import { onMount } from "svelte";
+import type { CardWithRelations } from "@riceball/db/zod";
+import { onMount } from "svelte";
 
-  type FontType =
-    | "Sans-serif"
-    | "Serif"
-    | "Monospace"
-    | "Handwritten"
-    | "Cursive";
+type FontType =
+	| "Sans-serif"
+	| "Serif"
+	| "Monospace"
+	| "Handwritten"
+	| "Cursive";
 
-  type User = {
-    username: string;
-    greeting: string;
-    level: number;
-    curExp: number;
-    maxExp: number;
-    rank: number;
-    reputation: number;
-    badges: string[];
-  };
+type User = {
+	username: string;
+	greeting: string;
+	level: number;
+	curExp: number;
+	maxExp: number;
+	rank: number;
+	reputation: number;
+	badges: string[];
+};
 
-  type Props = {
-    card: CardWithRelations;
-    user: User;
-  };
+type Props = {
+	card: CardWithRelations;
+	user: User;
+};
 
-  let {
-    card = $bindable<CardWithRelations>(),
-    user = $bindable<User>(),
-  }: Props = $props();
+const {
+	card = $bindable<CardWithRelations>(),
+	user = $bindable<User>(),
+}: Props = $props();
 
-  function parseEmoji(text: string) {
-    if (text.includes("%")) text = decodeURIComponent(text);
-    if (!text.includes(":")) return { animated: false, name: text, id: null };
-    const match = text.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
-    return (
-      match && { animated: Boolean(match[1]), name: match[2], id: match[3] }
-    );
-  }
+function parseEmoji(text: string) {
+	let decodedText = text;
+	if (decodedText.includes("%")) decodedText = decodeURIComponent(decodedText);
+	if (!text.includes(":")) return { animated: false, name: text, id: null };
+	const match = decodedText.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
+	return match && { animated: Boolean(match[1]), name: match[2], id: match[3] };
+}
 
-  let fonts = {
-    MONOSPACE: "JetBrains Mono",
-    SANS_SERIF: "Roboto",
-    SERIF: "Lora",
-    HANDWRITTEN: "Pacifico",
-    CURSIVE: "Dancing Script",
-  };
+const fonts = {
+	MONOSPACE: "JetBrains Mono",
+	SANS_SERIF: "Roboto",
+	SERIF: "Lora",
+	HANDWRITTEN: "Pacifico",
+	CURSIVE: "Dancing Script",
+};
 
-  let font: string = $derived(fonts[card?.fontFamily]);
+const font: string = $derived(fonts[card?.fontFamily]);
 
-  let canvas: HTMLCanvasElement = $state(null!);
-  let bio: any = $state([]);
+let canvas: HTMLCanvasElement | null = $state(null);
 
-  const measureWidth = (text: string, size: number, font: string) => {
-    const context = canvas.getContext("2d");
+type TextChunk = {
+	type: "text";
+	value: string;
+	width: number;
+	x: number;
+};
 
-    if (context) {
-      context.font = `${size}px ${font}`;
-      return context.measureText(text).width;
-    }
+type EmoteChunk = {
+	type: "emote";
+	url: string;
+	x: number;
+};
 
-    return 0;
-  };
+type BioChunk = TextChunk | EmoteChunk;
 
-  function parseBio(text: string) {
-    const EMOJI_REGEX = /(<?a?\:\w{2,32}:\d{17,19}?>)/;
+let bio: BioChunk[] = $state([]);
 
-    const spaceWidth = measureWidth(" ", 8, font);
+const measureWidth = (text: string, size: number, font: string) => {
+	const context = canvas?.getContext("2d");
 
-    let xCord = 98;
-    const tokens = text
-      .trim()
-      .split(EMOJI_REGEX)
-      .filter((s) => s);
+	if (context) {
+		context.font = `${size}px ${font}`;
+		return context.measureText(text).width;
+	}
 
-    return tokens.map((value) => {
-      if (EMOJI_REGEX.test(value)) {
-        const emoji = parseEmoji(value);
+	return 0;
+};
 
-        if (!emoji) return { type: "text", value };
+function parseBio(text: string): BioChunk[] {
+	const EMOJI_REGEX = /(<?a?\:\w{2,32}:\d{17,19}?>)/;
 
-        const obj = {
-          type: "emote",
-          url: `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? "gif" : "png"}`,
-          x: xCord,
-        };
+	const spaceWidth = measureWidth(" ", 8, font);
 
-        xCord += 10;
+	let xCord = 98;
+	const tokens = text
+		.trim()
+		.split(EMOJI_REGEX)
+		.filter((s) => s);
 
-        return obj;
-      }
+	return tokens.map((value) => {
+		if (EMOJI_REGEX.test(value)) {
+			const emoji = parseEmoji(value);
 
-      const width = measureWidth(value, 8, font);
-      const obj = {
-        type: "text",
-        value,
-        width,
-        x: xCord + (xCord === 98 ? 0 : (spaceWidth ?? 0)),
-      };
-      xCord += width ?? 0;
+			if (!emoji) return { type: "text", value, width: 0, x: xCord };
 
-      return obj;
-    });
-  }
+			const obj: EmoteChunk = {
+				type: "emote" as const,
+				url: `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? "gif" : "png"}`,
+				x: xCord,
+			};
 
-  let lvlTextWidth = $state(0);
-  let xpTextWidth = $state(0);
+			xCord += 10;
 
-  let reputationTextWidth = $state(0);
-  let plusTextWidth = $state(0);
-  let repTextWidth = $state(0);
-  let reputationGroupStartX = $state(0);
+			return obj;
+		}
 
-  let rankTextWidth = $state(0);
-  let hashtagTextWidth = $state(0);
-  let rankGroupStartX = $state(0);
+		const width = measureWidth(value, 8, font);
+		const obj: TextChunk = {
+			type: "text",
+			value,
+			width,
+			x: xCord + (xCord === 98 ? 0 : (spaceWidth ?? 0)),
+		};
+		xCord += width ?? 0;
 
-  let loading = $state(true);
+		return obj;
+	});
+}
 
-  const {
-    username,
-    greeting,
-    level,
-    curExp,
-    maxExp,
-    rank,
-    reputation,
-    badges,
-  } = user;
+let lvlTextWidth = $state(0);
+let xpTextWidth = $state(0);
 
-  const initialize = () => {
-    lvlTextWidth = measureWidth("Lvl.", 7.5, font) ?? 0;
-    xpTextWidth = measureWidth(`/${maxExp} Exp.`, 7.5, font) ?? 0;
+let reputationTextWidth = $state(0);
+let plusTextWidth = $state(0);
+let repTextWidth = $state(0);
+let reputationGroupStartX = $state(0);
 
-    rankTextWidth = measureWidth(abbreviateNumber(rank), 9, font) ?? 0;
-    hashtagTextWidth = measureWidth("#", 7.5, font) ?? 0;
-    rankGroupStartX = 328 - (rankTextWidth + hashtagTextWidth) / 2;
+let rankTextWidth = $state(0);
+let hashtagTextWidth = $state(0);
+let rankGroupStartX = $state(0);
 
-    reputationTextWidth =
-      measureWidth(abbreviateNumber(reputation), 9, font) ?? 0;
-    plusTextWidth = measureWidth("+", 7.5, font) ?? 0;
-    repTextWidth = measureWidth("rep", 7.5, font) ?? 0;
+let loading = $state(true);
 
-    reputationGroupStartX =
-      328 - (plusTextWidth + reputationTextWidth + repTextWidth) / 2;
+const { username, greeting, level, curExp, maxExp, rank, reputation, badges } =
+	user;
 
-    bio = parseBio(greeting);
-    loading = false;
-  };
+const initialize = () => {
+	lvlTextWidth = measureWidth("Lvl.", 7.5, font) ?? 0;
+	xpTextWidth = measureWidth(`/${maxExp} Exp.`, 7.5, font) ?? 0;
 
-  $effect(() => {
-    canvas = document.createElement("canvas");
-  });
+	rankTextWidth = measureWidth(abbreviateNumber(rank), 9, font) ?? 0;
+	hashtagTextWidth = measureWidth("#", 7.5, font) ?? 0;
+	rankGroupStartX = 328 - (rankTextWidth + hashtagTextWidth) / 2;
 
-  let c = $derived(composeLevelCard(card));
-  let r = $derived(c.borderRadius / 2);
+	reputationTextWidth =
+		measureWidth(abbreviateNumber(reputation), 9, font) ?? 0;
+	plusTextWidth = measureWidth("+", 7.5, font) ?? 0;
+	repTextWidth = measureWidth("rep", 7.5, font) ?? 0;
 
-  $effect(() => {
-    if (card.fontFamily) {
-      requestAnimationFrame(initialize);
-    }
-  });
+	reputationGroupStartX =
+		328 - (plusTextWidth + reputationTextWidth + repTextWidth) / 2;
 
-  const userAvatar =
-    "https://cdn.discordapp.com/avatars/406665840088317962/a_07d1dd47eddbaf327d591b3707bb0614.gif";
-  const serverIcon =
-    "https://cdn.discordapp.com/icons/489958131472924682/46113f5c761bf754cb67feaf6d7ed3f5.webp";
+	bio = parseBio(greeting);
+	loading = false;
+};
+
+$effect(() => {
+	canvas = document.createElement("canvas");
+});
+
+const c = $derived(composeLevelCard(card));
+const r = $derived(c.borderRadius / 2);
+
+$effect(() => {
+	if (card.fontFamily) {
+		requestAnimationFrame(initialize);
+	}
+});
+
+const userAvatar =
+	"https://cdn.discordapp.com/avatars/406665840088317962/a_07d1dd47eddbaf327d591b3707bb0614.gif";
+const serverIcon =
+	"https://cdn.discordapp.com/icons/489958131472924682/46113f5c761bf754cb67feaf6d7ed3f5.webp";
 </script>
 
 {#snippet text(
@@ -383,13 +390,17 @@
       </text>
 
       <g clip-path="url(#bio)">
-        {#each bio as { type, value, url, x }}
+        {#each bio as { type, ...chunk }}
           {#if type === "text"}
-            <text {x} y="43" font-size="8" fill={c.subtextColor}>
-              {value}
+            <text x={chunk.x} y="43" font-size="8" fill={c.subtextColor}>
+              {#if "value" in chunk}
+                {chunk.value}
+              {/if}
             </text>
           {:else if type === "emote"}
-            <image {x} y="36" width="8" height="8" href={url} />
+            {#if "url" in chunk}
+              <image x={chunk.x} y="36" width="8" height="8" href={chunk.url} />
+            {/if}
           {/if}
         {/each}
       </g>

@@ -1,39 +1,39 @@
 <script lang="ts">
-  import { beforeNavigate, goto } from "$app/navigation";
-  import {
-    DashboardCard,
-    DashboardCardSideBySide,
-  } from "$lib/blocks/dashboard-card";
-  import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
-  import { Input } from "$lib/blocks/input";
-  import { ChannelSelect } from "$lib/blocks/select";
-  import { WebsiteRoutes } from "$lib/constants";
-  import { getAppState } from "$lib/utility/context.svelte";
-  import SuperDebug, { superForm } from "sveltekit-superforms";
+import { beforeNavigate, goto } from "$app/navigation";
+import {
+	DashboardCard,
+	DashboardCardSideBySide,
+} from "$lib/blocks/dashboard-card";
+import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
+import { Input } from "$lib/blocks/input";
+import { ChannelSelect } from "$lib/blocks/select";
+import { WebsiteRoutes } from "$lib/constants";
+import { getAppState } from "$lib/utility/context.svelte";
+import SuperDebug, { superForm } from "sveltekit-superforms";
 
-  let { data } = $props();
+const { data } = $props();
 
-  const embedCreateForm = superForm(data.form, {
-    dataType: "json",
-  });
+const embedCreateForm = superForm(data.form, {
+	dataType: "json",
+});
 
-  const { form, submit, enhance } = embedCreateForm;
+const { form, submit, enhance } = embedCreateForm;
 
-  const handleCancel = () => goto(WebsiteRoutes.Embeds(data.guild.id));
-  const handleSubmit = () => submit();
+const handleCancel = () => goto(WebsiteRoutes.Embeds(data.guild.id));
+const handleSubmit = () => submit();
 
-  const appState = getAppState();
+const appState = getAppState();
 
-  $effect.pre(() => {
-    appState.setControlTitle("Create Embed");
-    appState.setControlsVisible(true);
-    appState.setControls([
-      { label: "Cancel", handler: handleCancel, variant: "destructive" },
-      { label: "Publish", handler: handleSubmit },
-    ]);
-  });
+$effect.pre(() => {
+	appState.setControlTitle("Create Embed");
+	appState.setControlsVisible(true);
+	appState.setControls([
+		{ label: "Cancel", handler: handleCancel, variant: "destructive" },
+		{ label: "Publish", handler: handleSubmit },
+	]);
+});
 
-  beforeNavigate(appState.destroyControls);
+beforeNavigate(appState.destroyControls);
 </script>
 
 <SuperDebug data={$form} />

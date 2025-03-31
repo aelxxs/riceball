@@ -26,16 +26,16 @@
   );
   --clr-theme-error: rgb(255 107 134 / 0.75);
   --clr-theme-error-transparent: rgb(255 107 134 / 0.25);
-  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 11%);
+  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 8%);
   --clr-bg-translucent: hsl(
     var(--theme-hue),
     var(--theme-saturation),
-    11%,
+    8%,
     0.75
   );
-  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 16%);
+  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 14%);
   --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.3);
-  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 11%);
+  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 14%);
   --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 30%, 1);
   --clr-bg-input-hover: hsl(
     var(--theme-hue),
@@ -66,6 +66,7 @@
 
   // layout
   --header-height: clamp(3.75rem, 10vw, 4.25rem);
+  --header-height-lg: clamp(3.75rem, 10vw, 4.75rem);
 }
 
 // light mode
@@ -160,4 +161,18 @@ em-emoji-picker {
 
 .clr-field .clr-dark {
   background-color: var(--clr-bg-input-light);
+}
+
+.super-debug {
+  --_sd-bg-color: var(--sd-bg-color, var(--sd-vscode-bg-color, rgb(30, 41, 59)));
+  position: relative;
+  background-color: transparent !important;
+  border-radius: var(--radius-m) !important;
+  overflow: hidden;
+  border: 1px solid var(--clr-bg-border) !important;
+  margin-bottom: var(--space-s);
+}
+
+.super-debug pre {
+    background-color: transparent !important;
 }

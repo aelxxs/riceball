@@ -1,30 +1,34 @@
-import { DISCORD_TOKEN } from "$env/static/private";
+import "reflect-metadata";
+
+import { env } from "$env/dynamic/private";
 import { REST } from "@discordjs/rest";
-import { Redis } from "@spectacles/brokers";
-import { redirect, type Handle } from "@sveltejs/kit";
+import { Database, container, setupDatabase } from "@riceball/db";
+import { type Handle, redirect } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
-import RedisClient from "ioredis";
-import { handle as authenticationHandle } from "./auth";
+import { handle as authenticationHandle } from "./auth.js";
 
 const authorizationHandle: Handle = async ({ event, resolve }) => {
-  if (event.url.pathname.startsWith("/manage")) {
-    const session = await event.locals.auth();
+	if (event.url.pathname.startsWith("/manage")) {
+		await setupDatabase(env.DATABASE_URL);
 
-    if (!session) {
-      throw redirect(303, "/");
-    }
+		const session = await event.locals.auth();
 
-    event.locals.api = new REST().setToken(DISCORD_TOKEN);
-    event.locals.userApi = new REST().setToken(session.accessToken);
-    event.locals.session = session;
+		if (!session) {
+			throw redirect(303, "/");
+		}
 
-    const redis = new RedisClient("localhost");
-    const gateway = new Redis("website", redis);
+		event.locals.api = new REST().setToken(env.DISCORD_TOKEN);
+		event.locals.userApi = new REST().setToken(session.accessToken);
+		event.locals.session = session;
+		event.locals.db = container.resolve(Database);
 
-    event.locals.gateway = gateway;
-  }
+		// const redis = new RedisClient("localhost");
+		// const gateway = new Redis("website", redis);
 
-  return resolve(event);
+		// event.locals.gateway = gateway;
+	}
+
+	return resolve(event);
 };
 
 export const handle: Handle = sequence(authenticationHandle, authorizationHandle);

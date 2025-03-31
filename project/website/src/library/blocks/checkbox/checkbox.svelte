@@ -1,24 +1,25 @@
 <script lang="ts">
-  import {
-    Checkbox as CheckboxPrimitive,
-    type WithoutChildrenOrChild,
-  } from "bits-ui";
-  import Check from "lucide-svelte/icons/check";
-  import Minus from "lucide-svelte/icons/minus";
-  import { fly } from "svelte/transition";
+import {
+	Checkbox as CheckboxPrimitive,
+	type WithoutChildrenOrChild,
+} from "bits-ui";
+import Check from "lucide-svelte/icons/check";
+import Minus from "lucide-svelte/icons/minus";
+import { fly } from "svelte/transition";
 
-  let {
-    ref = $bindable(null),
-    checked = $bindable(false),
-    indeterminate = $bindable(false),
-    outlined = $bindable(false),
-    class: className,
-    ...restProps
-  }: WithoutChildrenOrChild<
-    CheckboxPrimitive.RootProps & { outlined?: boolean }
-  > = $props();
+let {
+	ref = $bindable(null),
+	checked = $bindable(false),
+	indeterminate = $bindable(false),
+	outlined = $bindable(false),
+	class: className,
+	...restProps
+}: WithoutChildrenOrChild<
+	CheckboxPrimitive.RootProps & { outlined?: boolean }
+> = $props();
 
-  const flyIn = { y: -7.5, duration: 350, opacity: 0 };
+const flyIn = { y: -7.5, duration: 350, opacity: 0 };
+const flyOut = { y: 7.5, duration: 250, opacity: 0 };
 </script>
 
 <CheckboxPrimitive.Root
@@ -28,15 +29,17 @@
   {...restProps}
 >
   {#snippet children({ checked, indeterminate })}
-    {#if checked}
-      <div class="inline-flex" in:fly={flyIn}>
-        <Check size={12} strokeWidth={6} />
-      </div>
-    {:else if indeterminate}
-      <div class="inline-flex" in:fly={flyIn}>
-        <Minus size={12} strokeWidth={6} />
-      </div>
-    {/if}
+    <div class="inline-flex">
+      {#if checked}
+        <div class="inline-flex" in:fly={flyIn} out:fly={flyOut}>
+          <Check size={12} strokeWidth={6} />
+        </div>
+      {:else if indeterminate}
+        <div class="inline-flex" in:fly={flyIn} out:fly={flyOut}>
+          <Minus size={12} strokeWidth={6} />
+        </div>
+      {/if}
+    </div>
   {/snippet}
 </CheckboxPrimitive.Root>
 
@@ -46,7 +49,7 @@
 
     @layer base {
       :root {
-        --checkbox-size: 1.275rem;
+        --checkbox-size: 1.375rem;
         --checkbox-border-width: 1.5px;
         --checkbox-border-radius: var(--radius-xs);
       }
@@ -62,7 +65,9 @@
         align-items: center;
         justify-content: center;
         border-radius: var(--checkbox-border-radius);
-        border: 1px solid transparent;
+        border-width: var(--checkbox-border-width);
+        border-color: transparent;
+        border-style: solid;
         color: var(--txt-bold);
         background-color: var(--clr-bg-input-light);
         transition-property: background-color, border-color, box-shadow;
@@ -73,7 +78,7 @@
 
       [data-checkbox-root][data-outlined="true"] {
         background-color: transparent;
-        border: var(--checkbox-border-width) solid var(--clr-bg-border);
+        border-color: var(--clr-bg-border);
       }
 
       [data-checkbox-root]:disabled {
@@ -84,9 +89,15 @@
       [data-checkbox-root][data-state="checked"] {
         border-color: var(--clr-theme-2);
         background-color: var(--clr-theme-2);
-
         opacity: 1;
       }
+
+      /* [data-checkbox-root][data-outlined="true"][data-state="checked"] {
+        border-color: var(--clr-theme-2);
+        background-color: var(--clr-theme-2);
+        border-color: transparent;
+        opacity: 1;
+      } */
 
       [data-checkbox-root]:hover {
         border-color: var(--clr-bg-border-hover);

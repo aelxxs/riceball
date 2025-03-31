@@ -1,25 +1,25 @@
 <script lang="ts">
-  import { beforeNavigate } from "$app/navigation";
-  import { getAppState } from "$lib/utility/context.svelte";
+import { beforeNavigate } from "$app/navigation";
+import { getAppState } from "$lib/utility/context.svelte";
 
-  let { data } = $props();
+const { data } = $props();
 
-  // Handlers
-  const handleCancel = () => window.history.back();
-  const handleSubmit = () => {};
+// Handlers
+const handleCancel = () => window.history.back();
+const handleSubmit = () => {};
 
-  const appState = getAppState();
+const appState = getAppState();
 
-  appState.setControlTitle("Create Embed");
-  appState.setControlsVisible(true);
-  appState.setControls([
-    { label: "Cancel", handler: handleCancel, variant: "destructive" },
-    { label: "Submit", handler: handleSubmit },
-  ]);
+appState.setControlTitle("Create Embed");
+appState.setControlsVisible(true);
+appState.setControls([
+	{ label: "Cancel", handler: handleCancel, variant: "destructive" },
+	{ label: "Submit", handler: handleSubmit },
+]);
 
-  beforeNavigate(() => {
-    appState.destroyControls();
-  });
+beforeNavigate(() => {
+	appState.destroyControls();
+});
 </script>
 
 edit

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { PageHeader } from "$lib/blocks/page-header";
+import { PageHeader } from "$lib/blocks/page-header";
 
-  const { children } = $props();
+const { children } = $props();
 </script>
 
 <PageHeader />
@@ -13,8 +13,8 @@
 
 <style>
   .wrapper {
-    padding-inline: var(--space-xs);
-    max-width: 88rem;
+    padding-inline: var(--space-m);
+    /* max-width: 88rem; */
     margin: 0 auto;
   }
 

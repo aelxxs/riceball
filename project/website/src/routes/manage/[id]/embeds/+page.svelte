@@ -1,62 +1,62 @@
 <script lang="ts">
-  import { DashboardCard } from "$lib/blocks/dashboard-card";
-  import { Input } from "$lib/blocks/input";
-  import { Label } from "bits-ui";
-  import { EllipsisVerticalIcon, PlusIcon, SearchIcon } from "lucide-svelte";
+import { DashboardCard } from "$lib/blocks/dashboard-card";
+import { Input } from "$lib/blocks/input";
+import { Label } from "bits-ui";
+import { EllipsisVerticalIcon, PlusIcon, SearchIcon } from "lucide-svelte";
 
-  const { data } = $props();
+const { data } = $props();
 
-  const embeds = [
-    {
-      id: "1",
-      name: "Terms of Service",
-      description: "This is the terms of service for our community.",
-      channel: "rules",
-      status: "published",
-      date: "2021-10-01",
-    },
-    {
-      id: "2",
-      name: "Privacy Policy",
-      description: "This is the privacy policy for our community.",
-      channel: "rules",
-      status: "published",
-      date: "2021-10-02",
-    },
-    {
-      id: "3",
-      name: "Community Guidelines",
-      description: "This is the community guidelines for our community.",
-      channel: "rules",
-      status: "draft",
-      date: "2021-10-03",
-    },
-    {
-      id: "4",
-      name: "About Us",
-      description: "This is information about our community.",
-      channel: "about",
-      status: "published",
-      date: "2021-10-04",
-    },
-    {
-      id: "5",
-      name: "Contact Us",
-      description: "This is how you can contact us.",
-      channel: "about",
-      status: "draft",
-      date: "2021-10-05",
-    },
-  ];
+const embeds = [
+	{
+		id: "1",
+		name: "Terms of Service",
+		description: "This is the terms of service for our community.",
+		channel: "rules",
+		status: "published",
+		date: "2021-10-01",
+	},
+	{
+		id: "2",
+		name: "Privacy Policy",
+		description: "This is the privacy policy for our community.",
+		channel: "rules",
+		status: "published",
+		date: "2021-10-02",
+	},
+	{
+		id: "3",
+		name: "Community Guidelines",
+		description: "This is the community guidelines for our community.",
+		channel: "rules",
+		status: "draft",
+		date: "2021-10-03",
+	},
+	{
+		id: "4",
+		name: "About Us",
+		description: "This is information about our community.",
+		channel: "about",
+		status: "published",
+		date: "2021-10-04",
+	},
+	{
+		id: "5",
+		name: "Contact Us",
+		description: "This is how you can contact us.",
+		channel: "about",
+		status: "draft",
+		date: "2021-10-05",
+	},
+];
 
-  let searchQuery = $state("");
+let searchQuery = $state("");
 
-  let filteredEmbeds = $derived.by(() => {
-    if (!searchQuery) return embeds;
-    return embeds.filter((embed) => {
-      return embed.name.toLowerCase().includes(searchQuery.toLowerCase());
-    });
-  });
+const filteredEmbeds = $derived.by(() => {
+	if (!searchQuery) return embeds;
+	return embeds.filter((embed) => {
+		return embed.name.toLowerCase().includes(searchQuery.toLowerCase());
+	});
+});
 </script>
 
 <div class="stack">

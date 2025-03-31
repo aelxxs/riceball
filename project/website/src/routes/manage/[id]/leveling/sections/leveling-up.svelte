@@ -1,26 +1,37 @@
 <script lang="ts">
-  import { DashboardCard } from "$lib/blocks/dashboard-card";
-  import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
-  import { Control, Field } from "$lib/blocks/forms";
-  import { ChannelSelect, Select } from "$lib/blocks/select";
-  import { getGuild } from "$lib/utility/context.svelte";
-  import { type LevelsWithRelations } from "db/zod";
-  import {
-    Hash,
-    MegaphoneOff,
-    MessagesSquare,
-    UserRoundPen,
-  } from "lucide-svelte";
-  import type { SuperForm } from "sveltekit-superforms";
+import { DashboardCard } from "$lib/blocks/dashboard-card";
+import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
+import { Control, Field } from "$lib/blocks/forms";
+import { ChannelSelect, Select } from "$lib/blocks/select";
+import { getGuild } from "$lib/utility/context.svelte";
+import type { LevelsWithRelations } from "@riceball/db/custom";
+import {
+	Hash,
+	MegaphoneOff,
+	MessagesSquare,
+	UserRoundPen,
+} from "lucide-svelte";
+import type { SuperForm } from "sveltekit-superforms";
 
-  type Props = {
-    form: SuperForm<LevelsWithRelations>;
-  };
+type Props = {
+	form: SuperForm<LevelsWithRelations>;
+};
 
-  const { form }: Props = $props();
-  const { form: formData } = form;
+const { form }: Props = $props();
+const { form: formData } = form;
 
-  const guild = getGuild();
+const guild = getGuild();
+
+const embed = $state({
+	get value() {
+		return $formData.notifyMessageEmbed;
+	},
+	set value(v) {
+		$formData.notifyMessageEmbed = v;
+	},
+});
+
+console.log($formData.notifyMessageEmbed);
 </script>
 
 <DashboardCard
@@ -83,6 +94,7 @@
               {guild}
               client={guild.client}
               bind:content={$formData.notifyMessageContent}
+              bind:embeds={embed.value}
             />
           {/snippet}
         </Control>

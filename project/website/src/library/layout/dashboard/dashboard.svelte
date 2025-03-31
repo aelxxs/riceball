@@ -1,64 +1,70 @@
 <script lang="ts">
-  import { page } from "$app/state";
-  import { generateSidebarRoutes } from "$lib/constants";
-  import {
-    getGuild,
-    getGuilds,
-    layoutState,
-    saveModal,
-    shake,
-  } from "$lib/utility/context.svelte";
-  import { type Snippet } from "svelte";
-  import { Toaster } from "svelte-sonner";
-  import { slide } from "svelte/transition";
-  import { Header, Sidebar, UnsavedChanges } from "./components";
+import { page } from "$app/state";
+import { generateSidebarRoutes } from "$lib/constants";
+import {
+	getGuild,
+	getGuilds,
+	layoutState,
+	saveModal,
+	shake,
+} from "$lib/utility/context.svelte";
+import type { Snippet } from "svelte";
+import { Toaster } from "svelte-sonner";
+import { slide } from "svelte/transition";
+import { Header, Sidebar, UnsavedChanges } from "./components";
 
-  type Props = {
-    children: Snippet;
-  };
+type Props = {
+	children: Snippet;
+};
 
-  const { children }: Props = $props();
+const { children }: Props = $props();
 
-  const guild = getGuild();
-  const guilds = getGuilds();
+const guild = getGuild();
+const guilds = getGuilds();
 
-  const sections = generateSidebarRoutes(guild.id);
+const sections = generateSidebarRoutes(guild.id);
 
-  const getCurrentPlugin = () => {
-    const basePathname = page.url.pathname.split("/").slice(0, 4).join("/");
-    return Object.values(sections)
-      .flat()
-      .find((p) => p.link.startsWith(basePathname))!;
-  };
+const getCurrentPlugin = () => {
+	const basePathname = page.url.pathname.split("/").slice(0, 4).join("/");
+	const plugin = Object.values(sections)
+		.flat()
+		.find((p) => p.link.startsWith(basePathname));
 
-  let plugin = $state(getCurrentPlugin());
+	if (!plugin) {
+		throw new Error("Plugin not found for the current path.");
+	}
 
-  $effect(() => {
-    plugin = getCurrentPlugin();
-    layoutState.sideBarOpen = false;
-    document.body.style.overflow = "auto";
-  });
+	return plugin;
+};
 
-  let previousScrollY = layoutState.scrollY;
-  const toggleOpen = () => {
-    layoutState.sideBarOpen = !layoutState.sideBarOpen;
+let plugin = $state(getCurrentPlugin());
 
-    if (layoutState.sideBarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+$effect(() => {
+	plugin = getCurrentPlugin();
+	layoutState.sideBarOpen = false;
+	document.body.style.overflow = "auto";
+});
 
-    if (layoutState.sideBarOpen && layoutState.scrollY > 0) {
-      previousScrollY = layoutState.scrollY;
-      document.body.scrollIntoView({
-        behavior: "smooth",
-      });
-    } else {
-      window.scroll(0, previousScrollY);
-      previousScrollY = 0;
-    }
-  };
+let previousScrollY = layoutState.scrollY;
+const toggleOpen = () => {
+	layoutState.sideBarOpen = !layoutState.sideBarOpen;
+
+	if (layoutState.sideBarOpen) {
+		document.body.style.overflow = "hidden";
+	} else {
+		document.body.style.overflow = "auto";
+	}
+
+	if (layoutState.sideBarOpen && layoutState.scrollY > 0) {
+		previousScrollY = layoutState.scrollY;
+		document.body.scrollIntoView({
+			behavior: "smooth",
+		});
+	} else {
+		window.scroll(0, previousScrollY);
+		previousScrollY = 0;
+	}
+};
 </script>
 
 <svelte:window
@@ -72,6 +78,10 @@
 />
 
 <Toaster richColors />
+
+<svelte:head>
+  <title>{plugin.name} | {guild.name}</title>
+</svelte:head>
 
 <div class="with-sidebar">
   <div id="sidebar" class:open={layoutState.sideBarOpen}>
@@ -141,11 +151,11 @@
 
   .with-sidebar {
     display: flex;
-    gap: var(--gutter, 1rem);
+    gap: var(--gutter, var(--space-s));
   }
 
   .with-sidebar > :first-child {
-    flex-basis: 16.5rem;
+    flex-basis: 18rem;
     flex-shrink: 0;
   }
 
@@ -162,7 +172,7 @@
 
   #dashboard {
     position: relative;
-    padding-inline: var(--space-m);
+    padding-inline: var(--space-s);
   }
 
   #sidebar {

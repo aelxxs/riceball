@@ -1,28 +1,28 @@
 <script lang="ts">
-  import XIcon from "lucide-svelte/icons/x";
+import XIcon from "lucide-svelte/icons/x";
 
-  import { AlertDialog, type WithoutChild } from "bits-ui";
-  import type { Snippet } from "svelte";
-  import Button from "../button/button.svelte";
+import { AlertDialog, type WithoutChild } from "bits-ui";
+import type { Snippet } from "svelte";
+import Button from "../button/button.svelte";
 
-  type Props = AlertDialog.RootProps & {
-    button: Snippet | string;
-    title: Snippet | string;
-    description: Snippet | string;
-    onConfirm: () => void;
-    contentProps?: WithoutChild<AlertDialog.ContentProps>;
-  };
+type Props = AlertDialog.RootProps & {
+	button: Snippet | string;
+	title: Snippet | string;
+	description: Snippet | string;
+	onConfirm: () => void;
+	contentProps?: WithoutChild<AlertDialog.ContentProps>;
+};
 
-  let {
-    open = $bindable(false),
-    children,
-    button,
-    contentProps,
-    onConfirm,
-    title,
-    description,
-    ...restProps
-  }: Props = $props();
+let {
+	open = $bindable(false),
+	children,
+	button,
+	contentProps,
+	onConfirm,
+	title,
+	description,
+	...restProps
+}: Props = $props();
 </script>
 
 <AlertDialog.Root bind:open {...restProps}>

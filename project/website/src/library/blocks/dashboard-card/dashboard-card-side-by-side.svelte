@@ -1,49 +1,49 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { writable } from "svelte/store";
-  import { DashboardCard } from ".";
+import { type Snippet, onMount } from "svelte";
+import { writable } from "svelte/store";
+import { DashboardCard } from ".";
 
-  type ModuleProps = {
-    title: string;
-    description: string;
-  };
+type ModuleProps = {
+	title: string;
+	description: string;
+};
 
-  type Props = {
-    module1: any;
-    module2: any;
-    module1Props: ModuleProps;
-    module2Props: ModuleProps;
-  };
+type Props = {
+	module1: Snippet;
+	module2: Snippet;
+	module1Props: ModuleProps;
+	module2Props: ModuleProps;
+};
 
-  const { module1, module2, module1Props, module2Props }: Props = $props();
+const { module1, module2, module1Props, module2Props }: Props = $props();
 
-  const isOpen = writable(true);
-  const isSideBySide = writable(false);
+const isOpen = writable(true);
+const isSideBySide = writable(false);
 
-  let gridContainer: HTMLElement;
+let gridContainer: HTMLElement;
 
-  onMount(() => {
-    const observer = new ResizeObserver(() => {
-      if (!gridContainer) return;
+onMount(() => {
+	const observer = new ResizeObserver(() => {
+		if (!gridContainer) return;
 
-      const computedStyle = getComputedStyle(gridContainer);
-      const columns = computedStyle
-        .getPropertyValue("grid-template-columns")
-        .split(" ").length;
+		const computedStyle = getComputedStyle(gridContainer);
+		const columns = computedStyle
+			.getPropertyValue("grid-template-columns")
+			.split(" ").length;
 
-      isSideBySide.set(columns > 1);
-    });
+		isSideBySide.set(columns > 1);
+	});
 
-    observer.observe(gridContainer);
+	observer.observe(gridContainer);
 
-    return () => observer.disconnect();
-  });
+	return () => observer.disconnect();
+});
 
-  function handleToggle(newState: boolean) {
-    if ($isSideBySide) {
-      isOpen.set(newState);
-    }
-  }
+function handleToggle(newState: boolean) {
+	if ($isSideBySide) {
+		isOpen.set(newState);
+	}
+}
 </script>
 
 <div bind:this={gridContainer} class="grid">

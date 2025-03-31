@@ -1,33 +1,33 @@
 <script lang="ts">
-  import { Control, Description, Label } from "formsnap";
-  import type { ComponentProps } from "svelte";
+import { Control, Description, Label } from "formsnap";
+import type { ComponentProps } from "svelte";
 
-  let {
-    label,
-    description = "",
-    orientation = "vertical",
-    screenReaderOnly = false,
-    children: childrenProp,
-    ...restProps
-  }: ComponentProps<typeof Control> & {
-    /**
-     * The label for the control.
-     */
-    label?: string;
-    /**
-     * The description for the control.
-     *
-     * only shown if `screenReaderOnly` is `false` and `label` is present.
-     */
-    description?: string;
-    orientation?: "horizontal" | "vertical";
-    /**
-     * Whether the label should be hidden from screen readers.
-     *
-     * @default false
-     */
-    screenReaderOnly?: boolean;
-  } = $props();
+const {
+	label,
+	description = "",
+	orientation = "vertical",
+	screenReaderOnly = false,
+	children: childrenProp,
+	...restProps
+}: ComponentProps<typeof Control> & {
+	/**
+	 * The label for the control.
+	 */
+	label?: string;
+	/**
+	 * The description for the control.
+	 *
+	 * only shown if `screenReaderOnly` is `false` and `label` is present.
+	 */
+	description?: string;
+	orientation?: "horizontal" | "vertical";
+	/**
+	 * Whether the label should be hidden from screen readers.
+	 *
+	 * @default false
+	 */
+	screenReaderOnly?: boolean;
+} = $props();
 </script>
 
 {#snippet labelSnippet()}

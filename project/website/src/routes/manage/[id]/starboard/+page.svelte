@@ -1,50 +1,51 @@
 <script lang="ts">
-  // - Icons
-  import HashIcon from "lucide-svelte/icons/hash";
+// - Icons
+import HashIcon from "lucide-svelte/icons/hash";
 
-  import {
-    DashboardCard,
-    DashboardCardSideBySide,
-  } from "$lib/blocks/dashboard-card";
-  import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
-  import { Input } from "$lib/blocks/input";
-  import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
-  import { Select } from "$lib/blocks/select";
-  import { Switch } from "$lib/blocks/switch";
-  import { StarsWithRelationsSchema } from "db/zod";
-  import { ChannelType } from "discord-api-types/v10";
-  import { Control, Field, FieldErrors, Label } from "formsnap";
-  import { superForm } from "sveltekit-superforms";
-  import { zodClient } from "sveltekit-superforms/adapters";
+import {
+	DashboardCard,
+	DashboardCardSideBySide,
+} from "$lib/blocks/dashboard-card";
+import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator/index.js";
+import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
+import { Input } from "$lib/blocks/input";
+import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
+import { Select } from "$lib/blocks/select";
+import { Switch } from "$lib/blocks/switch";
+import { StarsWithRelationsSchema } from "@riceball/db/zod";
+import { ChannelType } from "discord-api-types/v10";
+import { Control, Field, FieldErrors, Label } from "formsnap";
+import SuperDebug, { superForm } from "sveltekit-superforms";
+import { zodClient } from "sveltekit-superforms/adapters";
 
-  let { data } = $props();
+const { data } = $props();
 
-  const settingsForm = superForm(data.form, {
-    validators: zodClient(StarsWithRelationsSchema),
-    dataType: "json",
-    resetForm: false,
-  });
+const settingsForm = superForm(data.form, {
+	validators: zodClient(StarsWithRelationsSchema),
+	dataType: "json",
+	resetForm: false,
+});
 
-  const { form, enhance, tainted, isTainted, submit } = settingsForm;
+const { form, enhance, tainted, isTainted, submit } = settingsForm;
 
-  // $effect(() => {
-  //   if (isTainted($tainted)) {
-  //     saveModal.showModal({
-  //       save: () => {
-  //         submit();
-  //         saveModal.hideModal();
-  //       },
-  //       undo: () => settingsForm.reset(),
-  //     });
-  //   } else {
-  //     saveModal.hideModal();
-  //   }
-  // });
+// $effect(() => {
+//   if (isTainted($tainted)) {
+//     saveModal.showModal({
+//       save: () => {
+//         submit();
+//         saveModal.hideModal();
+//       },
+//       undo: () => settingsForm.reset(),
+//     });
+//   } else {
+//     saveModal.hideModal();
+//   }
+// });
 
-  let embed = $state({});
+const embed = $state({});
 </script>
 
-<!-- <SuperDebug data={$form} /> -->
+<SuperDebug data={$form} />
 
 <form method="POST" action="?/save" use:enhance class="stack">
   <DashboardCardSideBySide
@@ -156,26 +157,22 @@
     title="Starboard Message"
     description="Customize the embed message that will be sent to the starboard channel."
   >
-    <!-- <EmbedCreator /> -->
-    pp
+    <DiscordMessageCreator client={data.client} guild={data.guild} withEmbed />
   </DashboardCard>
-  <!--
+
   <Restrictions
     title="Role Restrictions"
-    description="Restrict which roles are allowed to gain exp."
+    description="Restrict which roles are allowed to use the starboard."
     type="role"
     form={settingsForm}
-    items={data.guild.roles.map((role) => ({
-      value: role.id,
-      label: role.name,
-    }))}
+    items={data.guild.itemizedRoles}
   />
 
   <Restrictions
     title="Channel Restrictions"
-    description="Restrict which channels users can gain exp in."
+    description="Restrict which channels where starred messages will be listened to."
     type="channel"
     form={settingsForm}
-    items={}
-  /> -->
+    items={data.guild.itemizedChannels}
+  />
 </form>
