@@ -118,7 +118,7 @@ $effect(() => {
     description="Change the default color Rice Ball uses for embeds."
   >
     <div class="max-w-form">
-      <Field {form} name="embedColor">
+      <Field {form} name="timezone">
         <Control>
           {#snippet children({ props })}
             <DiscordMessageCreator
@@ -135,7 +135,7 @@ $effect(() => {
     </div>
   </DashboardCard>
 
-  <Restrictions
+  <!-- <Restrictions
     title="Role Restrictions"
     description="Restrict which roles can use Rice Ball commands and plugins."
     type="role"
@@ -148,5 +148,5 @@ $effect(() => {
     type="channel"
     {form}
     items={data.guild.itemizedChannels}
-  />
+  /> -->
 </form>

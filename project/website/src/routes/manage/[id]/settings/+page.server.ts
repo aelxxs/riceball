@@ -9,8 +9,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const guild = await locals.db.getGuildSettings(params.id);
 
 	return {
-		form: await superValidate(guild, zod(GuildWithRelationsSchema)),
-		// form: await superValidate(zod(GuildWithRelationsSchema)),
+		// form: await superValidate(guild, zod(GuildWithRelationsSchema)),
+		form: await superValidate(zod(GuildWithRelationsSchema)),
 	};
 };
 
