@@ -4,8 +4,6 @@ export default {
 	name: "stars",
 	type: ApplicationCommandType.ChatInput,
 	description: "Presets Plugin",
-	default_member_permissions: PermissionFlagsBits.ManageGuild,
-	contexts: [],
 	options: [
 		{
 			type: ApplicationCommandOptionType.Subcommand,

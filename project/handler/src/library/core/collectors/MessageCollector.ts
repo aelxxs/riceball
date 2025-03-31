@@ -1,13 +1,13 @@
 import {
 	type APIMessage,
 	type GatewayChannelDeleteDispatchData,
+	GatewayDispatchEvents,
 	type GatewayGuildDeleteDispatchData,
 	type GatewayMessageCreateDispatchData,
 	type GatewayMessageDeleteBulkDispatchData,
 	type Snowflake,
-	GatewayDispatchEvents,
 } from "discord-api-types/v10";
-import { Collector, CollectorConfig, CollectorFilter, Handler } from "./Collector";
+import { Collector, type CollectorConfig, type CollectorFilter, type Handler } from "./Collector";
 
 type MessageCollectorConfig = CollectorConfig & {
 	maxMessages?: number;
@@ -64,15 +64,15 @@ export class MessageCollector extends Collector<APIMessage> {
 		};
 
 		this.incrementMaxListeners();
-		Object.entries(events).forEach(([event, handler]) => {
-			this.handlers[event] = this.decodeListener(handler);
+		for (const [event, handler] of Object.entries(events)) {
+			this.handlers[event] = this.decodeListener(handler as (data: unknown) => void);
 			this.gateway.on(event, this.handlers[event]);
-		});
+		}
 
 		this.once("end", () => {
-			Object.entries(this.handlers).forEach(([event, handler]) => {
+			for (const [event, handler] of Object.entries(this.handlers)) {
 				this.gateway.off(event, handler);
-			});
+			}
 			this.decrementMaxListeners();
 		});
 	}
@@ -130,7 +130,10 @@ export class MessageCollector extends Collector<APIMessage> {
 	 */
 	private handleBulkDispose = (event: GatewayMessageDeleteBulkDispatchData) => {
 		for (const id of event.ids) {
-			this.dispose({ id, channel_id: this.channelId } as GatewayMessageCreateDispatchData);
+			this.dispose({
+				id,
+				channel_id: this.channelId,
+			} as GatewayMessageCreateDispatchData);
 		}
 	};
 

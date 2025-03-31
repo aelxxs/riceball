@@ -17,13 +17,13 @@
  **/
 
 import { bold, channelMention, codeBlock, subtext } from "@discordjs/formatters";
-import { type Command, type Context } from "@lib/core";
-import Client from "@spectacles/proxy";
+import { getGuild } from "@riceball/db";
+import type Client from "@spectacles/proxy";
 import { stripIndents } from "common-tags";
-import { getGuild } from "db";
 import { ButtonStyle, Routes } from "discord-api-types/v10";
 import { Deps } from "library/common";
 import { actionRow, button } from "library/components";
+import type { Command, Context } from "library/core";
 import { formatBoolean } from "library/utilities/formatters";
 import { container } from "tsyringe";
 
@@ -65,7 +65,7 @@ export default class implements Command {
 							name: "Reaction Threshold",
 							value: stripIndents`
 								${bold(stars.threshold.toString())} reaction${stars.threshold === 1 ? "" : "s"}
-								${subtext(`The number of reactions required to post a message to the starboard.`)}
+								${subtext("The number of reactions required to post a message to the starboard.")}
 							`,
 						},
 						{

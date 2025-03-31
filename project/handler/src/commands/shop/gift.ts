@@ -16,9 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import {} from "db";
+import {} from "@riceball/db";
 import type { APIUser } from "discord-api-types/v10";
+import type { Command, Context } from "library/core";
 
 export default class implements Command {
 	/**
@@ -27,7 +27,7 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {string} input - The input of the user
 	 **/
-	public autocompleteRun({}: Context, input: string) {}
+	public autocompleteRun({ guild }: Context, input: string) {}
 
 	/**
 	 * Gift an item to another user
@@ -35,7 +35,7 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({}: Context, { item, user }: Options) {
+	public chatInputRun({ guild }: Context, { item, user }: Options) {
 		return "Sorry, this command was registered but not implemented. Please try again later.";
 	}
 }

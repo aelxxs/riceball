@@ -1,17 +1,19 @@
+import "dotenv/config";
+
 import "reflect-metadata";
 
-import { Constants, Deps } from "@lib/common";
-import { handle, load, send } from "@lib/core";
+import { Database, setupDatabase } from "@riceball/db";
 import { logger } from "@riceball/logger";
 import { Redis } from "@spectacles/brokers";
-import Client from "@spectacles/proxy";
-import { config } from "dotenv";
+import { Client } from "@spectacles/proxy";
 import RedisClient from "ioredis";
+import { Constants, Deps } from "library/common";
+import { handle, load } from "library/core";
+import { validateEnv } from "library/utilities/validate-env";
 import { container } from "tsyringe";
 
-config({ path: "../../.env" });
-
 const start = async () => {
+	validateEnv();
 	const redis = new RedisClient(Constants.RedisURL);
 
 	const gateway = new Redis(Constants.GatewayGroup, redis);
@@ -27,20 +29,21 @@ const start = async () => {
 	container.register(Deps.Gateway, { useValue: gateway });
 	container.register(Deps.Rest, { useValue: rest });
 	container.register(Deps.Redis, { useValue: redis });
+	container.register(Database, { useClass: Database });
+
+	logger.info("Connecting to database");
+	logger.info(`MongoDB URL: ${Constants.MongoURL}`);
+	logger.info(`Redis URL: ${Constants.RedisURL}`);
+	await setupDatabase({
+		mongoUrl: Constants.MongoURL,
+		redisUrl: Constants.RedisURL,
+	});
+	logger.info("Connected to database");
 
 	const { events, plugins } = await load();
 
-	logger.info(`Registered ${events.size} actions`);
-	logger.info(`Registered ${plugins.size} plugins`);
-
-	website.on("SEND_MESSAGE", (data) => {
-		logger.debug("SEND_MESSAGE");
-		console.log(data);
-
-		send(data.channelId, {
-			content: "Hello World!",
-		});
-	});
+	logger.info(`Registered ${events.size} events`);
+	logger.info(`Registered ${plugins.size} commands`);
 
 	void handle();
 

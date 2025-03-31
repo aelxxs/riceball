@@ -1,13 +1,19 @@
-import { makeUniqueID } from "@lib/core";
 import {
-	APIActionRowComponent,
-	APIActionRowComponentTypes,
-	APIMessageActionRowComponent,
+	type APIActionRowComponent,
+	type APIActionRowComponentTypes,
+	type APIMessageActionRowComponent,
 	ButtonStyle,
 	ComponentType,
 } from "discord-api-types/v10";
+import { makeUniqueID } from "library/core";
 
-export function actionRow(options: any): APIActionRowComponent<APIActionRowComponentTypes> {
+interface ActionRowOptions {
+	command: string;
+	context?: string;
+	components: APIMessageActionRowComponent[];
+}
+
+export function actionRow(options: ActionRowOptions): APIActionRowComponent<APIActionRowComponentTypes> {
 	const { command, context, components } = options;
 
 	const transformedComponents = components.map((component) => {
@@ -16,7 +22,7 @@ export function actionRow(options: any): APIActionRowComponent<APIActionRowCompo
 
 		if (component.type === ComponentType.Button && component.style === ButtonStyle.Link) {
 			// @ts-ignore - This is a custom id
-			delete component?.custom_id;
+			component.custom_id = undefined;
 		}
 
 		return component;
@@ -26,10 +32,4 @@ export function actionRow(options: any): APIActionRowComponent<APIActionRowCompo
 		type: ComponentType.ActionRow,
 		components: transformedComponents,
 	};
-}
-
-interface ActionRowOptions {
-	command: string;
-	context?: string;
-	components: any[];
 }

@@ -16,11 +16,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { getGuild, getMember } from "db";
+import { Database } from "@riceball/db";
 import type { APIUser } from "discord-api-types/v10";
+import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * View your or another user's balance
 	 *
@@ -28,8 +35,8 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild, author }: Context, { user }: Options) {
-		const { bal } = await getMember(guild.id, author.id);
-		const { economy } = await getGuild(guild.id);
+		const { bal } = await this.db.getMemberSettings(guild.id, author.id);
+		const { economy } = await this.db.getGuildSettings(guild.id);
 
 		return `${user ? `${user.username} has` : "You have"} a balance of **${bal.toLocaleString()}** ${
 			economy.currencyIcon

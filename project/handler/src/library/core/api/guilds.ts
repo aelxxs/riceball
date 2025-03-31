@@ -1,8 +1,15 @@
-import { Deps } from "@lib/common";
 import { logger } from "@riceball/logger";
-import { Client } from "@spectacles/proxy";
-import { APIChannel, APIGuild, APIMessage, APIUser, Routes, Snowflake } from "discord-api-types/v10";
-import { Redis } from "ioredis";
+import type { Client } from "@spectacles/proxy";
+import {
+	type APIChannel,
+	type APIGuild,
+	type APIMessage,
+	type APIUser,
+	Routes,
+	type Snowflake,
+} from "discord-api-types/v10";
+import type { Redis } from "ioredis";
+import { Deps } from "library/common";
 import { container, inject, injectable } from "tsyringe";
 
 const CacheKeys = {
@@ -56,7 +63,7 @@ export class API {
 }
 
 function cache(key: (typeof CacheKeys)[keyof typeof CacheKeys]) {
-	return function (target: API, propertyKey: string, descriptor: PropertyDescriptor) {
+	return (target: API, propertyKey: string, descriptor: PropertyDescriptor) => {
 		const original = descriptor.value;
 
 		descriptor.value = async function (...args: unknown[]) {

@@ -1,8 +1,8 @@
-import { DebugMessages, Deps, ErrorMessages } from "@lib/common";
-import { defer, edit, send, type Command } from "@lib/core";
 import { logger } from "@riceball/logger";
 import { isChatInputApplicationCommandInteraction } from "discord-api-types/utils/v10";
 import type { APIApplicationCommandInteraction } from "discord-api-types/v10";
+import { DebugMessages, Deps, ErrorMessages } from "library/common";
+import { type Command, defer, edit } from "library/core";
 import { container } from "tsyringe";
 import { createContext } from "./create-context";
 import { getCommandName, transformInteraction } from "./utils";

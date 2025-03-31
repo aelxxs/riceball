@@ -1,6 +1,4 @@
-import { APIGuildMember } from "discord-api-types/v10";
-
-export {};
+import type { Snowflake } from "discord-api-types/v10";
 
 declare module "discord-api-types/v10" {
 	export interface APIGuildMember {
@@ -15,7 +13,7 @@ declare module "@spectacles/brokers" {
 	}
 }
 
-declare module "@types/node-emoji" {
+declare module "node-emoji" {
 	export interface Emoji {
 		emoji: string;
 		key: string;

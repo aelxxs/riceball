@@ -16,26 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { updateMember } from "db";
+import {} from "@riceball/db";
+import type { Command, Context } from "library/core";
 
 export default class implements Command {
 	/**
-	 * Set the opacity of the primary background
+	 * Set the transparency level of the main text
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public async chatInputRun({ guild, author }: Context, { value }: Options) {
-		await updateMember(guild.id, author.id, {
-			card: { primaryOpacity: value },
-		});
-
-		return `Your primary opacity has been set to \`${value}%\`.`;
+	public chatInputRun({ t }: Context, { value }: Options) {
+		return "Sorry, this command was registered but not implemented. Please try again later.";
 	}
 }
 
 interface Options {
-	/* The opacity value */
+	/* Specify the opacity value (0 for fully transparent, 100 for fully opaque) */
 	value: number;
 }

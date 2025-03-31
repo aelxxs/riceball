@@ -1,19 +1,13 @@
+import { opendir } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { REST } from "@discordjs/rest";
 import { logger } from "@riceball/logger";
 import { Routes } from "discord-api-types/v10";
 import { config } from "dotenv";
-import { opendir } from "fs/promises";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
 
-config({ path: "../../.env" });
+config();
 
-/**
- * Asynchronously walks through a directory and its subdirectories, yielding file paths.
- *
- * @param {string} path - The path of the directory to walk through.
- * @returns {AsyncGenerator<string>} An async generator that yields file paths.
- */
 async function* walk(path: string): AsyncGenerator<string> {
 	for await (const item of await opendir(path)) {
 		const entry = join(path, item.name);
@@ -23,28 +17,30 @@ async function* walk(path: string): AsyncGenerator<string> {
 	}
 }
 
-const rest = new REST().setToken(process.env.DISCORD_TOKEN || "");
+(async () => {
+	const rest = new REST().setToken(process.env.DISCORD_TOKEN || "");
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+	const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const commands = [];
-const files = walk(join(__dirname, "plugins"));
+	const commands = [];
+	const files = walk(join(__dirname, "plugins"));
 
-for await (const file of files) {
-	const data = (await import(file)).default;
+	for await (const file of files) {
+		const data = (await import(file)).default;
 
-	if (!data) continue;
+		if (!data) continue;
 
-	commands.push(data);
-}
+		commands.push(data);
+	}
 
-try {
-	logger.info("Publishing slash commands...");
+	try {
+		logger.info("Publishing slash commands...");
 
-	await rest.put(Routes.applicationCommands("525810495786057758"), {
-		body: commands,
-	});
-	logger.info("Published slash commands.");
-} catch (e) {
-	console.error(e);
-}
+		await rest.put(Routes.applicationCommands("525810495786057758"), {
+			body: commands,
+		});
+		logger.info("Published slash commands.");
+	} catch (e) {
+		console.error(e);
+	}
+})();

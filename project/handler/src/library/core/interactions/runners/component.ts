@@ -1,7 +1,7 @@
-import { DebugMessages, Deps, ErrorMessages } from "@lib/common";
-import { modal, update, type Command, type Component } from "@lib/core";
 import { logger } from "@riceball/logger";
 import type { APIMessageComponentInteraction, APIModalSubmitInteraction } from "discord-api-types/v10";
+import { DebugMessages, Deps, ErrorMessages } from "library/common";
+import { type Command, type Component, modal, update } from "library/core";
 import { container } from "tsyringe";
 import { parseUniqueID } from "../options/parse-unique-id";
 import { createContext } from "./create-context";
@@ -26,7 +26,8 @@ export async function runComponent(interaction: APIMessageComponentInteraction |
 
 	if (runner === undefined) {
 		return logger.debug(ErrorMessages.InvalidComponentMethod(name, method));
-	} else if (typeof runner !== "function") {
+	}
+	if (typeof runner !== "function") {
 		return logger.debug(ErrorMessages.InvalidComponentMethodType(name, method));
 	}
 

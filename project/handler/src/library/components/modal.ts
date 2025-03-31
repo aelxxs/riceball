@@ -1,4 +1,4 @@
-import { APIActionRowComponent, APIModalActionRowComponent } from "discord-api-types/v10";
+import type { APIActionRowComponent, APIModalActionRowComponent } from "discord-api-types/v10";
 import { makeUniqueID } from "library/core";
 
 export function modal(options: ModalOptions) {
@@ -23,7 +23,7 @@ export function modal(options: ModalOptions) {
 
 type ModalOptions = {
 	command: string;
-	method: string | Function;
+	method: string | ((...args: unknown[]) => unknown);
 	title: string;
 	context?: string;
 	components: APIActionRowComponent<APIModalActionRowComponent>[];

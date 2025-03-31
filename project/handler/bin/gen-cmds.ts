@@ -1,19 +1,13 @@
+import { existsSync } from "node:fs";
+import { mkdir, opendir, writeFile } from "node:fs/promises";
+import { basename, dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
-	APIApplicationCommandOption,
+	type APIApplicationCommandOption,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
 } from "discord-api-types/v10";
-import { existsSync } from "fs";
-import { mkdir, opendir, writeFile } from "fs/promises";
-import { basename, dirname, join } from "path";
-import { fileURLToPath } from "url";
 
-/**
- * Asynchronously walks through a directory and its subdirectories, yielding file paths.
- *
- * @param {string} path - The path of the directory to walk through.
- * @returns {AsyncGenerator<string>} An async generator that yields file paths.
- */
 async function* walk(path: string): AsyncGenerator<string> {
 	for await (const item of await opendir(path)) {
 		const entry = join(path, item.name);
@@ -42,8 +36,8 @@ const SKELETON = [
 	" * along with this program. If not, see <http://www.gnu.org/licenses/>.",
 	" **/",
 	"",
-	'import type { Command, Context } from "@lib/core";',
-	'import {} from "db";',
+	'import type { Command, Context } from "library/core";',
+	'import {} from "@riceball/db";',
 	"$IMPORT",
 
 	"export default class implements Command {",
@@ -63,76 +57,66 @@ const SKELETON = [
 	"",
 ].join("\n");
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+(async () => {
+	const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const METADATA_DIR = "plugins";
-const PLUGIN_DIR = "./src/commands";
+	const METADATA_DIR = "plugins";
+	const PLUGIN_DIR = "./src/commands";
 
-const files = walk(join(__dirname, METADATA_DIR));
+	const files = walk(join(__dirname, METADATA_DIR));
 
-for await (const file of files) {
-	const data = (await import(file)).default;
+	for await (const file of files) {
+		const data = (await import(file)).default;
 
-	if (!data) continue;
+		if (!data) continue;
 
-	const root = basename(dirname(file));
+		const root = basename(dirname(file));
 
-	if (root !== METADATA_DIR) {
-		await mkdir(join(PLUGIN_DIR, root), {
-			recursive: true,
-		});
-	}
+		if (root !== METADATA_DIR) {
+			await mkdir(join(PLUGIN_DIR, root), {
+				recursive: true,
+			});
+		}
 
-	if (data.options) {
-		for (const option of data?.options) {
-			if (option?.type === ApplicationCommandOptionType.Subcommand) {
-				await mkdir(join(PLUGIN_DIR, data.name), {
-					recursive: true,
-				});
+		if (data.options) {
+			for (const option of data.options) {
+				if (option?.type === ApplicationCommandOptionType.Subcommand) {
+					await mkdir(join(PLUGIN_DIR, data.name), {
+						recursive: true,
+					});
 
-				const dir = join(PLUGIN_DIR, data.name, `[${option.name}].ts`);
-				await generate(dir, option);
+					const dir = join(PLUGIN_DIR, data.name, `[${option.name}].ts`);
+					await generate(dir, option);
 
-				continue;
-			}
-
-			if (option?.type === ApplicationCommandOptionType.SubcommandGroup) {
-				await mkdir(join(PLUGIN_DIR, data.name, `[${option.name}]`), {
-					recursive: true,
-				});
-
-				for (const subOption of option?.options ?? []) {
-					const dir = join(PLUGIN_DIR, data.name, `[${option.name}]`, `[${subOption.name}].ts`);
-
-					await generate(dir, subOption);
+					continue;
 				}
 
-				continue;
-			}
+				if (option?.type === ApplicationCommandOptionType.SubcommandGroup) {
+					await mkdir(join(PLUGIN_DIR, data.name, `[${option.name}]`), {
+						recursive: true,
+					});
 
+					for (const subOption of option?.options ?? []) {
+						const dir = join(PLUGIN_DIR, data.name, `[${option.name}]`, `[${subOption.name}].ts`);
+
+						await generate(dir, subOption);
+					}
+
+					continue;
+				}
+
+				const dir = join(PLUGIN_DIR, root === METADATA_DIR ? "" : root, `${data?.name}.ts`);
+
+				generate(dir, data);
+			}
+		} else {
 			const dir = join(PLUGIN_DIR, root === METADATA_DIR ? "" : root, `${data?.name}.ts`);
 
 			generate(dir, data);
 		}
-	} else {
-		const dir = join(PLUGIN_DIR, root === METADATA_DIR ? "" : root, `${data?.name}.ts`);
-
-		generate(dir, data);
 	}
-}
+})();
 
-/**
- * Generates a command file based on the provided location and data.
- *
- * @param {string} location - The file path where the command file will be generated.
- * @param {Object} data - The data used to generate the command file.
- * @param {string} data.description - The description of the command.
- * @param {Array<import("discord-api-types/v10").APIApplicationCommandOption>} [data.options] - The options for the command.
- * @param {import("discord-api-types/v10").APIApplicationCommandOption} data.options - The options for the command.
- * @param {object} data.options - The options for the command.
- * @param {boolean} [data.options[].autocomplete] - Indicates if the option supports autocomplete.
- * @returns {void} A promise that resolves when the command file has been generated.
- */
 function generate(location: string, data) {
 	let command = SKELETON;
 
@@ -172,31 +156,16 @@ function generate(location: string, data) {
 	}
 }
 
-/**
- * Generates a string of argument names from an array of options.
- *
- * @param {Array<{name: string}>} options - An array of objects, each containing a `name` property.
- * @returns {string} A string of argument names joined by commas, formatted as part of an options object if arguments exist.
- */
-function createArguments(options) {
+interface CommandOption {
+	name: string;
+}
+
+function createArguments(options: CommandOption[]): string {
 	const args = options?.map(({ name }) => name).join(", ");
 
 	return args ? `, { ${args} }: Options` : "";
 }
 
-/**
- * Generates a TypeScript interface definition string based on the provided options.
- *
- * @param {Array<import("discord.js").ApplicationCommandOption>} options - An array of option objects.
- * @param {object} options - An array of option objects.
- * @param {string} options[].name - The name of the option.
- * @param {string} options[].description - A description of the option.
- * @param {string} [options[].type] - The type of the option (if no choices are provided).
- * @param {Array<{ value: string }>} [options[].choices] - An array of choice objects for the option.
- * @param {object} options[].choices - An array of choice objects for the option.
- * @param {string} options[].choices[].value - The value of a choice.
- * @returns {string} A string representing the TypeScript interface definition.
- */
 function createInterface(options: APIApplicationCommandOption[]) {
 	const args = options
 		?.map((o) => {
@@ -212,14 +181,6 @@ function createInterface(options: APIApplicationCommandOption[]) {
 	return args ? `interface Options {\n\t${args}\n}` : "";
 }
 
-/**
- * Generates import statements for the specified options.
- *
- * @param {Array<import("discord.js").ApplicationCommandOption>} options - An array of option objects.
- * @param {object} options - An array of option objects.
- * @param {string} options[].type - The type of the option.
- * @returns {string} The import statement string if there are any API types, otherwise an empty string.
- */
 function createImports(options: APIApplicationCommandOption[]) {
 	const imports = [];
 
@@ -234,29 +195,19 @@ function createImports(options: APIApplicationCommandOption[]) {
 	return imports.length ? `import type { ${imports.join(", ")} } from "discord-api-types/v10";\n` : "";
 }
 
-/**
- * Returns the method name corresponding to the given application command type.
- *
- * @param {ApplicationCommandType} type - The type of the application command.
- * @returns {string} The method name corresponding to the given command type.
- */
 function getMethodName(type: ApplicationCommandType) {
 	if (type === ApplicationCommandType.ChatInput) {
 		return "chatInputRun";
-	} else if (type === ApplicationCommandType.User) {
+	}
+	if (type === ApplicationCommandType.User) {
 		return "userInputRun";
-	} else if (type === ApplicationCommandType.Message) {
+	}
+	if (type === ApplicationCommandType.Message) {
 		return "messageInputRun";
 	}
 	return "chatInputRun";
 }
 
-/**
- * Returns the corresponding API type or primitive type for a given application command option type.
- *
- * @param {ApplicationCommandOptionType} type - The type of the application command option.
- * @returns {string} The corresponding API type or primitive type as a string.
- */
 function getOptionType(type: ApplicationCommandOptionType) {
 	return (
 		{

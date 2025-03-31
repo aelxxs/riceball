@@ -1,7 +1,7 @@
-import { Deps } from "@lib/common";
-import { Event } from "@lib/core";
 import { logger } from "@riceball/logger";
 import type { Redis } from "@spectacles/brokers";
+import { Deps } from "library/common";
+import type { Event } from "library/core";
 import { container } from "tsyringe";
 
 export function handle() {

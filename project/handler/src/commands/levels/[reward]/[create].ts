@@ -16,10 +16,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
+// import { createLevelingReward } from "@riceball/db";
 import { logger } from "@riceball/logger";
-import { createLevelingReward } from "db";
 import type { APIRole } from "discord-api-types/v10";
+import type { Command, Context } from "library/core";
 
 export default class implements Command {
 	/**
@@ -30,7 +30,7 @@ export default class implements Command {
 	 **/
 	public async chatInputRun({ guild }: Context, { level, reward }: Options) {
 		try {
-			await createLevelingReward(guild.id, level, reward.id);
+			// await createLevelingReward(guild.id, level, reward.id);
 
 			return `Users will now receive the <@&${reward.id}> role at level \`${level}\`.`;
 		} catch (error) {

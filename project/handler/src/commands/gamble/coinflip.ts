@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { getGuild, getMember, updateMember } from "db";
+import { getGuild, getMember, updateMember } from "@riceball/db";
+import type { Command, Context } from "library/core";
 
 export default class implements Command {
 	/**
@@ -42,9 +42,8 @@ export default class implements Command {
 
 		if (coin === choice) {
 			return `You won ${wager}! The coin landed on ${coin}.`;
-		} else {
-			throw `You lost ${wager}! The coin landed on ${coin}.`;
 		}
+		throw `You lost ${wager}! The coin landed on ${coin}.`;
 	}
 }
 

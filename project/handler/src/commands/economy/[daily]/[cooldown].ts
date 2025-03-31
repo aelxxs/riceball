@@ -16,19 +16,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import {} from "db";
+import {} from "@riceball/db";
+import type { Command, Context } from "library/core";
 
 export default class implements Command {
-
 	/**
 	 * Set the daily cooldown
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ }: Context, { cooldown }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later."
+	public chatInputRun({ guild }: Context, { cooldown }: Options) {
+		return "Sorry, this command was registered but not implemented. Please try again later.";
 	}
 }
 

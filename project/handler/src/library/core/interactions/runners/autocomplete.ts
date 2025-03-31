@@ -1,8 +1,12 @@
-import { REST } from "@discordjs/rest";
-import { Deps } from "@lib/common";
-import { Command } from "@lib/core";
+import type { REST } from "@discordjs/rest";
 import { logger } from "@riceball/logger";
-import { APIApplicationCommandAutocompleteInteraction, InteractionResponseType, Routes } from "discord-api-types/v10";
+import {
+	type APIApplicationCommandAutocompleteInteraction,
+	InteractionResponseType,
+	Routes,
+} from "discord-api-types/v10";
+import { Deps } from "library/common";
+import type { Command } from "library/core";
 import { container } from "tsyringe";
 import { createContext } from "./create-context";
 import { getCommandName, transformInteraction } from "./utils";

@@ -1,6 +1,6 @@
 import { isGuildInteraction } from "discord-api-types/utils/v10";
 import type { APIInteraction } from "discord-api-types/v10";
-import { getGuild, type Context } from "library/core";
+import { type Context, getGuild } from "library/core";
 
 /**
  * Creates a context object for a given interaction.
@@ -17,7 +17,7 @@ export async function createContext(interaction: APIInteraction): Promise<Contex
 	const guild = await getGuild(interaction.guild_id);
 
 	// TODO: Implement translation function
-	const translation = (key: string, ...args: any[]) => {
+	const translation = (key: string, ...args: unknown[]) => {
 		return key; // i18n.t(key, ...args);
 	};
 

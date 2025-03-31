@@ -1,139 +1,135 @@
-import { logger } from "@riceball/logger";
-import { Snowflake } from "discord-api-types/globals";
-import {
-	APIInteraction,
-	GatewayDispatchEvents,
-	type APIEmoji,
-	type GatewayChannelDeleteDispatchData,
-	type GatewayGuildDeleteDispatchData,
-	type GatewayMessageDeleteBulkDispatchData,
-	type GatewayMessageDeleteDispatchData,
-	type GatewayMessageReactionAddDispatchData,
-	type GatewayMessageReactionRemoveAllDispatchData,
-	type GatewayMessageReactionRemoveDispatchData,
-	type GatewayMessageReactionRemoveEmojiDispatchData,
-} from "discord-api-types/v10";
-import { Collector, CollectorConfig, CollectorFilter } from "./Collector";
+// import type { Snowflake } from "discord-api-types/globals";
+// import {
+// 	type APIEmoji,
+// 	type APIInteraction,
+// 	type GatewayChannelDeleteDispatchData,
+// 	GatewayDispatchEvents,
+// 	type GatewayGuildDeleteDispatchData,
+// 	type GatewayMessageDeleteBulkDispatchData,
+// 	type GatewayMessageDeleteDispatchData,
+// 	type GatewayMessageReactionAddDispatchData,
+// 	type GatewayMessageReactionRemoveAllDispatchData,
+// 	type GatewayMessageReactionRemoveDispatchData,
+// 	type GatewayMessageReactionRemoveEmojiDispatchData,
+// } from "discord-api-types/v10";
+// import { Collector, type CollectorConfig, type CollectorFilter, type Handler } from "./Collector";
 
-export type ReactionCollectorConfig = {
-	max?: number;
-	maxEmojis?: number;
-} & CollectorConfig;
+// export type ReactionCollectorConfig = {
+// 	max?: number;
+// 	maxEmojis?: number;
+// } & CollectorConfig;
 
-export class ReactionCollector extends Collector<APIEmoji> {
-	private total = 0;
+// export class ReactionCollector extends Collector<APIEmoji> {
+// 	private total = 0;
 
-	private readonly guildId: Snowflake;
-	private readonly channelId: Snowflake;
-	private readonly messageId: Snowflake;
+// 	private readonly guildId: Snowflake;
+// 	private readonly channelId: Snowflake;
+// 	private readonly messageId: Snowflake;
 
-	public readonly config: ReactionCollectorConfig;
-	public readonly filter: CollectorFilter<GatewayMessageReactionAddDispatchData>;
+// 	public readonly config: ReactionCollectorConfig;
+// 	public readonly filter: CollectorFilter<GatewayMessageReactionAddDispatchData>;
 
-	public constructor(
-		interaction: APIInteraction,
-		filter: CollectorFilter<GatewayMessageReactionAddDispatchData>,
-		config: ReactionCollectorConfig,
-	) {
-		super(filter, config);
+// 	private handlers: Record<string, Handler>;
 
-		this.guildId = interaction.guild_id!;
-		this.channelId = interaction.channel_id!;
-		this.messageId = interaction.message!.id;
+// 	public constructor(
+// 		interaction: APIInteraction,
+// 		filter: CollectorFilter<GatewayMessageReactionAddDispatchData>,
+// 		config: ReactionCollectorConfig,
+// 	) {
+// 		super(filter, config);
 
-		this.config = config;
-		this.filter = filter;
+// 		this.guildId = interaction.guild_id!;
+// 		this.channelId = interaction.channel?.id!;
+// 		this.messageId = interaction.message?.id;
 
-		const events = {
-			[GatewayDispatchEvents.MessageReactionAdd]: this.handleCollect,
-			[GatewayDispatchEvents.MessageReactionRemove]: this.handleDispose,
-			[GatewayDispatchEvents.MessageReactionRemoveAll]: this.handleMessageReactionRemoveAll,
-			[GatewayDispatchEvents.MessageReactionRemoveEmoji]: this.handleMessageReactionRemoveEmoji,
-			[GatewayDispatchEvents.MessageDelete]: this.handleMessageDelete,
-			[GatewayDispatchEvents.MessageDeleteBulk]: this.handleMessageDeleteBulk,
-			[GatewayDispatchEvents.ChannelDelete]: this.handleChannelDelete,
-			[GatewayDispatchEvents.GuildDelete]: this.handleGuildDelete,
-		};
+// 		this.config = config;
+// 		this.filter = filter;
 
-		this.incrementMaxListeners();
+// 		this.handlers = {};
 
-		Object.entries(events).forEach(([event, handler]) => {
-			this.gateway.on(event, this.eventHandlerWrapper(handler));
-		});
+// 		const events = {
+// 			[GatewayDispatchEvents.MessageReactionAdd]: this.handleCollect,
+// 			[GatewayDispatchEvents.MessageReactionRemove]: this.handleDispose,
+// 			[GatewayDispatchEvents.MessageReactionRemoveAll]: this.handleMessageReactionRemoveAll,
+// 			[GatewayDispatchEvents.MessageReactionRemoveEmoji]: this.handleMessageReactionRemoveEmoji,
+// 			[GatewayDispatchEvents.MessageDelete]: this.handleMessageDelete,
+// 			[GatewayDispatchEvents.MessageDeleteBulk]: this.handleMessageDeleteBulk,
+// 			[GatewayDispatchEvents.ChannelDelete]: this.handleChannelDelete,
+// 			[GatewayDispatchEvents.GuildDelete]: this.handleGuildDelete,
+// 		};
 
-		this.once("end", () => {
-			Object.entries(events).forEach(([event, handler]) => {
-				this.gateway.off(event, this.eventHandlerWrapper(handler));
-			});
-			this.decrementMaxListeners();
-		});
-	}
+// 		this.incrementMaxListeners();
 
-	public endReason() {
-		if (this.config.max && this.total >= this.config.max) {
-			return "limit";
-		}
-		if (this.config.maxEmojis && this.total >= this.config.maxEmojis) {
-			return "emojiLimit";
-		}
-		return null;
-	}
+// 		this.incrementMaxListeners();
+// 		for (const [event, handler] of Object.entries(events)) {
+// 			this.handlers[event] = this.decodeListener(handler as (data: unknown) => void);
+// 			this.gateway.on(event, this.handlers[event]);
+// 		}
 
-	public collect(event: GatewayMessageReactionAddDispatchData) {
-		if (event.message_id === this.messageId) {
-			this.total++;
-			return this.getEmoji(event.emoji);
-		}
-	}
+// 		this.once("end", () => {
+// 			for (const [event, handler] of Object.entries(this.handlers)) {
+// 				this.gateway.off(event, handler);
+// 			}
+// 			this.decrementMaxListeners();
+// 		});
+// 	}
 
-	public dispose(event: GatewayMessageReactionRemoveDispatchData) {
-		if (event.message_id === this.messageId) {
-			this.total--;
-			return this.getEmoji(event.emoji);
-		}
-	}
+// 	public endReason() {
+// 		if (this.config.max && this.total >= this.config.max) {
+// 			return "limit";
+// 		}
+// 		if (this.config.maxEmojis && this.total >= this.config.maxEmojis) {
+// 			return "emojiLimit";
+// 		}
+// 		return null;
+// 	}
 
-	private handleMessageReactionRemoveAll(event: GatewayMessageReactionRemoveAllDispatchData) {
-		if (event.message_id === this.messageId) {
-			this.stop(GatewayDispatchEvents.MessageReactionRemoveAll);
-		}
-	}
-	private handleMessageReactionRemoveEmoji(event: GatewayMessageReactionRemoveEmojiDispatchData) {
-		if (event.message_id === this.messageId) {
-			this.stop(GatewayDispatchEvents.MessageReactionRemoveEmoji);
-		}
-	}
-	private handleMessageDelete(message: GatewayMessageDeleteDispatchData) {
-		if (message.id === this.messageId) {
-			this.stop(GatewayDispatchEvents.MessageDelete);
-		}
-	}
-	private handleMessageDeleteBulk(event: GatewayMessageDeleteBulkDispatchData) {
-		if (event.ids.includes(this.messageId)) {
-			this.stop(GatewayDispatchEvents.MessageDeleteBulk);
-		}
-	}
-	private handleChannelDelete(channel: GatewayChannelDeleteDispatchData) {
-		if (channel.id === this.channelId) {
-			this.stop(GatewayDispatchEvents.ChannelDelete);
-		}
-	}
-	private handleGuildDelete(guild: GatewayGuildDeleteDispatchData) {
-		if (guild.id === this.guildId) {
-			this.stop(GatewayDispatchEvents.GuildDelete);
-		}
-	}
+// 	public collect(event: GatewayMessageReactionAddDispatchData) {
+// 		if (event.message_id === this.messageId) {
+// 			this.total++;
+// 			return this.getEmoji(event.emoji);
+// 		}
+// 	}
 
-	private eventHandlerWrapper(handler: (data: any) => void) {
-		return (data: string, { ack }: { ack: () => Promise<unknown> }) => {
-			logger.debug("Collector Event Received");
-			ack().then(() => {
-				handler(JSON.parse(data));
-			});
-		};
-	}
+// 	public dispose(event: GatewayMessageReactionRemoveDispatchData) {
+// 		if (event.message_id === this.messageId) {
+// 			this.total--;
+// 			return this.getEmoji(event.emoji);
+// 		}
+// 	}
 
-	private getEmoji({ name, id }: APIEmoji) {
-		return name && id ? `${name}:${id}` : (name as string);
-	}
-}
+// 	private handleMessageReactionRemoveAll(event: GatewayMessageReactionRemoveAllDispatchData) {
+// 		if (event.message_id === this.messageId) {
+// 			this.stop(GatewayDispatchEvents.MessageReactionRemoveAll);
+// 		}
+// 	}
+// 	private handleMessageReactionRemoveEmoji(event: GatewayMessageReactionRemoveEmojiDispatchData) {
+// 		if (event.message_id === this.messageId) {
+// 			this.stop(GatewayDispatchEvents.MessageReactionRemoveEmoji);
+// 		}
+// 	}
+// 	private handleMessageDelete(message: GatewayMessageDeleteDispatchData) {
+// 		if (message.id === this.messageId) {
+// 			this.stop(GatewayDispatchEvents.MessageDelete);
+// 		}
+// 	}
+// 	private handleMessageDeleteBulk(event: GatewayMessageDeleteBulkDispatchData) {
+// 		if (event.ids.includes(this.messageId)) {
+// 			this.stop(GatewayDispatchEvents.MessageDeleteBulk);
+// 		}
+// 	}
+// 	private handleChannelDelete(channel: GatewayChannelDeleteDispatchData) {
+// 		if (channel.id === this.channelId) {
+// 			this.stop(GatewayDispatchEvents.ChannelDelete);
+// 		}
+// 	}
+// 	private handleGuildDelete(guild: GatewayGuildDeleteDispatchData) {
+// 		if (guild.id === this.guildId) {
+// 			this.stop(GatewayDispatchEvents.GuildDelete);
+// 		}
+// 	}
+
+// 	private getEmoji({ name, id }: APIEmoji) {
+// 		return name && id ? `${name}:${id}` : (name as string);
+// 	}
+// }

@@ -7,9 +7,10 @@ export function randomNItems<T>(arr: T[], n: number) {
 		throw new RangeError("getRandom: more elements taken than available");
 	}
 
-	while (n--) {
+	let count = n;
+	while (count--) {
 		const x = Math.floor(Math.random() * len);
-		result[n] = arr[x in taken ? taken[x] : x];
+		result[count] = arr[x in taken ? taken[x] : x];
 		taken[x] = --len in taken ? taken[len] : len;
 	}
 

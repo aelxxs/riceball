@@ -1,6 +1,6 @@
 import type { APIApplicationCommandOptionChoice } from "discord-api-types/v10";
-import { MessagePayload } from "../api/interactions";
-import { Context } from "./Context";
+import type { MessagePayload } from "../api/interactions";
+import type { Context } from "./Context";
 
 export interface Command {
 	chatInputRun?(

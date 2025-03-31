@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { Economy } from "@lib/plugins";
+import type { Command, Context } from "library/core";
+import { Economy } from "library/plugins";
 import { injectable } from "tsyringe";
 
 // @injectable()
@@ -31,7 +31,7 @@ export default class implements Command {
 	 * @param {string} input - The input of the user
 	 **/
 	public async autocompleteRun({ guild }: Context, input: string) {
-		input = input.toLowerCase().trim();
+		const transformed = input.toLowerCase().trim();
 
 		// const items = await this.economy.fetchShopItems(guild.id);
 

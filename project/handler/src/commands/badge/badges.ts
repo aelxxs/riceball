@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import type { Command, Context } from "@lib/core";
-import { getMemberBadges } from "db";
+// import { getMemberBadges } from "@riceball/db";
+import type { Command, Context } from "library/core";
 
 export default class implements Command {
 	/**
@@ -26,9 +26,9 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ guild, author }: Context) {
-		const { badges } = await getMemberBadges(author.id, guild.id);
+		// const { badges } = await getMemberBadges(author.id, guild.id);
 
-		if (!badges) return "You don't have any badges yet!";
+		// if (!badges) return "You don't have any badges yet!";
 
 		throw "boop :(";
 	}
