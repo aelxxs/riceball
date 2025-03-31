@@ -1,8 +1,0 @@
-{
-	"extends": "@riceball/ts-config/base.json",
-	"compilerOptions": {
-		"experimentalDecorators": true
-	},
-	"include": ["**/*.ts"],
-	"exclude": ["node_modules"]
-}
