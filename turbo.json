@@ -1,5 +1,11 @@
 {
+	"$schema": "https://turbo.build/schema.json",
+	"ui": "tui",
 	"tasks": {
+		"//#clean": {},
+		"//#clean:fix": {
+			"cache": false
+		},
 		"db:generate": {
 			"cache": false
 		},
@@ -11,8 +17,17 @@
 			"outputs": []
 		},
 		"build": {
-			"dependsOn": ["^build", "^db:generate"],
-			"outputs": [".build/**"]
+			"inputs": ["$TURBO_DEFAULT$", ".env*"],
+			"outputs": ["dist/**", "build/**", ".svelte-kit/**", "temp/metadata.json"],
+			"dependsOn": ["^build"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"dependsOn": [
+				"^build",
+				"@riceball/docker#compose"
+			]
 		}
 	}
 }
