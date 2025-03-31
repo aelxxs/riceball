@@ -104,15 +104,15 @@ em-emoji-picker {
   --color-border: var(--clr-bg-border);
   --color-border-over: var(--clr-theme-2);
   --rgb-accent:
-    #{color.red($theme-2-rgb)}, #{color.green($theme-2-rgb)},
-    #{color.blue($theme-2-rgb)};
+    #{color.channel($theme-2-rgb, "red", $space: rgb)}, #{color.channel($theme-2-rgb, "green", $space: rgb)},
+    #{color.channel($theme-2-rgb, "blue", $space: rgb)};
   --rgb-background:
-    #{color.red($input)}, #{color.green($input)}, #{color.blue($input)};
+    #{color.channel($input, "red", $space: rgb)}, #{color.channel($input, "green", $space: rgb)}, #{color.channel($input, "blue", $space: rgb)};
   --rgb-color:
-    #{color.red($text-main)}, #{color.green($text-main)},
-    #{color.blue($text-main)};
+    #{color.channel($text-main, "red", $space: rgb)}, #{color.channel($text-main, "green", $space: rgb)},
+    #{color.channel($text-main, "blue", $space: rgb)};
   --rgb-input:
-    #{color.red($input)}, #{color.green($input)}, #{color.blue($input)};
+    #{color.channel($input, "red", $space: rgb)}, #{color.channel($input, "green", $space: rgb)}, #{color.channel($input, "blue", $space: rgb)};
   --shadow: 0 0 10px 1px var(--clr-shadow);
 
   height: 50vh;

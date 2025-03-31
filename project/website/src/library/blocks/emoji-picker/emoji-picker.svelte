@@ -1,6 +1,5 @@
 <script lang="ts">
 import { flyAndScale } from "$lib/utility/transitions";
-import { formatEmoji } from "@discordjs/formatters";
 import { CDN } from "@discordjs/rest";
 import { Popover } from "bits-ui";
 import type { APIGuild } from "discord-api-types/v10";
