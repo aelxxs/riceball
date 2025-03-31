@@ -7,7 +7,7 @@
 :root:not([dark]) {
   color-scheme: dark;
 
-  --theme-hue: 230deg;
+  --theme-hue: 225deg;
   --theme-saturation: 25%;
   --theme-saturation-high: calc(var(--theme-saturation) * 3);
   --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 60%);
@@ -77,8 +77,8 @@ body {
 }
 
 em-emoji-picker {
-  $theme-hue: 230deg;
-  $theme-saturation: 23%;
+  $theme-hue: 225deg;
+  $theme-saturation: 25%;
   $theme-saturation-high: calc($theme-saturation * 3);
   $theme-lightness: 10%;
 
