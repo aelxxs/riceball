@@ -37,6 +37,7 @@ jobs:
       - name: Build and push Handler Docker image
         uses: docker/build-push-action@v6
         with:
+          file: project/handler/Dockerfile
           context: .
           push: true
           tags: |
