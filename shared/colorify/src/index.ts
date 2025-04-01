@@ -100,6 +100,12 @@ export const hslaToObj = (hslaString: HSLColorString): HSLAColorObject => {
 	};
 };
 
+export const isValidHex = (hex: string): boolean => {
+	// Regular expression to match 6 or 8 character hex codes
+	const regex = /^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/;
+	return regex.test(hex);
+};
+
 export const hexToHsla = (_hex: string): HSLAColorObject => {
 	// Remove the hash if it's there
 	const hex = _hex.replace(/^#/, "");
