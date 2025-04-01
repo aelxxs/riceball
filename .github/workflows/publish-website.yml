@@ -42,3 +42,14 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.WEBSITE_IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.WEBSITE_IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Trigger Deployment
+        run: |
+          set -e
+          curl -X POST "${{ secrets.DEPLOYMENT_URL }}"    \
+            -H 'accept: application/json'                 \
+            -H 'Content-Type: application/json'           \
+            -H 'X-API-Key: ${{ secrets.DEPLOYMENT_KEY }}' \
+            -d '{
+              "applicationId": "${{ secrets.HANDLER_APPLICATION_ID }}"}
+            }'
