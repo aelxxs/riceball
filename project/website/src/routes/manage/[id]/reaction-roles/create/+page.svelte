@@ -16,7 +16,7 @@ import { WebsiteRoutes } from "$lib/constants";
 import { getAppState } from "$lib/utility/context.svelte.js";
 import {
 	type DiscordEmbedWithRelations,
-	ReactionRoleWithRelationsSchema,
+	ReactionRoleSchema,
 } from "@riceball/db/zod";
 import { Trash2Icon } from "lucide-svelte";
 import { toast } from "svelte-sonner";
@@ -29,8 +29,8 @@ const { data } = $props();
 
 const goBack = () => goto(WebsiteRoutes.ReactionRoles(data.guild.id));
 
-const reactionRoleForm = superForm(data.form, {
-	validators: zodClient(ReactionRoleWithRelationsSchema),
+const form = superForm(data.form, {
+	// validators: zodClient(ReactionRoleSchema),
 	dataType: "json",
 	onUpdate: ({ result }) => {
 		switch (result.type) {
@@ -48,7 +48,7 @@ const reactionRoleForm = superForm(data.form, {
 	},
 });
 
-const { form, submit, enhance } = reactionRoleForm;
+const { form: formData, submit, enhance } = form;
 
 const types = [
 	{
@@ -80,7 +80,7 @@ $effect.pre(() => {
 	appState.setControlsVisible(true);
 	appState.setControls([
 		{ label: "Cancel", handler: goBack, variant: "destructive" },
-		{ label: "Submit", handler: submit },
+		{ label: "Publish 🚀", handler: submit },
 	]);
 });
 
@@ -91,7 +91,7 @@ beforeNavigate(() => {
 const pair = $state({ emoji: "", roles: [] });
 </script>
 
-<SuperDebug data={$form} />
+<SuperDebug data={$formData} />
 
 <form class="stack" method="POST" action="?/save" use:enhance>
   <DashboardCardSideBySide
@@ -106,12 +106,12 @@ const pair = $state({ emoji: "", roles: [] });
   >
     {#snippet module1()}
       <div class="max-w-form">
-        <Field form={reactionRoleForm} name="alias">
+        <Field {form} name="alias">
           <Control label="Alias" screenReaderOnly>
             {#snippet children({ props })}
               <Input
                 {...props}
-                bind:value={$form.alias}
+                bind:value={$formData.alias}
                 placeholder="Reaction Role Alias"
               />
             {/snippet}
@@ -122,13 +122,13 @@ const pair = $state({ emoji: "", roles: [] });
 
     {#snippet module2()}
       <div class="max-w-form">
-        <Field form={reactionRoleForm} name="channelId">
+        <Field {form} name="channelId">
           <Control label="Channel" screenReaderOnly>
             {#snippet children({ props })}
               <ChannelSelect
                 {...props}
                 items={data.guild.itemizedChannels}
-                bind:value={$form.channelId}
+                bind:value={$formData.channelId}
               />
             {/snippet}
           </Control>
@@ -145,9 +145,9 @@ const pair = $state({ emoji: "", roles: [] });
       <DiscordMessageCreator
         client={data.client}
         guild={data.guild}
-        bind:content={$form.messageContent}
-        bind:embeds={$form.messageEmbed as DiscordEmbedWithRelations}
-        reactions={$form.pairs.map((pair) => pair.emoji)}
+        bind:content={$formData.messageContent}
+        bind:embeds={$formData.messageEmbed as DiscordEmbedWithRelations}
+        reactions={$formData.pairs.map((pair) => pair.emoji)}
       />
     </div>
   </DashboardCard>
@@ -160,13 +160,13 @@ const pair = $state({ emoji: "", roles: [] });
       <Button
         variant="secondary"
         onclick={() => {
-          $form.pairs = [...($form.pairs as any[]), pair];
+          $formData.pairs = [...($formData.pairs as any[]), pair];
         }}
       >
         Add New Reaction
       </Button>
 
-      {#each $form.pairs as pair, i}
+      {#each $formData.pairs as pair, i}
         <SelectDiscord
           type="role"
           items={data.guild.itemizedRoles}
@@ -188,15 +188,17 @@ const pair = $state({ emoji: "", roles: [] });
               size="icon"
               variant="destructive"
               onclick={() => {
-                if ($form.pairs.length === 1) {
-                  $form.pairs = [
+                if ($formData.pairs.length === 1) {
+                  $formData.pairs = [
                     {
                       emoji: "🍙",
                       roles: [],
                     },
                   ];
                 } else {
-                  $form.pairs = $form.pairs.filter((_, index) => index !== i);
+                  $formData.pairs = $formData.pairs.filter(
+                    (_, index) => index !== i,
+                  );
                 }
               }}
             >
@@ -213,9 +215,9 @@ const pair = $state({ emoji: "", roles: [] });
     description="Configure the behavior that occurs when a user reacts to the message."
   >
     <div class="max-w-form flow">
-      <Field form={reactionRoleForm} name="type">
+      <Field {form} name="type">
         <Control label="Type" screenReaderOnly>
-          <RadioGroup bind:value={$form.type}>
+          <RadioGroup bind:value={$formData.type}>
             {#each types as type}
               <Control
                 label={type.label}

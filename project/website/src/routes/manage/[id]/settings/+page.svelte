@@ -1,68 +1,68 @@
 <script lang="ts">
-import {
-	DashboardCard,
-	DashboardCardSideBySide,
-} from "$lib/blocks/dashboard-card";
-import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
-import { Control, Field } from "$lib/blocks/forms";
-import { Restrictions } from "$lib/blocks/restrictions";
-import { Select } from "$lib/blocks/select";
-import { getSaveModal, shake } from "$lib/utility/context.svelte";
-import { toast } from "svelte-sonner";
-import SuperDebug, { superForm } from "sveltekit-superforms";
+  import {
+    DashboardCard,
+    DashboardCardSideBySide,
+  } from "$lib/blocks/dashboard-card";
+  import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
+  import { Control, Field } from "$lib/blocks/forms";
+  import { Restrictions } from "$lib/blocks/restrictions";
+  import { Select } from "$lib/blocks/select";
+  import { getSaveModal, shake } from "$lib/utility/context.svelte";
+  import { toast } from "svelte-sonner";
+  import SuperDebug, { superForm } from "sveltekit-superforms";
 
-const { data } = $props();
+  const { data } = $props();
 
-const modal = getSaveModal();
+  const modal = getSaveModal();
 
-const form = superForm(data.form, {
-	dataType: "json",
-	resetForm: false,
-	taintedMessage: () => {
-		return new Promise(() => {
-			shake.shake = true;
-			setTimeout(() => {
-				shake.shake = false;
-			}, 500);
-		});
-	},
-	onUpdate: ({ result }) => {
-		switch (result.type) {
-			case "success":
-				modal.hideModal();
-				toast.success("Settings saved successfully!");
-				break;
-			case "failure":
-				toast.error("Failed to save settings.");
-				break;
-			default:
-				break;
-		}
-	},
-});
+  const form = superForm(data.form, {
+    dataType: "json",
+    resetForm: false,
+    taintedMessage: () => {
+      return new Promise(() => {
+        shake.shake = true;
+        setTimeout(() => {
+          shake.shake = false;
+        }, 500);
+      });
+    },
+    onUpdate: ({ result }) => {
+      switch (result.type) {
+        case "success":
+          modal.hideModal();
+          toast.success("Settings saved successfully!");
+          break;
+        case "failure":
+          toast.error("Failed to save settings.");
+          break;
+        default:
+          break;
+      }
+    },
+  });
 
-const {
-	form: formData,
-	enhance,
-	tainted,
-	isTainted,
-	submit,
-	delayed,
-	submitting,
-} = form;
+  const {
+    form: formData,
+    enhance,
+    tainted,
+    isTainted,
+    submit,
+    delayed,
+    submitting,
+  } = form;
 
-$effect(() => {
-	if (isTainted($tainted)) {
-		modal.showModal({
-			save: submit,
-			undo: form.reset,
-			delayed: $delayed,
-			submitting: $submitting,
-		});
-	} else {
-		modal.hideModal();
-	}
-});
+  $effect(() => {
+    if (isTainted($tainted)) {
+      modal.showModal({
+        save: submit,
+        undo: form.reset,
+        delayed: $delayed,
+        submitting: $submitting,
+      });
+    } else {
+      modal.hideModal();
+    }
+  });
 </script>
 
 <SuperDebug data={$formData} />
@@ -118,7 +118,7 @@ $effect(() => {
     description="Change the default color Rice Ball uses for embeds."
   >
     <div class="max-w-form">
-      <Field {form} name="timezone">
+      <Field {form} name="defaultEmbedColor">
         <Control>
           {#snippet children({ props })}
             <DiscordMessageCreator
