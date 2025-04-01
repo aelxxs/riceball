@@ -51,5 +51,5 @@ jobs:
             -H 'Content-Type: application/json'           \
             -H 'X-API-Key: ${{ secrets.DEPLOYMENT_KEY }}' \
             -d '{
-              "applicationId": "${{ secrets.HANDLER_APPLICATION_ID }}"}
+              "applicationId": "${{ secrets.WEBSITE_APPLICATION_ID }}"}
             }'
