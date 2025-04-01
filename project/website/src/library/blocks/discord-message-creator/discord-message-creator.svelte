@@ -29,14 +29,12 @@ let {
 	guild,
 	client,
 	content = $bindable(),
-	embeds = $bindable(),
+	embeds = $bindable([]),
 	withEmbed = $bindable(false),
 	maxEmbeds = $bindable(1),
 	reactions = $bindable([]),
 	noContent = $bindable(false),
 }: Props = $props();
-
-console.log({ embeds });
 
 const getTime = () => {
 	return new Date().toLocaleTimeString("en-US", {
