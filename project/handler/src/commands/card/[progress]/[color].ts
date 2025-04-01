@@ -17,21 +17,21 @@
  **/
 
 import type { Command, Context } from "library/core";
-import { runOpacityCommand } from "../__card.cmds";
+import { runColorCommand } from "../__card.cmds";
 
 export default class implements Command {
 	/**
-	 * Set the transparency level of the subtext
+	 * Choose a color for the progress bar on your card
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
 	public chatInputRun({ guild, author }: Context, { value }: Options) {
-		return runOpacityCommand("subtextColor", { value, guildId: guild.id, userId: author.id });
+		return runColorCommand("progressBarColor", { value, guildId: guild.id, userId: author.id });
 	}
 }
 
 interface Options {
-	/* Specify the opacity value (0 for fully transparent, 100 for fully opaque) */
-	value: number;
+	/* Provide the color value (e.g., HEX, RGB, or color name) */
+	value: string;
 }

@@ -16,18 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * Set the border radius of the card
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ t }: Context, { value }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild, author }: Context, { value }: Options) {
+		await this.db.setMemberSettings(guild.id, author.id, {
+			card: { borderRadius: value },
+		});
+
+		return `Set your rank card's border radius to ${value}px.`;
 	}
 }
 
