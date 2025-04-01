@@ -118,7 +118,7 @@ $effect(() => {
     description="Change the default color Rice Ball uses for embeds."
   >
     <div class="max-w-form">
-      <Field {form} name="timezone">
+      <Field {form} name="defaultEmbedColor">
         <Control>
           {#snippet children({ props })}
             <DiscordMessageCreator

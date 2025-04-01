@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { runResetCommand } from "../__card.cmds";
 
 export default class implements Command {
 	/**
@@ -26,7 +26,7 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ t }: Context) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public chatInputRun({ guild, author }: Context) {
+		return runResetCommand("wrapperColor", { guildId: guild.id, userId: author.id });
 	}
 }

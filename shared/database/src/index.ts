@@ -36,9 +36,11 @@ export async function setupDatabase({ mongoUrl, redisUrl }: SetupDatabaseOptions
 
 export * from "./cache/Database.js";
 export * from "./cache/SettingsCacheManager.js";
+export * from "./entities";
 export * from "./repositories/RepositoryManager.js";
 export * from "./utils/constants.js";
 export * from "./utils/types.js";
+
 export { container };
 
 export const getGuild = () => {};

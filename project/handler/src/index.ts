@@ -31,9 +31,6 @@ const start = async () => {
 	container.register(Deps.Redis, { useValue: redis });
 	container.register(Database, { useClass: Database });
 
-	logger.info("Connecting to database");
-	logger.info(`MongoDB URL: ${Constants.MongoURL}`);
-	logger.info(`Redis URL: ${Constants.RedisURL}`);
 	await setupDatabase({
 		mongoUrl: Constants.MongoURL,
 		redisUrl: Constants.RedisURL,

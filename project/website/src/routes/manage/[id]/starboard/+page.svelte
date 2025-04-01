@@ -12,40 +12,65 @@ import { Input } from "$lib/blocks/input";
 import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
 import { Select } from "$lib/blocks/select";
 import { Switch } from "$lib/blocks/switch";
-import { StarsWithRelationsSchema } from "@riceball/db/zod";
+import { getSaveModal } from "$lib/utility/context.svelte.js";
+import { StarsSchema } from "@riceball/db/zod";
 import { ChannelType } from "discord-api-types/v10";
 import { Control, Field, FieldErrors, Label } from "formsnap";
+import { toast } from "svelte-sonner";
 import SuperDebug, { superForm } from "sveltekit-superforms";
 import { zodClient } from "sveltekit-superforms/adapters";
 
 const { data } = $props();
 
-const settingsForm = superForm(data.form, {
-	validators: zodClient(StarsWithRelationsSchema),
+const modal = getSaveModal();
+
+const form = superForm(data.form, {
+	validators: zodClient(StarsSchema),
 	dataType: "json",
 	resetForm: false,
+	onUpdate: ({ result }) => {
+		switch (result.type) {
+			case "success":
+				modal.hideModal();
+				toast.success("Settings saved successfully!");
+				break;
+			case "failure":
+				console.log(result);
+				toast.error("Failed to save settings.");
+				break;
+			default:
+				break;
+		}
+	},
 });
 
-const { form, enhance, tainted, isTainted, submit } = settingsForm;
+const {
+	form: formData,
+	enhance,
+	tainted,
+	isTainted,
+	submit,
+	delayed,
+	submitting,
+} = form;
 
-// $effect(() => {
-//   if (isTainted($tainted)) {
-//     saveModal.showModal({
-//       save: () => {
-//         submit();
-//         saveModal.hideModal();
-//       },
-//       undo: () => settingsForm.reset(),
-//     });
-//   } else {
-//     saveModal.hideModal();
-//   }
-// });
+$effect(() => {
+	if (isTainted($tainted)) {
+		modal.showModal({
+			save: submit,
+			undo: form.reset,
+			delayed: $delayed,
+			submitting: $submitting,
+		});
+	} else {
+		modal.hideModal();
+	}
+});
 
 const embed = $state({});
 </script>
 
-<SuperDebug data={$form} />
+<SuperDebug data={$formData} />
 
 <form method="POST" action="?/save" use:enhance class="stack">
   <DashboardCardSideBySide
@@ -60,7 +85,7 @@ const embed = $state({});
   >
     {#snippet module1()}
       <div class="max-w-form">
-        <Field form={settingsForm} name="emoji">
+        <Field {form} name="emoji">
           <Control>
             {#snippet children({ props })}
               <Label class="sr-only">Emoji</Label>
@@ -68,7 +93,7 @@ const embed = $state({});
                 <EmojiPicker
                   showSelected
                   guild={data.guild}
-                  bind:value={$form.emoji}
+                  bind:value={$formData.emoji}
                 />
                 <div class="stack gap:-2">
                   <p class="fw:bold txt:bold">Select Emoji</p>
@@ -84,10 +109,14 @@ const embed = $state({});
 
     {#snippet module2()}
       <div class="max-w-form">
-        <Field form={settingsForm} name="threshold">
+        <Field {form} name="threshold">
           <Control>
             {#snippet children({ props })}
-              <Input {...props} type="number" bind:value={$form.threshold} />
+              <Input
+                {...props}
+                type="number"
+                bind:value={$formData.threshold}
+              />
             {/snippet}
           </Control>
           <FieldErrors />
@@ -101,7 +130,7 @@ const embed = $state({});
     description="The channel where starred messages will be sent."
   >
     <div class="max-w-form">
-      <Field form={settingsForm} name="channelId">
+      <Field {form} name="channelId">
         <Control>
           {#snippet children({ props })}
             <Label class="sr-only">Channel</Label>
@@ -110,7 +139,7 @@ const embed = $state({});
               icon={HashIcon}
               items={data.guild.itemizedChannels}
               placeholder="Select a channel..."
-              bind:value={$form.channelId!}
+              bind:value={$formData.channelId!}
             />
           {/snippet}
         </Control>
@@ -124,25 +153,25 @@ const embed = $state({});
     description="Allow users to star their own messages."
   >
     <div class="max-w-form flow">
-      <Field form={settingsForm} name="selfStarEnabled">
+      <Field {form} name="selfStarEnabled">
         <Control>
           {#snippet children({ props })}
             <Label>Self Star Enabled</Label>
             <div class="cluster gap:-2">
-              <Switch {...props} bind:checked={$form.selfStarEnabled} />
+              <Switch {...props} bind:checked={$formData.selfStarEnabled} />
               <p>Allow users to star their own messages</p>
             </div>
           {/snippet}
         </Control>
         <FieldErrors />
       </Field>
-      {#if $form.selfStarEnabled}
-        <Field form={settingsForm} name="selfStarWarning">
+      {#if $formData.selfStarEnabled}
+        <Field {form} name="selfStarWarning">
           <Control>
             {#snippet children({ props })}
               <Label>Self Star Warning</Label>
               <div class="cluster gap:-2">
-                <Switch {...props} bind:checked={$form.selfStarWarning} />
+                <Switch {...props} bind:checked={$formData.selfStarWarning} />
                 <p>Warn users when they star their own messages</p>
               </div>
             {/snippet}
@@ -164,7 +193,7 @@ const embed = $state({});
     title="Role Restrictions"
     description="Restrict which roles are allowed to use the starboard."
     type="role"
-    form={settingsForm}
+    {form}
     items={data.guild.itemizedRoles}
   />
 
@@ -172,7 +201,7 @@ const embed = $state({});
     title="Channel Restrictions"
     description="Restrict which channels where starred messages will be listened to."
     type="channel"
-    form={settingsForm}
+    {form}
     items={data.guild.itemizedChannels}
   />
 </form>

@@ -9,7 +9,7 @@ export class Stars {
 	enabled = true;
 
 	@Property({ nullable: true })
-	channelId?: string;
+	channelId?: string | null;
 
 	@Property()
 	emoji = "⭐";
@@ -26,14 +26,11 @@ export class Stars {
 	@Property()
 	selfStarWarning = false;
 
-	@Property()
-	messageType: MessageType = MessageType.EMBED;
-
 	@Property({ nullable: true })
-	messageContent?: string;
+	messageContent?: string | null;
 
 	@Embedded(() => DiscordEmbed, { nullable: true })
-	embed?: DiscordEmbed;
+	embed?: DiscordEmbed | null;
 
 	@Embedded(() => Restriction)
 	roleRestriction: Restriction = new Restriction();

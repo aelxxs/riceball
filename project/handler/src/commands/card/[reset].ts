@@ -16,22 +16,37 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
-import { runOpacityCommand } from "../__card.cmds";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
+
 	/**
-	 * Set the transparency level of the subtext
+	 * Reset all card settings to default
 	 *
 	 * @param {Context} context - The context of the command
-	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild, author }: Context, { value }: Options) {
-		return runOpacityCommand("subtextColor", { value, guildId: guild.id, userId: author.id });
-	}
-}
+	public async chatInputRun({ guild, author }: Context) {
+		await this.db.setMemberSettings(guild.id, author.id, {
+			card: {
+				borderRadius: 25,
+				wrapperColor: null,
+				wrapperImage: null,
+				subtextColor: null,
+				textColor: null,
+				progressBarColor: null,
+				overlayAccentColor: null,
+				overlayColor: null,
+			},
+		});
 
-interface Options {
-	/* Specify the opacity value (0 for fully transparent, 100 for fully opaque) */
-	value: number;
+		return "Reset your rank card settings to default.";
+	}
 }

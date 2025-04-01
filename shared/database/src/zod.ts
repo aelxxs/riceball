@@ -1,69 +1,8 @@
 import { z } from "zod";
 
 /////////////////////////////////////////
-// HELPER FUNCTIONS
-/////////////////////////////////////////
-
-/////////////////////////////////////////
 // ENUMS
 /////////////////////////////////////////
-
-export const MessageScalarFieldEnumSchema = z.enum(["id", "guildId", "channelId", "messageId", "content"]);
-
-export const GuildScalarFieldEnumSchema = z.enum(["id", "locale", "timezone"]);
-
-export const ReactionRoleScalarFieldEnumSchema = z.enum([
-	"id",
-	"guildId",
-	"messageId",
-	"channelId",
-	"messageContent",
-	"alias",
-	"type",
-	"enabled",
-]);
-
-export const StarScalarFieldEnumSchema = z.enum([
-	"id",
-	"refAuthorId",
-	"refMessageId",
-	"refChannelId",
-	"messageId",
-	"count",
-	"users",
-]);
-
-export const ItemScalarFieldEnumSchema = z.enum([
-	"id",
-	"guildId",
-	"active",
-	"type",
-	"name",
-	"icon",
-	"about",
-	"price",
-	"stock",
-	"limit",
-	"autoUse",
-	"persist",
-]);
-
-export const UserScalarFieldEnumSchema = z.enum([
-	"id",
-	"birthday",
-	"timezone",
-	"bio",
-	"country",
-	"locale",
-	"reputation",
-	"lastReputation",
-]);
-
-export const MemberScalarFieldEnumSchema = z.enum(["id", "userId", "guildId", "bal", "exp", "lastDaily"]);
-
-export const SortOrderSchema = z.enum(["asc", "desc"]);
-
-export const QueryModeSchema = z.enum(["default", "insensitive"]);
 
 export const DiscordEntitySchema = z.enum(["CHANNEL", "ROLE", "USER"]);
 
@@ -138,6 +77,7 @@ export const GuildSchema = z.object({
 	id: z.string(),
 	locale: z.string(),
 	timezone: z.string().nullable(),
+	defaultEmbedColor: z.number().int().nullable(),
 });
 
 export type Guild = z.infer<typeof GuildSchema>;
@@ -169,13 +109,19 @@ export const GuildWithRelationsSchema: z.ZodType<GuildWithRelations> = GuildSche
 
 export const ReactionRoleSchema = z.object({
 	type: ReactionRoleTypeSchema,
-	id: z.string(),
-	guildId: z.string(),
-	messageId: z.string(),
+	// id: z.string(),
+	// guildId: z.string(),
+	// messageId: z.string(),
 	channelId: z.string().length(17, { message: "You must select a channel." }),
 	messageContent: z.string(),
 	alias: z.string(),
 	enabled: z.boolean(),
+	messageEmbed: z.lazy(() => DiscordEmbedSchema).nullable(),
+	pairs: z
+		.lazy(() => ReactionRolePairSchema)
+		.array()
+		.min(1, { message: "You must provide at least one reaction role pair." })
+		.max(20, { message: "A message can have a maximum of 20 reaction role pairs." }),
 });
 
 export type ReactionRole = z.infer<typeof ReactionRoleSchema>;
@@ -327,6 +273,11 @@ export const DiscordEmbedSchema = z.object({
 	url: z.string(),
 	color: z.number().int(),
 	timestamp: z.string(),
+	footer: z.lazy(() => DiscordEmbedFooterSchema),
+	image: z.lazy(() => DiscordEmbedImageSchema),
+	thumbnail: z.lazy(() => DiscordEmbedThumbnailSchema),
+	author: z.lazy(() => DiscordEmbedAuthorSchema),
+	fields: z.lazy(() => DiscordEmbedFieldSchema).array(),
 });
 
 export type DiscordEmbed = z.infer<typeof DiscordEmbedSchema>;
@@ -530,45 +481,27 @@ export const ExpBoostSchema = z.object({
 });
 
 export type ExpBoost = z.infer<typeof ExpBoostSchema>;
-// STARS
-//------------------------------------------------------
 
 /////////////////////////////////////////
 // STARS SCHEMA
 /////////////////////////////////////////
 
 export const StarsSchema = z.object({
-	messageType: MessageTypeSchema,
 	enabled: z.boolean(),
 	channelId: z.string().nullable(),
-	emoji: z.string().length(1, { message: "Emoji must be at one character long" }),
+	emoji: z.string(),
 	threshold: z.number().min(1, { message: "Reaction threshold must be at least 1" }),
 	duplicateOriginal: z.boolean(),
 	selfStarEnabled: z.boolean(),
 	selfStarWarning: z.boolean(),
 	messageContent: z.string().nullable(),
+	embed: z.lazy(() => DiscordEmbedSchema).nullable(),
+	roleRestriction: z.lazy(() => RestrictionSchema),
+	channelRestriction: z.lazy(() => RestrictionSchema),
 });
 
 export type Stars = z.infer<typeof StarsSchema>;
 
-// STARS RELATION SCHEMA
-//------------------------------------------------------
-
-export type StarsRelations = {
-	embed?: DiscordEmbed | null;
-	roleRestriction: Restriction;
-	channelRestriction: Restriction;
-};
-
-export type StarsWithRelations = z.infer<typeof StarsSchema> & StarsRelations;
-
-export const StarsWithRelationsSchema: z.ZodType<StarsWithRelations> = StarsSchema.merge(
-	z.object({
-		embed: z.lazy(() => DiscordEmbedSchema).nullable(),
-		roleRestriction: z.lazy(() => RestrictionSchema),
-		channelRestriction: z.lazy(() => RestrictionSchema),
-	}),
-);
 // ECONOMY
 //------------------------------------------------------
 
@@ -708,6 +641,12 @@ export const CardSchema = z.object({
 	name: z.string().uuid(),
 	borderRadius: z.number().int().nullable(),
 	wrapperImage: z.string().nullable(),
+	wrapperColor: z.lazy(() => HSLAColorSchema).nullable(),
+	overlayColor: z.lazy(() => HSLAColorSchema).nullable(),
+	overlayAccentColor: z.lazy(() => HSLAColorSchema).nullable(),
+	progressBarColor: z.lazy(() => HSLAColorSchema).nullable(),
+	textColor: z.lazy(() => HSLAColorSchema).nullable(),
+	subtextColor: z.lazy(() => HSLAColorSchema).nullable(),
 });
 
 export type Card = z.infer<typeof CardSchema>;
