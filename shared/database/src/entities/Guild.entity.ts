@@ -40,5 +40,5 @@ export class Guild {
 	channelRestriction: Restriction & Opt = new Restriction();
 
 	@Property()
-	embedColor?: number;
+	defaultEmbedColor?: number;
 }

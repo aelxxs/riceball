@@ -1,4 +1,4 @@
-import { Embeddable, Embedded, type Opt, Property } from "@mikro-orm/core";
+import { Embeddable, Embedded, Property } from "@mikro-orm/core";
 
 @Embeddable()
 export class HSLAColor {
@@ -21,31 +21,31 @@ export class Card {
 	name = "";
 
 	@Property({ nullable: true })
-	borderRadius?: number | null | Opt = null;
+	borderRadius?: number | null = null;
 
 	@Property({ nullable: true })
-	wrapperImage?: string | null | Opt = null;
+	wrapperImage?: string | null = null;
 
 	@Embedded(() => HSLAColor, { nullable: true })
-	wrapperColor?: HSLAColor | null | Opt = null;
+	wrapperColor?: HSLAColor | null = null;
 
 	@Embedded(() => HSLAColor, { nullable: true })
-	overlayColor?: HSLAColor | null | Opt = null;
+	overlayColor?: HSLAColor | null = null;
 
 	@Embedded(() => HSLAColor, { nullable: true })
-	overlayAccentColor?: HSLAColor | null | Opt = null;
+	overlayAccentColor?: HSLAColor | null = null;
 
 	@Embedded(() => HSLAColor, { nullable: true })
-	progressBarColor?: HSLAColor | null | Opt = null;
+	progressBarColor?: HSLAColor | null = null;
 
 	@Property()
 	fontFamily: FontFamily = FontFamily.MONOSPACE;
 
 	@Embedded(() => HSLAColor, { nullable: true })
-	textColor?: HSLAColor | null | Opt = null;
+	textColor?: HSLAColor | null = null;
 
 	@Embedded(() => HSLAColor, { nullable: true })
-	subtextColor?: HSLAColor | null | Opt = null;
+	subtextColor?: HSLAColor | null = null;
 }
 
 export enum FontFamily {
