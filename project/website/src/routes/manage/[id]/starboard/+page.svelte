@@ -1,73 +1,73 @@
 <script lang="ts">
-  // - Icons
-  import HashIcon from "lucide-svelte/icons/hash";
+// - Icons
+import HashIcon from "lucide-svelte/icons/hash";
 
-  import {
-    DashboardCard,
-    DashboardCardSideBySide,
-  } from "$lib/blocks/dashboard-card";
-  import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator/index.js";
-  import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
-  import { Input } from "$lib/blocks/input";
-  import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
-  import { Select } from "$lib/blocks/select";
-  import { Switch } from "$lib/blocks/switch";
-  import { getSaveModal } from "$lib/utility/context.svelte.js";
-  import { StarsSchema } from "@riceball/db/zod";
-  import { ChannelType } from "discord-api-types/v10";
-  import { Control, Field, FieldErrors, Label } from "formsnap";
-  import { toast } from "svelte-sonner";
-  import SuperDebug, { superForm } from "sveltekit-superforms";
-  import { zodClient } from "sveltekit-superforms/adapters";
+import {
+	DashboardCard,
+	DashboardCardSideBySide,
+} from "$lib/blocks/dashboard-card";
+import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator/index.js";
+import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
+import { Input } from "$lib/blocks/input";
+import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
+import { Select } from "$lib/blocks/select";
+import { Switch } from "$lib/blocks/switch";
+import { getSaveModal } from "$lib/utility/context.svelte.js";
+import { StarsSchema } from "@riceball/db/zod";
+import { ChannelType } from "discord-api-types/v10";
+import { Control, Field, FieldErrors, Label } from "formsnap";
+import { toast } from "svelte-sonner";
+import SuperDebug, { superForm } from "sveltekit-superforms";
+import { zodClient } from "sveltekit-superforms/adapters";
 
-  const { data } = $props();
+const { data } = $props();
 
-  const modal = getSaveModal();
+const modal = getSaveModal();
 
-  const form = superForm(data.form, {
-    validators: zodClient(StarsSchema),
-    dataType: "json",
-    resetForm: false,
-    onUpdate: ({ result }) => {
-      switch (result.type) {
-        case "success":
-          modal.hideModal();
-          toast.success("Settings saved successfully!");
-          break;
-        case "failure":
-          console.log(result);
-          toast.error("Failed to save settings.");
-          break;
-        default:
-          break;
-      }
-    },
-  });
+const form = superForm(data.form, {
+	validators: zodClient(StarsSchema),
+	dataType: "json",
+	resetForm: false,
+	onUpdate: ({ result }) => {
+		switch (result.type) {
+			case "success":
+				modal.hideModal();
+				toast.success("Settings saved successfully!");
+				break;
+			case "failure":
+				console.log(result);
+				toast.error("Failed to save settings.");
+				break;
+			default:
+				break;
+		}
+	},
+});
 
-  const {
-    form: formData,
-    enhance,
-    tainted,
-    isTainted,
-    submit,
-    delayed,
-    submitting,
-  } = form;
+const {
+	form: formData,
+	enhance,
+	tainted,
+	isTainted,
+	submit,
+	delayed,
+	submitting,
+} = form;
 
-  $effect(() => {
-    if (isTainted($tainted)) {
-      modal.showModal({
-        save: submit,
-        undo: form.reset,
-        delayed: $delayed,
-        submitting: $submitting,
-      });
-    } else {
-      modal.hideModal();
-    }
-  });
+$effect(() => {
+	if (isTainted($tainted)) {
+		modal.showModal({
+			save: submit,
+			undo: form.reset,
+			delayed: $delayed,
+			submitting: $submitting,
+		});
+	} else {
+		modal.hideModal();
+	}
+});
 
-  const embed = $state({});
+const embed = $state({});
 </script>
 
 <SuperDebug data={$formData} />
