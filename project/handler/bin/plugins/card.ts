@@ -20,14 +20,19 @@ export default {
 					description: "Set a custom background image for your leveling card",
 					options: [
 						{
-							name: "value",
+							name: "url",
 							type: ApplicationCommandOptionType.String,
 							description: "Provide the URL of the image to use as the background",
 						},
 						{
 							name: "attachment",
-							type: ApplicationCommandOptionType.Boolean,
+							type: ApplicationCommandOptionType.Attachment,
 							description: "Set the image as an attachment instead of a URL",
+						},
+						{
+							name: "reset",
+							type: ApplicationCommandOptionType.Boolean,
+							description: "Reset the background image to default",
 						},
 					],
 				},
@@ -297,6 +302,51 @@ export default {
 					name: "reset",
 					type: ApplicationCommandOptionType.Subcommand,
 					description: "Reset the font settings to default",
+				},
+			],
+		},
+		{
+			name: "reset",
+			type: ApplicationCommandOptionType.Subcommand,
+			description: "Reset all card settings to default",
+		},
+		{
+			name: "progress",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Customize the progress bar appearance on your leveling card",
+			options: [
+				{
+					name: "opacity",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Set the transparency level of the progress bar",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.Integer,
+							description: "Specify the opacity value (0 for fully transparent, 100 for fully opaque)",
+							required: true,
+							min_value: 0,
+							max_value: 100,
+						},
+					],
+				},
+				{
+					name: "color",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Choose a color for the progress bar on your card",
+					options: [
+						{
+							name: "value",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the color value (e.g., HEX, RGB, or color name)",
+							required: true,
+						},
+					],
+				},
+				{
+					name: "reset",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset the progress bar settings to default",
 				},
 			],
 		},
