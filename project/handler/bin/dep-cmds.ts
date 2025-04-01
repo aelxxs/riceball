@@ -18,7 +18,7 @@ async function* walk(path: string): AsyncGenerator<string> {
 }
 
 (async () => {
-	const rest = new REST().setToken(process.env.DISCORD_TOKEN || "");
+	const rest = new REST().setToken(process.env.DISCORD_TOKEN as string);
 
 	const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -36,7 +36,7 @@ async function* walk(path: string): AsyncGenerator<string> {
 	try {
 		logger.info("Publishing slash commands...");
 
-		await rest.put(Routes.applicationCommands("525810495786057758"), {
+		await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT as string), {
 			body: commands,
 		});
 		logger.info("Published slash commands.");
