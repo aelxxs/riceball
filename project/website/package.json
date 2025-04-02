@@ -33,7 +33,7 @@
 		"discord-api-types": "0.37.119",
 		"emoji-picker-element": "^1.26.1",
 		"formsnap": "^2.0.0",
-		"lucide-svelte": "^0.486.0",
+		"lucide-svelte": "^0.487.0",
 		"sass": "^1.85.1",
 		"@discordjs/formatters": "^0.6.0",
 		"@emoji-mart/data": "^1.2.1",
