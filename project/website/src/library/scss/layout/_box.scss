@@ -4,7 +4,7 @@
   outline: var(--border-thin) transparent;
   outline-offset: calc(var(--border-thin) * -1);
   color: var(--text-main);
-  background-color: var(--bg, var(--clr-bg-accent));
+  background-color: var(--bg, var(--clr-bg-accent-secondary));
 }
 
 .box.invert {

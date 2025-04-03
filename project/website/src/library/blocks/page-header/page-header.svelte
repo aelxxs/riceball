@@ -12,13 +12,13 @@ const user = page.data.session?.user;
     <div class="cluster space-xl">
       <a href="/" class="cluster">
         <img class="icon" src="/icon.svg" alt="riceball-icon" />
-        <p class="fs:md fw:bold">Rice Ball</p>
+        <p class="fs:md fw:bold show:md">Rice Ball</p>
       </a>
       <div class="cluster space-l | show:md">
         <!-- <Divider orientation="vertical" /> -->
         <nav class="cluster space-m">
-          <a href="/"> Invite </a>
-          <a href="/support"> Community </a>
+          <a href="/"> Support </a>
+          <a href="/commands"> Docs </a>
           <a href="/commands"> Commands </a>
         </nav>
       </div>
@@ -29,7 +29,7 @@ const user = page.data.session?.user;
 
 <style lang="scss">
   .icon {
-    height: var(--space-l);
+    height: 1.75rem;
   }
   .header-wrapper {
     padding-inline: var(--space-m);
@@ -39,7 +39,8 @@ const user = page.data.session?.user;
     margin: 0 auto;
     position: sticky;
     top: 0;
-    background-color: var(--clr-bg-translucent);
+    background-color: var(--clr-bg);
+
     backdrop-filter: blur(5rem);
     border-bottom: 1px solid var(--clr-bg-border);
     transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;

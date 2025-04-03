@@ -11,7 +11,7 @@ type Props = {
 	name: string;
 };
 
-const { size = 12, type, id, icon, name }: Props = $props();
+const { id, size = 12, type, icon, name }: Props = $props();
 
 const cdn = new CDN();
 

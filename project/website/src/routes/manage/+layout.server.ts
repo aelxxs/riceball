@@ -4,25 +4,23 @@ import { type APIApplication, type RESTGetAPICurrentUserGuildsResult, Routes } f
 import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = async ({ locals }) => {
-	const userGuilds = (await locals.userApi.get(Routes.userGuilds(), {
-		authPrefix: "Bearer",
-	})) as RESTGetAPICurrentUserGuildsResult;
-	const client = (await locals.api.get(Routes.currentApplication())) as APIApplication;
+	const [userGuilds, client] = await Promise.all([
+		locals.userApi.get(Routes.userGuilds(), {
+			authPrefix: "Bearer",
+		}) as Promise<RESTGetAPICurrentUserGuildsResult>,
+		locals.api.get(Routes.currentApplication()) as Promise<APIApplication>,
+	]);
 
 	const managedGuilds = (await Promise.all(
-		userGuilds
-			.filter(({ permissions }) => {
-				return BigInt(permissions) & BigInt(1 << 5);
-			})
-			.map(async (guild) => {
-				return {
-					...guild,
-					riceball: await botInGuild(locals.api, guild.id),
-				};
-			}),
+		userGuilds.map(async (guild) => {
+			const hasManagePermissions = BigInt(guild.permissions) & BigInt(1 << 5);
+			const riceball = hasManagePermissions ? await botInGuild(locals.api, guild.id) : false;
+
+			return hasManagePermissions ? { ...guild, riceball } : null;
+		}),
 	)) as ManagedGuild[];
 
-	return { guilds: managedGuilds, client };
+	return { guilds: managedGuilds.filter(Boolean), client };
 };
 
 async function botInGuild(api: REST, id: string) {

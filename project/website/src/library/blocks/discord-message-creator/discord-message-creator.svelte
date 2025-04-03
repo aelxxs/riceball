@@ -71,7 +71,7 @@ const addEmbed = () => {
     <div class="show:md">
       <DiscordIcon
         size={2.25}
-        id={client.id}
+        id={client.bot?.discriminator ?? client.id}
         icon={client.icon}
         name={client.name}
         type="app"
@@ -100,7 +100,7 @@ const addEmbed = () => {
       {/if}
       {#if Array.isArray(embeds)}
         {#each embeds as _, i}
-          <div transition:slide class="max-w-form">
+          <div class="max-w-form">
             <EmbedCreator
               {guild}
               bind:embed={embeds[i]}
@@ -115,7 +115,7 @@ const addEmbed = () => {
           </div>
         {/each}
       {:else if embeds}
-        <div transition:slide class="max-w-form">
+        <div class="max-w-form">
           <EmbedCreator
             {guild}
             bind:embed={embeds}

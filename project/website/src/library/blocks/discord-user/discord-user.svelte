@@ -146,7 +146,7 @@ let open = $state(false);
     }
 
     [data-dropdown-content] {
-      background-color: var(--clr-bg-accent);
+      background-color: var(--clr-bg-accent-secondary);
       border-radius: var(--border-radius);
       min-width: 10rem;
       z-index: 10;
@@ -167,7 +167,7 @@ let open = $state(false);
   }
 
   .dropdown__content {
-    background-color: var(--clr-bg-accent);
+    background-color: var(--clr-bg-accent-secondary);
     min-width: 10rem;
     z-index: 10;
     --padding: var(--space-s);

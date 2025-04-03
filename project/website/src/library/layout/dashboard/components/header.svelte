@@ -32,8 +32,8 @@ const guild = getGuild();
   {#if state.showControls}
     <div
       class="header"
-      in:fly={{ duration: 250, x: 30 }}
-      out:fly={{ duration: 10, x: -10 }}
+      in:fly={{ duration: 250, x: 100 }}
+      out:fly={{ duration: 250, x: -10 }}
     >
       <div class="repel">
         <div class="cluster space-2xs no-wrap">
@@ -44,15 +44,12 @@ const guild = getGuild();
         </div>
         <div
           class="cluster"
-          transition:fly={{ duration: 250, x: 50, delay: 120 }}
+          in:fly={{ duration: 250, x: 50, delay: 120 }}
+          out:fly={{ duration: 250, x: 50, delay: 0 }}
         >
           <!-- controls -->
           {#each state.controls as control}
-            <Button
-              variant={control.variant}
-              size="md"
-              onclick={control.handler}
-            >
+            <Button variant={control.variant} onclick={control.handler}>
               <div class="cluster space-2xs">
                 {#if control.icon}
                   {@const Icon = control.icon}
@@ -135,7 +132,7 @@ const guild = getGuild();
           {/key}
         </div>
 
-        <div transition:fade={{ delay: 450 }}>
+        <div transition:fade={{ delay: 250 }} style="display: inline-flex;">
           {#if plugin.id && guild.settings[plugin.id]}
             {@const enabled = guild.settings[plugin.id].enabled}
             <form
@@ -152,8 +149,8 @@ const guild = getGuild();
                 <Switch checked={enabled} type="submit" />
               </div>
             </form>
-          {:else}
-            <HashIcon size={18} />
+            <!-- {:else}
+            <HashIcon size={18} /> -->
           {/if}
         </div>
       </div>
@@ -168,7 +165,9 @@ const guild = getGuild();
     position: sticky;
     top: var(--header-height);
     z-index: 1;
-    background-color: var(--clr-bg-translucent);
+    background-color: var(--clr-bg);
+    overflow: hidden;
+
     backdrop-filter: blur(5rem);
     transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     height: var(--header-height-lg);
@@ -180,6 +179,8 @@ const guild = getGuild();
   .header {
     display: flex;
     grid-area: 1/1/2/2;
+    padding-inline: var(--space-m);
+    border-bottom: 1px solid var(--clr-bg-border);
   }
 
   .text {

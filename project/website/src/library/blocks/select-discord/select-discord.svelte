@@ -241,7 +241,6 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
               {#snippet child({ props })}
                 <input
                   {...props}
-                  size={8}
                   use:focusInput={isOpen}
                   value={internalInputValue}
                   oninput={handleInput}
@@ -305,7 +304,7 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
                       >
                         {#snippet child({ props, selected })}
                           <div {...props}>
-                            <div class="cluster gap:-2">
+                            <div class="cluster space-xs">
                               <Checkbox
                                 checked={selected}
                                 outlined
@@ -336,22 +335,26 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
                     >
                       {#snippet child({ props, selected })}
                         <div {...props} class="combobox-item repel">
-                          <div class="cluster gap:-2">
+                          <div class="cluster space-s">
                             <Checkbox
                               checked={selected}
                               outlined
                               style="pointer-events: none"
                             />
-                            {#if true}
-                              {#if item.icon}
-                                {@const ItemIcon = item.icon}
-                                <ItemIcon size={16} />
-                              {:else}
-                                {@const ItemIcon = icon}
-                                <ItemIcon size={16} />
-                              {/if}
-                            {/if}
-                            {item.label}
+                            <div>
+                              <div class="cluster space-xs">
+                                {#if true}
+                                  {#if item.icon}
+                                    {@const ItemIcon = item.icon}
+                                    <ItemIcon size={16} />
+                                  {:else}
+                                    {@const ItemIcon = icon}
+                                    <ItemIcon size={16} />
+                                  {/if}
+                                {/if}
+                                {item.label}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       {/snippet}

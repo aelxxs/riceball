@@ -65,7 +65,7 @@ $effect(() => {
 });
 </script>
 
-<SuperDebug data={$formData} />
+<!-- <SuperDebug data={$formData} /> -->
 
 <form class="stack" method="POST" action="?/save" use:enhance>
   <DashboardCardSideBySide

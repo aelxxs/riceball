@@ -90,12 +90,14 @@ async function getCroppedImg(src: string, { width, height, x, y }: CropArea) {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
 
-	return new Promise((resolve, reject) => {
-		canvas.toBlob((file) => {
-			if (!file) reject(new Error("Canvas is empty"));
-			else resolve(file);
-		}, "image/jpeg");
-	});
+	// return new Promise((resolve, reject) => {
+	// 	canvas.toBlob((file) => {
+	// 		if (!file) reject(new Error("Canvas is empty"));
+	// 		else resolve(file);
+	// 	}, "image/jpeg");
+	// });
+
+	return canvas.toDataURL();
 }
 
 async function handleCrop() {
@@ -105,6 +107,7 @@ async function handleCrop() {
 
 	const croppedImageUrl = await getCroppedImg(imageSrc, croppedAreaPixels);
 	if (croppedImageUrl) {
+		console.log({ croppedImageUrl });
 		url = croppedImageUrl;
 		onNewImage(croppedImageUrl);
 		cropModalOpen = false;

@@ -9,7 +9,8 @@
 
   --theme-hue: 225deg;
   --theme-saturation: 25%;
-  --theme-saturation-high: calc(var(--theme-saturation) * 3);
+  --theme-saturation-high: calc(var(--theme-saturation) * 2.5);
+
   --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 60%);
   --clr-theme-2-translucent: hsl(
     var(--theme-hue),
@@ -17,6 +18,7 @@
     60%,
     0.25
   );
+
   --clr-theme-error: hsl(0, var(--theme-saturation-high), 60%);
   --clr-theme-error-transparent: hsl(
     0,
@@ -26,6 +28,7 @@
   );
   --clr-theme-error: rgb(255 107 134 / 0.75);
   --clr-theme-error-transparent: rgb(255 107 134 / 0.25);
+
   --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 8%);
   --clr-bg-translucent: hsl(
     var(--theme-hue),
@@ -33,9 +36,13 @@
     8%,
     0.75
   );
-  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 14%);
+
+  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 11%);
+  --clr-bg-accent-secondary: hsl(var(--theme-hue), var(--theme-saturation),16%);
+
   --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.3);
-  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 14%);
+
+  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 11.5%);
   --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 30%, 1);
   --clr-bg-input-hover: hsl(
     var(--theme-hue),
@@ -55,6 +62,7 @@
   --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 65%);
   --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 75%;
   --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 15%);
+
   --txt-bold: hsl(var(--theme-hue), var(--theme-saturation), 90%);
   --txt-main: hsl(var(--theme-hue), var(--theme-saturation), 70%);
   --txt-themed: hsl(
@@ -65,11 +73,87 @@
   --txt-muted: hsl(var(--theme-hue), var(--theme-saturation), 70%, 0.85);
 
   // layout
-  --header-height: clamp(3.75rem, 10vw, 4.25rem);
-  --header-height-lg: clamp(3.75rem, 10vw, 4.75rem);
+  --header-height: clamp(3.75rem, 10vw, 4rem);
+  --header-height-lg: clamp(3.75rem, 10vw, 3.85rem);
 }
 
-// light mode
+
+
+
+// :root:not([dark]) {
+//   color-scheme: dark;
+
+//   --theme-hue: 240deg;
+//   --theme-saturation: 25%;
+//   --theme-saturation-high: calc(var(--theme-saturation) * 2.5);
+
+//   --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 65%);
+//   --clr-theme-2-translucent: hsl(
+//     var(--theme-hue),
+//     var(--theme-saturation-high),
+//     50%,
+//     0.25
+//   );
+
+//   --clr-theme-error: hsl(0, var(--theme-saturation-high), 60%);
+//   --clr-theme-error-transparent: hsl(
+//     0,
+//     var(--theme-saturation-high),
+//     60%,
+//     0.45
+//   );
+
+//   --clr-theme-error: rgb(255 107 134 / 0.75);
+//   --clr-theme-error-transparent: rgb(255 107 134 / 0.25);
+
+//   --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 95%);
+//   --clr-bg-translucent: hsl(
+//     var(--theme-hue),
+//     var(--theme-saturation),
+//     90%,
+//     0.75
+//   );
+
+//   --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 98%);
+//   --clr-bg-accent-secondary: hsl(var(--theme-hue), var(--theme-saturation), 94%);
+
+//   --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.3);
+
+//   --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 85%);
+//   --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 30%, 1);
+//   --clr-bg-input-hover: hsl(
+//     var(--theme-hue),
+//     var(--theme-saturation),
+//     20%,
+//     0.75
+//   );
+//   --clr-bg-input-active: hsl(
+//     var(--theme-hue),
+//     var(--theme-saturation),
+//     85%
+//   );
+//   --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 85%);
+//   --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 25%);
+//   --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 30%);
+//   --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 65%);
+//   --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 75%;
+//   --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 15%);
+
+//   --txt-bold: hsl(var(--theme-hue), var(--theme-saturation), 10%);
+//   --txt-main: hsl(var(--theme-hue), var(--theme-saturation), 15%);
+//   --txt-themed: hsl(
+//     var(--theme-hue),
+//     calc(var(--theme-saturation-high) - 10%),
+//     27%
+//   );
+//   --txt-muted: hsl(var(--theme-hue), var(--theme-saturation), 15%, 0.85);
+
+//   // layout
+//   --header-height: clamp(3.75rem, 10vw, 4rem);
+//   --header-height-lg: clamp(3.75rem, 10vw, 3.85rem);
+// }
+
+
 
 body {
   background-color: var(--clr-bg);
