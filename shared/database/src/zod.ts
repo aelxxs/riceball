@@ -12,7 +12,7 @@ export const RestrictionTypeSchema = z.enum(["BLOCK_ALL", "ALLOW_ALL"]);
 
 export type RestrictionTypeType = `${z.infer<typeof RestrictionTypeSchema>}`;
 
-export const ReactionRoleTypeSchema = z.enum(["ADD", "REMOVE", "UNIQUE", "NORMAL"]);
+export const ReactionRoleTypeSchema = z.enum(["ADD", "REMOVE", "UNIQUE", "TOGGLE"]);
 
 export type ReactionRoleTypeType = `${z.infer<typeof ReactionRoleTypeSchema>}`;
 
@@ -114,7 +114,7 @@ export const ReactionRoleSchema = z.object({
 	// messageId: z.string(),
 	channelId: z.string().length(17, { message: "You must select a channel." }),
 	messageContent: z.string(),
-	alias: z.string(),
+	alias: z.string().min(1, { message: "You must provide a name for the reaction role." }),
 	enabled: z.boolean(),
 	messageEmbed: z.lazy(() => DiscordEmbedSchema).nullable(),
 	pairs: z
