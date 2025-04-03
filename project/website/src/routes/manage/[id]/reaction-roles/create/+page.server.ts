@@ -9,8 +9,7 @@ export const load: PageServerLoad = async () => {
 	return {
 		form: await superValidate(
 			{
-				type: "NORMAL",
-				pairs: [{ emoji: "🍙", roles: [] }],
+				type: "TOGGLE",
 				messageContent: "React to this message to get your roles!",
 				alias: "New Reaction Role",
 			},
@@ -23,9 +22,9 @@ export const actions: Actions = {
 	save: async ({ params, request, locals }) => {
 		const form = await superValidate(request, zod(ReactionRoleSchema));
 
-		locals.gateway.publish("SEND_MESSAGE", {
-			channelId: "1335328915803209821",
-		});
+		// locals.gateway.publish("SEND_MESSAGE", {
+		// 	channelId: "1335328915803209821",
+		// });
 
 		if (!form.valid || !params.id) {
 			return fail(400, {

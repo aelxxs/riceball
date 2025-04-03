@@ -70,7 +70,7 @@ $effect(() => {
 const embed = $state({});
 </script>
 
-<SuperDebug data={$formData} />
+<!-- <SuperDebug data={$formData} /> -->
 
 <form method="POST" action="?/save" use:enhance class="stack">
   <DashboardCardSideBySide
@@ -95,7 +95,7 @@ const embed = $state({});
                   guild={data.guild}
                   bind:value={$formData.emoji}
                 />
-                <div class="stack gap:-2">
+                <div class="stack space-3xs">
                   <p class="fw:bold txt:bold">Select Emoji</p>
                   <p>You may use custom emojis from your server.</p>
                 </div>

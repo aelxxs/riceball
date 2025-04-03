@@ -49,14 +49,15 @@ const flyOut = { y: 7.5, duration: 250, opacity: 0 };
 
     @layer base {
       :root {
-        --checkbox-size: 1.375rem;
-        --checkbox-border-width: 1.5px;
+        --checkbox-size: var(--space-m);
+        --checkbox-border-width: 1.25px;
         --checkbox-border-radius: var(--radius-xs);
       }
     }
 
     @layer checkbox {
       [data-checkbox-root] {
+        border: 1px solid red;
         display: inline-flex;
         flex-shrink: 0;
         height: var(--checkbox-size);
@@ -65,20 +66,17 @@ const flyOut = { y: 7.5, duration: 250, opacity: 0 };
         align-items: center;
         justify-content: center;
         border-radius: var(--checkbox-border-radius);
-        border-width: var(--checkbox-border-width);
-        border-color: transparent;
-        border-style: solid;
+        outline: 1.25px solid transparent;
         color: var(--txt-bold);
         background-color: var(--clr-bg-input-light);
         transition-property: background-color, border-color, box-shadow;
         transition-duration: var(--input-transition-duration);
         transition-timing-function: var(--input-transition-timing-function);
-        outline: 1px solid transparent;
       }
 
       [data-checkbox-root][data-outlined="true"] {
         background-color: transparent;
-        border-color: var(--clr-bg-border);
+        outline-color: var(--clr-bg-border);
       }
 
       [data-checkbox-root]:disabled {
@@ -87,24 +85,22 @@ const flyOut = { y: 7.5, duration: 250, opacity: 0 };
       }
 
       [data-checkbox-root][data-state="checked"] {
-        border-color: var(--clr-theme-2);
+        outline-color: var(--clr-theme-2);
         background-color: var(--clr-theme-2);
         opacity: 1;
       }
 
-      /* [data-checkbox-root][data-outlined="true"][data-state="checked"] {
-        border-color: var(--clr-theme-2);
-        background-color: var(--clr-theme-2);
-        border-color: transparent;
-        opacity: 1;
-      } */
+      [data-checkbox-root][data-outlined="true"][data-state="checked"] {
+        outline-color: var(--clr-theme-2);
+        outline-color: transparent;
+      }
 
       [data-checkbox-root]:hover {
-        border-color: var(--clr-bg-border-hover);
+        outline-color: var(--clr-bg-border-hover);
       }
 
       [data-checkbox-root]:focus-visible {
-        border-color: var(--clr-theme-2);
+        outline-color: var(--clr-theme-2);
         box-shadow: 0 0 0 0.225rem hsl(var(--clr-bg-border-hover-hsl) / 0.05);
       }
     }

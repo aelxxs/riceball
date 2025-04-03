@@ -31,6 +31,7 @@ const goBack = () => goto(WebsiteRoutes.ReactionRoles(data.guild.id));
 
 const form = superForm(data.form, {
 	// validators: zodClient(ReactionRoleSchema),
+	validationMethod: "onblur",
 	dataType: "json",
 	onUpdate: ({ result }) => {
 		switch (result.type) {
@@ -52,20 +53,22 @@ const { form: formData, submit, enhance } = form;
 
 const types = [
 	{
-		value: "NORMAL",
+		value: "TOGGLE",
 		label: "Toggle Role",
 		description:
 			"Adds or removes a role from a user when they react to the message.",
 	},
 	{
 		value: "ADD",
-		label: "Add Role",
-		description: "Add a role to a user when they react to the message.",
+		label: "Add Role Only",
+		description:
+			"Adds a role to a user when they react to the message. The user must not have the role already.",
 	},
 	{
 		value: "REMOVE",
-		label: "Remove Role",
-		description: "Remove a role from a user when they react to the message.",
+		label: "Remove Role Only",
+		description:
+			"Removes a role from a user when they react to the message. The user must have the role already.",
 	},
 	{
 		value: "UNIQUE",
@@ -80,7 +83,7 @@ $effect.pre(() => {
 	appState.setControlsVisible(true);
 	appState.setControls([
 		{ label: "Cancel", handler: goBack, variant: "destructive" },
-		{ label: "Publish 🚀", handler: submit },
+		{ label: "Create", handler: submit },
 	]);
 });
 
@@ -146,7 +149,7 @@ const pair = $state({ emoji: "", roles: [] });
         client={data.client}
         guild={data.guild}
         bind:content={$formData.messageContent}
-        bind:embeds={$formData.messageEmbed as DiscordEmbedWithRelations}
+        bind:embeds={$formData.messageEmbed}
         reactions={$formData.pairs.map((pair) => pair.emoji)}
       />
     </div>
@@ -167,6 +170,46 @@ const pair = $state({ emoji: "", roles: [] });
       </Button>
 
       {#each $formData.pairs as pair, i}
+        <SelectDiscord
+          type="role"
+          items={data.guild.itemizedRoles}
+          bind:selected={pair.roles}
+        >
+          {#snippet left()}
+            <EmojiPicker
+              guild={data.guild}
+              bind:value={pair.emoji}
+              onEmojiPick={(emoji) => {
+                pair.emoji = emoji.native || emoji.id;
+              }}
+              showSelected
+              hideAfterPick
+            />
+          {/snippet}
+          {#snippet right()}
+            <Button
+              size="icon"
+              variant="destructive"
+              onclick={() => {
+                if ($formData.pairs.length === 1) {
+                  $formData.pairs = [
+                    {
+                      emoji: "🍙",
+                      roles: [],
+                    },
+                  ];
+                } else {
+                  $formData.pairs = $formData.pairs.filter(
+                    (_, index) => index !== i,
+                  );
+                }
+              }}
+            >
+              <Trash2Icon size="1rem" />
+            </Button>
+          {/snippet}
+        </SelectDiscord>
+      {:else}
         <SelectDiscord
           type="role"
           items={data.guild.itemizedRoles}

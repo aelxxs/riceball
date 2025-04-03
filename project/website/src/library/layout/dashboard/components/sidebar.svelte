@@ -39,15 +39,13 @@ let open = $state(false);
       <div {...props}>
         <div class="cluster">
           <DiscordIcon
-            size={2}
+            size={1.75}
             id={guild.id}
             icon={guild.icon}
             name={guild.name}
             type="guild"
           />
-          <div class="stack">
-            <h4 style="user-select: none;">{guild.name}</h4>
-          </div>
+          <h4 style="user-select: none;">{guild.name}</h4>
         </div>
         <div class="chevron" class:animate={open}>
           <ChevronDown size={18} />
@@ -136,23 +134,43 @@ let open = $state(false);
 
 <style>
   nav {
-    padding-inline: var(--space-xs);
+    padding: var(--space-m);
+    overflow-y: auto;
+    height: calc(100% - var(--header-height));
   }
 
   .header-trigger {
+    position: sticky;
+    top: 0;
+
     height: var(--header-height-lg);
     width: 100%;
     cursor: pointer;
     font-weight: var(--font-weight-normal);
     line-height: var(--line-height-body);
     letter-spacing: var(--letter-spacing-normal);
-    border: 2px solid transparent;
-    border-radius: var(--border-radius);
+    /* border: 2px solid transparent; */
+    /* border-radius: var(--border-radius); */
     color: var(--txt-main);
     transition-property: border-color, box-shadow;
     transition-duration: var(--input-transition-duration);
     transition-timing-function: var(--input-transition-timing-function);
-    outline: 2px solid transparent;
+    border-bottom: 1px solid var(--clr-bg-border);
+    background-color: var(--clr-bg);
+    /* border: 1px solid var(--clr-bg-border); */
+    padding-inline: var(--space-m);
+    /* margin-bottom: 1rem; */
+    /* border-top-right-radius: 1rem; */
+    z-index: 1;
+  }
+
+  .content {
+    --bg: var(--clr-bg-accent-secondary);
+    --padding: var(--space-xs);
+    width: calc(var(--bits-select-anchor-width) - var(--padding) * 2);
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
+    z-index: 1;
   }
 
   @media (max-width: 875px) {
@@ -160,21 +178,21 @@ let open = $state(false);
       height: var(--header-height);
       padding: var(--space-xs) var(--space-xs);
       background-color: var(--clr-bg-accent);
-      margin-bottom: 1.5rem;
       height: auto;
+      border-radius: var(--border-radius);
+      border: 0;
+    }
+
+    nav {
+      padding-inline: 0;
     }
   }
 
-  .content {
-    --bg: var(--clr-bg-accent);
-    --padding: var(--space-xs);
-    width: var(--bits-select-anchor-width);
-    z-index: 1;
-  }
-
-  .header-trigger:focus {
-    border-color: var(--clr-bg-border-hover);
-    box-shadow: 0 0 0 0.225rem hsl(var(--clr-bg-border-hover-hsl) / 0.05);
+  .header-trigger:hover,
+  .header-trigger:focus,
+  .header-trigger:focus-visible,
+  .header-trigger:active {
+    background-color: var(--clr-bg-translucent);
   }
 
   .chevron {
@@ -213,12 +231,12 @@ let open = $state(false);
   .link {
     position: relative;
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: 0.35rem;
     padding: var(--space-xs) var(--space-s);
     transition: all 0.2s;
 
     &:hover {
-      transform: scale(1.005);
+      /* transform: scale(1.005); */
       background-color: var(--clr-bg-input-active);
     }
 
@@ -230,22 +248,6 @@ let open = $state(false);
       transform: scale(1.025);
       background-color: var(--clr-bg-input-active);
       color: var(--txt-themed);
-      font-weight: 500;
-    }
-
-    &:hover::before,
-    &.active::before {
-      content: "";
-      position: absolute;
-      inset-inline-start: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 100%;
-
-      border-top-left-radius: var(--border-radius);
-      border-bottom-left-radius: var(--border-radius);
-      background-color: var(--clr-theme-2);
     }
 
     &.active.secondary {

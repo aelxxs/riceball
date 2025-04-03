@@ -21,7 +21,15 @@ type U = unknown;
     <div class="flow field">
       {@render childrenProp?.(snippetProps)}
       {#if snippetProps.errors.length > 0}
-        <FieldErrors />
+        <FieldErrors>
+          {#snippet children({ errors, errorProps })}
+            {#each errors as error}
+              <span style="color: var(--clr-theme-error);" {...errorProps}
+                >* {error}</span
+              >
+            {/each}
+          {/snippet}
+        </FieldErrors>
       {/if}
     </div>
   {/snippet}

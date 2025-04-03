@@ -41,7 +41,7 @@ const cdn = new CDN();
         </div>
 
         <div class="repel">
-          <div class="stack space-2xs">
+          <div>
             <h5 class="fw:600">{guild.name}</h5>
             <small>Admin</small>
           </div>
@@ -65,17 +65,18 @@ const cdn = new CDN();
 
 <style lang="scss">
   .wrap {
-    max-width: 60rem;
+    max-width: 62rem;
     margin: 0 auto;
     margin-top: var(--space-xl);
     display: flex;
     flex-direction: column;
     gap: var(--space-s);
+    padding-inline: var(--space-m);
   }
 
   .guilds {
     --minimum: 30ch;
-    --gap: var(--space-l);
+    --gap: var(--space-xl);
     margin-top: var(--space-l);
   }
 
@@ -88,7 +89,7 @@ const cdn = new CDN();
     justify-content: center;
     background-color: var(--clr-bg-accent);
     border-radius: var(--border-radius);
-    padding: var(--space-2xl);
+    padding: var(--space-xl);
     overflow: hidden;
   }
 
