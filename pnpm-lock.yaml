@@ -197,7 +197,7 @@ importers:
         version: 1.26.1
       formsnap:
         specifier: ^2.0.0
-        version: 2.0.0(svelte@5.25.6)(sveltekit-superforms@2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.2))
+        version: 2.0.0(svelte@5.25.6)(sveltekit-superforms@2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.3))
       iconify-icon:
         specifier: ^2.3.0
         version: 2.3.0
@@ -233,7 +233,7 @@ importers:
         version: 2.1.0(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/extension-bubble-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/extension-floating-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)(svelte@5.25.6)
       sveltekit-superforms:
         specifier: ^2.23.1
-        version: 2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.2)
+        version: 2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.3)
       vite-plugin-commonjs:
         specifier: ^0.10.4
         version: 0.10.4
@@ -255,13 +255,13 @@ importers:
         version: 5.25.6
       svelte-check:
         specifier: ^4.1.4
-        version: 4.1.5(picomatch@4.0.2)(svelte@5.25.6)(typescript@5.8.2)
+        version: 4.1.5(picomatch@4.0.2)(svelte@5.25.6)(typescript@5.8.3)
       svelte-preprocess:
         specifier: ^6.0.3
-        version: 6.0.3(postcss-load-config@6.0.1(postcss@8.5.3))(postcss@8.5.3)(sass@1.86.1)(svelte@5.25.6)(typescript@5.8.2)
+        version: 6.0.3(postcss-load-config@6.0.1(postcss@8.5.3))(postcss@8.5.3)(sass@1.86.1)(svelte@5.25.6)(typescript@5.8.3)
       typescript:
-        specifier: 5.8.2
-        version: 5.8.2
+        specifier: 5.8.3
+        version: 5.8.3
       vite:
         specifier: ^6.2.0
         version: 6.2.4(@types/node@22.14.0)(sass@1.86.1)
@@ -3566,6 +3566,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
 
@@ -5492,11 +5497,11 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  formsnap@2.0.0(svelte@5.25.6)(sveltekit-superforms@2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.2)):
+  formsnap@2.0.0(svelte@5.25.6)(sveltekit-superforms@2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.3)):
     dependencies:
       svelte: 5.25.6
       svelte-toolbelt: 0.5.0(svelte@5.25.6)
-      sveltekit-superforms: 2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.2)
+      sveltekit-superforms: 2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.3)
 
   framesync@6.1.2:
     dependencies:
@@ -6553,7 +6558,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte-check@4.1.5(picomatch@4.0.2)(svelte@5.25.6)(typescript@5.8.2):
+  svelte-check@4.1.5(picomatch@4.0.2)(svelte@5.25.6)(typescript@5.8.3):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 4.0.3
@@ -6561,7 +6566,7 @@ snapshots:
       picocolors: 1.1.1
       sade: 1.8.1
       svelte: 5.25.6
-      typescript: 5.8.2
+      typescript: 5.8.3
     transitivePeerDependencies:
       - picomatch
 
@@ -6578,14 +6583,14 @@ snapshots:
       svelte: 5.25.6
       tslib: 2.8.1
 
-  svelte-preprocess@6.0.3(postcss-load-config@6.0.1(postcss@8.5.3))(postcss@8.5.3)(sass@1.86.1)(svelte@5.25.6)(typescript@5.8.2):
+  svelte-preprocess@6.0.3(postcss-load-config@6.0.1(postcss@8.5.3))(postcss@8.5.3)(sass@1.86.1)(svelte@5.25.6)(typescript@5.8.3):
     dependencies:
       svelte: 5.25.6
     optionalDependencies:
       postcss: 8.5.3
       postcss-load-config: 6.0.1(postcss@8.5.3)
       sass: 1.86.1
-      typescript: 5.8.2
+      typescript: 5.8.3
 
   svelte-sonner@0.3.28(svelte@5.25.6):
     dependencies:
@@ -6629,7 +6634,7 @@ snapshots:
       magic-string: 0.30.17
       zimmerframe: 1.1.2
 
-  sveltekit-superforms@2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.2):
+  sveltekit-superforms@2.24.0(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(@types/json-schema@7.0.15)(svelte@5.25.6)(typescript@5.8.3):
     dependencies:
       '@sveltejs/kit': 2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1)))(svelte@5.25.6)(vite@6.2.4(@types/node@22.14.0)(sass@1.86.1))
       devalue: 5.1.1
@@ -6648,7 +6653,7 @@ snapshots:
       joi: 17.13.3
       json-schema-to-ts: 3.1.1
       superstruct: 2.0.2
-      valibot: 1.0.0-rc.3(typescript@5.8.2)
+      valibot: 1.0.0-rc.3(typescript@5.8.3)
       yup: 1.6.1
       zod: 3.24.2
       zod-to-json-schema: 3.24.5(zod@3.24.2)
@@ -6840,6 +6845,8 @@ snapshots:
 
   typescript@5.8.2: {}
 
+  typescript@5.8.3: {}
+
   uc.micro@2.1.0: {}
 
   ulid@2.4.0: {}
@@ -6882,9 +6889,9 @@ snapshots:
   valibot@0.31.1:
     optional: true
 
-  valibot@1.0.0-rc.3(typescript@5.8.2):
+  valibot@1.0.0-rc.3(typescript@5.8.3):
     optionalDependencies:
-      typescript: 5.8.2
+      typescript: 5.8.3
     optional: true
 
   validator@13.15.0:
