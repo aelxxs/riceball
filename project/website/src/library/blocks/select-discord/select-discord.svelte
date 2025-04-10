@@ -47,6 +47,7 @@ let {
 	closeAfterSelect = false,
 	left,
 	right,
+	...restProps
 }: Props = $props();
 
 const icon =
@@ -194,6 +195,7 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
             return;
           }
         }}
+        {...restProps}
       >
         {#if left}
           <div class="custom-entry" style="display: flex;">
@@ -241,6 +243,7 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
               {#snippet child({ props })}
                 <input
                   {...props}
+                  size="10"
                   use:focusInput={isOpen}
                   value={internalInputValue}
                   oninput={handleInput}
@@ -377,7 +380,7 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
     --align: flex-start;
     cursor: pointer;
     position: relative;
-    padding: var(--space-xs) var(--space-xs);
+    padding: var(--space-2xs) var(--space-2xs);
     border: 2px solid transparent;
     border-radius: var(--border-radius);
     background-color: var(--clr-bg-input);

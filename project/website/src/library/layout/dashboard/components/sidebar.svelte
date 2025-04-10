@@ -165,27 +165,14 @@ let open = $state(false);
   }
 
   .content {
-    --bg: var(--clr-bg-accent-secondary);
+    --border-radius: 0;
+    --bg: var(--clr-bg-accent);
     --padding: var(--space-xs);
-    width: calc(var(--bits-select-anchor-width) - var(--padding) * 2);
-    border-bottom-left-radius: var(--border-radius) !important;
-    border-bottom-right-radius: var(--border-radius) !important;
+    width: calc(var(--bits-select-anchor-width));
+    /* border-bottom-left-radius: var(--border-radius) !important; */
+    /* border-bottom-right-radius: var(--border-radius) !important; */
+    border-bottom: 1px solid var(--clr-bg-border);
     z-index: 1;
-  }
-
-  @media (max-width: 875px) {
-    .header-trigger {
-      height: var(--header-height);
-      padding: var(--space-xs) var(--space-xs);
-      background-color: var(--clr-bg-accent);
-      height: auto;
-      border-radius: var(--border-radius);
-      border: 0;
-    }
-
-    nav {
-      padding-inline: 0;
-    }
   }
 
   .header-trigger:hover,
@@ -247,11 +234,32 @@ let open = $state(false);
     &.active {
       transform: scale(1.025);
       background-color: var(--clr-bg-input-active);
-      color: var(--txt-themed);
+      color: var(--txt-bold);
     }
 
     &.active.secondary {
       background-color: red;
+    }
+  }
+
+  @media (max-width: 875px) {
+    .header-trigger {
+      height: var(--header-height);
+      padding: var(--space-xs) var(--space-xs);
+      background-color: var(--clr-bg-accent);
+      height: auto;
+      border-radius: var(--border-radius);
+      border: 0;
+    }
+
+    nav {
+      padding-inline: 0;
+    }
+
+    .link {
+      &.active {
+        transform: scale(1);
+      }
     }
   }
 </style>

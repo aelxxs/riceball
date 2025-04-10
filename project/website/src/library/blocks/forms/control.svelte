@@ -45,8 +45,18 @@ const {
       {/snippet}
     </Label>
   {/if}
-  {#if label && description && !screenReaderOnly}
-    <Description class="txt-muted">{description}</Description>
+  {#if label && description}
+    <Description class="txt-muted">
+      {#snippet child({ props })}
+        <span
+          class:sr-only={screenReaderOnly}
+          class:txt-muted={!description.length}
+          {...props}
+        >
+          {description}
+        </span>
+      {/snippet}</Description
+    >
   {/if}
 {/snippet}
 

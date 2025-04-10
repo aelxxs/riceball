@@ -10,13 +10,12 @@ type Props = {
 	value?: string;
 };
 
-let { items, value = $bindable(), ...props }: Props = $props();
+let { value = $bindable(), ...restProps }: Props = $props();
 </script>
 
 <Select
   icon={HashIcon}
-  {items}
   placeholder="Select a channel"
   bind:value
-  {...props}
+  {...restProps}
 />

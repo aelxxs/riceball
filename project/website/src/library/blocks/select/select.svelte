@@ -1,11 +1,11 @@
 <script lang="ts">
 // - Icons
+import { flyAndScale } from "$lib/utility/transitions";
+import { Select } from "bits-ui";
+import { useFormControl } from "formsnap";
 import type { Icon as IconType } from "lucide-svelte";
 import CheckIcon from "lucide-svelte/icons/check";
 import ChevronDownIcon from "lucide-svelte/icons/chevron-down";
-
-import { flyAndScale } from "$lib/utility/transitions";
-import { Select } from "bits-ui";
 import { Checkbox } from "../checkbox";
 
 export type Item = {
@@ -41,7 +41,7 @@ let {
 	value = $bindable(),
 	placeholder,
 	multiple = false,
-	...props
+	...restProps
 }: Props = $props();
 
 function isGroup(item: SelectItem): item is Group {
@@ -61,7 +61,7 @@ let selectedItem = $derived(allItems.find((item) => item.value === value));
   bind:open={isOpen}
   type={multiple ? "multiple" : "single"}
 >
-  <Select.Trigger class="trigger repel" {...props}>
+  <Select.Trigger class="trigger repel">
     {#snippet child({ props })}
       <button {...props}>
         <div class="cluster space-xs">
