@@ -6,7 +6,6 @@ import {
 	DashboardCard,
 	DashboardCardSideBySide,
 } from "$lib/blocks/dashboard-card";
-import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator/index.js";
 import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
 import { Input } from "$lib/blocks/input";
 import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
@@ -14,10 +13,9 @@ import { Select } from "$lib/blocks/select";
 import { Switch } from "$lib/blocks/switch";
 import { getSaveModal } from "$lib/utility/context.svelte.js";
 import { StarsSchema } from "@riceball/db/zod";
-import { ChannelType } from "discord-api-types/v10";
 import { Control, Field, FieldErrors, Label } from "formsnap";
 import { toast } from "svelte-sonner";
-import SuperDebug, { superForm } from "sveltekit-superforms";
+import { superForm } from "sveltekit-superforms";
 import { zodClient } from "sveltekit-superforms/adapters";
 
 const { data } = $props();
@@ -180,13 +178,6 @@ const embed = $state({});
         </Field>
       {/if}
     </div>
-  </DashboardCard>
-
-  <DashboardCard
-    title="Starboard Message"
-    description="Customize the embed message that will be sent to the starboard channel."
-  >
-    <DiscordMessageCreator client={data.client} guild={data.guild} withEmbed />
   </DashboardCard>
 
   <Restrictions
