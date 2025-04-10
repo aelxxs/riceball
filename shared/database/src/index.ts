@@ -1,4 +1,4 @@
-import { MikroORM } from "@mikro-orm/mongodb";
+import { MikroORM, wrap } from "@mikro-orm/mongodb";
 import { Redis } from "ioredis";
 import { container } from "tsyringe";
 import { SettingsCacheManager } from "./cache/SettingsCacheManager.js";
@@ -42,6 +42,8 @@ export * from "./utils/constants.js";
 export * from "./utils/types.js";
 
 export { container };
+
+export { wrap };
 
 export const getGuild = () => {};
 export const updateGuild = () => {};

@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 import type { Guild } from "../entities/Guild.entity.js";
 import type { Member } from "../entities/Member.entity.js";
 import type { User } from "../entities/User.entity.js";
+import type { RepositoryManager } from "../repositories/RepositoryManager.js";
 import { Deps } from "../utils/constants.js";
 import type { Payload } from "../utils/types.js";
 import type { SettingsCacheManager } from "./SettingsCacheManager.js";
@@ -9,8 +10,13 @@ import type { SettingsCacheManager } from "./SettingsCacheManager.js";
 @injectable()
 export class Database {
 	private readonly cache: SettingsCacheManager;
+	public readonly rm: RepositoryManager;
 
-	public constructor(@inject(Deps.Cache) cache: SettingsCacheManager) {
+	public constructor(
+		@inject(Deps.Cache) cache: SettingsCacheManager,
+		@inject(Deps.RepositoryManager) rm: RepositoryManager,
+	) {
+		this.rm = rm;
 		this.cache = cache;
 	}
 
