@@ -1,19 +1,17 @@
 <script lang="ts">
-// - Icons
-import HashIcon from "lucide-svelte/icons/hash";
-
 import {
 	DashboardCard,
 	DashboardCardSideBySide,
 } from "$lib/blocks/dashboard-card";
-import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
+import { EmojiPicker } from "$lib/blocks/emoji-picker";
 import { Input } from "$lib/blocks/input";
-import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
+import { Restrictions } from "$lib/blocks/restrictions";
 import { Select } from "$lib/blocks/select";
 import { Switch } from "$lib/blocks/switch";
-import { getSaveModal } from "$lib/utility/context.svelte.js";
+import { getSaveModal } from "$lib/utility/context.svelte";
 import { StarsSchema } from "@riceball/db/zod";
 import { Control, Field, FieldErrors, Label } from "formsnap";
+import HashIcon from "lucide-svelte/icons/hash";
 import { toast } from "svelte-sonner";
 import { superForm } from "sveltekit-superforms";
 import { zodClient } from "sveltekit-superforms/adapters";
@@ -64,11 +62,7 @@ $effect(() => {
 		modal.hideModal();
 	}
 });
-
-const embed = $state({});
 </script>
-
-<!-- <SuperDebug data={$formData} /> -->
 
 <form method="POST" action="?/save" use:enhance class="stack">
   <DashboardCardSideBySide
@@ -92,6 +86,7 @@ const embed = $state({});
                   showSelected
                   guild={data.guild}
                   bind:value={$formData.emoji}
+                  {...props}
                 />
                 <div class="stack space-3xs">
                   <p class="fw:bold txt:bold">Select Emoji</p>
@@ -100,7 +95,6 @@ const embed = $state({});
               </div>
             {/snippet}
           </Control>
-          <!-- <FieldErrors /> -->
         </Field>
       </div>
     {/snippet}
