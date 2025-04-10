@@ -87,14 +87,14 @@ let {
 
   .container:focus-within {
     border-color: var(--clr-bg-border-hover);
-    box-shadow: 0 0 0 0.225rem hsl(var(--clr-bg-border-hover-hsl) / 0.05);
+    box-shadow: 0 0 0 0.225rem hsl(var(--clr-bg-border-hover-hsl) / 0.2);
   }
 
-  input[data-fs-error] {
+  .container:has(input[data-fs-error]) {
     border-color: var(--clr-theme-error);
   }
 
-  input[data-fs-error]:focus-within {
-    box-shadow: 0 0 0 0.25rem var(--clr-theme-error-transparent);
+  .container:has(input[data-fs-error]):focus-within {
+    box-shadow: 0 0 0 0.225rem var(--clr-theme-error-transparent);
   }
 </style>

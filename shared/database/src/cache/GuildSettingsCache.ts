@@ -31,8 +31,6 @@ export class GuildSettingsCache extends BaseSettingsCache<Guild> {
 	protected async save(key: string, payload: Payload<Guild>): Promise<void> {
 		const guild = await this.load(key);
 
-		console.log({ payload });
-
 		if (payload) {
 			this.db.guilds.assign(guild, payload);
 			return this.db.em.flush();

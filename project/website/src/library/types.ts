@@ -20,13 +20,19 @@ export type DashboardChannels = Array<
 	  })
 >;
 
+export type ItemizedChannels = Array<
+	| { value: string; label: string }
+	| {
+			label: string;
+			items: Array<{ value: string; label: string }>;
+	  }
+>;
+
 export type DashboardGuild = ManagedGuild &
 	APIGuild & {
 		client: APIApplication;
 		settings: Guild;
 		channels: APIChannel[];
-		itemizedChannels: Array<
-			{ value: string; label: string } | { label: string; items: Array<{ value: string; label: string }> }
-		>;
+		itemizedChannels: ItemizedChannels;
 		itemizedRoles: Array<{ value: string; label: string }>;
 	};

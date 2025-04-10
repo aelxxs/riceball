@@ -25,7 +25,7 @@ type U = unknown;
           {#snippet children({ errors, errorProps })}
             {#each errors as error}
               <span style="color: var(--clr-theme-error);" {...errorProps}
-                >* {error}</span
+                >{error}</span
               >
             {/each}
           {/snippet}

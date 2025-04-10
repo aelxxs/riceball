@@ -1,6 +1,8 @@
+import { ReactionRole, ReactionRoleType, RepositoryManager, container } from "@riceball/db";
 import { ReactionRoleSchema } from "@riceball/db/zod";
 import type { Actions } from "@sveltejs/kit";
 import { fail } from "@sveltejs/kit";
+import { type APIMessage, Routes } from "discord-api-types/v10";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import type { PageServerLoad } from "./$types";
@@ -33,10 +35,36 @@ export const actions: Actions = {
 		}
 
 		const { channelId } = form.data;
-		// send message to discord and get message id
-		// gateway.emit()
 
-		// create reaction role in db
+		const db = container.resolve(RepositoryManager);
+
+		const reactionRoleRepository = db.em.getRepository(ReactionRole);
+
+		const message = (await locals.api.post(Routes.channelMessages(channelId), {
+			body: {
+				content: form.data.messageContent,
+			},
+		})) as APIMessage;
+
+		console.log({ messageId: message.id });
+
+		for (const pair of form.data.pairs) {
+			await locals.api.put(
+				Routes.channelMessageOwnReaction(channelId, message.id, encodeURIComponent(pair.emoji)),
+			);
+		}
+		// create the reaction role
+
+		const reactionRole = reactionRoleRepository.create({
+			...form.data,
+			guildId: params.id,
+			messageId: message.id,
+			pairs: form.data.pairs,
+		});
+
+		await db.em.persistAndFlush(reactionRole);
+
+		// react to the message
 
 		return { form };
 	},

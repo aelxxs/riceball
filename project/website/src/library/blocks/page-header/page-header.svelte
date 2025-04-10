@@ -30,6 +30,7 @@ const user = page.data.session?.user;
 <style lang="scss">
   .icon {
     height: 1.75rem;
+    filter: drop-shadow(0 0 0.5rem var(--clr-bg-border));
   }
   .header-wrapper {
     padding-inline: var(--space-m);
@@ -39,7 +40,7 @@ const user = page.data.session?.user;
     margin: 0 auto;
     position: sticky;
     top: 0;
-    background-color: var(--clr-bg);
+    background-color: var(--clr-bg-accent);
 
     backdrop-filter: blur(5rem);
     border-bottom: 1px solid var(--clr-bg-border);

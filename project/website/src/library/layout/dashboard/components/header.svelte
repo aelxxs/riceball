@@ -1,14 +1,5 @@
 <script lang="ts">
 // - Icons
-import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
-import HashIcon from "lucide-svelte/icons/hash";
-import MenuIcon from "lucide-svelte/icons/menu";
-import XIconIcon from "lucide-svelte/icons/x";
-// @ts-ignore
-import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
-
-const duration = 0.3;
-
 import { enhance } from "$app/forms";
 import { Button } from "$lib/blocks/button";
 import { Divider } from "$lib/blocks/divider";
@@ -18,7 +9,16 @@ import {
 	getGuild,
 	layoutState,
 } from "$lib/utility/context.svelte";
+import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
+import HashIcon from "lucide-svelte/icons/hash";
+import MenuIcon from "lucide-svelte/icons/menu";
+import XIconIcon from "lucide-svelte/icons/x";
+import { onMount } from "svelte";
+// @ts-ignore
+import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
 import { fade, fly } from "svelte/transition";
+
+const duration = 0.3;
 
 const { plugin, toggleOpen } = $props();
 
@@ -165,9 +165,8 @@ const guild = getGuild();
     position: sticky;
     top: var(--header-height);
     z-index: 1;
-    background-color: var(--clr-bg);
+    background-color: var(--clr-bg-accent);
     overflow: hidden;
-
     backdrop-filter: blur(5rem);
     transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     height: var(--header-height-lg);
@@ -178,6 +177,7 @@ const guild = getGuild();
 
   .header {
     display: flex;
+    overflow: hidden;
     grid-area: 1/1/2/2;
     padding-inline: var(--space-m);
     border-bottom: 1px solid var(--clr-bg-border);

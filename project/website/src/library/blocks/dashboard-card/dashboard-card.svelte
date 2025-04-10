@@ -95,8 +95,9 @@ function toggleOpen() {
 <style>
   .root {
     --padding: var(--space-m);
-    /* background-color: transparent; */
-    /* border: 1.25px solid var(--clr-bg-border); */
+    border-radius: var(--border-radius);
+    background-color: transparent;
+    border: 1.25px solid var(--clr-bg-border);
   }
 
   .trigger {

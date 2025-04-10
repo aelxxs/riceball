@@ -42,7 +42,7 @@ import { flyAndScale } from "$lib/utility/transitions";
     width: 90%;
     margin: 0 auto;
     transition: all 0.4s cubic-bezier(0.47, 1.64, 0.41, 0.8);
-    background-color: var(--clr-bg-input-light);
+    background-color: var(--clr-bg-input-active);
   }
 
   .error {

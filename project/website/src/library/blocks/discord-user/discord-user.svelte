@@ -146,7 +146,7 @@ let open = $state(false);
     }
 
     [data-dropdown-content] {
-      background-color: var(--clr-bg-accent-secondary);
+      background-color: var(--clr-bg);
       border-radius: var(--border-radius);
       min-width: 10rem;
       z-index: 10;
@@ -162,16 +162,17 @@ let open = $state(false);
     }
 
     [data-dropdown-menu-item]:hover {
-      background-color: var(--clr-bg-input);
+      background-color: var(--clr-bg-input-active);
     }
   }
 
   .dropdown__content {
-    background-color: var(--clr-bg-accent-secondary);
+    background-color: var(--clr-bg);
     min-width: 10rem;
     z-index: 10;
     --padding: var(--space-s);
     box-shadow: var(--shadow-m);
+    border: 1px solid var(--clr-bg-border);
   }
 
   .profile__icon {
