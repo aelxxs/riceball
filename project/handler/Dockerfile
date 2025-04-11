@@ -17,7 +17,7 @@ FROM base AS builder
 
     RUN pnpm add -g turbo
     COPY . .
-    RUN turbo prune @riceball/handler --docker
+    RUN turbo prune handler --docker
 
 # ================= #
 #  Installer Stage  #

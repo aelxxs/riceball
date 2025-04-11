@@ -6,6 +6,7 @@ import {
 	type APIInteraction,
 	type APIInteractionResponseCallbackData,
 	type APIMessage,
+	type APIModalInteractionResponseCallbackData,
 	InteractionResponseType,
 	MessageFlags,
 	Routes,
@@ -16,9 +17,11 @@ import { container } from "tsyringe";
 
 export type MessagePayload =
 	| string
+	| APIModalInteractionResponseCallbackData
 	| APIInteractionResponseCallbackData
-	| APIEmbed
-	| (APIInteractionResponseCallbackData & { files?: RawFile[] });
+	| APIEmbed;
+
+// | (APIInteractionResponseCallbackData & { files?: RawFile[] });
 
 type TransformContentOptions = {
 	prefix?: "error" | "success" | string | null;
@@ -27,6 +30,8 @@ type TransformContentOptions = {
 	ephemeral?: boolean;
 	resetComponents?: boolean;
 };
+
+export type MaybePromise<T> = T | Promise<T>;
 
 /**
  * Determines if the provided object is an APIEmbed.

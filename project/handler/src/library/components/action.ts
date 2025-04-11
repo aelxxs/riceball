@@ -1,35 +1,23 @@
-import {
-	type APIActionRowComponent,
-	type APIActionRowComponentTypes,
-	type APIMessageActionRowComponent,
-	ButtonStyle,
-	ComponentType,
-} from "discord-api-types/v10";
+import { type APIActionRowComponent, type APIMessageActionRowComponent, ComponentType } from "discord-api-types/v10";
 import { makeUniqueID } from "library/core";
 
-interface ActionRowOptions {
+type ActionRowOptions = Omit<APIActionRowComponent<APIMessageActionRowComponent>, "type"> & {
 	command: string;
 	context?: string;
-	components: APIMessageActionRowComponent[];
-}
+};
 
-export function actionRow(options: ActionRowOptions): APIActionRowComponent<APIActionRowComponentTypes> {
-	const { command, context, components } = options;
+export function actionRow(options: ActionRowOptions): APIActionRowComponent<APIMessageActionRowComponent> {
+	let { command, context, components } = options;
 
-	const transformedComponents = components.map((component) => {
-		// @ts-ignore - This is a custom id
-		component.custom_id = makeUniqueID(command, component.custom_id, context ?? "");
-
-		if (component.type === ComponentType.Button && component.style === ButtonStyle.Link) {
-			// @ts-ignore - This is a custom id
-			component.custom_id = undefined;
+	components = components.map((component) => {
+		if ("custom_id" in component && component.custom_id) {
+			component.custom_id = makeUniqueID(command, component.custom_id, context ?? "");
 		}
-
 		return component;
 	});
 
 	return {
 		type: ComponentType.ActionRow,
-		components: transformedComponents,
+		components,
 	};
 }

@@ -36,7 +36,7 @@ export const emptyField = {
  * Parses emoji info out of a string. The string must be one of:
  * * A UTF-8 emoji (no id)
  * * A URL-encoded UTF-8 emoji (no id)
- * * A Discord custom emoji (`<:name:id>` or `<a:name:id>`)
+ * * A Discord custom emoji (`<:name:id>`, `<a:name:id>`, or `<:_:id>`)
  * @param {string} text Emoji string to parse
  * @returns {?APIPartialEmoji}
  */
@@ -44,6 +44,6 @@ function parseEmoji(text: string): APIPartialEmoji | null {
 	let decodedText = text;
 	if (text.includes("%")) decodedText = decodeURIComponent(text);
 	if (!text.includes(":")) return { animated: false, name: decodedText, id: null };
-	const match = decodedText.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
-	return match && { animated: Boolean(match[1]), name: match[2], id: match[3] };
+	const match = decodedText.match(/<?(?:(a):)?(\w{0,32}):(\d{17,19})?>?/);
+	return match && { animated: Boolean(match[1]), name: match[2] || null, id: match[3] };
 }
