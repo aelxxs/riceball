@@ -21,7 +21,7 @@ const cdn = new CDN();
   </header>
   <section class="guilds grid margin-xl">
     {#each data.guilds as guild}
-      <div class="stack space-m">
+      <div class="stack space-s">
         <div class="guild">
           <div class="icon">
             <DiscordIcon
@@ -76,8 +76,8 @@ const cdn = new CDN();
 
   .guilds {
     --minimum: 30ch;
-    --gap: var(--space-xl);
-    margin-top: var(--space-l);
+    --gap: var(--space-l);
+    margin-top: var(--space-xl);
   }
 
   .guild {
@@ -87,7 +87,7 @@ const cdn = new CDN();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--clr-bg-accent);
+    background-color: var(--clr-bg);
     border-radius: var(--border-radius);
     padding: var(--space-xl);
     overflow: hidden;

@@ -1,6 +1,7 @@
 <script lang="ts">
 import { page } from "$app/state";
 import { layoutState } from "$lib/utility/context.svelte";
+import { BellIcon } from "lucide-svelte";
 import { DiscordUser } from "../discord-user";
 import { Divider } from "../divider";
 
@@ -9,13 +10,13 @@ const user = page.data.session?.user;
 
 <div class="header-wrapper" class:bg-solid={layoutState.sideBarOpen}>
   <header class="repel">
-    <div class="cluster space-xl">
+    <div class="cluster space-l">
       <a href="/" class="cluster">
         <img class="icon" src="/icon.svg" alt="riceball-icon" />
         <p class="fs:md fw:bold show:md">Rice Ball</p>
       </a>
       <div class="cluster space-l | show:md">
-        <!-- <Divider orientation="vertical" /> -->
+        <Divider orientation="vertical" />
         <nav class="cluster space-m">
           <a href="/"> Support </a>
           <a href="/commands"> Docs </a>
