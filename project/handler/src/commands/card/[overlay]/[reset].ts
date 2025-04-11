@@ -26,6 +26,6 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 **/
 	public chatInputRun({ guild, author }: Context) {
-		return runResetCommand("overlayAccentColor", { guildId: guild.id, userId: author.id });
+		return runResetCommand("overlayColor", { guildId: guild.id, userId: author.id });
 	}
 }
