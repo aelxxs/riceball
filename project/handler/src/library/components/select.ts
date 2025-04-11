@@ -4,6 +4,7 @@ import {
 	ChannelType,
 	ComponentType,
 } from "discord-api-types/v10";
+import type { Component } from "library/core";
 
 type SelectType =
 	| ComponentType.StringSelect
@@ -25,7 +26,7 @@ export function select(args: SelectMenuOptions): APISelectMenuComponent {
 
 interface SelectMenuOptions {
 	type?: SelectType;
-	method: ((...args: unknown[]) => unknown) | string;
+	method: Component | string;
 	options?: APIStringSelectComponent["options"];
 	placeholder: string;
 }
