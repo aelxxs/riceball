@@ -21,7 +21,7 @@ const cdn = new CDN();
   </header>
   <section class="guilds grid margin-xl">
     {#each data.guilds as guild}
-      <div class="stack space-m">
+      <div class="stack space-s">
         <div class="guild">
           <div class="icon">
             <DiscordIcon
@@ -41,7 +41,7 @@ const cdn = new CDN();
         </div>
 
         <div class="repel">
-          <div class="stack space-2xs">
+          <div>
             <h5 class="fw:600">{guild.name}</h5>
             <small>Admin</small>
           </div>
@@ -65,18 +65,19 @@ const cdn = new CDN();
 
 <style lang="scss">
   .wrap {
-    max-width: 60rem;
+    max-width: 62rem;
     margin: 0 auto;
     margin-top: var(--space-xl);
     display: flex;
     flex-direction: column;
     gap: var(--space-s);
+    padding-inline: var(--space-m);
   }
 
   .guilds {
     --minimum: 30ch;
     --gap: var(--space-l);
-    margin-top: var(--space-l);
+    margin-top: var(--space-xl);
   }
 
   .guild {
@@ -86,9 +87,9 @@ const cdn = new CDN();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--clr-bg-accent);
+    background-color: var(--clr-bg);
     border-radius: var(--border-radius);
-    padding: var(--space-2xl);
+    padding: var(--space-xl);
     overflow: hidden;
   }
 

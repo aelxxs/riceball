@@ -219,7 +219,7 @@ const handleMouseEnter = () => {
       <button
         type="button"
         class="emoji-picker-trigger"
-        style="padding-top: 0.15rem;"
+        style="padding-top: 0.25rem;"
         onclick={(e) => {
           console.log("click");
           e.preventDefault();

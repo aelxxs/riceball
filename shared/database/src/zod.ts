@@ -12,7 +12,7 @@ export const RestrictionTypeSchema = z.enum(["BLOCK_ALL", "ALLOW_ALL"]);
 
 export type RestrictionTypeType = `${z.infer<typeof RestrictionTypeSchema>}`;
 
-export const ReactionRoleTypeSchema = z.enum(["ADD", "REMOVE", "UNIQUE", "NORMAL"]);
+export const ReactionRoleTypeSchema = z.enum(["ADD", "REMOVE", "UNIQUE", "TOGGLE"]);
 
 export type ReactionRoleTypeType = `${z.infer<typeof ReactionRoleTypeSchema>}`;
 
@@ -109,19 +109,17 @@ export const GuildWithRelationsSchema: z.ZodType<GuildWithRelations> = GuildSche
 
 export const ReactionRoleSchema = z.object({
 	type: ReactionRoleTypeSchema,
-	// id: z.string(),
-	// guildId: z.string(),
-	// messageId: z.string(),
-	channelId: z.string().length(17, { message: "You must select a channel." }),
+	channelId: z.string(),
 	messageContent: z.string(),
-	alias: z.string(),
+	alias: z
+		.string()
+		.min(1, { message: "You must provide a name for the reaction role." })
+		.max(100, { message: "The reaction role name must be less than 50 characters." }),
 	enabled: z.boolean(),
 	messageEmbed: z.lazy(() => DiscordEmbedSchema).nullable(),
-	pairs: z
-		.lazy(() => ReactionRolePairSchema)
-		.array()
-		.min(1, { message: "You must provide at least one reaction role pair." })
-		.max(20, { message: "A message can have a maximum of 20 reaction role pairs." }),
+	pairs: z.lazy(() => ReactionRolePairSchema).array(),
+	// .min(1, { message: "You must provide at least one reaction role pair." })
+	// .max(20, { message: "A message can have a maximum of 20 reaction role pairs." }),
 });
 
 export type ReactionRole = z.infer<typeof ReactionRoleSchema>;
@@ -390,12 +388,12 @@ export type Restriction = z.infer<typeof RestrictionSchema>;
 /////////////////////////////////////////
 
 export const ReactionRolePairSchema = z.object({
-	emoji: z.string(),
+	emoji: z.string().min(1, { message: "You must provide an emoji." }),
 	roles: z
 		.string()
 		.array()
 		.min(1, { message: "You must provide at least one role." })
-		.max(20, { message: "A reaction can have a maximum of 20 roles." })
+		.max(5, { message: "A reaction can have a maximum of 20 roles." })
 		.nonempty(),
 });
 

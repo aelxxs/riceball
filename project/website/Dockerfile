@@ -17,7 +17,7 @@ FROM base AS builder
 
     RUN pnpm add -g turbo
     COPY . .
-    RUN turbo prune @riceball/website --docker
+    RUN turbo prune website --docker
 
 # ================= #
 #  Installer Stage  #

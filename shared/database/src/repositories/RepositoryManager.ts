@@ -15,7 +15,7 @@ export class RepositoryManager {
 	public readonly members: EntityRepository<Member>;
 
 	public constructor(@inject(Deps.EntityManager) em: EntityManager) {
-		this.em = em;
+		this.em = em.fork();
 
 		this.guilds = this.em.getRepository(Guild);
 		this.users = this.em.getRepository(User);

@@ -1,23 +1,19 @@
 <script lang="ts">
-// - Icons
-import HashIcon from "lucide-svelte/icons/hash";
-
 import {
 	DashboardCard,
 	DashboardCardSideBySide,
 } from "$lib/blocks/dashboard-card";
-import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator/index.js";
-import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
+import { EmojiPicker } from "$lib/blocks/emoji-picker";
 import { Input } from "$lib/blocks/input";
-import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
+import { Restrictions } from "$lib/blocks/restrictions";
 import { Select } from "$lib/blocks/select";
 import { Switch } from "$lib/blocks/switch";
-import { getSaveModal } from "$lib/utility/context.svelte.js";
+import { getSaveModal } from "$lib/utility/context.svelte";
 import { StarsSchema } from "@riceball/db/zod";
-import { ChannelType } from "discord-api-types/v10";
 import { Control, Field, FieldErrors, Label } from "formsnap";
+import HashIcon from "lucide-svelte/icons/hash";
 import { toast } from "svelte-sonner";
-import SuperDebug, { superForm } from "sveltekit-superforms";
+import { superForm } from "sveltekit-superforms";
 import { zodClient } from "sveltekit-superforms/adapters";
 
 const { data } = $props();
@@ -66,11 +62,7 @@ $effect(() => {
 		modal.hideModal();
 	}
 });
-
-const embed = $state({});
 </script>
-
-<SuperDebug data={$formData} />
 
 <form method="POST" action="?/save" use:enhance class="stack">
   <DashboardCardSideBySide
@@ -94,15 +86,15 @@ const embed = $state({});
                   showSelected
                   guild={data.guild}
                   bind:value={$formData.emoji}
+                  {...props}
                 />
-                <div class="stack gap:-2">
+                <div class="stack space-3xs">
                   <p class="fw:bold txt:bold">Select Emoji</p>
                   <p>You may use custom emojis from your server.</p>
                 </div>
               </div>
             {/snippet}
           </Control>
-          <!-- <FieldErrors /> -->
         </Field>
       </div>
     {/snippet}
@@ -165,7 +157,7 @@ const embed = $state({});
         </Control>
         <FieldErrors />
       </Field>
-      {#if $formData.selfStarEnabled}
+      {#if !$formData.selfStarEnabled}
         <Field {form} name="selfStarWarning">
           <Control>
             {#snippet children({ props })}
@@ -180,13 +172,6 @@ const embed = $state({});
         </Field>
       {/if}
     </div>
-  </DashboardCard>
-
-  <DashboardCard
-    title="Starboard Message"
-    description="Customize the embed message that will be sent to the starboard channel."
-  >
-    <DiscordMessageCreator client={data.client} guild={data.guild} withEmbed />
   </DashboardCard>
 
   <Restrictions

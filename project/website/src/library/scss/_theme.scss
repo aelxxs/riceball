@@ -8,15 +8,17 @@
   color-scheme: dark;
 
   --theme-hue: 225deg;
-  --theme-saturation: 25%;
-  --theme-saturation-high: calc(var(--theme-saturation) * 3);
-  --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 60%);
+  --theme-saturation: 18%;
+  --theme-saturation-high: calc(var(--theme-saturation) * 3.25);
+
+  --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 57%);
   --clr-theme-2-translucent: hsl(
     var(--theme-hue),
     var(--theme-saturation-high),
     60%,
     0.25
   );
+
   --clr-theme-error: hsl(0, var(--theme-saturation-high), 60%);
   --clr-theme-error-transparent: hsl(
     0,
@@ -26,16 +28,25 @@
   );
   --clr-theme-error: rgb(255 107 134 / 0.75);
   --clr-theme-error-transparent: rgb(255 107 134 / 0.25);
-  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 8%);
+
+  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 12%);
   --clr-bg-translucent: hsl(
     var(--theme-hue),
     var(--theme-saturation),
-    8%,
+    10%,
     0.75
   );
-  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 14%);
+
+  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 8%);
+  --clr-bg-accent-secondary: hsl(
+    var(--theme-hue),
+    var(--theme-saturation),
+    19%
+  );
+
   --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.3);
-  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 14%);
+
+  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 13.5%);
   --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 30%, 1);
   --clr-bg-input-hover: hsl(
     var(--theme-hue),
@@ -43,18 +54,14 @@
     20%,
     0.75
   );
-  --clr-bg-input-active: hsl(
-    var(--theme-hue),
-    var(--theme-saturation),
-    18%,
-    0.75
-  );
-  --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 25%, 0.5);
+  --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 20%);
+  --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 25%, 0.55);
   --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 25%);
   --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 30%);
   --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 65%);
   --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 75%;
   --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 15%);
+
   --txt-bold: hsl(var(--theme-hue), var(--theme-saturation), 90%);
   --txt-main: hsl(var(--theme-hue), var(--theme-saturation), 70%);
   --txt-themed: hsl(
@@ -65,11 +72,83 @@
   --txt-muted: hsl(var(--theme-hue), var(--theme-saturation), 70%, 0.85);
 
   // layout
-  --header-height: clamp(3.75rem, 10vw, 4.25rem);
-  --header-height-lg: clamp(3.75rem, 10vw, 4.75rem);
+  --header-height: clamp(3.75rem, 10vw, 4rem);
+  --header-height-lg: clamp(3.75rem, 10vw, 3.85rem);
 }
 
-// light mode
+// :root:not([dark]) {
+//   color-scheme: dark;
+
+//   --theme-hue: 220deg;
+//   --theme-saturation: 29%;
+//   --theme-saturation-high: calc(var(--theme-saturation) * 2.5);
+
+//   --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 65%);
+//   --clr-theme-2-translucent: hsl(
+//     var(--theme-hue),
+//     var(--theme-saturation-high),
+//     50%,
+//     0.25
+//   );
+
+//   --clr-theme-error: hsl(0, var(--theme-saturation-high), 60%);
+//   --clr-theme-error-transparent: hsl(
+//     0,
+//     var(--theme-saturation-high),
+//     60%,
+//     0.45
+//   );
+
+//   --clr-theme-error: rgb(255 107 134 / 0.75);
+//   --clr-theme-error-transparent: rgb(255 107 134 / 0.25);
+
+//   --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 97%);
+//   --clr-bg-translucent: hsl(
+//     var(--theme-hue),
+//     var(--theme-saturation),
+//     90%,
+//     0.75
+//   );
+
+//   --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 100%);
+//   --clr-bg-accent-secondary: hsl(
+//     var(--theme-hue),
+//     var(--theme-saturation),
+//     94%
+//   );
+
+//   --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.3);
+
+//   --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 97%);
+//   --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 30%, 1);
+//   --clr-bg-input-hover: hsl(
+//     var(--theme-hue),
+//     var(--theme-saturation),
+//     20%,
+//     0.75
+//   );
+//   --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 85%);
+
+//   --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 85%, 0.75);
+//   --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 25%);
+//   --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 30%);
+//   --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 65%);
+//   --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 75%;
+//   --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 15%);
+
+//   --txt-bold: hsl(var(--theme-hue), var(--theme-saturation), 10%);
+//   --txt-main: hsl(var(--theme-hue), var(--theme-saturation), 15%);
+//   --txt-themed: hsl(
+//     var(--theme-hue),
+//     calc(var(--theme-saturation-high) - 10%),
+//     27%
+//   );
+//   --txt-muted: hsl(var(--theme-hue), var(--theme-saturation), 15%, 0.85);
+
+//   // layout
+//   --header-height: clamp(3.75rem, 10vw, 4rem);
+//   --header-height-lg: clamp(3.75rem, 10vw, 3.85rem);
+// }
 
 body {
   background-color: var(--clr-bg);
@@ -78,7 +157,7 @@ body {
 
 em-emoji-picker {
   $theme-hue: 225deg;
-  $theme-saturation: 25%;
+  $theme-saturation: 18%;
   $theme-saturation-high: calc($theme-saturation * 3);
   $theme-lightness: 10%;
 
@@ -103,16 +182,18 @@ em-emoji-picker {
 
   --color-border: var(--clr-bg-border);
   --color-border-over: var(--clr-theme-2);
-  --rgb-accent:
-    #{color.channel($theme-2-rgb, "red", $space: rgb)}, #{color.channel($theme-2-rgb, "green", $space: rgb)},
+  --rgb-accent: #{color.channel($theme-2-rgb, "red", $space: rgb)},
+    #{color.channel($theme-2-rgb, "green", $space: rgb)},
     #{color.channel($theme-2-rgb, "blue", $space: rgb)};
-  --rgb-background:
-    #{color.channel($input, "red", $space: rgb)}, #{color.channel($input, "green", $space: rgb)}, #{color.channel($input, "blue", $space: rgb)};
-  --rgb-color:
-    #{color.channel($text-main, "red", $space: rgb)}, #{color.channel($text-main, "green", $space: rgb)},
+  --rgb-background: #{color.channel($input, "red", $space: rgb)},
+    #{color.channel($input, "green", $space: rgb)},
+    #{color.channel($input, "blue", $space: rgb)};
+  --rgb-color: #{color.channel($text-main, "red", $space: rgb)},
+    #{color.channel($text-main, "green", $space: rgb)},
     #{color.channel($text-main, "blue", $space: rgb)};
-  --rgb-input:
-    #{color.channel($input, "red", $space: rgb)}, #{color.channel($input, "green", $space: rgb)}, #{color.channel($input, "blue", $space: rgb)};
+  --rgb-input: #{color.channel($input, "red", $space: rgb)},
+    #{color.channel($input, "green", $space: rgb)},
+    #{color.channel($input, "blue", $space: rgb)};
   --shadow: 0 0 10px 1px var(--clr-shadow);
 
   height: 50vh;
@@ -164,7 +245,10 @@ em-emoji-picker {
 }
 
 .super-debug {
-  --_sd-bg-color: var(--sd-bg-color, var(--sd-vscode-bg-color, rgb(30, 41, 59)));
+  --_sd-bg-color: var(
+    --sd-bg-color,
+    var(--sd-vscode-bg-color, rgb(30, 41, 59))
+  );
   position: relative;
   background-color: transparent !important;
   border-radius: var(--radius-m) !important;
@@ -174,5 +258,5 @@ em-emoji-picker {
 }
 
 .super-debug pre {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }

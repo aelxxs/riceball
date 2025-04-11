@@ -1,5 +1,4 @@
 <script lang="ts">
-import { page } from "$app/state";
 import ColorPicker from "$lib/blocks/color-picker/color-picker.svelte";
 import { DashboardCard } from "$lib/blocks/dashboard-card";
 import ImageUpload from "$lib/blocks/embed-creator/blocks/image-upload.svelte";
@@ -13,26 +12,22 @@ import { getSaveModal, shake } from "$lib/utility/context.svelte.js";
 import {
 	type HEXColorString,
 	composeLevelCard,
-	formatContrastRatio,
 	generateEnhancedPalettes,
-	getContrastRatio,
 	getHSLAOpacity,
 	hexToHsla,
 	hslaToObj,
-	hslaToRgba,
 	hslaToStr,
 	isLight,
 	rgbaArrayToHex,
 	setHSLAOpacity,
 } from "@riceball/colorify";
-import { LevelsWithRelationsSchema } from "@riceball/db/zod";
 import { ToggleGroup } from "bits-ui";
 import ColorThief from "colorthief";
 import { onMount } from "svelte";
 import { toast } from "svelte-sonner";
 import SuperDebug, { fileProxy, superForm } from "sveltekit-superforms";
-import { zodClient } from "sveltekit-superforms/adapters";
-import { LevelUpRewards, LevelingUp, TextLeveling } from "./sections";
+import { LevelingUp, TextLeveling } from "./sections/index.js";
+import LevelUpRewards from "./sections/level-up-rewards.svelte";
 
 const { data } = $props();
 
@@ -132,12 +127,12 @@ onMount(() => {
 	}
 });
 
-const rankCardWrapperImage = fileProxy(form, "rankCardWrapperImage");
+const rankCardWrapperImage = fileProxy(form, "rankCard.wrapperImage");
 
 const multipliers = [0.25, 0.5, 1, 1.5, 2];
 </script>
 
-<SuperDebug data={$form} />
+<!-- <SuperDebug data={$form} /> -->
 
 <form class="stack" method="POST" action="?/save" use:enhance>
   <!-- Leveling Up -->
@@ -311,12 +306,12 @@ const multipliers = [0.25, 0.5, 1, 1.5, 2];
               </Control>
             </Field>
             <div class="stack">
-              <Field form={settingsForm} name="rankCardWrapperImage">
+              <Field form={settingsForm} name="rankCard.wrapperImage">
                 <Control label="Background Image">
                   {#snippet children({ props })}
                     <ImageUpload
                       {...props}
-                      bind:url={$rankCardWrapperImage}
+                      bind:url={$form.rankCard.wrapperImage}
                       onNewImage={handleImageUpload}
                     />
                   {/snippet}

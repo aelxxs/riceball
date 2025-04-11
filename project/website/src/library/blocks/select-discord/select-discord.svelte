@@ -47,6 +47,7 @@ let {
 	closeAfterSelect = false,
 	left,
 	right,
+	...restProps
 }: Props = $props();
 
 const icon =
@@ -194,6 +195,7 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
             return;
           }
         }}
+        {...restProps}
       >
         {#if left}
           <div class="custom-entry" style="display: flex;">
@@ -241,7 +243,7 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
               {#snippet child({ props })}
                 <input
                   {...props}
-                  size={8}
+                  size="10"
                   use:focusInput={isOpen}
                   value={internalInputValue}
                   oninput={handleInput}
@@ -305,7 +307,7 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
                       >
                         {#snippet child({ props, selected })}
                           <div {...props}>
-                            <div class="cluster gap:-2">
+                            <div class="cluster space-xs">
                               <Checkbox
                                 checked={selected}
                                 outlined
@@ -336,22 +338,26 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
                     >
                       {#snippet child({ props, selected })}
                         <div {...props} class="combobox-item repel">
-                          <div class="cluster gap:-2">
+                          <div class="cluster space-s">
                             <Checkbox
                               checked={selected}
                               outlined
                               style="pointer-events: none"
                             />
-                            {#if true}
-                              {#if item.icon}
-                                {@const ItemIcon = item.icon}
-                                <ItemIcon size={16} />
-                              {:else}
-                                {@const ItemIcon = icon}
-                                <ItemIcon size={16} />
-                              {/if}
-                            {/if}
-                            {item.label}
+                            <div>
+                              <div class="cluster space-xs">
+                                {#if true}
+                                  {#if item.icon}
+                                    {@const ItemIcon = item.icon}
+                                    <ItemIcon size={16} />
+                                  {:else}
+                                    {@const ItemIcon = icon}
+                                    <ItemIcon size={16} />
+                                  {/if}
+                                {/if}
+                                {item.label}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       {/snippet}
@@ -374,7 +380,7 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
     --align: flex-start;
     cursor: pointer;
     position: relative;
-    padding: var(--space-xs) var(--space-xs);
+    padding: var(--space-2xs) var(--space-2xs);
     border: 2px solid transparent;
     border-radius: var(--border-radius);
     background-color: var(--clr-bg-input);

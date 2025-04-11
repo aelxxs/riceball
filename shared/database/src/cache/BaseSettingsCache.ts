@@ -5,7 +5,6 @@ import { RedisCache } from "./RedisCache.js";
 
 export abstract class BaseSettingsCache<T extends AnyEntity> extends RedisCache<T> {
 	private readonly queue: Map<string, Promise<T>> = new Map();
-
 	constructor(protected readonly redis: Redis) {
 		super(redis);
 	}

@@ -23,14 +23,11 @@ if (process.env.NODE_ENV === "production" && existsSync("./temp/metadata.json"))
 export default defineConfig({
 	strict: true,
 	entities: [...entities],
-	// entitiesTs: ["src/**/*.entity.ts"],
 	discovery: {
 		disableDynamicFileAccess: true,
 	},
 	dbName: process.env.PRODUCTION ? "production" : "development",
 	clientUrl: process.env.DATABASE_URL,
 	metadataProvider: TsMorphMetadataProvider,
-	allowGlobalContext: true,
-	// debug: true,
 	...options,
 });

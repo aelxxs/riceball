@@ -25,7 +25,6 @@
 			"cache": false,
 			"persistent": true,
 			"dependsOn": [
-				"^build",
 				"@riceball/docker#compose"
 			]
 		}

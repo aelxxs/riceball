@@ -10,7 +10,6 @@ import {
 } from "$lib/utility/context.svelte";
 import type { Snippet } from "svelte";
 import { Toaster } from "svelte-sonner";
-import { slide } from "svelte/transition";
 import { Header, Sidebar, UnsavedChanges } from "./components";
 
 type Props = {
@@ -42,7 +41,7 @@ let plugin = $state(getCurrentPlugin());
 $effect(() => {
 	plugin = getCurrentPlugin();
 	layoutState.sideBarOpen = false;
-	document.body.style.overflow = "auto";
+	document.body.style.overflow = "clip";
 });
 
 let previousScrollY = layoutState.scrollY;
@@ -52,7 +51,7 @@ const toggleOpen = () => {
 	if (layoutState.sideBarOpen) {
 		document.body.style.overflow = "hidden";
 	} else {
-		document.body.style.overflow = "auto";
+		document.body.style.overflow = "clip";
 	}
 
 	if (layoutState.sideBarOpen && layoutState.scrollY > 0) {
@@ -71,7 +70,7 @@ const toggleOpen = () => {
   onresize={() => {
     if (window.innerWidth > 675) {
       layoutState.sideBarOpen = false;
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "clip";
     }
   }}
   bind:scrollY={layoutState.scrollY}
@@ -90,10 +89,8 @@ const toggleOpen = () => {
   <div id="content">
     <Header {plugin} {toggleOpen} />
     {#key page.url.pathname}
-      <div class="grid-test" class:shake={shake.shake}>
-        <div id="dashboard" transition:slide={{ duration: 250 }}>
-          {@render children()}
-        </div>
+      <div id="dashboard" class:shake={shake.shake}>
+        {@render children()}
       </div>
     {/key}
     {#if saveModal.show && !saveModal.submitting}
@@ -103,12 +100,6 @@ const toggleOpen = () => {
 </div>
 
 <style>
-  .grid-test {
-    display: grid;
-    grid-template-rows: 1fr;
-    gap: var(--gutter, 1rem);
-  }
-
   @keyframes shake {
     0% {
       transform: translate(1px, 1px) rotate(0deg);
@@ -151,11 +142,10 @@ const toggleOpen = () => {
 
   .with-sidebar {
     display: flex;
-    gap: var(--gutter, var(--space-s));
   }
 
   .with-sidebar > :first-child {
-    flex-basis: 18rem;
+    flex-basis: 19rem;
     flex-shrink: 0;
   }
 
@@ -164,25 +154,24 @@ const toggleOpen = () => {
     min-inline-size: 60%;
   }
 
-  #content {
-    padding-bottom: 1.25rem;
-    position: relative;
-    /* padding-inline: var(--space-s); */
-  }
-
   #dashboard {
-    position: relative;
-    padding-inline: var(--space-s);
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    height: calc(100vh - var(--header-height) - var(--header-height-lg));
+    padding: var(--space-m);
+    padding-inline: var(--space-m);
   }
 
   #sidebar {
+    resize: horizontal;
     z-index: 1;
     position: sticky;
     top: var(--header-height);
     height: calc(100vh - var(--header-height));
     transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    /* background-color: var(--clr-bg-accent); */
-    /* padding-inline: var(--space-m); */
+    background-color: var(--clr-bg);
+    border-right: 1px solid var(--clr-bg-border);
   }
 
   @media (max-width: 875px) {
@@ -197,20 +186,11 @@ const toggleOpen = () => {
       transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
       padding: var(--space-m);
       left: -100%;
-      border-top: 1px solid var(--clr-bg-border);
     }
 
     #sidebar.open {
       left: 0;
       overflow-y: auto;
-    }
-
-    #content {
-      width: 100%;
-    }
-
-    #dashboard {
-      padding-inline: 0;
     }
   }
 </style>
