@@ -145,7 +145,7 @@ const toggleOpen = () => {
   }
 
   .with-sidebar > :first-child {
-    flex-basis: 20rem;
+    flex-basis: 19rem;
     flex-shrink: 0;
   }
 
@@ -159,8 +159,8 @@ const toggleOpen = () => {
     height: 100%;
     overflow-y: scroll;
     height: calc(100vh - var(--header-height) - var(--header-height-lg));
-    padding: var(--space-l);
-    padding-inline: var(--space-l);
+    padding: var(--space-m);
+    padding-inline: var(--space-m);
   }
 
   #sidebar {

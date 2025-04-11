@@ -149,18 +149,13 @@ let open = $state(false);
     font-weight: var(--font-weight-normal);
     line-height: var(--line-height-body);
     letter-spacing: var(--letter-spacing-normal);
-    /* border: 2px solid transparent; */
-    /* border-radius: var(--border-radius); */
     color: var(--txt-main);
     transition-property: border-color, box-shadow;
     transition-duration: var(--input-transition-duration);
     transition-timing-function: var(--input-transition-timing-function);
     border-bottom: 1px solid var(--clr-bg-border);
     background-color: var(--clr-bg);
-    /* border: 1px solid var(--clr-bg-border); */
     padding-inline: var(--space-m);
-    /* margin-bottom: 1rem; */
-    /* border-top-right-radius: 1rem; */
     z-index: 1;
   }
 
@@ -169,8 +164,6 @@ let open = $state(false);
     --bg: var(--clr-bg-accent);
     --padding: var(--space-xs);
     width: calc(var(--bits-select-anchor-width));
-    /* border-bottom-left-radius: var(--border-radius) !important; */
-    /* border-bottom-right-radius: var(--border-radius) !important; */
     border-bottom: 1px solid var(--clr-bg-border);
     z-index: 1;
   }
@@ -194,6 +187,8 @@ let open = $state(false);
 
   small {
     text-transform: uppercase;
+    letter-spacing: 0.075em;
+    color: var(--txt-muted) !important;
   }
 
   .item {
@@ -201,7 +196,7 @@ let open = $state(false);
     align-items: center;
     justify-content: space-between;
     padding: var(--space-xs) var(--space-s);
-    border-radius: var(--border-radius);
+    border-radius: 0.35rem;
     transition: background-color 0.2s;
   }
 
@@ -223,7 +218,7 @@ let open = $state(false);
     transition: all 0.2s;
 
     &:hover {
-      /* transform: scale(1.005); */
+      color: var(--txt-bold);
       background-color: var(--clr-bg-input-active);
     }
 
