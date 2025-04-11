@@ -146,7 +146,7 @@ export async function getMessage(channel: Snowflake, message: Snowflake) {
 export function getGuildIcon(guild: APIGuild) {
 	if (!guild.icon) return undefined;
 
-	return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`;
+	return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=512`;
 }
 
 export function getUserAvatar(user: APIUser) {
