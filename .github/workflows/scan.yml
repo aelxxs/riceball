@@ -6,6 +6,11 @@ on:
       - main
   pull_request:
 
+
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   CodeQL:
     runs-on: ubuntu-latest
