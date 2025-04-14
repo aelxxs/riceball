@@ -1,11 +1,7 @@
 {
-	"conventionalCommits.scopes": ["core"],
 	"search.exclude": {
-		"**/.yarn": true,
 		"**/.pnp.*": true
 	},
-	"eslint.nodePath": ".yarn/sdks",
-	"prettier.prettierPath": "",
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"typescript.enablePromptUseWorkspaceTsdk": true
 }
