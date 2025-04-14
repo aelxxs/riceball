@@ -172,8 +172,8 @@ importers:
         specifier: ^2.11.5
         version: 2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)
       '@twemoji/api':
-        specifier: ^15.1.0
-        version: 15.1.0
+        specifier: ^16.0.0
+        version: 16.0.1
       bits-ui:
         specifier: ^1.3.4
         version: 1.3.15(svelte@5.26.2)
@@ -1758,11 +1758,11 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
-  '@twemoji/api@15.1.0':
-    resolution: {integrity: sha512-CySXR4/e6vY0z9lC2tW9EVjsH6zzz2/LQvLRMwwpHsDI4xcaweSIP+LcESf1Mq7w2/zcrrhG4ozniMvpSsEXag==}
+  '@twemoji/api@16.0.1':
+    resolution: {integrity: sha512-qe7QHeJKVLGNciwAMbu1S872PX5bt1RY0+0xqvN7gNQ+zd3MyRJ5n7dZowEJWYRAgTN5bAUGshD1YAmkFkyAkA==}
 
-  '@twemoji/parser@15.1.0':
-    resolution: {integrity: sha512-3HTiSxPvkWUJ4kZeCvwyKlIwkpTUfBOk6igpBBRQni58ceQMv5YK4smkc8vX/eqOlMMNER/9qobv+Q6Q8LVrqA==}
+  '@twemoji/parser@16.0.0':
+    resolution: {integrity: sha512-jmuIjkp3OIaEemwMy3sArBwZSuZkRqmueGwRe2Zk4cFzbUJISFBJSZLDUUBNIgq3c+nY49ideYN2OiII6JUqwA==}
 
   '@types/argparse@1.0.38':
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
@@ -5095,14 +5095,14 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@twemoji/api@15.1.0':
+  '@twemoji/api@16.0.1':
     dependencies:
-      '@twemoji/parser': 15.1.0
+      '@twemoji/parser': 16.0.0
       fs-extra: 8.1.0
       jsonfile: 5.0.0
       universalify: 0.1.2
 
-  '@twemoji/parser@15.1.0': {}
+  '@twemoji/parser@16.0.0': {}
 
   '@types/argparse@1.0.38': {}
 
