@@ -16,7 +16,7 @@ export class UserSettingsCache extends BaseSettingsCache<User> {
 	}
 
 	protected async load(key: string): Promise<User> {
-		let user = await this.db.users.findOne({ id: key });
+		let user = await this.db.users.findOne({ id: key }, { populate: ["cardPresets"] });
 
 		if (!user) {
 			user = this.db.users.create({ id: key });
