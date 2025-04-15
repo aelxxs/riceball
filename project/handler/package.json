@@ -9,7 +9,8 @@
 		"check-types": "tsc --noEmit",
 		"start": "node --enable-source-maps dist/index.js",
 		"start:dep": "tsx ./bin/dep-cmds.ts",
-		"start:gen": "tsx ./bin/gen-cmds.ts"
+		"start:gen": "tsx ./bin/gen-cmds.ts",
+		"prestart": "pnpm start:dep"
 	},
 	"dependencies": {
 		"@discordjs/core": "^2.0.0",
