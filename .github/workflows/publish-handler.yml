@@ -44,7 +44,14 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.HANDLER_IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.HANDLER_IMAGE_NAME }}:${{ github.sha }}
 
-      - name: Trigger Deployment
+  deploy-handler:
+    name: Deploy Handler
+    runs-on: ubuntu-latest
+
+    needs: publish-handler-image
+
+    steps:
+      - name: Trigger Deployment via API
         run: |
           set -e
           curl -X POST "${{ secrets.DEPLOYMENT_URL }}"    \

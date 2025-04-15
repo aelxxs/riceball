@@ -44,7 +44,14 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.WEBSITE_IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.WEBSITE_IMAGE_NAME }}:${{ github.sha }}
 
-      - name: Trigger Deployment
+  deploy-website:
+    name: Deploy Website
+    runs-on: ubuntu-latest
+
+    needs: publish-website-image
+
+    steps:
+      - name: Trigger Deployment via API
         run: |
           set -e
           curl -X POST "${{ secrets.DEPLOYMENT_URL }}"    \
