@@ -411,6 +411,20 @@ export default {
 						},
 					],
 				},
+				{
+					name: "preview",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Preview a saved preset design",
+					options: [
+						{
+							name: "name",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the name of the preset to preview",
+							required: true,
+							autocomplete: true,
+						},
+					],
+				},
 			],
 		},
 	],
