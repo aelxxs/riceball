@@ -50,6 +50,10 @@ jobs:
 
     needs: publish-handler-image
 
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Trigger Deployment via API
         run: |
