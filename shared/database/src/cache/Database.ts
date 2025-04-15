@@ -1,3 +1,4 @@
+import type { EntityManager } from "@mikro-orm/mongodb";
 import { inject, injectable } from "tsyringe";
 import type { Guild } from "../entities/Guild.entity.js";
 import type { Member } from "../entities/Member.entity.js";
@@ -11,13 +12,16 @@ import type { SettingsCacheManager } from "./SettingsCacheManager.js";
 export class Database {
 	private readonly cache: SettingsCacheManager;
 	public readonly rm: RepositoryManager;
+	public readonly em: EntityManager;
 
 	public constructor(
 		@inject(Deps.Cache) cache: SettingsCacheManager,
 		@inject(Deps.RepositoryManager) rm: RepositoryManager,
+		@inject(Deps.EntityManager) em: EntityManager,
 	) {
 		this.rm = rm;
 		this.cache = cache;
+		this.em = em.fork();
 	}
 
 	public getGuildSettings(key: string): Promise<Guild> {
