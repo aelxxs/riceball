@@ -85,6 +85,8 @@ export const ErrorMessages = {
 	CommandRunFailure: (name: string) => `Error while running command: ${name}`,
 	ErrorDeferringCommand: (name: string) => `Error while deferring command: ${name}`,
 	CommandChatInputRunNotDefined: (name: string) => `Command "${name}" does not define "chatInputRun"`,
+	AutocompleteRunNotDefined: (name: string) => `Command "${name}" does not define "autocompleteRun"`,
+	AutocompleteRunFailure: (name: string) => `Error while running autocomplete: ${name}`,
 };
 
 export const DebugMessages = {
