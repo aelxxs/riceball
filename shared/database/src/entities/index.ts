@@ -1,4 +1,5 @@
 import { Card, HSLAColor } from "./Card.entity.js";
+import { CardPreset } from "./CardPreset.entity.js";
 import {
 	DiscordEmbed,
 	DiscordEmbedAuthor,
@@ -20,6 +21,7 @@ import { User } from "./User.entity.js";
 
 export const entities = [
 	Card,
+	CardPreset,
 	HSLAColor,
 	Guild,
 	DiscordEmbed,
@@ -49,6 +51,7 @@ export const entities = [
 ];
 
 export * from "./Card.entity.js";
+export * from "./CardPreset.entity.js";
 export * from "./DiscordEmbed.entity.js";
 export * from "./Economy.entity.js";
 export * from "./Guild.entity.js";
