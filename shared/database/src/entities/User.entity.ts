@@ -1,16 +1,6 @@
-import {
-	Embedded,
-	Entity,
-	ManyToOne,
-	OneToMany,
-	type Opt,
-	PrimaryKey,
-	Property,
-	SerializedPrimaryKey,
-	Unique,
-} from "@mikro-orm/core";
+import { Entity, OneToMany, type Opt, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
 import type { ObjectId } from "@mikro-orm/mongodb";
-import { Card } from "./Card.entity";
+import { CardPreset } from "./CardPreset.entity";
 
 @Entity()
 export class User {
@@ -41,41 +31,6 @@ export class User {
 	@Property()
 	lastReputation: number & Opt = 0;
 
-	@OneToMany(
-		() => CardPreset,
-		(preset) => preset.user,
-		{ nullable: true },
-	)
+	@OneToMany(() => CardPreset, (preset) => preset.user, { nullable: true })
 	cardPresets: CardPreset[] & Opt = [];
-}
-
-@Entity()
-@Unique({ properties: ["user.id", "name"], name: "cardPreset" })
-export class CardPreset {
-	@PrimaryKey()
-	_id!: ObjectId;
-
-	@SerializedPrimaryKey()
-	id!: string;
-
-	@ManyToOne(() => User, { fieldName: "userId" })
-	user!: User;
-
-	@Property()
-	name!: string;
-
-	@Property({ nullable: true })
-	description?: string;
-
-	@Property({ nullable: true })
-	public: boolean & Opt = false;
-
-	@Embedded(() => Card, { object: true })
-	card: Card & Opt = new Card();
-
-	@Property()
-	createdAt: Date & Opt = new Date();
-
-	@Property({ onUpdate: () => new Date() })
-	updatedAt: Date & Opt = new Date();
 }
