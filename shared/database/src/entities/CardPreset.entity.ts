@@ -9,8 +9,8 @@ import {
 	Unique,
 } from "@mikro-orm/core";
 import type { ObjectId } from "@mikro-orm/mongodb";
-import { Card } from "./Card.entity";
-import { User } from "./User.entity";
+import { Card } from "./Card.entity.js";
+import { User } from "./User.entity.js";
 
 @Entity()
 @Unique({ properties: ["user.id", "name"], name: "cardPreset" })
