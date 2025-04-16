@@ -350,5 +350,82 @@ export default {
 				},
 			],
 		},
+		{
+			name: "presets",
+			type: ApplicationCommandOptionType.Subcommand,
+			description: "View and apply preset designs for your leveling card",
+		},
+		{
+			name: "preset",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Manage preset designs for your leveling card",
+			options: [
+				{
+					name: "save",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Save your current card design as a preset",
+					options: [
+						{
+							name: "name",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide a name for your preset",
+							required: true,
+						},
+						{
+							name: "description",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide a description for your preset",
+						},
+						{
+							name: "public",
+							type: ApplicationCommandOptionType.Boolean,
+							description: "Make the preset public for others to use (default: false)",
+						},
+					],
+				},
+				{
+					name: "delete",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Delete a saved preset design",
+					options: [
+						{
+							name: "name",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the name of the preset to delete",
+							required: true,
+							autocomplete: true,
+						},
+					],
+				},
+				{
+					name: "use",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Apply a saved preset design to your card",
+					options: [
+						{
+							name: "name",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the name of the preset to apply",
+							required: true,
+							autocomplete: true,
+						},
+					],
+				},
+				{
+					name: "preview",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Preview a saved preset design",
+					options: [
+						{
+							name: "name",
+							type: ApplicationCommandOptionType.String,
+							description: "Provide the name of the preset to preview",
+							required: true,
+							autocomplete: true,
+						},
+					],
+				},
+			],
+		},
 	],
 } as APIApplicationCommand;

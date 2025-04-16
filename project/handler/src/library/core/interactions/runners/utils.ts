@@ -1,4 +1,5 @@
 import {
+	type APIApplicationCommandAutocompleteInteraction,
 	type APIApplicationCommandInteraction,
 	type APIApplicationCommandInteractionDataBasicOption,
 	type APIApplicationCommandInteractionDataMentionableOption,
@@ -19,7 +20,9 @@ import {
  * @param interaction - The interaction object containing command data.
  * @returns The command name, optionally including the subcommand name if it exists.
  */
-export function getCommandName(interaction: APIApplicationCommandInteraction) {
+export function getCommandName(
+	interaction: APIApplicationCommandInteraction | APIApplicationCommandAutocompleteInteraction,
+) {
 	const command = interaction.data.name;
 
 	let subCommand = null;
@@ -58,7 +61,9 @@ function getSubCommand(options: APIApplicationCommandInteractionDataOption[]) {
 // eslint-disable-next-line @typescript-eslint/ban-types
 type NonNullObject = {} & object;
 
-export function transformInteraction({ data }: APIChatInputApplicationCommandInteraction) {
+export function transformInteraction({
+	data,
+}: APIChatInputApplicationCommandInteraction | APIApplicationCommandAutocompleteInteraction) {
 	return transformArguments(data.resolved ?? {}, extractOptions(data.options ?? []));
 }
 

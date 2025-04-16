@@ -29,9 +29,6 @@ export class Member {
 	@Embedded(() => Card, { object: true })
 	card: Card & Opt = new Card();
 
-	@Embedded(() => Card, { object: true, array: true })
-	cardPresets: Card[] & Opt = [];
-
 	@Embedded(() => Badge, { object: true, array: true })
 	badges: Badge[] & Opt = [];
 

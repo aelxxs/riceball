@@ -1,5 +1,6 @@
-import { Entity, type Opt, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
+import { Entity, OneToMany, type Opt, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
 import type { ObjectId } from "@mikro-orm/mongodb";
+import { CardPreset } from "./CardPreset.entity.js";
 
 @Entity()
 export class User {
@@ -29,4 +30,11 @@ export class User {
 
 	@Property()
 	lastReputation: number & Opt = 0;
+
+	@OneToMany(
+		() => CardPreset,
+		(preset) => preset.user,
+		{ nullable: true },
+	)
+	cardPresets: CardPreset[] & Opt = [];
 }

@@ -1,11 +1,11 @@
-import type { REST } from "@discordjs/rest";
 import { logger } from "@riceball/logger";
+import type Client from "@spectacles/proxy";
 import {
 	type APIApplicationCommandAutocompleteInteraction,
 	InteractionResponseType,
 	Routes,
 } from "discord-api-types/v10";
-import { Deps } from "library/common";
+import { Deps, ErrorMessages } from "library/common";
 import type { Command } from "library/core";
 import { container } from "tsyringe";
 import { createContext } from "./create-context";
@@ -13,41 +13,37 @@ import { getCommandName, transformInteraction } from "./utils";
 
 export async function runAutocomplete(interaction: APIApplicationCommandAutocompleteInteraction) {
 	const plugins = container.resolve<Map<string, Command>>(Deps.Plugins);
-	const discord = container.resolve<REST>(Deps.Rest);
+	const discord = container.resolve<Client>(Deps.Rest);
 
-	const name = getCommandName(interaction);
-	const command = plugins.get(name);
+	const commandName = getCommandName(interaction);
+	const commandFile = plugins.get(commandName);
 
-	if (!command) {
-		logger.warn(`Attempted to run unknown command "${name}"`);
-		return;
+	if (!commandFile) {
+		return logger.warn(ErrorMessages.UnknownCommand(commandName));
 	}
 
-	const runner = Reflect.get(command, "autocompleteRun") as Command["autocompleteRun"] | undefined;
-
-	if (!runner) {
-		logger.warn(`"autocompleteRun" not defined for command "${name}"`);
-		return;
+	if (!commandFile.autocompleteRun) {
+		return logger.warn(ErrorMessages.AutocompleteRunNotDefined(commandName));
 	}
 
 	const options = transformInteraction(interaction);
 	const context = await createContext(interaction);
 
 	try {
-		// @ts-ignore - I don't feel like casting this
-		const output = await runner(context, options);
+		const output = await commandFile.autocompleteRun(context, options);
 
 		if (output === undefined || output === null) {
 			return;
 		}
 
 		return discord.post(Routes.interactionCallback(interaction.id, interaction.token), {
-			body: {
-				type: InteractionResponseType.ApplicationCommandAutocompleteResult,
-				data: {
-					choices: output,
-				},
+			type: InteractionResponseType.ApplicationCommandAutocompleteResult,
+			data: {
+				choices: output,
 			},
 		});
-	} catch (error) {}
+	} catch (error) {
+		logger.error(ErrorMessages.AutocompleteRunFailure(commandName));
+		logger.trace(error);
+	}
 }
