@@ -58,7 +58,7 @@
 		"reflect-metadata": "0.2.2",
 		"ts-node": "^10.9.2",
 		"tsup": "^8.4.0",
-		"tsyringe": "4.9.1",
+		"tsyringe": "4.10.0",
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
