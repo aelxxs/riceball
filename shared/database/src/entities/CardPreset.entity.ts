@@ -2,11 +2,11 @@ import {
 	Embedded,
 	Entity,
 	ManyToOne,
+	type Opt,
 	PrimaryKey,
 	Property,
 	SerializedPrimaryKey,
 	Unique,
-	type Opt,
 } from "@mikro-orm/core";
 import type { ObjectId } from "@mikro-orm/mongodb";
 import { Card } from "./Card.entity";
