@@ -25,7 +25,7 @@
 		"zod": "^3.24.2"
 	},
 	"dependencies": {
-		"@auth/core": "^0.38.0",
+		"@auth/core": "^0.39.0",
 		"@auth/sveltekit": "^1.8.0",
 		"@discordjs/formatters": "^0.6.0",
 		"@discordjs/rest": "2.4.3",
