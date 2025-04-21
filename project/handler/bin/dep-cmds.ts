@@ -1,10 +1,10 @@
+import { opendir } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { REST } from "@discordjs/rest";
 import { logger } from "@riceball/logger";
 import { Routes } from "discord-api-types/v10";
 import { config } from "dotenv";
-import { opendir } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 
 config();
 
