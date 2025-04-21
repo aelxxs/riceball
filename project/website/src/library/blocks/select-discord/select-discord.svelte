@@ -380,7 +380,7 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
     --align: flex-start;
     cursor: pointer;
     position: relative;
-    padding: var(--space-2xs) var(--space-2xs);
+    padding: var(--space-xs) var(--space-xs);
     border: 2px solid transparent;
     border-radius: var(--border-radius);
     background-color: var(--clr-bg-input);
