@@ -1,13 +1,12 @@
 <script lang="ts">
 import { PageHeader } from "$lib/blocks/page-header";
-import { slide } from "svelte/transition";
 
 const { children } = $props();
 </script>
 
 <PageHeader />
 <div class="wrapper">
-  <main class="content" transition:slide>
+  <main class="content">
     {@render children()}
   </main>
 </div>
