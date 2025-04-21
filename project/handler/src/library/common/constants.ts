@@ -10,9 +10,9 @@ enum WebsiteDispatchEvents {
 }
 
 export const Constants = {
-	GatewayGroup: "gateway",
-	DiscordGroup: "proxy",
-	WebsiteGroup: "website",
+	GatewayGroup: process.env.GATEWAY_GROUP ?? "gateway",
+	DiscordGroup: process.env.DISCORD_GROUP ?? "proxy",
+	WebsiteGroup: process.env.WEBSITE_GROUP ?? "website",
 	Intents: [],
 	GatewayEvents: [
 		GatewayDispatchEvents.GuildCreate,

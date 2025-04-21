@@ -36,7 +36,7 @@ async function* walk(path: string): AsyncGenerator<string> {
 	try {
 		logger.info("Publishing slash commands...");
 
-		await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT as string), {
+		await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID as string), {
 			body: commands,
 		});
 		logger.info("Published slash commands.");
