@@ -154,7 +154,7 @@ let open = $state(false);
     transition-duration: var(--input-transition-duration);
     transition-timing-function: var(--input-transition-timing-function);
     border-bottom: 1px solid var(--clr-bg-border);
-    background-color: var(--clr-bg);
+    /* background-color: var(--clr-bg); */
     padding-inline: var(--space-m);
     z-index: 1;
   }
