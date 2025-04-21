@@ -127,7 +127,7 @@ const filteredEmbeds = $derived.by(() => {
 
 <style>
   .embeds {
-    --minimum: 30ch;
+    --minimum: 35ch;
     --repeat: auto-fill;
   }
 
