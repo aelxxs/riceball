@@ -2,7 +2,6 @@
 import { Button } from "$lib/blocks/button";
 import { DiscordIcon } from "$lib/blocks/discord-icon";
 import { CDN } from "@discordjs/rest";
-import { slide } from "svelte/transition";
 import type { PageProps } from "./$types";
 
 const { data }: PageProps = $props();
@@ -14,7 +13,7 @@ function createGuildInviteUrl(id: string) {
 const cdn = new CDN();
 </script>
 
-<article class="wrap flow" transition:slide>
+<article class="wrap flow">
   <header class="flow">
     <h1>Select a server</h1>
     <p>Get started by selecting a server to setup or manage.</p>
