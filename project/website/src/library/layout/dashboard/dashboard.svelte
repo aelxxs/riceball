@@ -145,7 +145,7 @@ const toggleOpen = () => {
   }
 
   .with-sidebar > :first-child {
-    flex-basis: 19rem;
+    flex-basis: 18.75rem;
     flex-shrink: 0;
   }
 

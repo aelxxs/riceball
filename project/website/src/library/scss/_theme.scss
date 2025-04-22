@@ -20,16 +20,11 @@
   );
 
   --clr-theme-error: hsl(0, var(--theme-saturation-high), 60%);
-  --clr-theme-error-transparent: hsl(
-    0,
-    var(--theme-saturation-high),
-    60%,
-    0.45
-  );
+  --clr-theme-error-transparent: #4b2833;
   --clr-theme-error: rgb(255 107 134 / 0.75);
-  --clr-theme-error-transparent: rgb(255 107 134 / 0.25);
+  --clr-theme-error-transparent: #4b2833;
 
-  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 12%);
+  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 10%);
   --clr-bg-translucent: hsl(
     var(--theme-hue),
     var(--theme-saturation),
@@ -37,7 +32,7 @@
     0.75
   );
 
-  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 8%);
+  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 7.25%);
   --clr-bg-accent-secondary: hsl(
     var(--theme-hue),
     var(--theme-saturation),
@@ -54,7 +49,7 @@
     20%,
     0.75
   );
-  --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 20%);
+  --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 18%);
   --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 25%, 0.55);
   --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 25%);
   --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 30%);
@@ -73,11 +68,11 @@
 
   // layout
   --header-height: clamp(3.75rem, 10vw, 4rem);
-  --header-height-lg: clamp(3.75rem, 10vw, 3.85rem);
+  --header-height-lg: clamp(3.75rem, 10vw, 3.75rem);
 }
 
 // :root:not([dark]) {
-//   color-scheme: dark;
+//   color-scheme: light;
 
 //   --theme-hue: 220deg;
 //   --theme-saturation: 29%;
@@ -119,15 +114,15 @@
 
 //   --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.3);
 
-//   --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 97%);
-//   --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 30%, 1);
+//   --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 95%);
+//   --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 95%, 1);
 //   --clr-bg-input-hover: hsl(
 //     var(--theme-hue),
 //     var(--theme-saturation),
-//     20%,
+//     95%,
 //     0.75
 //   );
-//   --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 85%);
+//   --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 95%);
 
 //   --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 85%, 0.75);
 //   --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 25%);
