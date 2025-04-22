@@ -37,7 +37,7 @@ const guild = getGuild();
     >
       <div class="repel">
         <div class="cluster space-2xs no-wrap">
-          <Button variant="icon-only" onclick={goBack}>
+          <Button size="icon" variant="ghost" onclick={goBack}>
             <ChevronLeftIcon size="1.2rem" />
           </Button>
           <h4>{state.controlTitle.value}</h4>
@@ -170,6 +170,7 @@ const guild = getGuild();
     backdrop-filter: blur(5rem);
     transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     height: var(--header-height-lg);
+    border-bottom: 1px solid var(--clr-bg-border);
     &.bg-solid {
       background-color: var(--clr-bg);
     }
@@ -180,7 +181,6 @@ const guild = getGuild();
     overflow: hidden;
     grid-area: 1/1/2/2;
     padding-inline: var(--space-m);
-    border-bottom: 1px solid var(--clr-bg-border);
   }
 
   .text {

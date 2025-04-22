@@ -28,7 +28,7 @@ let open = $state(false);
 
 {#if user}
   <DropdownMenu.Root bind:open>
-    <DropdownMenu.Trigger class="cluster gap:-1">
+    <DropdownMenu.Trigger class="cluster space-xs">
       {#snippet child({ props })}
         <div {...props}>
           <img class="profile__icon" src={user.image} alt="user avatar" />

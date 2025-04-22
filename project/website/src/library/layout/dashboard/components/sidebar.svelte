@@ -10,7 +10,7 @@ import { type SidebarRoute, generateSidebarRoutes } from "$lib/constants";
 import type { DashboardGuild, ManagedGuild } from "$lib/types";
 import { layoutState } from "$lib/utility/context.svelte";
 import { flyAndScale } from "$lib/utility/transitions";
-import { ScrollArea, Select } from "bits-ui";
+import { Select } from "bits-ui";
 
 type Props = {
 	guild: DashboardGuild;
@@ -154,7 +154,6 @@ let open = $state(false);
     transition-duration: var(--input-transition-duration);
     transition-timing-function: var(--input-transition-timing-function);
     border-bottom: 1px solid var(--clr-bg-border);
-    /* background-color: var(--clr-bg); */
     padding-inline: var(--space-m);
     z-index: 1;
   }
