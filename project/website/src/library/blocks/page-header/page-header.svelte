@@ -1,7 +1,7 @@
 <script lang="ts">
 import { page } from "$app/state";
 import { layoutState } from "$lib/utility/context.svelte";
-import { BellDotIcon, BellIcon } from "lucide-svelte";
+import { BellIcon } from "lucide-svelte";
 import { DiscordUser } from "../discord-user";
 import { Divider } from "../divider";
 
@@ -24,7 +24,7 @@ const user = page.data.session?.user;
         </nav>
       </div>
     </div>
-    <div class="cluster space-l">
+    <div class="cluster space-m">
       <BellIcon class="icon" size="1.25em" strokeWidth="1.5" />
       <DiscordUser {user} />
     </div>
@@ -53,10 +53,6 @@ const user = page.data.session?.user;
     &.bg-solid {
       background-color: var(--clr-bg);
     }
-  }
-
-  header {
-    margin: auto;
   }
 
   a {

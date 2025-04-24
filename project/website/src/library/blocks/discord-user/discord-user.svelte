@@ -31,8 +31,13 @@ let open = $state(false);
     <DropdownMenu.Trigger class="cluster space-xs">
       {#snippet child({ props })}
         <div {...props}>
-          <img class="profile__icon" src={user.image} alt="user avatar" />
-          <p>{user.name}</p>
+          <img
+            class="profile__icon"
+            class:shrink={open}
+            src={user.image}
+            alt="user avatar"
+          />
+          <!-- <p>{user.name}</p> -->
           <div class="arrow" class:rotate={open}>
             <ChevronDown size={18} />
           </div>
@@ -178,6 +183,11 @@ let open = $state(false);
   .profile__icon {
     width: 2rem;
     border-radius: 50%;
+    transition: transform 0.2s ease-out 0s;
+  }
+
+  .profile__icon.shrink {
+    transform: scale(0.95);
   }
 
   .dropdown__icon {
