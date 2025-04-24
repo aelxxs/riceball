@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { page } from "$app/state";
-  import { layoutState } from "$lib/utility/context.svelte";
-  import { BellIcon } from "lucide-svelte";
-  import { DiscordUser } from "../discord-user";
-  import { Divider } from "../divider";
+import { page } from "$app/state";
+import { layoutState } from "$lib/utility/context.svelte";
+import { BellIcon } from "lucide-svelte";
+import { DiscordUser } from "../discord-user";
+import { Divider } from "../divider";
 
-  const user = page.data.session?.user;
+const user = page.data.session?.user;
 </script>
 
 <div class="header-wrapper" class:bg-solid={layoutState.sideBarOpen}>
