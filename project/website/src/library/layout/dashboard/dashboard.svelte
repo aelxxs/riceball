@@ -1,5 +1,6 @@
 <script lang="ts">
-import { page } from "$app/state";
+import { navigating, page } from "$app/state";
+import PageHeader from "$lib/blocks/page-header/page-header.svelte";
 import { generateSidebarRoutes } from "$lib/constants";
 import {
 	getGuild,
@@ -44,25 +45,8 @@ $effect(() => {
 	document.body.style.overflow = "clip";
 });
 
-let previousScrollY = layoutState.scrollY;
 const toggleOpen = () => {
 	layoutState.sideBarOpen = !layoutState.sideBarOpen;
-
-	if (layoutState.sideBarOpen) {
-		document.body.style.overflow = "hidden";
-	} else {
-		document.body.style.overflow = "clip";
-	}
-
-	if (layoutState.sideBarOpen && layoutState.scrollY > 0) {
-		previousScrollY = layoutState.scrollY;
-		document.body.scrollIntoView({
-			behavior: "smooth",
-		});
-	} else {
-		window.scroll(0, previousScrollY);
-		previousScrollY = 0;
-	}
 };
 </script>
 
@@ -82,6 +66,8 @@ const toggleOpen = () => {
   <title>{plugin.name} | {guild.name}</title>
 </svelte:head>
 
+<PageHeader />
+
 <div class="with-sidebar">
   <div id="sidebar" class:open={layoutState.sideBarOpen}>
     <Sidebar {guild} {guilds} {plugin} />
@@ -90,7 +76,11 @@ const toggleOpen = () => {
     <Header {plugin} {toggleOpen} />
     {#key page.url.pathname}
       <div id="dashboard" class:shake={shake.shake}>
-        {@render children()}
+        {#if navigating.to}
+          navigating to {navigating.to.url.pathname}
+        {:else}
+          {@render children()}
+        {/if}
       </div>
     {/key}
     {#if saveModal.show && !saveModal.submitting}
@@ -152,6 +142,11 @@ const toggleOpen = () => {
   .with-sidebar > :last-child {
     flex-grow: 999;
     min-inline-size: 60%;
+  }
+
+  #content {
+    /* overflow: scroll; */
+    background-color: var(--clr-bg-accent);
   }
 
   #dashboard {
