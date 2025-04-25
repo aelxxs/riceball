@@ -64,7 +64,7 @@
 	"devDependencies": {
 		"@mikro-orm/cli": "^6.4.11",
 		"@riceball/ts-config": "workspace:*",
-		"@types/node": "22.15.0",
+		"@types/node": "22.15.2",
 		"typescript": "^5.7.3"
 	},
 	"mikro-orm": {
