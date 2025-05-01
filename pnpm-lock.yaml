@@ -54,8 +54,8 @@ importers:
         specifier: 1.8.2
         version: 1.8.2
       discord-api-types:
-        specifier: 0.38.1
-        version: 0.38.1
+        specifier: 0.38.2
+        version: 0.38.2
       dotenv:
         specifier: 16.5.0
         version: 16.5.0
@@ -181,8 +181,8 @@ importers:
         specifier: ^2.6.0
         version: 2.6.0
       discord-api-types:
-        specifier: 0.38.1
-        version: 0.38.1
+        specifier: 0.38.2
+        version: 0.38.2
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -2238,6 +2238,9 @@ packages:
   discord-api-types@0.38.1:
     resolution: {integrity: sha512-vsjsqjAuxsPhiwbPjTBeGQaDPlizFmSkU0mTzFGMgRxqCDIRBR7iTY74HacpzrDV0QtERHRKQEk1tq7drZUtHg==}
 
+  discord-api-types@0.38.2:
+    resolution: {integrity: sha512-GAPY1/Kv3aqEoBYgUYXB2tHdWJCZXfytlCzxZ4QMQ1/TIQn1JI+xUOukehl4iEa9m7fCURnMIOpOxpaTWqzX2w==}
+
   discord-markdown-parser@1.2.0:
     resolution: {integrity: sha512-RSvx1cEBT/k7Vgvj5yW+RZ+uvGcIHem86CTsWnCEivoker0UrRqmZagQCYS/jj0OM1C7HXFsqOPu8OwwcBLCuA==}
 
@@ -4027,7 +4030,7 @@ snapshots:
       '@sapphire/async-queue': 1.5.5
       '@sapphire/snowflake': 3.5.5
       '@vladfrangu/async_event_emitter': 2.4.6
-      discord-api-types: 0.38.1
+      discord-api-types: 0.38.2
       magic-bytes.js: 1.10.0
       tslib: 2.8.1
       undici: 6.21.1
@@ -5539,6 +5542,8 @@ snapshots:
   discord-api-types@0.37.120: {}
 
   discord-api-types@0.38.1: {}
+
+  discord-api-types@0.38.2: {}
 
   discord-markdown-parser@1.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
