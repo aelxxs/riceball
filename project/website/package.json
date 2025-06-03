@@ -31,7 +31,7 @@
 		"@discordjs/rest": "2.5.0",
 		"@emoji-mart/data": "^1.2.1",
 		"@floating-ui/dom": "^1.6.13",
-		"@melloware/coloris": "^0.24.0",
+		"@melloware/coloris": "^0.25.0",
 		"@riceball/colorify": "workspace:*",
 		"@riceball/db": "workspace:*",
 		"@riceball/markdown": "workspace:*",

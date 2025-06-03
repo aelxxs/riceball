@@ -127,8 +127,8 @@ importers:
         specifier: ^1.6.13
         version: 1.6.13
       '@melloware/coloris':
-        specifier: ^0.24.0
-        version: 0.24.0
+        specifier: ^0.25.0
+        version: 0.25.0
       '@riceball/colorify':
         specifier: workspace:*
         version: link:../../shared/colorify
@@ -909,8 +909,8 @@ packages:
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}
     hasBin: true
 
-  '@melloware/coloris@0.24.0':
-    resolution: {integrity: sha512-9RGKHqZJsUSsxb/0xaBCK5OKywobiK/xRtV8f4KQDmviqmVfkMLR3kK4DRuTTLSFdSOqkV0OQ/Niitu+rlXXYw==}
+  '@melloware/coloris@0.25.0':
+    resolution: {integrity: sha512-RBWVFLjWbup7GRkOXb9g3+ZtR9AevFtJinrRz2cYPLjZ3TCkNRGMWuNbmQWbZ5cF3VU7aQDZwUsYgIY/bGrh2g==}
 
   '@mikro-orm/cli@6.4.11':
     resolution: {integrity: sha512-soy/MA8FoZD/omkqe5vc4POrxYwNVYt0bPf2ySeoFGMxX5C5SeLCGK2pLMmGj0LIdc3WcDicpFf1tmp2tvcJvw==}
@@ -4335,7 +4335,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@melloware/coloris@0.24.0': {}
+  '@melloware/coloris@0.25.0': {}
 
   '@mikro-orm/cli@6.4.11':
     dependencies:
