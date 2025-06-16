@@ -57,7 +57,7 @@
 		"formsnap": "^2.0.0",
 		"iconify-icon": "^3.0.0",
 		"ioredis": "5.6.1",
-		"lucide-svelte": "^0.513.0",
+		"lucide-svelte": "^0.515.0",
 		"paneforge": "^0.0.6",
 		"prosemirror-markdown": "^1.13.1",
 		"reflect-metadata": "0.2.2",
