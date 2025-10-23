@@ -229,8 +229,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.5(svelte@5.41.2)
       svelte-tiptap:
-        specifier: ^2.1.0
-        version: 2.2.0(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/extension-bubble-menu@2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2))(@tiptap/extension-floating-menu@2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2)(svelte@5.41.2)
+        specifier: ^3.0.0
+        version: 3.0.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/extension-bubble-menu@2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2))(@tiptap/extension-floating-menu@2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2)(svelte@5.41.2)
       sveltekit-superforms:
         specifier: ^2.23.1
         version: 2.28.0(@sveltejs/kit@2.47.3(@sveltejs/vite-plugin-svelte@6.2.1(svelte@5.41.2)(vite@6.4.1(@types/node@22.18.12)(sass@1.93.2)(yaml@2.8.1)))(svelte@5.41.2)(vite@6.4.1(@types/node@22.18.12)(sass@1.93.2)(yaml@2.8.1)))(@types/json-schema@7.0.15)(esbuild@0.25.11)(svelte@5.41.2)(typescript@5.9.3)
@@ -3227,13 +3227,14 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  svelte-tiptap@2.2.0:
-    resolution: {integrity: sha512-6i8RRk7lot0zwobkhHNcW3yqdbC6xXrigwLZ1fERtVDq8nVhiaLzvF4HUboFNoxSTOxx7S8YGy4C6x0e+OPA1w==}
+  svelte-tiptap@3.0.0:
+    resolution: {integrity: sha512-digFHOJe16RX0HIU+u8hOaCS9sIgktTpYHSF9yJ6dgxPv/JWJdYCdwoX65lcHitFhhCG7xnolJng6PJa9M9h3w==}
     peerDependencies:
-      '@tiptap/core': ^2.11.5
-      '@tiptap/extension-bubble-menu': ^2.11.5
-      '@tiptap/extension-floating-menu': ^2.11.5
-      '@tiptap/pm': ^2.11.5
+      '@floating-ui/dom': ^1.0.0
+      '@tiptap/core': ^3.0.0
+      '@tiptap/extension-bubble-menu': ^3.0.0
+      '@tiptap/extension-floating-menu': ^3.0.0
+      '@tiptap/pm': ^3.0.0
       svelte: ^5.0.0
 
   svelte-toolbelt@0.10.6:
@@ -6331,8 +6332,9 @@ snapshots:
       runed: 0.28.0(svelte@5.41.2)
       svelte: 5.41.2
 
-  svelte-tiptap@2.2.0(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/extension-bubble-menu@2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2))(@tiptap/extension-floating-menu@2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2)(svelte@5.41.2):
+  svelte-tiptap@3.0.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/extension-bubble-menu@2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2))(@tiptap/extension-floating-menu@2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2)(svelte@5.41.2):
     dependencies:
+      '@floating-ui/dom': 1.7.4
       '@tiptap/core': 3.7.2(@tiptap/pm@3.7.2)
       '@tiptap/extension-bubble-menu': 2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2)
       '@tiptap/extension-floating-menu': 2.26.3(@tiptap/core@3.7.2(@tiptap/pm@3.7.2))(@tiptap/pm@3.7.2)
