@@ -1,6 +1,6 @@
-import type { ManagedGuild } from "$lib/types";
 import type { REST } from "@discordjs/rest";
 import { type APIApplication, type RESTGetAPICurrentUserGuildsResult, Routes } from "discord-api-types/v10";
+import type { ManagedGuild } from "$lib/types";
 import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = async ({ locals }) => {

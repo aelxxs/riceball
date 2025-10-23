@@ -1,8 +1,5 @@
 <script lang="ts">
-import {
-	Switch as SwitchPrimitive,
-	type WithoutChildrenOrChild,
-} from "bits-ui";
+import { Switch as SwitchPrimitive, type WithoutChildrenOrChild } from "bits-ui";
 
 let {
 	ref = $bindable(null),

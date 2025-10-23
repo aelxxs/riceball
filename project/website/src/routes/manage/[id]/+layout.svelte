@@ -1,8 +1,8 @@
 <script lang="ts">
+import { CDN } from "@discordjs/rest";
+import { onMount, type Snippet, setContext } from "svelte";
 import { Dashboard } from "$lib/layout/dashboard";
 import { layoutState, setGuild, setGuilds } from "$lib/utility/context.svelte";
-import { CDN } from "@discordjs/rest";
-import { type Snippet, onMount, setContext } from "svelte";
 import type { PageProps } from "./$types";
 
 const { data, children }: PageProps & { children: Snippet } = $props();
@@ -20,9 +20,7 @@ onMount(async () => {
 
 	const emojis = guild.emojis.map((emoji) => ({
 		// id: formatEmoji(emoji.id!, emoji.animated),
-		id: emoji.animated
-			? `<a:${emoji.name}:${emoji.id}>`
-			: `<:${emoji.name}:${emoji.id}>`,
+		id: emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`,
 		name: emoji.name,
 		keywords: [emoji.name],
 		skins: [
@@ -45,17 +43,7 @@ onMount(async () => {
 				src: guild.icon ? cdn.icon(guild.id, guild.icon) : undefined,
 			},
 		},
-		categories: [
-			guild.id,
-			"people",
-			"nature",
-			"foods",
-			"activity",
-			"places",
-			"objects",
-			"symbols",
-			"flags",
-		],
+		categories: [guild.id, "people", "nature", "foods", "activity", "places", "objects", "symbols", "flags"],
 	});
 
 	// setup websocket connection to listen for:

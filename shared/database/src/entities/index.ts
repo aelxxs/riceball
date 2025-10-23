@@ -60,7 +60,7 @@ export * from "./Member.entity.js";
 export * from "./Message.entity.js";
 export * from "./ReactionRole.entity.js";
 export * from "./Restriction.entity.js";
-export * from "./shared-enums.js";
 export * from "./Star.entity.js";
 export * from "./Stars.entity.js";
+export * from "./shared-enums.js";
 export * from "./User.entity.js";

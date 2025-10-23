@@ -1,15 +1,12 @@
 <script lang="ts">
-import {
-	DashboardCard,
-	DashboardCardSideBySide,
-} from "$lib/blocks/dashboard-card";
+import { toast } from "svelte-sonner";
+import SuperDebug, { superForm } from "sveltekit-superforms";
+import { DashboardCard, DashboardCardSideBySide } from "$lib/blocks/dashboard-card";
 import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
 import { Control, Field } from "$lib/blocks/forms";
 import { Restrictions } from "$lib/blocks/restrictions";
 import { Select } from "$lib/blocks/select";
 import { getSaveModal, shake } from "$lib/utility/context.svelte";
-import { toast } from "svelte-sonner";
-import SuperDebug, { superForm } from "sveltekit-superforms";
 
 const { data } = $props();
 
@@ -41,15 +38,7 @@ const form = superForm(data.form, {
 	},
 });
 
-const {
-	form: formData,
-	enhance,
-	tainted,
-	isTainted,
-	submit,
-	delayed,
-	submitting,
-} = form;
+const { form: formData, enhance, tainted, isTainted, submit, delayed, submitting } = form;
 
 $effect(() => {
 	if (isTainted($tainted)) {

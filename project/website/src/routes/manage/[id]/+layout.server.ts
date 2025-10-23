@@ -1,9 +1,9 @@
-import type { DashboardGuild } from "$lib/types";
 import { DiscordAPIError } from "@discordjs/rest";
 import { getGuild } from "@riceball/db";
 import type { Guild } from "@riceball/db/zod";
 import { redirect } from "@sveltejs/kit";
 import { type APIChannel, ChannelType, Routes } from "discord-api-types/v10";
+import type { DashboardGuild } from "$lib/types";
 
 export const load = async ({ locals, params }) => {
 	if (!/^\d{17,19}$/.test(params.id)) {

@@ -16,7 +16,9 @@
 			"default": "./dist/index.js"
 		}
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
 		"@types/markdown-it": "^14.1.2",

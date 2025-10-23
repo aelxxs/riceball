@@ -1,8 +1,5 @@
 <script lang="ts">
-import {
-	RadioGroup as RadioGroupPrimitive,
-	type WithoutChildrenOrChild,
-} from "bits-ui";
+import { RadioGroup as RadioGroupPrimitive, type WithoutChildrenOrChild } from "bits-ui";
 
 let {
 	ref = $bindable(null),

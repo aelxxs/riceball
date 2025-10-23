@@ -1,7 +1,7 @@
 <script lang="ts">
+import { BellIcon } from "lucide-svelte";
 import { page } from "$app/state";
 import { layoutState } from "$lib/utility/context.svelte";
-import { BellIcon } from "lucide-svelte";
 import { DiscordUser } from "../discord-user";
 import { Divider } from "../divider";
 

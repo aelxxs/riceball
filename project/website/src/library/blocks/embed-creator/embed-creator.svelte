@@ -1,18 +1,17 @@
 <script lang="ts">
 // - Icons
-import EyeIcon from "lucide-svelte/icons/eye";
-import PlusIcon from "lucide-svelte/icons/plus";
 
 import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
+import { PencilIcon, Trash2 } from "lucide-svelte";
+import EyeIcon from "lucide-svelte/icons/eye";
+import PlusIcon from "lucide-svelte/icons/plus";
+import type { DashboardGuild } from "$lib/types";
 import { Button } from "../button";
+import { ButtonWithConfirmation } from "../button-with-confirmation";
 import ColorPicker from "../color-picker/color-picker.svelte";
+import Editable from "../editable/editable.svelte";
 import EmbedField from "./blocks/embed-field.svelte";
 import ImageUpload from "./blocks/image-upload.svelte";
-
-import type { DashboardGuild } from "$lib/types";
-import { PencilIcon, Trash2 } from "lucide-svelte";
-import { ButtonWithConfirmation } from "../button-with-confirmation";
-import Editable from "../editable/editable.svelte";
 
 type Props = {
 	embed: DiscordEmbedWithRelations;
@@ -23,11 +22,7 @@ type Props = {
 const hexToInteger = (hex: string) => Number.parseInt(hex.replace("#", ""), 16);
 const integerToHex = (int: number) => `#${int?.toString(16).padStart(6, "0")}`;
 
-let {
-	embed = $bindable<DiscordEmbedWithRelations>(),
-	guild,
-	handleDelete,
-}: Props = $props();
+let { embed = $bindable<DiscordEmbedWithRelations>(), guild, handleDelete }: Props = $props();
 
 /**
  * Adds a new field to the embed

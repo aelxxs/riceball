@@ -1,8 +1,8 @@
 <script lang="ts">
 // - Icons
-import ChevronDown from "lucide-svelte/icons/chevron-down";
 
 import { Collapsible } from "bits-ui";
+import ChevronDown from "lucide-svelte/icons/chevron-down";
 import type { Snippet } from "svelte";
 import type { Writable } from "svelte/store";
 import { slide } from "svelte/transition";
@@ -19,15 +19,7 @@ type Props = {
 	toggle?: (state: boolean) => void;
 };
 
-const {
-	id,
-	title,
-	description,
-	children,
-	isOpen,
-	isSideBySide,
-	toggle,
-}: Props = $props();
+const { id, title, description, children, isOpen, isSideBySide, toggle }: Props = $props();
 
 /** Logic */
 let localIsOpen = $state(true);

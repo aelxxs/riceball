@@ -1,7 +1,7 @@
 <script lang="ts">
+import { CDN } from "@discordjs/rest";
 import { Button } from "$lib/blocks/button";
 import { DiscordIcon } from "$lib/blocks/discord-icon";
-import { CDN } from "@discordjs/rest";
 import type { PageProps } from "./$types";
 
 const { data }: PageProps = $props();

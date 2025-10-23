@@ -1,19 +1,9 @@
 <script lang="ts">
-import ColorPicker from "$lib/blocks/color-picker/color-picker.svelte";
-import { DashboardCard } from "$lib/blocks/dashboard-card";
-import ImageUpload from "$lib/blocks/embed-creator/blocks/image-upload.svelte";
-import { Control, Field } from "$lib/blocks/forms";
-import { LevelingCardPreview } from "$lib/blocks/leveling-card-preview";
-import { RadioGroup } from "$lib/blocks/radio-group";
-import { Restrictions } from "$lib/blocks/restrictions";
-import { Slider } from "$lib/blocks/slider/slider";
-import { Switch } from "$lib/blocks/switch";
-import { getSaveModal, shake } from "$lib/utility/context.svelte.js";
 import {
-	type HEXColorString,
 	composeLevelCard,
 	generateEnhancedPalettes,
 	getHSLAOpacity,
+	type HEXColorString,
 	hexToHsla,
 	hslaToObj,
 	hslaToStr,
@@ -26,6 +16,16 @@ import ColorThief from "colorthief";
 import { onMount } from "svelte";
 import { toast } from "svelte-sonner";
 import SuperDebug, { fileProxy, superForm } from "sveltekit-superforms";
+import ColorPicker from "$lib/blocks/color-picker/color-picker.svelte";
+import { DashboardCard } from "$lib/blocks/dashboard-card";
+import ImageUpload from "$lib/blocks/embed-creator/blocks/image-upload.svelte";
+import { Control, Field } from "$lib/blocks/forms";
+import { LevelingCardPreview } from "$lib/blocks/leveling-card-preview";
+import { RadioGroup } from "$lib/blocks/radio-group";
+import { Restrictions } from "$lib/blocks/restrictions";
+import { Slider } from "$lib/blocks/slider/slider";
+import { Switch } from "$lib/blocks/switch";
+import { getSaveModal, shake } from "$lib/utility/context.svelte.js";
 import { LevelingUp, TextLeveling } from "./sections/index.js";
 import LevelUpRewards from "./sections/level-up-rewards.svelte";
 
@@ -60,8 +60,7 @@ const settingsForm = superForm(data.form, {
 	},
 });
 
-const { form, enhance, tainted, isTainted, submit, delayed, submitting } =
-	settingsForm;
+const { form, enhance, tainted, isTainted, submit, delayed, submitting } = settingsForm;
 
 $effect(() => {
 	if (isTainted($tainted)) {
@@ -114,9 +113,7 @@ const palettes = $derived.by(() => {
 	const pregen = hslas.flatMap((hsla) => generateEnhancedPalettes(hsla));
 
 	// Convert each HSLA color back to HEX
-	return pregen.map((palette) =>
-		Object.values(palette).map((hslaColor) => hslaColor),
-	);
+	return pregen.map((palette) => Object.values(palette).map((hslaColor) => hslaColor));
 });
 
 onMount(() => {

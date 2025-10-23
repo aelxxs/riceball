@@ -1,9 +1,9 @@
 <script lang="ts">
-import { flyAndScale } from "$lib/utility/transitions";
 import { CDN } from "@discordjs/rest";
 import { Popover } from "bits-ui";
 import type { APIGuild } from "discord-api-types/v10";
 import { onMount } from "svelte";
+import { flyAndScale } from "$lib/utility/transitions";
 import type { Emoji } from "./picker.svelte";
 
 let contentElement = $state<HTMLElement | null>(null);
@@ -37,7 +37,7 @@ const onEmojiSelect = (emoji: Emoji) => {
 	}
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: for now
 let Picker: any;
 
 onMount(async () => {
@@ -48,9 +48,7 @@ onMount(async () => {
 $effect(() => {
 	if (contentElement && !contentElement.hasChildNodes()) {
 		const emojis = guild.emojis.map((emoji) => ({
-			id: emoji.animated
-				? `<a:${emoji.name}:${emoji.id}>`
-				: `<:${emoji.name}:${emoji.id}>`,
+			id: emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`,
 			name: emoji.name,
 			keywords: [emoji.name],
 			skins: [
@@ -70,17 +68,7 @@ $effect(() => {
 			onEmojiSelect,
 			custom: [{ id: guild.id, name: guild.name, emojis }],
 			maxFrequentRows: 0,
-			categories: [
-				guild.id,
-				"people",
-				"nature",
-				"foods",
-				"activity",
-				"places",
-				"objects",
-				"symbols",
-				"flags",
-			],
+			categories: [guild.id, "people", "nature", "foods", "activity", "places", "objects", "symbols", "flags"],
 			emojiButtonRadius: "0.5rem",
 			emojiButtonColors: ["var(--clr-bg-input-hover)"],
 			skinTonePosition: "search",

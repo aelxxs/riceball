@@ -1,8 +1,5 @@
 <script lang="ts">
-import {
-	Checkbox as CheckboxPrimitive,
-	type WithoutChildrenOrChild,
-} from "bits-ui";
+import { Checkbox as CheckboxPrimitive, type WithoutChildrenOrChild } from "bits-ui";
 import Check from "lucide-svelte/icons/check";
 import Minus from "lucide-svelte/icons/minus";
 import { fly } from "svelte/transition";
@@ -14,9 +11,7 @@ let {
 	outlined = $bindable(false),
 	class: className,
 	...restProps
-}: WithoutChildrenOrChild<
-	CheckboxPrimitive.RootProps & { outlined?: boolean }
-> = $props();
+}: WithoutChildrenOrChild<CheckboxPrimitive.RootProps & { outlined?: boolean }> = $props();
 
 const flyIn = { y: -7.5, duration: 350, opacity: 0 };
 const flyOut = { y: 7.5, duration: 250, opacity: 0 };

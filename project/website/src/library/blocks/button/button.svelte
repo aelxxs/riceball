@@ -1,9 +1,6 @@
 <script lang="ts">
 import type { WithElementRef } from "bits-ui";
-import type {
-	HTMLAnchorAttributes,
-	HTMLButtonAttributes,
-} from "svelte/elements";
+import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
 
 export type ButtonVariant =
 	| "default"

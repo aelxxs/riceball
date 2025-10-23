@@ -1,5 +1,5 @@
 <script lang="ts">
-import { type Snippet, onMount } from "svelte";
+import { onMount, type Snippet } from "svelte";
 import { writable } from "svelte/store";
 import { DashboardCard } from ".";
 
@@ -27,9 +27,7 @@ onMount(() => {
 		if (!gridContainer) return;
 
 		const computedStyle = getComputedStyle(gridContainer);
-		const columns = computedStyle
-			.getPropertyValue("grid-template-columns")
-			.split(" ").length;
+		const columns = computedStyle.getPropertyValue("grid-template-columns").split(" ").length;
 
 		isSideBySide.set(columns > 1);
 	});

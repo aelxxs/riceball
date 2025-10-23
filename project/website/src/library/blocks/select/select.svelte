@@ -1,11 +1,12 @@
 <script lang="ts">
 // - Icons
-import { flyAndScale } from "$lib/utility/transitions";
+
 import { Select } from "bits-ui";
 import { useFormControl } from "formsnap";
 import type { Icon as IconType } from "lucide-svelte";
 import CheckIcon from "lucide-svelte/icons/check";
 import ChevronDownIcon from "lucide-svelte/icons/chevron-down";
+import { flyAndScale } from "$lib/utility/transitions";
 import { Checkbox } from "../checkbox";
 
 export type Item = {

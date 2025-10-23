@@ -1,8 +1,8 @@
 <script lang="ts">
-import { DashboardCard } from "$lib/blocks/dashboard-card";
-import { Input } from "$lib/blocks/input";
 import { Label } from "bits-ui";
 import { EllipsisVerticalIcon, PlusIcon, SearchIcon } from "lucide-svelte";
+import { DashboardCard } from "$lib/blocks/dashboard-card";
+import { Input } from "$lib/blocks/input";
 
 const { data } = $props();
 

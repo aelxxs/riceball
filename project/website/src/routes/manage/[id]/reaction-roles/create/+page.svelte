@@ -1,10 +1,13 @@
 <script lang="ts">
+import { ReactionRoleSchema } from "@riceball/db/zod";
+import { ElementField } from "formsnap";
+import { Trash2Icon } from "lucide-svelte";
+import { toast } from "svelte-sonner";
+import SuperDebug, { superForm } from "sveltekit-superforms";
+import { zodClient } from "sveltekit-superforms/adapters";
 import { beforeNavigate, goto } from "$app/navigation";
 import { Button } from "$lib/blocks/button";
-import {
-	DashboardCard,
-	DashboardCardSideBySide,
-} from "$lib/blocks/dashboard-card";
+import { DashboardCard, DashboardCardSideBySide } from "$lib/blocks/dashboard-card";
 import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
 import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
 import { Control, Field, Fieldset } from "$lib/blocks/forms";
@@ -15,12 +18,6 @@ import SelectDiscord from "$lib/blocks/select-discord/select-discord.svelte";
 import { WebsiteRoutes } from "$lib/constants";
 import { getAppState } from "$lib/utility/context.svelte.js";
 import { getFirstChannelFromItemizedChannelList } from "$lib/utility/utils.js";
-import { ReactionRoleSchema } from "@riceball/db/zod";
-import { ElementField } from "formsnap";
-import { Trash2Icon } from "lucide-svelte";
-import { toast } from "svelte-sonner";
-import SuperDebug, { superForm } from "sveltekit-superforms";
-import { zodClient } from "sveltekit-superforms/adapters";
 
 const appState = getAppState();
 
@@ -53,26 +50,22 @@ const types = [
 	{
 		value: "TOGGLE",
 		label: "Toggle Role",
-		description:
-			"Adds or removes a role from a user when they react to the message.",
+		description: "Adds or removes a role from a user when they react to the message.",
 	},
 	{
 		value: "ADD",
 		label: "Add Role Only",
-		description:
-			"Adds a role to a user when they react to the message. The user must not have the role already.",
+		description: "Adds a role to a user when they react to the message. The user must not have the role already.",
 	},
 	{
 		value: "REMOVE",
 		label: "Remove Role Only",
-		description:
-			"Removes a role from a user when they react to the message. The user must have the role already.",
+		description: "Removes a role from a user when they react to the message. The user must have the role already.",
 	},
 	{
 		value: "UNIQUE",
 		label: "Unique Role",
-		description:
-			"Remove all other roles from a user when they react to the message.",
+		description: "Remove all other roles from a user when they react to the message.",
 	},
 ];
 
@@ -93,9 +86,7 @@ const pair = $state({ emoji: "", roles: [] });
 
 if ($formData.channelId.length === 0) {
 	if (data.guild.itemizedChannels.length > 0) {
-		$formData.channelId = getFirstChannelFromItemizedChannelList(
-			data.guild.itemizedChannels,
-		).value;
+		$formData.channelId = getFirstChannelFromItemizedChannelList(data.guild.itemizedChannels).value;
 	}
 }
 

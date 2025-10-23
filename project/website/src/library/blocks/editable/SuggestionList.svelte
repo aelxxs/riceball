@@ -12,9 +12,7 @@ type Props = {
 const { type, items, command }: Props = $props();
 
 let highlightedIndex = $state(0);
-const flatItems = $derived(
-	items.flatMap((item) => ("items" in item ? item.items : item)),
-);
+const flatItems = $derived(items.flatMap((item) => ("items" in item ? item.items : item)));
 const ItemIcon = $derived(type === "channel" ? HashIcon : AtSignIcon);
 
 // Exposed API methods

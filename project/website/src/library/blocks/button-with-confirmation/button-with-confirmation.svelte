@@ -1,7 +1,6 @@
 <script lang="ts">
-import XIcon from "lucide-svelte/icons/x";
-
 import { AlertDialog, type WithoutChild } from "bits-ui";
+import XIcon from "lucide-svelte/icons/x";
 import type { Snippet } from "svelte";
 import Button from "../button/button.svelte";
 

@@ -1,10 +1,10 @@
 import "reflect-metadata";
 
-import { env } from "$env/dynamic/private";
 import { REST } from "@discordjs/rest";
-import { Database, container, setupDatabase } from "@riceball/db";
+import { container, Database, setupDatabase } from "@riceball/db";
 import { type Handle, redirect } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
+import { env } from "$env/dynamic/private";
 import { handle as authenticationHandle } from "./auth";
 
 const authorizationHandle: Handle = async ({ event, resolve }) => {

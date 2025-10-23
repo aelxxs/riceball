@@ -1,20 +1,17 @@
 <script lang="ts">
-import {
-	DashboardCard,
-	DashboardCardSideBySide,
-} from "$lib/blocks/dashboard-card";
-import { EmojiPicker } from "$lib/blocks/emoji-picker";
-import { Input } from "$lib/blocks/input";
-import { Restrictions } from "$lib/blocks/restrictions";
-import { Select } from "$lib/blocks/select";
-import { Switch } from "$lib/blocks/switch";
-import { getSaveModal } from "$lib/utility/context.svelte";
 import { StarsSchema } from "@riceball/db/zod";
 import { Control, Field, FieldErrors, Label } from "formsnap";
 import HashIcon from "lucide-svelte/icons/hash";
 import { toast } from "svelte-sonner";
 import { superForm } from "sveltekit-superforms";
 import { zodClient } from "sveltekit-superforms/adapters";
+import { DashboardCard, DashboardCardSideBySide } from "$lib/blocks/dashboard-card";
+import { EmojiPicker } from "$lib/blocks/emoji-picker";
+import { Input } from "$lib/blocks/input";
+import { Restrictions } from "$lib/blocks/restrictions";
+import { Select } from "$lib/blocks/select";
+import { Switch } from "$lib/blocks/switch";
+import { getSaveModal } from "$lib/utility/context.svelte";
 
 const { data } = $props();
 
@@ -40,15 +37,7 @@ const form = superForm(data.form, {
 	},
 });
 
-const {
-	form: formData,
-	enhance,
-	tainted,
-	isTainted,
-	submit,
-	delayed,
-	submitting,
-} = form;
+const { form: formData, enhance, tainted, isTainted, submit, delayed, submitting } = form;
 
 $effect(() => {
 	if (isTainted($tainted)) {

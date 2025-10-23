@@ -1,14 +1,13 @@
 <script lang="ts">
+import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
+import type { APIApplication } from "discord-api-types/v10";
 import CheckIcon from "lucide-svelte/icons/check";
 import PlusIcon from "lucide-svelte/icons/plus";
 import Trash2 from "lucide-svelte/icons/trash-2";
-
+import { slide } from "svelte/transition";
 import { ButtonWithConfirmation } from "$lib/blocks/button-with-confirmation";
 import { Constants } from "$lib/constants";
 import type { DashboardGuild } from "$lib/types";
-import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
-import type { APIApplication } from "discord-api-types/v10";
-import { slide } from "svelte/transition";
 import { Button } from "../button";
 import { DiscordIcon } from "../discord-icon";
 import Editable from "../editable/editable.svelte";

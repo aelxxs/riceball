@@ -1,19 +1,18 @@
-import { Node, mergeAttributes } from "@tiptap/core";
-
-import type { SelectItem } from "$lib/blocks/select/select.svelte";
 import { channelMention, roleMention } from "@discordjs/formatters";
 import {
-	type ClientRectObject,
-	type VirtualElement,
 	autoUpdate,
+	type ClientRectObject,
 	computePosition,
 	flip,
 	offset,
+	type VirtualElement,
 } from "@floating-ui/dom";
+import { mergeAttributes, Node } from "@tiptap/core";
 import { PluginKey } from "@tiptap/pm/state";
 import Suggestion from "@tiptap/suggestion";
 import { type ComponentProps, mount, unmount } from "svelte";
 import { SvelteNodeViewRenderer } from "svelte-tiptap";
+import type { SelectItem } from "$lib/blocks/select/select.svelte";
 import EmojiList from "../EmojiList.svelte";
 import SuggestionList from "../SuggestionList.svelte";
 import DiscordMention from "./custom/discord-mention.svelte";

@@ -1,15 +1,12 @@
 <script lang="ts">
+import SuperDebug, { superForm } from "sveltekit-superforms";
 import { beforeNavigate, goto } from "$app/navigation";
-import {
-	DashboardCard,
-	DashboardCardSideBySide,
-} from "$lib/blocks/dashboard-card";
+import { DashboardCard, DashboardCardSideBySide } from "$lib/blocks/dashboard-card";
 import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
 import { Input } from "$lib/blocks/input";
 import { ChannelSelect } from "$lib/blocks/select";
 import { WebsiteRoutes } from "$lib/constants";
 import { getAppState } from "$lib/utility/context.svelte";
-import SuperDebug, { superForm } from "sveltekit-superforms";
 
 const { data } = $props();
 

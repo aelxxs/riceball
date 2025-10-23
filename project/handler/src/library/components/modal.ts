@@ -5,7 +5,7 @@ export function modal(options: ModalOptions) {
 	const { command, method, title, context, components } = options;
 
 	const transformedComponents = components.map((component) => {
-		// @ts-ignore - This is a custom id
+		// @ts-expect-error - This is a custom id
 		component.custom_id = makeUniqueID(method, component.custom_id, context ?? "");
 
 		return component;

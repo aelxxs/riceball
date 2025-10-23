@@ -4,12 +4,7 @@ import { abbreviateNumber, composeLevelCard } from "@riceball/colorify";
 import type { CardWithRelations } from "@riceball/db/zod";
 import { onMount } from "svelte";
 
-type FontType =
-	| "Sans-serif"
-	| "Serif"
-	| "Monospace"
-	| "Handwritten"
-	| "Cursive";
+type FontType = "Sans-serif" | "Serif" | "Monospace" | "Handwritten" | "Cursive";
 
 type User = {
 	username: string;
@@ -27,10 +22,7 @@ type Props = {
 	user: User;
 };
 
-const {
-	card = $bindable<CardWithRelations>(),
-	user = $bindable<User>(),
-}: Props = $props();
+const { card = $bindable<CardWithRelations>(), user = $bindable<User>() }: Props = $props();
 
 function parseEmoji(text: string) {
 	let decodedText = text;
@@ -81,7 +73,7 @@ const measureWidth = (text: string, size: number, font: string) => {
 };
 
 function parseBio(text: string): BioChunk[] {
-	const EMOJI_REGEX = /(<?a?\:\w{2,32}:\d{17,19}?>)/;
+	const EMOJI_REGEX = /(<?a?:\w{2,32}:\d{17,19}?>)/;
 
 	const spaceWidth = measureWidth(" ", 8, font);
 
@@ -135,8 +127,7 @@ let rankGroupStartX = $state(0);
 
 let loading = $state(true);
 
-const { username, greeting, level, curExp, maxExp, rank, reputation, badges } =
-	user;
+const { username, greeting, level, curExp, maxExp, rank, reputation, badges } = user;
 
 const initialize = () => {
 	lvlTextWidth = measureWidth("Lvl.", 7.5, font) ?? 0;
@@ -146,13 +137,11 @@ const initialize = () => {
 	hashtagTextWidth = measureWidth("#", 7.5, font) ?? 0;
 	rankGroupStartX = 328 - (rankTextWidth + hashtagTextWidth) / 2;
 
-	reputationTextWidth =
-		measureWidth(abbreviateNumber(reputation), 9, font) ?? 0;
+	reputationTextWidth = measureWidth(abbreviateNumber(reputation), 9, font) ?? 0;
 	plusTextWidth = measureWidth("+", 7.5, font) ?? 0;
 	repTextWidth = measureWidth("rep", 7.5, font) ?? 0;
 
-	reputationGroupStartX =
-		328 - (plusTextWidth + reputationTextWidth + repTextWidth) / 2;
+	reputationGroupStartX = 328 - (plusTextWidth + reputationTextWidth + repTextWidth) / 2;
 
 	bio = parseBio(greeting);
 	loading = false;
@@ -171,10 +160,8 @@ $effect(() => {
 	}
 });
 
-const userAvatar =
-	"https://cdn.discordapp.com/avatars/406665840088317962/a_07d1dd47eddbaf327d591b3707bb0614.gif";
-const serverIcon =
-	"https://cdn.discordapp.com/icons/489958131472924682/46113f5c761bf754cb67feaf6d7ed3f5.webp";
+const userAvatar = "https://cdn.discordapp.com/avatars/406665840088317962/a_07d1dd47eddbaf327d591b3707bb0614.gif";
+const serverIcon = "https://cdn.discordapp.com/icons/489958131472924682/46113f5c761bf754cb67feaf6d7ed3f5.webp";
 </script>
 
 {#snippet text(

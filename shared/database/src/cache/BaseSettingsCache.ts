@@ -54,7 +54,7 @@ function deepMerge<T extends object>(target: T, source: Partial<T>): T {
 		// If both target and source have the same key and the value is an object,
 		// recursively merge the objects
 		if (isObject(targetValue) && isObject(sourceValue)) {
-			// @ts-ignore
+			// @ts-expect-error
 			target[key] = deepMerge(targetValue, sourceValue);
 		} else {
 			// Otherwise, simply overwrite the target with the source value

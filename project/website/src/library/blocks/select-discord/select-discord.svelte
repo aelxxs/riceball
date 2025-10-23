@@ -1,15 +1,13 @@
 <script lang="ts">
+import { Combobox, type Selected } from "bits-ui";
 import type { Icon } from "lucide-svelte";
 // - Icons
 import AtSignIcon from "lucide-svelte/icons/at-sign";
 import HashIcon from "lucide-svelte/icons/hash";
 import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
 import XIcon from "lucide-svelte/icons/x";
-
-import { flyAndScale } from "$lib/utility/transitions";
-import { Combobox, type Selected } from "bits-ui";
-
 import type { Snippet } from "svelte";
+import { flyAndScale } from "$lib/utility/transitions";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox";
 
@@ -50,8 +48,7 @@ let {
 	...restProps
 }: Props = $props();
 
-const icon =
-	type === "role" ? AtSignIcon : type === "channel" ? HashIcon : null;
+const icon = type === "role" ? AtSignIcon : type === "channel" ? HashIcon : null;
 
 let inputValue = $state("");
 
@@ -61,11 +58,7 @@ const flatItems = items.flatMap((item) => {
 });
 
 const filteredItems = $derived(() => {
-	return inputValue
-		? items.filter((item) =>
-				item.label.toLowerCase().includes(inputValue.toLowerCase()),
-			)
-		: items;
+	return inputValue ? items.filter((item) => item.label.toLowerCase().includes(inputValue.toLowerCase())) : items;
 });
 
 let selectedItems = $state<Selected<string>[]>([]);

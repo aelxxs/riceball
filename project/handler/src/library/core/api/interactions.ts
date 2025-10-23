@@ -1,4 +1,4 @@
-import { REST, type RawFile } from "@discordjs/rest";
+import { type RawFile, REST } from "@discordjs/rest";
 import type Client from "@spectacles/proxy";
 import {
 	type APIApplicationCommandInteraction,
@@ -174,7 +174,7 @@ export const edit = (interaction: APIInteraction, content: MessagePayload, optio
 		ephemeral: true,
 	});
 
-	// @ts-ignore
+	// @ts-expect-error
 	const files = transformedContent.files;
 
 	return rest.patch(Routes.webhookMessage(interaction.application_id, interaction.token), {
@@ -284,9 +284,9 @@ export function sendMessage(
 
 	// Handle different call signatures
 	if (
-		typeof guildOrInteractionId === "string" &&
-		typeof channelOrContent === "string" &&
-		typeof messageOrContent === "string"
+		typeof guildOrInteractionId === "string"
+		&& typeof channelOrContent === "string"
+		&& typeof messageOrContent === "string"
 	) {
 		// Guild ID, Channel ID, and Message ID provided
 		destination = channelOrContent;
@@ -308,7 +308,7 @@ export function sendMessage(
 
 	const transformedContent = transformContent(content, options);
 	if (messageReference) {
-		// @ts-ignore
+		// @ts-expect-error
 		transformedContent.message_reference = messageReference;
 	}
 

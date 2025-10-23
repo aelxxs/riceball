@@ -4,10 +4,10 @@
 // since there is a save button, we need to pass in the form submit function
 // and also a callback to reset the form's dirty state
 
-import type { ButtonVariant } from "$lib/blocks/button";
-import type { DashboardGuild, ManagedGuild } from "$lib/types";
 import type { Icon } from "lucide-svelte";
 import { getContext, setContext } from "svelte";
+import type { ButtonVariant } from "$lib/blocks/button";
+import type { DashboardGuild, ManagedGuild } from "$lib/types";
 
 type SaveModalProps = {
 	save: () => void;

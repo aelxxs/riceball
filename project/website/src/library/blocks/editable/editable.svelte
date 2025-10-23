@@ -1,22 +1,17 @@
 <script lang="ts">
-import type { DashboardGuild } from "$lib/types";
 import { markdownToHTML, serializer } from "@riceball/markdown";
 import CharacterCount from "@tiptap/extension-character-count";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 import { onMount } from "svelte";
-import { type Editor, EditorContent, createEditor } from "svelte-tiptap";
 import type { Readable } from "svelte/store";
 import { fade } from "svelte/transition";
+import { createEditor, type Editor, EditorContent } from "svelte-tiptap";
+import type { DashboardGuild } from "$lib/types";
 import EmojiPicker from "../emoji-picker/emoji-picker.svelte";
+import { ChannelMention, Emoji, RoleMention, Tag } from "./extensions/index.svelte";
 import { Underline } from "./Underline";
-import {
-	ChannelMention,
-	Emoji,
-	RoleMention,
-	Tag,
-} from "./extensions/index.svelte";
 
 type Props = {
 	type: "text" | "textarea";

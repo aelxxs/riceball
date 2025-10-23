@@ -1,9 +1,5 @@
 <script lang="ts">
-import {
-	Slider as SliderPrimitive,
-	Tooltip,
-	type WithoutChildrenOrChild,
-} from "bits-ui";
+import { Slider as SliderPrimitive, Tooltip, type WithoutChildrenOrChild } from "bits-ui";
 
 let {
 	ref = $bindable(null),

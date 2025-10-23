@@ -1,11 +1,7 @@
 <script lang="ts">
 import { onMount } from "svelte";
 
-let {
-	color = $bindable("#ff0000"),
-	format = "hex",
-	onClickClose = () => {},
-} = $props();
+let { color = $bindable("#ff0000"), format = "hex", onClickClose = () => {} } = $props();
 
 let parent = $state<HTMLDivElement | null>(null);
 

@@ -1,16 +1,10 @@
 <script lang="ts">
+import type { Snippet } from "svelte";
+import { Toaster } from "svelte-sonner";
 import { navigating, page } from "$app/state";
 import PageHeader from "$lib/blocks/page-header/page-header.svelte";
 import { generateSidebarRoutes } from "$lib/constants";
-import {
-	getGuild,
-	getGuilds,
-	layoutState,
-	saveModal,
-	shake,
-} from "$lib/utility/context.svelte";
-import type { Snippet } from "svelte";
-import { Toaster } from "svelte-sonner";
+import { getGuild, getGuilds, layoutState, saveModal, shake } from "$lib/utility/context.svelte";
 import { Header, Sidebar, UnsavedChanges } from "./components";
 
 type Props = {

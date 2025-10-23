@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from "@tiptap/core";
+import { mergeAttributes, Node } from "@tiptap/core";
 import type { DOMOutputSpec, Node as ProseMirrorNode } from "@tiptap/pm/model";
 import { PluginKey } from "@tiptap/pm/state";
 import Suggestion, { type SuggestionOptions } from "@tiptap/suggestion";
@@ -42,10 +42,7 @@ export type TagOptions<
 	 * @returns The label
 	 * @example ({ options, node }) => `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
 	 */
-	renderLabel?: (props: {
-		options: TagOptions<SuggestionItem, Attrs>;
-		node: ProseMirrorNode;
-	}) => string;
+	renderLabel?: (props: { options: TagOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => string;
 
 	/**
 	 * A function to render the text of a tag.
@@ -53,10 +50,7 @@ export type TagOptions<
 	 * @returns The text
 	 * @example ({ options, node }) => `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
 	 */
-	renderText: (props: {
-		options: TagOptions<SuggestionItem, Attrs>;
-		node: ProseMirrorNode;
-	}) => string;
+	renderText: (props: { options: TagOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => string;
 
 	/**
 	 * A function to render the HTML of a tag.
@@ -64,10 +58,7 @@ export type TagOptions<
 	 * @returns The HTML as a ProseMirror DOM Output Spec
 	 * @example ({ options, node }) => ['span', { 'data-type': 'tag' }, `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`]
 	 */
-	renderHTML: (props: {
-		options: TagOptions<SuggestionItem, Attrs>;
-		node: ProseMirrorNode;
-	}) => DOMOutputSpec;
+	renderHTML: (props: { options: TagOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => DOMOutputSpec;
 
 	/**
 	 * Whether to delete the trigger character with backspace.

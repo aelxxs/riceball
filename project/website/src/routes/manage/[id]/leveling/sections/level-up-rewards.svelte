@@ -1,7 +1,11 @@
 <script lang="ts">
+import type { Reward } from "@riceball/db";
+import type { LevelsWithRelations } from "@riceball/db/zod";
+import { Legend } from "formsnap";
 import AtSignIcon from "lucide-svelte/icons/at-sign";
 import Trash2Icon from "lucide-svelte/icons/trash-2";
-
+import { slide } from "svelte/transition";
+import type { SuperForm } from "sveltekit-superforms";
 import { Button } from "$lib/blocks/button";
 import { ButtonWithConfirmation } from "$lib/blocks/button-with-confirmation";
 import { DashboardCard } from "$lib/blocks/dashboard-card";
@@ -12,11 +16,6 @@ import { RadioGroup, RadioGroupItem } from "$lib/blocks/radio-group";
 import { DiscordEntitySelect } from "$lib/blocks/select-discord";
 import { Switch } from "$lib/blocks/switch";
 import { getGuild } from "$lib/utility/context.svelte";
-import type { Reward } from "@riceball/db";
-import type { LevelsWithRelations } from "@riceball/db/zod";
-import { Legend } from "formsnap";
-import { slide } from "svelte/transition";
-import type { SuperForm } from "sveltekit-superforms";
 
 type Props = {
 	form: SuperForm<LevelsWithRelations>;
@@ -41,23 +40,17 @@ const stackRewards = $state({
 	},
 });
 
-const sortedRewards = $derived(
-	$formData.rewards.sort((a, b) => a.level - b.level),
-);
+const sortedRewards = $derived($formData.rewards.sort((a, b) => a.level - b.level));
 
 const handleRewardAdd = () => {
-	const existingReward = $formData.rewards.find(
-		(r) => r.level === reward.level,
-	);
+	const existingReward = $formData.rewards.find((r) => r.level === reward.level);
 
 	if (existingReward) {
 		if (existingReward.roles.some((r) => reward.roles.includes(r))) {
 			return;
 		}
 		existingReward.roles = [...existingReward.roles, ...reward.roles];
-		$formData.rewards = $formData.rewards.map((r) =>
-			r.level === reward.level ? existingReward : r,
-		);
+		$formData.rewards = $formData.rewards.map((r) => (r.level === reward.level ? existingReward : r));
 	} else {
 		$formData.rewards = [...$formData.rewards, reward];
 	}

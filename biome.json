@@ -48,7 +48,12 @@
 			"!**/shared/database/temp/metadata.json"
 		],
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"correctness": {
+				"noUnusedImports": "off",
+				"noUnusedVariables": "off",
+				"noUnusedFunctionParameters": "off"
+			}
 		}
 	},
 	"overrides": [

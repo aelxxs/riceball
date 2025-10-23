@@ -1,14 +1,11 @@
 <script lang="ts">
-import Button from "$lib/blocks/button/button.svelte";
-import { Slider } from "$lib/blocks/slider/slider";
 import { AlertDialog, AspectRatio } from "bits-ui";
 import { XIcon } from "lucide-svelte";
 import ImageUpIcon from "lucide-svelte/icons/image-up";
 import Trash2Icon from "lucide-svelte/icons/trash-2";
-import Cropper, {
-	type CropArea,
-	type OnCropCompleteEvent,
-} from "svelte-easy-crop";
+import Cropper, { type CropArea, type OnCropCompleteEvent } from "svelte-easy-crop";
+import Button from "$lib/blocks/button/button.svelte";
+import { Slider } from "$lib/blocks/slider/slider";
 
 let {
 	url = $bindable(),

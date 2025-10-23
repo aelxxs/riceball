@@ -1,4 +1,9 @@
 <script lang="ts">
+import { EconomyWithRelationsSchema } from "@riceball/db/zod";
+import { ArrowLeft, ArrowRight } from "lucide-svelte";
+import { toast } from "svelte-sonner";
+import { superForm } from "sveltekit-superforms";
+import { zodClient } from "sveltekit-superforms/adapters";
 import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
 import { Control, Field } from "$lib/blocks/forms";
 import { Input } from "$lib/blocks/input";
@@ -6,11 +11,6 @@ import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
 import { Select } from "$lib/blocks/select";
 import { Switch } from "$lib/blocks/switch";
 import { getSaveModal } from "$lib/utility/context.svelte.js";
-import { EconomyWithRelationsSchema } from "@riceball/db/zod";
-import { ArrowLeft, ArrowRight } from "lucide-svelte";
-import { toast } from "svelte-sonner";
-import { superForm } from "sveltekit-superforms";
-import { zodClient } from "sveltekit-superforms/adapters";
 
 const { data } = $props();
 const modal = getSaveModal();
@@ -35,15 +35,7 @@ const form = superForm(data.form, {
 	},
 });
 
-const {
-	form: formData,
-	enhance,
-	tainted,
-	isTainted,
-	submit,
-	delayed,
-	submitting,
-} = form;
+const { form: formData, enhance, tainted, isTainted, submit, delayed, submitting } = form;
 
 $effect(() => {
 	if (isTainted($tainted)) {

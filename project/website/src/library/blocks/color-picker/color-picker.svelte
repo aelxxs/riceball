@@ -1,9 +1,9 @@
 <script lang="ts">
 // - Icons
-import Palette from "lucide-svelte/icons/palette";
 
-import { flyAndScale } from "$lib/utility/transitions";
 import { Popover } from "bits-ui";
+import Palette from "lucide-svelte/icons/palette";
+import { flyAndScale } from "$lib/utility/transitions";
 import { Button } from "../button";
 import Picker from "./picker.svelte";
 
@@ -11,11 +11,7 @@ const onClickClose = () => {
 	isOpen = false;
 };
 
-let {
-	format = "hex",
-	color = $bindable("#ff0000"),
-	showSelectedColor = $bindable(false),
-} = $props();
+let { format = "hex", color = $bindable("#ff0000"), showSelectedColor = $bindable(false) } = $props();
 
 let isOpen = $state(false);
 </script>

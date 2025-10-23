@@ -1,6 +1,7 @@
 <script lang="ts">
+import type { LevelsWithRelations } from "@riceball/db/zod";
 import ChartLine from "lucide-svelte/icons/chart-line";
-
+import type { SuperForm } from "sveltekit-superforms";
 import { DashboardCard } from "$lib/blocks/dashboard-card";
 import { Control, Field } from "$lib/blocks/forms";
 import { Input } from "$lib/blocks/input";
@@ -8,8 +9,6 @@ import { Select } from "$lib/blocks/select";
 import { Slider } from "$lib/blocks/slider/slider";
 import { Switch } from "$lib/blocks/switch";
 import { getGuild } from "$lib/utility/context.svelte";
-import type { LevelsWithRelations } from "@riceball/db/zod";
-import type { SuperForm } from "sveltekit-superforms";
 
 type Props = {
 	form: SuperForm<LevelsWithRelations>;

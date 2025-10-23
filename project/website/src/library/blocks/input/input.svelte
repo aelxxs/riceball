@@ -10,9 +10,7 @@ let {
 	class: className,
 	icon,
 	...restProps
-}: WithElementRef<
-	HTMLInputAttributes & { label?: string; icon?: typeof Icon }
-> = $props();
+}: WithElementRef<HTMLInputAttributes & { label?: string; icon?: typeof Icon }> = $props();
 </script>
 
 <div class="container">

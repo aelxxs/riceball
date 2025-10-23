@@ -1,9 +1,9 @@
 <script lang="ts">
+import { Label } from "bits-ui";
+import { EllipsisVerticalIcon, PlusIcon, SearchIcon } from "lucide-svelte";
 import { Button } from "$lib/blocks/button";
 import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
 import Input from "$lib/blocks/input/input.svelte";
-import { Label } from "bits-ui";
-import { EllipsisVerticalIcon, PlusIcon, SearchIcon } from "lucide-svelte";
 
 // const { data } = $props();
 

@@ -45,8 +45,8 @@ export default class implements Command {
 		const currency = `${economy.currencyIcon ?? economy.currencyName}`;
 
 		if (
-			wager < economy.wagerMin ||
-			wager > (economy.wagerMax === 0 ? Number.POSITIVE_INFINITY : economy.wagerMax)
+			wager < economy.wagerMin
+			|| wager > (economy.wagerMax === 0 ? Number.POSITIVE_INFINITY : economy.wagerMax)
 		) {
 			const message = `You must wager between ${currency} ${economy.wagerMin.toLocaleString()} and ${currency} ${economy.wagerMax.toLocaleString()}.`;
 

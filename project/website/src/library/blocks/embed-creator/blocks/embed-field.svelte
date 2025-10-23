@@ -1,10 +1,10 @@
 <script lang="ts">
 // - Icons
+
+import type { APIEmbedField } from "discord-api-types/v10";
 import ArrowDownFromLineIcon from "lucide-svelte/icons/arrow-down-from-line";
 import ArrowRightFromLineIcon from "lucide-svelte/icons/arrow-right-from-line";
 import TrashIcon from "lucide-svelte/icons/trash";
-
-import type { APIEmbedField } from "discord-api-types/v10";
 
 import { Button } from "$lib/blocks/button";
 import Editable from "$lib/blocks/editable/editable.svelte";

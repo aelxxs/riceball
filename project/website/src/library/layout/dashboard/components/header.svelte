@@ -1,22 +1,19 @@
 <script lang="ts">
 // - Icons
-import { enhance } from "$app/forms";
-import { Button } from "$lib/blocks/button";
-import { Divider } from "$lib/blocks/divider";
-import Switch from "$lib/blocks/switch/switch.svelte";
-import {
-	getAppState,
-	getGuild,
-	layoutState,
-} from "$lib/utility/context.svelte";
+
 import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
 import HashIcon from "lucide-svelte/icons/hash";
 import MenuIcon from "lucide-svelte/icons/menu";
 import XIconIcon from "lucide-svelte/icons/x";
 import { onMount } from "svelte";
-// @ts-ignore
-import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
 import { fade, fly } from "svelte/transition";
+// @ts-expect-error
+import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
+import { enhance } from "$app/forms";
+import { Button } from "$lib/blocks/button";
+import { Divider } from "$lib/blocks/divider";
+import Switch from "$lib/blocks/switch/switch.svelte";
+import { getAppState, getGuild, layoutState } from "$lib/utility/context.svelte";
 
 const duration = 0.3;
 

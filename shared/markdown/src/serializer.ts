@@ -144,7 +144,7 @@ export class MarkdownSerializerState {
 	}
 
 	public esc(str: string, startOfLine?: boolean): string {
-		let cleanedStr = str.replace(/[`*\\~\[\]]/g, "\\$&");
+		let cleanedStr = str.replace(/[`*\\~[\]]/g, "\\$&");
 		if (startOfLine) cleanedStr = str.replace(/^[:#\-*+]/, "\\$&").replace(/^(\d+)\./, "$1\\.");
 		return cleanedStr;
 	}

@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { existsSync, readFileSync } from "node:fs";
-import { GeneratedCacheAdapter, type Options, defineConfig } from "@mikro-orm/mongodb";
+import { defineConfig, GeneratedCacheAdapter, type Options } from "@mikro-orm/mongodb";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import { entities } from "./entities/index.js";
 

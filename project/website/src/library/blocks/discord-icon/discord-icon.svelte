@@ -38,8 +38,7 @@ switch (type) {
 		break;
 }
 
-const getAcryonym = (name: string) =>
-	name.replace(/\w+/g, (name) => name[0]).replace(/\s/g, "");
+const getAcryonym = (name: string) => name.replace(/\w+/g, (name) => name[0]).replace(/\s/g, "");
 </script>
 
 <Avatar.Root

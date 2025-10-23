@@ -1,19 +1,13 @@
 <script lang="ts">
 // - Icons
-import ChevronDown from "lucide-svelte/icons/chevron-down";
 
-import type { ManagedGuild } from "$lib/types";
-import { flyAndScale } from "$lib/utility/transitions";
 import type { User } from "@auth/sveltekit";
 import { signIn, signOut } from "@auth/sveltekit/client";
 import { DropdownMenu } from "bits-ui";
-import {
-	BoxIcon,
-	HomeIcon,
-	LogOutIcon,
-	Settings2,
-	UserIcon,
-} from "lucide-svelte";
+import { BoxIcon, HomeIcon, LogOutIcon, Settings2, UserIcon } from "lucide-svelte";
+import ChevronDown from "lucide-svelte/icons/chevron-down";
+import type { ManagedGuild } from "$lib/types";
+import { flyAndScale } from "$lib/utility/transitions";
 import { Button } from "../button";
 import Divider from "../divider/divider.svelte";
 
