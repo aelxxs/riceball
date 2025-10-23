@@ -55,7 +55,7 @@
 		"@mikro-orm/mongodb": "^6.4.11",
 		"@mikro-orm/reflection": "^6.4.11",
 		"@riceball/logger": "workspace:*",
-		"dotenv": "16.6.1",
+		"dotenv": "17.2.3",
 		"ioredis": "5.8.2",
 		"reflect-metadata": "0.2.2",
 		"ts-node": "^10.9.2",
