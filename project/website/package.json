@@ -65,7 +65,7 @@
 		"svelte-easy-crop": "^5.0.0",
 		"svelte-motion": "^0.12.2",
 		"svelte-sonner": "^1.0.0",
-		"svelte-tiptap": "^2.1.0",
+		"svelte-tiptap": "^3.0.0",
 		"sveltekit-superforms": "^2.23.1",
 		"vite-plugin-commonjs": "^0.10.4"
 	}
