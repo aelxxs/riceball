@@ -62,7 +62,7 @@
 		"prosemirror-markdown": "^1.13.1",
 		"reflect-metadata": "0.2.2",
 		"sass": "^1.85.1",
-		"svelte-easy-crop": "^4.0.1",
+		"svelte-easy-crop": "^5.0.0",
 		"svelte-motion": "^0.12.2",
 		"svelte-sonner": "^1.0.0",
 		"svelte-tiptap": "^2.1.0",
