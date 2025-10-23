@@ -51,7 +51,7 @@
 		"colorthief": "^2.6.0",
 		"discord-api-types": "0.38.30",
 		"discord.js": "^14.18.0",
-		"dotenv": "16.5.0",
+		"dotenv": "16.6.1",
 		"emoji-mart": "^5.6.0",
 		"emoji-picker-element": "^1.26.1",
 		"formsnap": "^2.0.0",
