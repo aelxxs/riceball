@@ -377,7 +377,7 @@ importers:
         version: 14.1.0
       prosemirror-model:
         specifier: ^1.24.1
-        version: 1.25.0
+        version: 1.25.4
       twemoji:
         specifier: ^14.0.2
         version: 14.0.2
@@ -3091,6 +3091,9 @@ packages:
 
   prosemirror-model@1.25.0:
     resolution: {integrity: sha512-/8XUmxWf0pkj2BmtqZHYJipTBMHIdVjuvFzMvEoxrtyGNmfvdhBiRwYt/eFwy2wA9DtBW3RLqvZnjurEkHaFCw==}
+
+  prosemirror-model@1.25.4:
+    resolution: {integrity: sha512-PIM7E43PBxKce8OQeezAs9j4TP+5yDpZVbuurd1h5phUxEKIu+G2a+EUZzIC5nS1mJktDJWzbqS23n1tsAf5QA==}
 
   prosemirror-schema-basic@1.2.4:
     resolution: {integrity: sha512-ELxP4TlX3yr2v5rM7Sb70SqStq5NvI15c0j9j/gjsrO5vaw+fnnpovCLEGIcpeGfifkuqJwl4fon6b+KdrODYQ==}
@@ -6427,6 +6430,10 @@ snapshots:
       prosemirror-state: 1.4.3
 
   prosemirror-model@1.25.0:
+    dependencies:
+      orderedmap: 2.1.1
+
+  prosemirror-model@1.25.4:
     dependencies:
       orderedmap: 2.1.1
 
