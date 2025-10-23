@@ -1,55 +1,59 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"vcs": {
-		"enabled": false,
-		"clientKind": "git",
-		"useIgnoreFile": false
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on",
+				"useSortedAttributes": "on"
+			}
+		}
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": [
-			"**/.svelte-kit",
-			"**/dist",
-			"**/generated",
-			"**/build",
-			"**/node_modules",
-			"shared/database/temp/metadata.json"
-		],
-		"include": ["project/**", "shared/**"]
+		"includes": [
+			"**/project/**",
+			"**/shared/**",
+			"!**/.svelte-kit",
+			"!**/dist",
+			"!**/generated",
+			"!**/build",
+			"!**/node_modules",
+			"!**/shared/database/temp/metadata.json"
+		]
 	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",
+		"lineWidth": 120,
 		"useEditorconfig": true
 	},
-	"organizeImports": {
-		"enabled": true
+	"javascript": {
+		"formatter": {
+			"operatorLinebreak": "before",
+			"quoteStyle": "double"
+		},
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		}
 	},
 	"linter": {
 		"enabled": true,
+		"includes": [
+			"**",
+			"!**/.svelte-kit",
+			"!**/dist",
+			"!**/generated",
+			"!**/build",
+			"!**/node_modules",
+			"!**/shared/database/temp/metadata.json"
+		],
 		"rules": {
 			"recommended": true
-		},
-		"ignore": [
-			"**/.svelte-kit",
-			"**/dist",
-			"**/generated",
-			"**/build",
-			"**/node_modules",
-			"shared/database/temp/metadata.json"
-		]
-	},
-	"javascript": {
-		"parser": {
-			"unsafeParameterDecoratorsEnabled": true
-		},
-		"formatter": {
-			"quoteStyle": "double"
 		}
 	},
 	"overrides": [
 		{
-			"include": ["*.svelte"],
+			"includes": ["**/*.svelte"],
 			"linter": {
 				"rules": {
 					"style": {
@@ -59,5 +63,10 @@
 				}
 			}
 		}
-	]
+	],
+	"vcs": {
+		"clientKind": "git",
+		"enabled": false,
+		"useIgnoreFile": false
+	}
 }
