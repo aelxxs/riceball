@@ -55,7 +55,7 @@ importers:
         version: 1.8.2
       discord-api-types:
         specifier: 0.38.12
-        version: 0.38.12
+        version: 0.38.30
       dotenv:
         specifier: 16.5.0
         version: 16.5.0
@@ -182,7 +182,7 @@ importers:
         version: 2.6.0
       discord-api-types:
         specifier: 0.38.12
-        version: 0.38.12
+        version: 0.38.30
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -368,7 +368,7 @@ importers:
         version: 2.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       discord-api-types:
         specifier: ^0.38.0
-        version: 0.38.1
+        version: 0.38.30
       discord-markdown-parser:
         specifier: ^1.2.0
         version: 1.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2257,11 +2257,8 @@ packages:
   discord-api-types@0.37.120:
     resolution: {integrity: sha512-7xpNK0EiWjjDFp2nAhHXezE4OUWm7s1zhc/UXXN6hnFFU8dfoPHgV0Hx0RPiCa3ILRpdeh152icc68DGCyXYIw==}
 
-  discord-api-types@0.38.1:
-    resolution: {integrity: sha512-vsjsqjAuxsPhiwbPjTBeGQaDPlizFmSkU0mTzFGMgRxqCDIRBR7iTY74HacpzrDV0QtERHRKQEk1tq7drZUtHg==}
-
-  discord-api-types@0.38.12:
-    resolution: {integrity: sha512-vqkRM50N5Zc6OVckAqtSslbUEoXmpN4bd9xq2jkoK9fgO3KNRIOyMMQ7ipqjwjKuAgzWvU6G8bRIcYWaUe1sCA==}
+  discord-api-types@0.38.30:
+    resolution: {integrity: sha512-KhAqlBrg+rVK+Ob7INMF5o63yW4/GUzRatG/AjyVsIO8lgcLyR8qCl2HokIVzWwmzkJYG0CEPXsKMOqau3E8NA==}
 
   discord-markdown-parser@1.2.0:
     resolution: {integrity: sha512-RSvx1cEBT/k7Vgvj5yW+RZ+uvGcIHem86CTsWnCEivoker0UrRqmZagQCYS/jj0OM1C7HXFsqOPu8OwwcBLCuA==}
@@ -4055,7 +4052,7 @@ snapshots:
       '@sapphire/async-queue': 1.5.5
       '@sapphire/snowflake': 3.5.5
       '@vladfrangu/async_event_emitter': 2.4.6
-      discord-api-types: 0.38.12
+      discord-api-types: 0.38.30
       magic-bytes.js: 1.10.0
       tslib: 2.8.1
       undici: 6.21.3
@@ -5614,9 +5611,7 @@ snapshots:
 
   discord-api-types@0.37.120: {}
 
-  discord-api-types@0.38.1: {}
-
-  discord-api-types@0.38.12: {}
+  discord-api-types@0.38.30: {}
 
   discord-markdown-parser@1.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
