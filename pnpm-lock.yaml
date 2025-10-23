@@ -230,7 +230,7 @@ importers:
         version: 1.0.5(svelte@5.41.0)
       svelte-tiptap:
         specifier: ^2.1.0
-        version: 2.1.0(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/extension-bubble-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/extension-floating-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)(svelte@5.41.0)
+        version: 2.2.0(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/extension-bubble-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/extension-floating-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)(svelte@5.41.0)
       sveltekit-superforms:
         specifier: ^2.23.1
         version: 2.27.4(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.41.0)(vite@6.2.6(@types/node@22.15.32)(sass@1.86.1)))(svelte@5.41.0)(vite@6.2.6(@types/node@22.15.32)(sass@1.86.1)))(@types/json-schema@7.0.15)(esbuild@0.25.2)(svelte@5.41.0)(typescript@5.8.3)
@@ -3693,13 +3693,13 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  svelte-tiptap@2.1.0:
-    resolution: {integrity: sha512-CtmBM4RzJ7dibuglG6g8YsiyEiaFWAu6qFuX73STuxKFJqoBuqXQWpJqQRttrUWVp/rrrDFjd08zyC1Zzrl/Qg==}
+  svelte-tiptap@2.2.0:
+    resolution: {integrity: sha512-6i8RRk7lot0zwobkhHNcW3yqdbC6xXrigwLZ1fERtVDq8nVhiaLzvF4HUboFNoxSTOxx7S8YGy4C6x0e+OPA1w==}
     peerDependencies:
-      '@tiptap/core': ^2.0.3
-      '@tiptap/extension-bubble-menu': ^2.0.3
-      '@tiptap/extension-floating-menu': ^2.0.3
-      '@tiptap/pm': ^2.0.3
+      '@tiptap/core': ^2.11.5
+      '@tiptap/extension-bubble-menu': ^2.11.5
+      '@tiptap/extension-floating-menu': ^2.11.5
+      '@tiptap/pm': ^2.11.5
       svelte: ^5.0.0
 
   svelte-toolbelt@0.5.0:
@@ -7288,7 +7288,7 @@ snapshots:
       runed: 0.28.0(svelte@5.41.0)
       svelte: 5.41.0
 
-  svelte-tiptap@2.1.0(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/extension-bubble-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/extension-floating-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)(svelte@5.41.0):
+  svelte-tiptap@2.2.0(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/extension-bubble-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/extension-floating-menu@2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)(svelte@5.41.0):
     dependencies:
       '@tiptap/core': 2.11.7(@tiptap/pm@2.11.7)
       '@tiptap/extension-bubble-menu': 2.11.7(@tiptap/core@2.11.7(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)
