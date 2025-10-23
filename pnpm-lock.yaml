@@ -22,7 +22,7 @@ importers:
         version: 2.0.1
       '@discordjs/formatters':
         specifier: ^0.6.0
-        version: 0.6.0
+        version: 0.6.1
       '@discordjs/rest':
         specifier: 2.5.1
         version: 2.5.1
@@ -116,7 +116,7 @@ importers:
         version: 1.8.0(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.41.0)(vite@6.2.6(@types/node@22.15.32)(sass@1.86.1)))(svelte@5.41.0)(vite@6.2.6(@types/node@22.15.32)(sass@1.86.1)))(svelte@5.41.0)
       '@discordjs/formatters':
         specifier: ^0.6.0
-        version: 0.6.0
+        version: 0.6.1
       '@discordjs/rest':
         specifier: 2.5.1
         version: 2.5.1
@@ -540,8 +540,8 @@ packages:
     resolution: {integrity: sha512-tj//rnPhdniq+Clxq0tq5wI7QTMH4IgyXkUFI32+ashIRpFJ1+J1btNG3FA74oATFu2sYy/zT9CKLWW4jp2RGQ==}
     engines: {node: '>=20'}
 
-  '@discordjs/formatters@0.6.0':
-    resolution: {integrity: sha512-YIruKw4UILt/ivO4uISmrGq2GdMY6EkoTtD0oS0GvkJFRZbTSdPhzYiUILbJ/QslsvC9H9nTgGgnarnIl4jMfw==}
+  '@discordjs/formatters@0.6.1':
+    resolution: {integrity: sha512-5cnX+tASiPCqCWtFcFslxBVUaCetB0thvM/JyavhbXInP1HJIEU+Qv/zMrnuwSsX3yWH2lVXNJZeDK3EiP4HHg==}
     engines: {node: '>=16.11.0'}
 
   '@discordjs/rest@2.5.1':
@@ -4020,7 +4020,7 @@ snapshots:
 
   '@discordjs/builders@1.10.1':
     dependencies:
-      '@discordjs/formatters': 0.6.0
+      '@discordjs/formatters': 0.6.1
       '@discordjs/util': 1.1.1
       '@sapphire/shapeshift': 4.0.0
       discord-api-types: 0.37.120
@@ -4044,9 +4044,9 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@discordjs/formatters@0.6.0':
+  '@discordjs/formatters@0.6.1':
     dependencies:
-      discord-api-types: 0.37.120
+      discord-api-types: 0.38.12
 
   '@discordjs/rest@2.5.1':
     dependencies:
@@ -5629,7 +5629,7 @@ snapshots:
     dependencies:
       '@discordjs/builders': 1.10.1
       '@discordjs/collection': 1.5.3
-      '@discordjs/formatters': 0.6.0
+      '@discordjs/formatters': 0.6.1
       '@discordjs/rest': 2.5.1
       '@discordjs/util': 1.1.1
       '@discordjs/ws': 1.2.1
