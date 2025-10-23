@@ -14,7 +14,7 @@
 	},
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
-		"@sveltejs/adapter-auto": "^6.0.0",
+		"@sveltejs/adapter-auto": "^7.0.0",
 		"@sveltejs/kit": "^2.20.7",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"svelte": "5.41.0",
