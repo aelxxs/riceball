@@ -17,6 +17,8 @@
 		"@sveltejs/adapter-auto": "^7.0.0",
 		"@sveltejs/kit": "^2.47.3",
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
+		"@swc/core": "1.13.20",
+		"@swc/helpers": "^0.5.17",
 		"svelte": "5.41.4",
 		"svelte-check": "^4.3.3",
 		"svelte-preprocess": "^6.0.3",
