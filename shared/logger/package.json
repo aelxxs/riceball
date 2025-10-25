@@ -24,7 +24,7 @@
 	},
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
-		"@swc/core": "1.13.20",
+		"@swc/core": "1.13.21",
 		"@swc/helpers": "^0.5.17",
 		"@types/node": "24.9.1",
 		"bunchee": "^6.6.2",
