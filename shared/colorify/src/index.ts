@@ -93,9 +93,9 @@ export const hslaToObj = (hslaString: HSLColorString): HSLAColorObject => {
 
 	// Create and return the object
 	return {
-		h: Number.parseInt(match[1]),
-		s: Number.parseInt(match[2]),
-		l: Number.parseInt(match[3]),
+		h: Number.parseInt(match[1], 10),
+		s: Number.parseInt(match[2], 10),
+		l: Number.parseInt(match[3], 10),
 		a: match[4] ? Number.parseFloat(match[4]) : 1,
 	};
 };
