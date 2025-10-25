@@ -13,8 +13,8 @@
 		"prestart": "pnpm start:dep"
 	},
 	"dependencies": {
-		"@discordjs/core": "^2.0.0",
-		"@discordjs/formatters": "^0.6.0",
+		"@discordjs/core": "^2.3.0",
+		"@discordjs/formatters": "^0.6.1",
 		"@discordjs/rest": "2.6.0",
 		"@napi-rs/canvas": "0.1.80",
 		"@riceball/colorify": "workspace:*",
@@ -22,27 +22,27 @@
 		"@riceball/logger": "workspace:*",
 		"@spectacles/brokers": "0.9.3",
 		"@spectacles/proxy": "0.1.3",
-		"@swc/core": "^1.11.13",
+		"@swc/core": "^1.13.21",
 		"canvas-constructor": "7.0.2",
 		"common-tags": "1.8.2",
 		"discord-api-types": "0.38.31",
 		"dotenv": "17.2.3",
 		"ioredis": "5.8.2",
 		"ms": "^2.1.3",
-		"node-emoji": "^2.0.0",
+		"node-emoji": "^2.2.0",
 		"reflect-metadata": "0.2.2",
-		"skia-canvas": "^3.0.0",
+		"skia-canvas": "^3.0.8",
 		"tsyringe": "4.10.0"
 	},
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
 		"@types/common-tags": "1.8.4",
-		"@types/ms": "^2.0.0",
-		"@types/node": "22.18.12",
-		"@types/node-emoji": "^2.0.0",
+		"@types/ms": "^2.1.0",
+		"@types/node": "24.9.1",
+		"@types/node-emoji": "^2.1.0",
+		"pkgroll": "^2.20.1",
 		"tslib": "2.8.1",
-		"tsup": "^8.4.0",
-		"typescript": "^5.7.3",
-		"pkgroll": "^2.12.1"
+		"tsup": "^8.5.0",
+		"typescript": "^5.9.3"
 	}
 }
