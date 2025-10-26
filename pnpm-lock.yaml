@@ -107,7 +107,7 @@ importers:
     dependencies:
       '@auth/core':
         specifier: ^0.41.0
-        version: 0.41.0
+        version: 0.41.1
       '@auth/sveltekit':
         specifier: ^1.11.0
         version: 1.11.0(@sveltejs/kit@2.47.3(@sveltejs/vite-plugin-svelte@6.2.1(svelte@5.42.2)(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2)(yaml@2.8.1)))(svelte@5.42.2)(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2)(yaml@2.8.1)))(svelte@5.42.2)
@@ -414,6 +414,20 @@ packages:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
       nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
+      '@simplewebauthn/server':
+        optional: true
+      nodemailer:
+        optional: true
+
+  '@auth/core@0.41.1':
+    resolution: {integrity: sha512-t9cJ2zNYAdWMacGRMT6+r4xr1uybIdmYa49calBPeTqwgAFPV/88ac9TEvCR85pvATiSPt8VaNf+Gt24JIT/uw==}
+    peerDependencies:
+      '@simplewebauthn/browser': ^9.0.1
+      '@simplewebauthn/server': ^9.0.2
+      nodemailer: ^7.0.7
     peerDependenciesMeta:
       '@simplewebauthn/browser':
         optional: true
@@ -3646,6 +3660,14 @@ snapshots:
     optional: true
 
   '@auth/core@0.41.0':
+    dependencies:
+      '@panva/hkdf': 1.2.1
+      jose: 6.1.0
+      oauth4webapi: 3.8.2
+      preact: 10.24.3
+      preact-render-to-string: 6.5.11(preact@10.24.3)
+
+  '@auth/core@0.41.1':
     dependencies:
       '@panva/hkdf': 1.2.1
       jose: 6.1.0
