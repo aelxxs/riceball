@@ -35,8 +35,6 @@
 	},
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
-		"@swc/core": "^1.13.20",
-		"@swc/helpers": "^0.5.17",
 		"@types/common-tags": "1.8.4",
 		"@types/ms": "^2.1.0",
 		"@types/node": "24.9.1",
