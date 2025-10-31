@@ -227,7 +227,7 @@ importers:
         version: 1.0.5(svelte@5.42.2)
       svelte-tiptap:
         specifier: ^3.0.0
-        version: 3.0.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/extension-bubble-menu@3.8.0(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1))(@tiptap/extension-floating-menu@3.8.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1)(svelte@5.42.2)
+        version: 3.0.1(@floating-ui/dom@1.7.4)(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/extension-bubble-menu@3.8.0(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1))(@tiptap/extension-floating-menu@3.8.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1)(svelte@5.42.2)
       sveltekit-superforms:
         specifier: ^2.28.0
         version: 2.28.0(@sveltejs/kit@2.47.3(@sveltejs/vite-plugin-svelte@6.2.1(svelte@5.42.2)(vite@7.1.12(@types/node@24.9.2)(sass@1.93.2)(yaml@2.8.1)))(svelte@5.42.2)(vite@7.1.12(@types/node@24.9.2)(sass@1.93.2)(yaml@2.8.1)))(@types/json-schema@7.0.15)(esbuild@0.25.11)(svelte@5.42.2)(typescript@5.9.3)
@@ -3222,8 +3222,8 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  svelte-tiptap@3.0.0:
-    resolution: {integrity: sha512-digFHOJe16RX0HIU+u8hOaCS9sIgktTpYHSF9yJ6dgxPv/JWJdYCdwoX65lcHitFhhCG7xnolJng6PJa9M9h3w==}
+  svelte-tiptap@3.0.1:
+    resolution: {integrity: sha512-Vi3kVGOd01f7mslOxGbJB7z2QavdvH+6WffhB+Y5fleTiZaW0YWqIboyO2u/uh4BQeosiINmmuRJ+Qwb7mYP+A==}
     peerDependencies:
       '@floating-ui/dom': ^1.0.0
       '@tiptap/core': ^3.0.0
@@ -6322,7 +6322,7 @@ snapshots:
       runed: 0.28.0(svelte@5.42.2)
       svelte: 5.42.2
 
-  svelte-tiptap@3.0.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/extension-bubble-menu@3.8.0(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1))(@tiptap/extension-floating-menu@3.8.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1)(svelte@5.42.2):
+  svelte-tiptap@3.0.1(@floating-ui/dom@1.7.4)(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/extension-bubble-menu@3.8.0(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1))(@tiptap/extension-floating-menu@3.8.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.10.1(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1))(@tiptap/pm@3.10.1)(svelte@5.42.2):
     dependencies:
       '@floating-ui/dom': 1.7.4
       '@tiptap/core': 3.10.1(@tiptap/pm@3.10.1)
