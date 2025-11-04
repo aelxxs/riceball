@@ -365,7 +365,7 @@ importers:
         version: 2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       discord-api-types:
         specifier: ^0.38.31
-        version: 0.38.31
+        version: 0.38.32
       discord-markdown-parser:
         specifier: ^1.2.0
         version: 1.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2111,9 +2111,6 @@ packages:
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
-
-  discord-api-types@0.38.31:
-    resolution: {integrity: sha512-kC94ANsk8ackj8ENTuO8joTNEL0KtymVhHy9dyEC/s4QAZ7GCx40dYEzQaadyo8w+oP0X8QydE/nzAWRylTGtQ==}
 
   discord-api-types@0.38.32:
     resolution: {integrity: sha512-UhIqkFuUVwBzejLPPWF18qixYPucMf718RnGh1NxZYNS7czXUmcUsWWkzWR7lRWj5pjfj4LwrnN9McvpfLvGqQ==}
@@ -5189,8 +5186,6 @@ snapshots:
   dir-glob@3.0.1:
     dependencies:
       path-type: 4.0.0
-
-  discord-api-types@0.38.31: {}
 
   discord-api-types@0.38.32: {}
 
