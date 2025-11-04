@@ -46,7 +46,7 @@
 		"@tiptap/pm": "^3.8.0",
 		"@tiptap/starter-kit": "^3.8.0",
 		"@tiptap/suggestion": "^3.8.0",
-		"@twemoji/api": "^16.0.1",
+		"@twemoji/api": "^17.0.0",
 		"bits-ui": "^2.14.1",
 		"colorthief": "^2.6.0",
 		"discord-api-types": "0.38.32",
