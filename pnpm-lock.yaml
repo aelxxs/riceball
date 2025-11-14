@@ -362,7 +362,7 @@ importers:
     dependencies:
       '@khanacademy/simple-markdown':
         specifier: ^2.1.1
-        version: 2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 2.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       discord-api-types:
         specifier: ^0.38.31
         version: 0.38.32
@@ -886,8 +886,8 @@ packages:
   '@khanacademy/perseus-core@3.7.0':
     resolution: {integrity: sha512-S79VoKCZ6K66HSqHGu6F6S1aIfMFrib79TWRAtkQqcTWS+O1EEGQPyPy5FNSWtDkAZX9N6+HQ9Ywo2jZY9iBcA==}
 
-  '@khanacademy/perseus-utils@2.1.1':
-    resolution: {integrity: sha512-toISI2El4eCTi5GsR54YPPPn8LxbRnmAvpx6jVKj9rHu6VTlU6DAYf93uLg/yFZfZu8xPZrsT+eJjQPRR+Gtyw==}
+  '@khanacademy/perseus-utils@2.1.2':
+    resolution: {integrity: sha512-CiN/EQfiyrpwmOA3N/e8pq5KEbWhmKny69F7mG83/fz0dMcMTrgXwzzGSxj70e4NPMAm/PmDwFQZW0UYXJyOaw==}
 
   '@khanacademy/simple-markdown@0.13.20':
     resolution: {integrity: sha512-OPp1drMgRRG2Mi0DxtfCiR4kXMngNJxPW9lG8aA05OrXUjLSXcsHb0jYcqfNeXOyqD4uwiLEtprDfJWgK1Hkpw==}
@@ -895,8 +895,8 @@ packages:
       react: ^18.2.0
       react-dom: ^18.2.0
 
-  '@khanacademy/simple-markdown@2.1.1':
-    resolution: {integrity: sha512-Bntnd0/7KMKGHCazfnTOG2THbYhyEhV+8fedZOnzC98G0khLsxYq0bt0ztTjUQet8GJ/mvRpGJelxQ+I86DTmQ==}
+  '@khanacademy/simple-markdown@2.1.2':
+    resolution: {integrity: sha512-TDxt+rYOl35lrAk0KzPxoZjor2xY1IFjyxSprPl3fpbJETUosz9xEa5VRfvuI4boll/jV9A+xHSfTAIJbKddug==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -4048,7 +4048,7 @@ snapshots:
 
   '@khanacademy/perseus-core@3.7.0': {}
 
-  '@khanacademy/perseus-utils@2.1.1': {}
+  '@khanacademy/perseus-utils@2.1.2': {}
 
   '@khanacademy/simple-markdown@0.13.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -4056,9 +4056,9 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@khanacademy/simple-markdown@2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@khanacademy/simple-markdown@2.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@khanacademy/perseus-utils': 2.1.1
+      '@khanacademy/perseus-utils': 2.1.2
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
