@@ -16,7 +16,7 @@
 		"@discordjs/core": "^2.3.0",
 		"@discordjs/formatters": "^0.6.1",
 		"@discordjs/rest": "2.6.0",
-		"@napi-rs/canvas": "0.1.81",
+		"@napi-rs/canvas": "0.1.82",
 		"@riceball/colorify": "workspace:*",
 		"@riceball/db": "workspace:*",
 		"@riceball/logger": "workspace:*",
