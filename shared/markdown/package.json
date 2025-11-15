@@ -22,7 +22,7 @@
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
 		"@types/markdown-it": "^14.1.2",
-		"@types/node": "24.10.0",
+		"@types/node": "24.10.1",
 		"bunchee": "^6.6.2",
 		"typescript": "^5.9.3"
 	},
