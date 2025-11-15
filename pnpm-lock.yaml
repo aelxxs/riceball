@@ -289,16 +289,16 @@ importers:
     dependencies:
       '@mikro-orm/core':
         specifier: ^6.5.9
-        version: 6.5.9
+        version: 6.6.0
       '@mikro-orm/migrations-mongodb':
         specifier: ^6.5.9
-        version: 6.5.9(@mikro-orm/core@6.5.9)(@types/node@24.10.1)
+        version: 6.6.0(@mikro-orm/core@6.6.0)(@types/node@24.10.1)
       '@mikro-orm/mongodb':
         specifier: ^6.5.9
-        version: 6.5.9(@mikro-orm/core@6.5.9)
+        version: 6.6.0(@mikro-orm/core@6.6.0)
       '@mikro-orm/reflection':
         specifier: ^6.5.9
-        version: 6.5.9(@mikro-orm/core@6.5.9)
+        version: 6.6.0(@mikro-orm/core@6.6.0)
       '@riceball/logger':
         specifier: workspace:*
         version: link:../logger
@@ -326,7 +326,7 @@ importers:
     devDependencies:
       '@mikro-orm/cli':
         specifier: ^6.5.9
-        version: 6.5.9
+        version: 6.6.0
       '@riceball/ts-config':
         specifier: workspace:*
         version: link:../ts-configs
@@ -1064,17 +1064,17 @@ packages:
   '@melloware/coloris@0.25.0':
     resolution: {integrity: sha512-RBWVFLjWbup7GRkOXb9g3+ZtR9AevFtJinrRz2cYPLjZ3TCkNRGMWuNbmQWbZ5cF3VU7aQDZwUsYgIY/bGrh2g==}
 
-  '@mikro-orm/cli@6.5.9':
-    resolution: {integrity: sha512-Jihukq7STU5ZfRdjOBSR7mzOClqkhkic7t8GF/OAoMBeHgpUc93Ug2GvSMrJaNWGg4AKtgch/cP/KGv/3QtSsQ==}
+  '@mikro-orm/cli@6.6.0':
+    resolution: {integrity: sha512-5hou4O7Q3a5VhJ8Hdf4hGR4/AI6k3C1jLrHstQQKPaX7j37O+TUwYroOKWPenFzXL2PmT7Xw8Sg84CJzA1GozA==}
     engines: {node: '>= 18.12.0'}
     hasBin: true
 
-  '@mikro-orm/core@6.5.9':
-    resolution: {integrity: sha512-BDfMW35pKVfSBBK0TiIpjh+IX62UwD0V22x4O6psMfiwbFoAJN/gEpEg1FuLx41dYf/ExHe9Cin6U6hwRdELaQ==}
+  '@mikro-orm/core@6.6.0':
+    resolution: {integrity: sha512-o0uFaaBnE5Y88hbm5Qeol8Z5kllXJbJkdW3PdWVuwVSKTdv7hNu3tmcCixKmw5004VVfa8a9zpjXvySk1EbzVg==}
     engines: {node: '>= 18.12.0'}
 
-  '@mikro-orm/knex@6.5.9':
-    resolution: {integrity: sha512-VtBPIcNYyWeQ+M+ha5DD+961gc6jtJDX0JLkBfMatTgHl78R1IuiTPaPfen4X9ezEDsR6N8XqJtuRmOXRFl6lA==}
+  '@mikro-orm/knex@6.6.0':
+    resolution: {integrity: sha512-FHxmqS5iCVnSz8booSSjnJx/H2uCRrQWZ7K0h+tmBlT6ItpZklTblscTRHQCg8NDcDtyDTlKBM1kiJ2k+tByuA==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@mikro-orm/core': ^6.0.0
@@ -1089,20 +1089,20 @@ packages:
       mariadb:
         optional: true
 
-  '@mikro-orm/migrations-mongodb@6.5.9':
-    resolution: {integrity: sha512-xxMHNHXTL6IrqCUO9VxHjFaWn+Srsz65ADFJ2ys3Iuf3OQcN2Cwas/vtpe5jaCA6x5qKkIYYYkkIRcknek3VFQ==}
+  '@mikro-orm/migrations-mongodb@6.6.0':
+    resolution: {integrity: sha512-uGs+eUWDLpn4zj2UGV3JYmt4KbKPqrwSVTWmn7j35exUsjN+DjWQgrboNuoq6lqsTHB1Qsk8uwq/qYKsYJEmBA==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@mikro-orm/core': ^6.0.0
 
-  '@mikro-orm/mongodb@6.5.9':
-    resolution: {integrity: sha512-EdowevAaeErHEtBVMiS6qT/Ng1c1vO3+VGOUny+Auoq4vhMnyip8KNr5fhg2MxPlSdkfqD/4u1ib/hikBQCzaA==}
+  '@mikro-orm/mongodb@6.6.0':
+    resolution: {integrity: sha512-OGxxMkK+4TZh0masiuRO+TDbtAubomoYyvcy6y8lomCZc0fJVGdcrGeC4KDUsT0M/4Tr535woOokRkx5hbh7ng==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@mikro-orm/core': ^6.0.0
 
-  '@mikro-orm/reflection@6.5.9':
-    resolution: {integrity: sha512-iBkQXFzh8oAZmRAH1WrcI48fIfJMgBuIWHdyDLvrmVgkZe4QP0ninOGskV41xsKX7ywWsgsxTjYagwBROEpVSw==}
+  '@mikro-orm/reflection@6.6.0':
+    resolution: {integrity: sha512-EeRlVUNF8jl6TZXiCMTmFa3z0u4VDrnpv+dajy2cnYaSA8uDO2SOV20iYYIn7Ovod8U3UZjpDgE7+nLPQ3JnlA==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@mikro-orm/core': ^6.0.0
@@ -2510,8 +2510,8 @@ packages:
       picomatch:
         optional: true
 
-  figlet@1.9.3:
-    resolution: {integrity: sha512-majPgOpVtrZN1iyNGbsUP6bOtZ6eaJgg5HHh0vFvm5DJhh8dc+FJpOC4GABvMZ/A7XHAJUuJujhgUY/2jPWgMA==}
+  figlet@1.9.4:
+    resolution: {integrity: sha512-uN6QE+TrzTAHC1IWTyrc4FfGo2KH/82J8Jl1tyKB7+z5DBit/m3D++Iu5lg91qJMnQQ3vpJrj5gxcK/pk4R9tQ==}
     engines: {node: '>= 17.0.0'}
     hasBin: true
 
@@ -2851,12 +2851,12 @@ packages:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
 
-  mikro-orm@6.5.9:
-    resolution: {integrity: sha512-qbEZsQG8HbGfBHeeSpmWGD+bcaZmYEE8TU3Mi9iXRoJ1yPBd6GXbUjBejMVUAkqzBL+LMZjE9sRyIG+Fg+kTvw==}
+  mikro-orm@6.6.0:
+    resolution: {integrity: sha512-Or689gW269Lj/vnuwLawE+gIlkd1KsIgEnTiulRJhnhUNJ9Lyi375l/3MkCiOJUWPcRGBABS8GmxY4gLPMF3Lg==}
     engines: {node: '>= 18.12.0'}
 
-  minimatch@10.0.3:
-    resolution: {integrity: sha512-IPZ167aShDZZUMdRk66cyQAW3qr0WzbHkPdMYa8bzZhlHhO3jALbKdxcaak7W9FfT2rZNpQuUu4Od7ILEpXSaw==}
+  minimatch@10.1.1:
+    resolution: {integrity: sha512-enIvLvRAFZYXJzkCYG5RKmPfrFArdLv+R+lbQ53BmIMLIry74bjKzX6iHAm8WYamJkhSSEabrWN5D97XnKObjQ==}
     engines: {node: 20 || >=22}
 
   minimatch@9.0.5:
@@ -4374,7 +4374,7 @@ snapshots:
   '@jercle/yargonaut@1.1.5':
     dependencies:
       chalk: 4.1.2
-      figlet: 1.9.3
+      figlet: 1.9.4
       parent-require: 1.0.0
 
   '@jridgewell/gen-mapping@0.3.13':
@@ -4421,11 +4421,11 @@ snapshots:
 
   '@melloware/coloris@0.25.0': {}
 
-  '@mikro-orm/cli@6.5.9':
+  '@mikro-orm/cli@6.6.0':
     dependencies:
       '@jercle/yargonaut': 1.1.5
-      '@mikro-orm/core': 6.5.9
-      '@mikro-orm/knex': 6.5.9(@mikro-orm/core@6.5.9)
+      '@mikro-orm/core': 6.6.0
+      '@mikro-orm/knex': 6.6.0(@mikro-orm/core@6.6.0)
       fs-extra: 11.3.2
       tsconfig-paths: 4.2.0
       yargs: 17.7.2
@@ -4441,19 +4441,19 @@ snapshots:
       - supports-color
       - tedious
 
-  '@mikro-orm/core@6.5.9':
+  '@mikro-orm/core@6.6.0':
     dependencies:
       dataloader: 2.2.3
       dotenv: 17.2.3
       esprima: 4.0.1
       fs-extra: 11.3.2
       globby: 11.1.0
-      mikro-orm: 6.5.9
+      mikro-orm: 6.6.0
       reflect-metadata: 0.2.2
 
-  '@mikro-orm/knex@6.5.9(@mikro-orm/core@6.5.9)':
+  '@mikro-orm/knex@6.6.0(@mikro-orm/core@6.6.0)':
     dependencies:
-      '@mikro-orm/core': 6.5.9
+      '@mikro-orm/core': 6.6.0
       fs-extra: 11.3.2
       knex: 3.1.0
       sqlstring: 2.3.3
@@ -4466,10 +4466,10 @@ snapshots:
       - supports-color
       - tedious
 
-  '@mikro-orm/migrations-mongodb@6.5.9(@mikro-orm/core@6.5.9)(@types/node@24.10.1)':
+  '@mikro-orm/migrations-mongodb@6.6.0(@mikro-orm/core@6.6.0)(@types/node@24.10.1)':
     dependencies:
-      '@mikro-orm/core': 6.5.9
-      '@mikro-orm/mongodb': 6.5.9(@mikro-orm/core@6.5.9)
+      '@mikro-orm/core': 6.6.0
+      '@mikro-orm/mongodb': 6.6.0(@mikro-orm/core@6.6.0)
       fs-extra: 11.3.2
       mongodb: 6.20.0
       umzug: 3.8.2(@types/node@24.10.1)
@@ -4483,9 +4483,9 @@ snapshots:
       - snappy
       - socks
 
-  '@mikro-orm/mongodb@6.5.9(@mikro-orm/core@6.5.9)':
+  '@mikro-orm/mongodb@6.6.0(@mikro-orm/core@6.6.0)':
     dependencies:
-      '@mikro-orm/core': 6.5.9
+      '@mikro-orm/core': 6.6.0
       bson: 6.10.4
       mongodb: 6.20.0
     transitivePeerDependencies:
@@ -4497,9 +4497,9 @@ snapshots:
       - snappy
       - socks
 
-  '@mikro-orm/reflection@6.5.9(@mikro-orm/core@6.5.9)':
+  '@mikro-orm/reflection@6.6.0(@mikro-orm/core@6.6.0)':
     dependencies:
-      '@mikro-orm/core': 6.5.9
+      '@mikro-orm/core': 6.6.0
       globby: 11.1.0
       ts-morph: 27.0.2
 
@@ -5212,7 +5212,7 @@ snapshots:
 
   '@ts-morph/common@0.28.1':
     dependencies:
-      minimatch: 10.0.3
+      minimatch: 10.1.1
       path-browserify: 1.0.1
       tinyglobby: 0.2.15
 
@@ -5786,7 +5786,7 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.3
 
-  figlet@1.9.3:
+  figlet@1.9.4:
     dependencies:
       commander: 14.0.2
 
@@ -6116,9 +6116,9 @@ snapshots:
       braces: 3.0.3
       picomatch: 2.3.1
 
-  mikro-orm@6.5.9: {}
+  mikro-orm@6.6.0: {}
 
-  minimatch@10.0.3:
+  minimatch@10.1.1:
     dependencies:
       '@isaacs/brace-expansion': 5.0.0
 
