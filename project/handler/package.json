@@ -24,7 +24,7 @@
 		"@spectacles/proxy": "0.1.3",
 		"canvas-constructor": "7.0.2",
 		"common-tags": "1.8.2",
-		"discord-api-types": "0.38.33",
+		"discord-api-types": "0.38.35",
 		"dotenv": "17.2.3",
 		"ioredis": "5.8.2",
 		"ms": "^2.1.3",
