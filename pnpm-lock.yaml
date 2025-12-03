@@ -22,7 +22,7 @@ importers:
         version: 2.3.0
       '@discordjs/formatters':
         specifier: ^0.6.1
-        version: 0.6.1
+        version: 0.6.2
       '@discordjs/rest':
         specifier: 2.6.0
         version: 2.6.0
@@ -113,7 +113,7 @@ importers:
         version: 1.11.1(@sveltejs/kit@2.48.5(@sveltejs/vite-plugin-svelte@6.2.1(svelte@5.45.2)(vite@7.2.2(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1)))(svelte@5.45.2)(vite@7.2.2(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1)))(svelte@5.45.2)
       '@discordjs/formatters':
         specifier: ^0.6.1
-        version: 0.6.1
+        version: 0.6.2
       '@discordjs/rest':
         specifier: 2.6.0
         version: 2.6.0
@@ -523,8 +523,8 @@ packages:
     resolution: {integrity: sha512-4Zl4MwKau1DBOBbmlQdVExaBPoDg6vS3Z8js4oZyCe59EnH7LGPRu7L7PKkYjs81Ftkuf0U5XMClsBHv1ARznA==}
     engines: {node: '>=20'}
 
-  '@discordjs/formatters@0.6.1':
-    resolution: {integrity: sha512-5cnX+tASiPCqCWtFcFslxBVUaCetB0thvM/JyavhbXInP1HJIEU+Qv/zMrnuwSsX3yWH2lVXNJZeDK3EiP4HHg==}
+  '@discordjs/formatters@0.6.2':
+    resolution: {integrity: sha512-y4UPwWhH6vChKRkGdMB4odasUbHOUwy7KL+OVwF86PvT6QVOwElx+TiI1/6kcmcEe+g5YRXJFiXSXUdabqZOvQ==}
     engines: {node: '>=16.11.0'}
 
   '@discordjs/rest@2.6.0':
@@ -4149,7 +4149,7 @@ snapshots:
 
   '@discordjs/builders@1.13.0':
     dependencies:
-      '@discordjs/formatters': 0.6.1
+      '@discordjs/formatters': 0.6.2
       '@discordjs/util': 1.1.1
       '@sapphire/shapeshift': 4.0.0
       discord-api-types: 0.38.35
@@ -4173,7 +4173,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@discordjs/formatters@0.6.1':
+  '@discordjs/formatters@0.6.2':
     dependencies:
       discord-api-types: 0.38.35
 
@@ -5863,7 +5863,7 @@ snapshots:
     dependencies:
       '@discordjs/builders': 1.13.0
       '@discordjs/collection': 1.5.3
-      '@discordjs/formatters': 0.6.1
+      '@discordjs/formatters': 0.6.2
       '@discordjs/rest': 2.6.0
       '@discordjs/util': 1.1.1
       '@discordjs/ws': 1.2.3
