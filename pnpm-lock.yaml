@@ -202,8 +202,8 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
       lucide-svelte:
-        specifier: ^0.553.0
-        version: 0.553.0(svelte@5.45.2)
+        specifier: ^0.556.0
+        version: 0.556.0(svelte@5.45.2)
       paneforge:
         specifier: ^1.0.2
         version: 1.0.2(svelte@5.45.2)
@@ -2973,8 +2973,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lucide-svelte@0.553.0:
-    resolution: {integrity: sha512-pOqzFX+RfcNyvjF0+nGVnSmprd+4NQ6mvpLOLEmhTyZGOad8+OtCl65822E7Rx9qE7rfKw84ODKI2v318JZ/7g==}
+  lucide-svelte@0.556.0:
+    resolution: {integrity: sha512-OUj2xk403WslZAIGnEF5wvw/A7QAUXebDWNFajU/INY9XPWRZZZdcr+h6zB6XAzd84F7lPZqiEi42JVjXtcBYw==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5.0.0-next.42
 
@@ -6338,7 +6338,7 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lucide-svelte@0.553.0(svelte@5.45.2):
+  lucide-svelte@0.556.0(svelte@5.45.2):
     dependencies:
       svelte: 5.45.2
 
