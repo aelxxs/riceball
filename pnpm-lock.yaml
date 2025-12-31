@@ -224,7 +224,7 @@ importers:
         version: 0.12.2(svelte@5.46.1)
       svelte-sonner:
         specifier: ^1.0.5
-        version: 1.0.6(svelte@5.46.1)
+        version: 1.0.7(svelte@5.46.1)
       svelte-tiptap:
         specifier: ^3.0.0
         version: 3.0.1(@floating-ui/dom@1.7.4)(@tiptap/core@3.11.1(@tiptap/pm@3.11.1))(@tiptap/extension-bubble-menu@3.8.0(@tiptap/core@3.11.1(@tiptap/pm@3.11.1))(@tiptap/pm@3.11.1))(@tiptap/extension-floating-menu@3.8.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.11.1(@tiptap/pm@3.11.1))(@tiptap/pm@3.11.1))(@tiptap/pm@3.11.1)(svelte@5.46.1)
@@ -3785,8 +3785,8 @@ packages:
       typescript:
         optional: true
 
-  svelte-sonner@1.0.6:
-    resolution: {integrity: sha512-cOB6fKVPnJ/wuqHV4dqoTJ/l/g7n3V8goUHqnhIV2wyv55DdoCI1D3VQSBIs7Iy8pkH5ZaNPB8T53jFfXE/6og==}
+  svelte-sonner@1.0.7:
+    resolution: {integrity: sha512-1EUFYmd7q/xfs2qCHwJzGPh9n5VJ3X6QjBN10fof2vxgy8fYE7kVfZ7uGnd7i6fQaWIr5KvXcwYXE/cmTEjk5A==}
     peerDependencies:
       svelte: ^5.0.0
 
@@ -7309,7 +7309,7 @@ snapshots:
       sass: 1.97.1
       typescript: 5.9.3
 
-  svelte-sonner@1.0.6(svelte@5.46.1):
+  svelte-sonner@1.0.7(svelte@5.46.1):
     dependencies:
       runed: 0.28.0(svelte@5.46.1)
       svelte: 5.46.1
