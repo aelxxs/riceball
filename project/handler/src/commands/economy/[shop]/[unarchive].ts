@@ -16,17 +16,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Autocomplete for the command
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {string} input - The input of the user
 	 **/
-	public autocompleteRun({ guild }: Context, input: string) {}
+	public async autocompleteRun({ guild }: Context, input: string) {
+		const transformed = input.toLowerCase().trim();
+
+		const items = await this.db.rm.items.find({
+			guildId: guild.id,
+			active: false,
+		});
+
+		const filtered = items
+			.filter((item) => item.name.toLowerCase().includes(transformed))
+			.slice(0, 25)
+			.map((item) => ({
+				name: item.name,
+				value: item._id,
+			}));
+
+		return filtered;
+	}
 
 	/**
 	 * Unarchive a shop item
@@ -34,8 +55,21 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild }: Context, { item }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild }: Context, { item }: Options) {
+		const shopItem = await this.db.rm.items.findOne({ _id: item, guildId: guild.id });
+
+		if (!shopItem) {
+			return "Item not found. Please ensure the item exists in your server's shop.";
+		}
+
+		if (shopItem.active) {
+			return `The item \`${shopItem.name}\` is already active.`;
+		}
+
+		shopItem.active = true;
+		await this.db.rm.em.flush();
+
+		return `Successfully unarchived \`${shopItem.name}\`. It will now appear in the shop.`;
 	}
 }
 

@@ -16,11 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { updateGuild } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { APIPartialChannel } from "discord-api-types/v10";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Configure which channel the announcement message is sent to
 	 *
@@ -28,7 +32,7 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { channel }: Options) {
-		await updateGuild(guild.id, {
+		await this.db.setGuildSettings(guild.id, {
 			levels: { notifyChannel: channel.id },
 		});
 

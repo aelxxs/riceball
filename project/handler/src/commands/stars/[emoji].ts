@@ -16,11 +16,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { updateGuild } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
 import { Starboard } from "library/plugins";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * Configure the emoji used to star messages
 	 *
@@ -32,7 +39,7 @@ export default class implements Command {
 			throw `${emoji} is not a supported emoji.`;
 		}
 
-		await updateGuild(guild.id, {
+		await this.db.setGuildSettings(guild.id, {
 			stars: { emoji },
 		});
 

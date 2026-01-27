@@ -1,4 +1,4 @@
-import { EventEmitter } from "node:stream";
+import { EventEmitter } from "node:events";
 import { logger } from "@riceball/logger";
 import type Redis from "ioredis";
 import { Deps } from "library/common";

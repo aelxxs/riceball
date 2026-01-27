@@ -2,13 +2,14 @@ import "dotenv/config";
 
 import "reflect-metadata";
 
+import { REST } from "@discordjs/rest";
 import { Database, setupDatabase } from "@riceball/db";
 import { logger } from "@riceball/logger";
 import { Redis } from "@spectacles/brokers";
-import { Client } from "@spectacles/proxy";
 import RedisClient from "ioredis";
 import { Constants, Deps } from "library/common";
 import { handle, load } from "library/core";
+import { loadCanvasFonts } from "library/utilities/load-fonts";
 import { validateEnv } from "library/utilities/validate-env";
 import { container } from "tsyringe";
 
@@ -22,7 +23,7 @@ const start = async () => {
 
 	website.subscribe(Constants.WebsiteEvents);
 
-	const rest = new Client(discord, process.env.DISCORD_TOKEN as string);
+	const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN as string);
 
 	await gateway.subscribe(Constants.GatewayEvents);
 
@@ -43,6 +44,7 @@ const start = async () => {
 	logger.info(`Registered ${plugins.size} commands`);
 
 	void handle();
+	loadCanvasFonts();
 
 	return { gateway, discord };
 };

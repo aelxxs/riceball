@@ -17,24 +17,30 @@
  **/
 
 import { bold, channelMention, codeBlock, subtext } from "@discordjs/formatters";
-import { getGuild } from "@riceball/db";
-import type Client from "@spectacles/proxy";
+import type { REST } from "@discordjs/rest";
+import { Database } from "@riceball/db";
 import { stripIndents } from "common-tags";
 import { ButtonStyle, Routes } from "discord-api-types/v10";
 import { Deps } from "library/common";
 import { actionRow, button } from "library/components";
 import type { Command, Context } from "library/core";
 import { formatBoolean } from "library/utilities/formatters";
-import { container } from "tsyringe";
+import { container, inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * View your server's Starboard settings
 	 *
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ i, guild }: Context) {
-		const { stars } = await getGuild(guild.id);
+		const { stars } = await this.db.getGuildSettings(guild.id);
 
 		return {
 			embeds: [
@@ -191,7 +197,7 @@ export default class implements Command {
 	public async selectSetting({ i, guild }: Context, [setting]: string[]) {
 		const { stars } = await getGuild(guild.id);
 
-		const rest = container.resolve<Client>(Deps.Rest);
+		const rest = container.resolve<REST>(Deps.Rest);
 		const commands = await rest.get(Routes.applicationCommands(i.application_id));
 
 		return {

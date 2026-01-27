@@ -16,18 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Set the icon of your server's currency
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild }: Context, { icon }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild }: Context, { icon }: Options) {
+		await this.db.setGuildSettings(guild.id, {
+			economy: { currencyIcon: icon },
+		});
+
+		return `The currency icon has been set to ${icon}.`;
 	}
 }
 

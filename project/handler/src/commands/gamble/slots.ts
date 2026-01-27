@@ -16,13 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { getGuild, getMember, updateMember } from "@riceball/db";
+import { Database } from "@riceball/db";
 import { stripIndents } from "common-tags";
 import { ButtonStyle } from "discord-api-types/v10";
 import { Constants } from "library/common";
 import { actionRow, button } from "library/components";
 import { type Command, type Component, type Context, edit, reply, update } from "library/core";
 import { randomItem, randomNItems, shuffle } from "library/utilities/arrays";
+import { inject, injectable } from "tsyringe";
 
 type SpinResult = {
 	render: string;
@@ -31,7 +32,13 @@ type SpinResult = {
 	winnings: number;
 };
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * Play a game of slots
 	 *
@@ -39,8 +46,8 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ i, guild, member, author }: Context, { wager }: Options, replay = false) {
-		const { economy } = await getGuild(guild.id);
-		const { bal } = await getMember(guild.id, author.id);
+		const { economy } = await this.db.getGuildSettings(guild.id);
+		const { bal } = await this.db.getMemberSettings(guild.id, author.id);
 
 		const currency = `${economy.currencyIcon ?? economy.currencyName}`;
 
@@ -70,7 +77,7 @@ export default class implements Command {
 		if (replay) {
 			await update(i, {
 				embeds: [{ description: compose(this.spin()) }],
-				components: [this.composeComponents(wager.toString(), wager, true)],
+				components: this.composeComponents(wager.toString(), wager, true),
 			});
 		} else {
 			await edit(i, compose(this.spin()), { prefix: null });
@@ -96,7 +103,7 @@ export default class implements Command {
 
 				const newBal = bal + (finalSpin.isWin ? finalWins : -wager);
 
-				await updateMember(guild.id, author.id, {
+				await this.db.setMemberSettings(guild.id, author.id, {
 					bal: newBal,
 				});
 			}, 450);

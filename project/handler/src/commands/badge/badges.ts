@@ -16,20 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-// import { getMemberBadges } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * View your purchased badges
 	 *
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ guild, author }: Context) {
-		// const { badges } = await getMemberBadges(author.id, guild.id);
+		const { badges } = await this.db.getMemberSettings(guild.id, author.id);
 
-		// if (!badges) return "You don't have any badges yet!";
+		if (!badges || badges.length === 0) {
+			return "You don't have any badges yet! Purchase some from the shop to get started.";
+		}
 
-		throw "boop :(";
+		const badgeList = badges
+			.map((badge) => {
+				const status = badge.active ? "✓" : "✗";
+				const slot = badge.slot > 0 ? ` (Slot ${badge.slot})` : "";
+				return `${status} ${badge.itemId}${slot}`;
+			})
+			.join("\n");
+
+		return `**Your Badges:**\n${badgeList}\n\n✓ = Active | ✗ = Inactive`;
 	}
 }

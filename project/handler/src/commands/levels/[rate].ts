@@ -16,10 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { updateGuild } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Configure the rate at which users gain experience
 	 *
@@ -31,18 +35,18 @@ export default class implements Command {
 
 		switch (type) {
 			case "message":
-				await updateGuild(guild.id, {
+				await this.db.setGuildSettings(guild.id, {
 					levels: {
-						talkRateMin: rate,
-						talkCooldown: cooldownInMs,
+						textRateMin: rate,
+						textCooldown: cooldownInMs,
 					},
 				});
 				break;
 			case "voice":
-				await updateGuild(guild.id, {
+				await this.db.setGuildSettings(guild.id, {
 					levels: {
-						talkRateMin: rate,
-						talkCooldown: cooldownInMs,
+						voiceRateMin: rate,
+						voiceCooldown: cooldownInMs,
 					},
 				});
 				break;

@@ -16,18 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Delete a reaction role message
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild }: Context, { message }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild }: Context, { message }: Options) {
+		const reactionRole = await this.db.rm.reactionRoles.findOne({
+			guildId: guild.id,
+			messageId: message,
+		});
+
+		if (!reactionRole) {
+			return "Reaction role message not found. Please ensure the message ID is correct.";
+		}
+
+		const alias = reactionRole.alias;
+		await this.db.rm.em.removeAndFlush(reactionRole);
+
+		return `Successfully deleted reaction role message \`${alias}\`.`;
 	}
 }
 

@@ -1,5 +1,5 @@
+import type { REST } from "@discordjs/rest";
 import { logger } from "@riceball/logger";
-import type Client from "@spectacles/proxy";
 import {
 	type APIApplicationCommandAutocompleteInteraction,
 	InteractionResponseType,
@@ -13,7 +13,7 @@ import { getCommandName, transformInteraction } from "./utils";
 
 export async function runAutocomplete(interaction: APIApplicationCommandAutocompleteInteraction) {
 	const plugins = container.resolve<Map<string, Command>>(Deps.Plugins);
-	const discord = container.resolve<Client>(Deps.Rest);
+	const discord = container.resolve<REST>(Deps.Rest);
 
 	const commandName = getCommandName(interaction);
 	const commandFile = plugins.get(commandName);
@@ -37,9 +37,11 @@ export async function runAutocomplete(interaction: APIApplicationCommandAutocomp
 		}
 
 		return discord.post(Routes.interactionCallback(interaction.id, interaction.token), {
-			type: InteractionResponseType.ApplicationCommandAutocompleteResult,
-			data: {
-				choices: output,
+			body: {
+				type: InteractionResponseType.ApplicationCommandAutocompleteResult,
+				data: {
+					choices: output,
+				},
 			},
 		});
 	} catch (error) {

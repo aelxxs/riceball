@@ -16,18 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { updateGuild } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Disable level up announcements
 	 *
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ guild }: Context) {
-		await updateGuild(guild.id, {
-			levels: { notifyMessageType: false },
+		await this.db.setGuildSettings(guild.id, {
+			levels: { enabled: false },
 		});
 
 		return "Level up announcements have been disabled.";

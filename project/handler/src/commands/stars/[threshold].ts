@@ -17,10 +17,17 @@
  **/
 
 import { bold } from "@discordjs/formatters";
-import { updateGuild } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * Configure the amount of reactions required for a message to be posted to the starboard
 	 *
@@ -28,7 +35,7 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { threshold }: Options) {
-		await updateGuild(guild.id, {
+		await this.db.setGuildSettings(guild.id, {
 			stars: { threshold },
 		});
 

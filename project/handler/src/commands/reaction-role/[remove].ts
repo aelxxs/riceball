@@ -16,18 +16,44 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Remove a reaction role
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild }: Context, { message, emoji }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild }: Context, { message, emoji }: Options) {
+		const reactionRole = await this.db.rm.reactionRoles.findOne({
+			guildId: guild.id,
+			messageId: message,
+		});
+
+		if (!reactionRole) {
+			return "Reaction role message not found. Please ensure the message ID is correct.";
+		}
+
+		const pairIndex = reactionRole.pairs.findIndex((pair) => pair.emoji === emoji);
+
+		if (pairIndex === -1) {
+			return `The emoji ${emoji} is not configured as a reaction role on this message.`;
+		}
+
+		reactionRole.pairs.splice(pairIndex, 1);
+		await this.db.rm.em.flush();
+
+		if (reactionRole.pairs.length === 0) {
+			return `Removed ${emoji} from \`${reactionRole.alias}\`. This was the last reaction role, consider deleting the message.`;
+		}
+
+		return `Successfully removed ${emoji} from \`${reactionRole.alias}\`.`;
 	}
 }
 

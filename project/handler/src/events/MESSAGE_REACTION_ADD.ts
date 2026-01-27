@@ -1,4 +1,4 @@
-import { getGuild as getGuildSettings } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { GatewayMessageReactionAddDispatchData } from "discord-api-types/v10";
 import { API, type Event, send } from "library/core";
 import { Starboard } from "library/plugins/Starboard";
@@ -6,10 +6,12 @@ import { inject, injectable } from "tsyringe";
 
 @injectable()
 export default class implements Event {
+	private db: Database;
 	private api: API;
 	private starboard: Starboard;
 
-	public constructor(@inject(API) api: API, @inject(Starboard) starboard: Starboard) {
+	public constructor(@inject(API) api: API, @inject(Starboard) starboard: Starboard, @inject(Database) db: Database) {
+		this.db = db;
 		this.api = api;
 		this.starboard = starboard;
 	}
@@ -17,9 +19,9 @@ export default class implements Event {
 	public async exec(event: GatewayMessageReactionAddDispatchData) {
 		if (!event.guild_id) return;
 
-		const { stars } = await getGuildSettings(event.guild_id);
+		const guildSettings = await this.db.getGuildSettings(event.guild_id);
 
-		if (!stars.enabled) return;
+		if (!guildSettings?.stars?.enabled) return;
 
 		const guild = await this.api.getGuild(event.guild_id);
 		const channel = await this.api.getChannel(event.channel_id);

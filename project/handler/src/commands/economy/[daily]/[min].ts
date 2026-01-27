@@ -16,18 +16,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Set the minimum daily amount
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild }: Context, { amount }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild }: Context, { amount }: Options) {
+		const { economy } = await this.db.getGuildSettings(guild.id);
+
+		if (amount > economy.dailyRewardMax) {
+			return "The minimum daily amount cannot be greater than the maximum daily amount.";
+		}
+
+		await this.db.setGuildSettings(guild.id, {
+			economy: { dailyRewardMin: amount },
+		});
+
+		return `The minimum daily amount has been set to ${amount}.`;
 	}
 }
 

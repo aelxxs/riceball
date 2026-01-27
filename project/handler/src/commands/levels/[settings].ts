@@ -17,7 +17,7 @@
  **/
 
 import { bold, channelMention, codeBlock, subtext } from "@discordjs/formatters";
-import { Database } from "@riceball/db";
+import { Database, type Levels } from "@riceball/db";
 import { stripIndents } from "common-tags";
 import { ButtonStyle, ComponentType, TextInputStyle } from "discord-api-types/v10";
 import { actionRow, button, modal, select } from "library/components";
@@ -106,7 +106,7 @@ export default class implements Command {
 			case "notify":
 				return this.editSubSettings(ctx, setting);
 			case "notifyEnabled":
-				return this.editBoolean(ctx, "notifyEnabled");
+				return this.editBoolean(ctx, "enabled");
 			case "notifyChannel":
 				return this.selectChannel(ctx, "notifyChannel");
 			case "notifyMessage":
@@ -127,25 +127,24 @@ export default class implements Command {
 
 	public modals = {
 		editNotifyMessage: modal({
+			command: "levels/settings",
 			title: "Level Up Notification",
-			method: "levels/settings",
+			method: "editMessage",
 			components: [
-				actionRow({
-					command: "levels/settings",
-					components: [
-						{
-							type: ComponentType.TextInput,
-							custom_id: "name",
-							label: "Name",
-							style: TextInputStyle.Paragraph,
-							min_length: 1,
-							max_length: 4000,
-							placeholder: "**Congrats** {user}! You are now level **{level}** 🎉!",
-							required: true,
-							method: this.editMessage,
-						},
-					],
-				}),
+				{
+					type: 18, // Label component
+					label: "Level Up Message",
+					description: "Use {user} for mention and {level} for the level number",
+					component: {
+						type: ComponentType.TextInput,
+						custom_id: "name",
+						style: TextInputStyle.Paragraph,
+						min_length: 1,
+						max_length: 4000,
+						placeholder: "**Congrats** {user}! You are now level **{level}** 🎉!",
+						required: true,
+					},
+				},
 			],
 		}),
 	};
@@ -156,7 +155,7 @@ export default class implements Command {
 		const { levels } = await this.db.getGuildSettings(ctx.guild.id);
 
 		return {
-			embeds: [this.generateEmbed(levels, setting)],
+			embeds: [this.generateEmbed(levels, setting as keyof Levels)],
 			components: [
 				actionRow({
 					command: "levels/settings",
@@ -202,7 +201,7 @@ export default class implements Command {
 	public editChannel: Component = async (ctx: Context, [channel, json]) => {
 		const { setting } = JSON.parse(json);
 
-		await updateGuild(ctx.guild.id, {
+		await this.db.setGuildSettings(ctx.guild.id, {
 			levels: { [setting]: channel },
 		});
 
@@ -227,7 +226,9 @@ export default class implements Command {
 						button({
 							method: this.toggleSetting,
 							label: text,
-							emoji,
+							emoji: emoji.id
+								? { id: emoji.id, name: emoji.name ?? undefined, animated: emoji.animated }
+								: undefined,
 						}),
 					],
 				}),
@@ -281,7 +282,7 @@ export default class implements Command {
 				},
 				{
 					__id: "notify",
-					name: formatBoolean(levels.notifyEnabled),
+					name: formatBoolean(levels.enabled),
 					value: "",
 					inline: true,
 				},
@@ -303,7 +304,7 @@ export default class implements Command {
 					__id: "notify",
 					name: "Message",
 					value: stripIndents`
-								${codeBlock("yaml", levels.notifyMessage ?? "Not Set")}
+								${codeBlock("yaml", levels.notifyMessageContent ?? "Not Set")}
 							`,
 				},
 				{

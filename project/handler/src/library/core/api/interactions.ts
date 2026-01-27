@@ -18,6 +18,7 @@ import { container } from "tsyringe";
 export type MessagePayload =
 	| string
 	| APIModalInteractionResponseCallbackData
+	| { type: "modal"; data: APIModalInteractionResponseCallbackData }
 	| APIInteractionResponseCallbackData
 	| APIEmbed;
 
@@ -127,12 +128,14 @@ const transformContent = (payload: MessagePayload, options: TransformContentOpti
  * @returns A promise that resolves when the reply has been sent.
  */
 export const reply = (interaction: APIInteraction, content: MessagePayload, options: TransformContentOptions = {}) => {
-	const rest = container.resolve<Client>(Deps.Rest);
+	const rest = container.resolve<REST>(Deps.Rest);
 	const transformedContent = transformContent(content, options);
 
 	return rest.post(Routes.interactionCallback(interaction.id, interaction.token), {
-		type: InteractionResponseType.ChannelMessageWithSource,
-		...transformedContent,
+		body: {
+			type: InteractionResponseType.ChannelMessageWithSource,
+			...transformedContent,
+		},
 	});
 };
 
@@ -145,15 +148,17 @@ export const reply = (interaction: APIInteraction, content: MessagePayload, opti
  * @returns A promise that resolves when the interaction has been updated.
  */
 export const update = (interaction: APIInteraction, content: MessagePayload, options: TransformContentOptions = {}) => {
-	const rest = container.resolve<Client>(Deps.Rest);
+	const rest = container.resolve<REST>(Deps.Rest);
 	const transformedContent = transformContent(content, {
 		...options,
 		ephemeral: true,
 	});
 
 	return rest.post(Routes.interactionCallback(interaction.id, interaction.token), {
-		type: InteractionResponseType.UpdateMessage,
-		data: transformedContent,
+		body: {
+			type: InteractionResponseType.UpdateMessage,
+			data: transformedContent,
+		},
 	});
 };
 
@@ -215,12 +220,14 @@ export const defer = (interaction: APIInteraction) => {
  * @returns A promise that resolves to the response of the REST API call.
  */
 export const modal = (interaction: APIInteraction, content: MessagePayload, options: TransformContentOptions = {}) => {
-	const rest = container.resolve<Client>(Deps.Rest);
+	const rest = container.resolve<REST>(Deps.Rest);
 	const transformedContent = transformContent(content, options);
 
 	return rest.post(Routes.interactionCallback(interaction.id, interaction.token), {
-		type: InteractionResponseType.Modal,
-		data: transformedContent,
+		body: {
+			type: InteractionResponseType.Modal,
+			data: transformedContent,
+		},
 	});
 };
 
@@ -237,13 +244,13 @@ export const send = (
 	content: MessagePayload,
 	options: TransformContentOptions = {},
 ) => {
-	const rest = container.resolve<Client>(Deps.Rest);
+	const rest = container.resolve<REST>(Deps.Rest);
 	const transformedContent = transformContent(content, options);
 
 	const destination = typeof interactionOrId === "string" ? interactionOrId : interactionOrId.channel_id;
 
 	return rest.post(Routes.channelMessages(destination), {
-		...transformedContent,
+		body: transformedContent,
 	}) as Promise<APIMessage>;
 };
 
@@ -268,7 +275,7 @@ export function sendMessage(
 	contentOrOptions?: MessagePayload | TransformContentOptions,
 	maybeOptions?: TransformContentOptions,
 ): Promise<APIMessage> {
-	const rest = container.resolve<Client>(Deps.Rest);
+	const rest = container.resolve<REST>(Deps.Rest);
 
 	let destination: Snowflake;
 	let content: MessagePayload;
@@ -313,7 +320,7 @@ export function sendMessage(
 	}
 
 	return rest.post(Routes.channelMessages(destination), {
-		...transformedContent,
+		body: transformedContent,
 	}) as Promise<APIMessage>;
 }
 
@@ -323,11 +330,11 @@ export const editMessage = (
 	content: MessagePayload,
 	options: TransformContentOptions = {},
 ) => {
-	const rest = container.resolve<Client>(Deps.Rest);
+	const rest = container.resolve<REST>(Deps.Rest);
 	const transformedContent = transformContent(content, options);
 
 	return rest.patch(Routes.channelMessage(channelId, messageId), {
-		...transformedContent,
+		body: transformedContent,
 	}) as Promise<APIMessage>;
 };
 

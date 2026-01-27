@@ -16,13 +16,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
-import { Economy } from "library/plugins";
-import { injectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
-// @injectable()
+@injectable()
 export default class implements Command {
-	// public constructor(public economy: Economy) {}
+	public constructor(@inject(Database) private db: Database) {}
 
 	/**
 	 * Autocomplete for the command
@@ -33,13 +33,17 @@ export default class implements Command {
 	public async autocompleteRun({ guild }: Context, input: string) {
 		const transformed = input.toLowerCase().trim();
 
-		// const items = await this.economy.fetchShopItems(guild.id);
+		const items = await this.db.rm.items.find({ guildId: guild.id });
 
-		// const similar = items.filter(({ name }) => {
-		// 	return name.toLowerCase().startsWith(input);
-		// });
+		const filtered = items
+			.filter((item) => item.name.toLowerCase().includes(transformed))
+			.slice(0, 25)
+			.map((item) => ({
+				name: `${item.name}${item.active ? "" : " (Archived)"}`,
+				value: item._id,
+			}));
 
-		// return similar.map(({ id, name }) => ({ name, value: id }));
+		return filtered;
 	}
 
 	/**
@@ -48,10 +52,17 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild }: Context, { item }: Options) {
-		// await this.economy.deleteShopItem(item);
+	public async chatInputRun({ guild }: Context, { item }: Options) {
+		const shopItem = await this.db.rm.items.findOne({ _id: item, guildId: guild.id });
 
-		return `The shop item \`${item}\` has been deleted.`;
+		if (!shopItem) {
+			return "Item not found. Please ensure the item exists in your server's shop.";
+		}
+
+		const itemName = shopItem.name;
+		await this.db.rm.em.removeAndFlush(shopItem);
+
+		return `The shop item \`${itemName}\` has been deleted.`;
 	}
 }
 

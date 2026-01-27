@@ -16,18 +16,75 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
+import { bold } from "@discordjs/formatters";
+import { Database } from "@riceball/db";
+import { stripIndents } from "common-tags";
+import { Constants } from "library/common";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * Play a game of chohan
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild }: Context, { wager, choice }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild, author }: Context, { wager, choice }: Options) {
+		const { economy } = await this.db.getGuildSettings(guild.id);
+		const { bal } = await this.db.getMemberSettings(guild.id, author.id);
+
+		const currency = `${economy.currencyIcon ?? economy.currencyName}`;
+
+		if (
+			wager < economy.wagerMin
+			|| wager > (economy.wagerMax === 0 ? Number.POSITIVE_INFINITY : economy.wagerMax)
+		) {
+			throw `You must wager between ${currency} ${economy.wagerMin.toLocaleString()} and ${currency} ${economy.wagerMax.toLocaleString()}.`;
+		}
+
+		if (bal < wager) {
+			throw `You do not have enough ${currency} to play chohan.`;
+		}
+
+		// Roll two dice (1-6)
+		const roll1 = Math.floor(Math.random() * 6) + 1;
+		const roll2 = Math.floor(Math.random() * 6) + 1;
+		const sum = roll1 + roll2;
+
+		const isEven = sum % 2 === 0;
+		const won = (isEven && choice === "even") || (!isEven && choice === "odd");
+
+		const newBal = bal + (won ? wager : -wager);
+
+		await this.db.setMemberSettings(guild.id, author.id, {
+			bal: newBal,
+		});
+
+		return {
+			embeds: [
+				{
+					description: stripIndents`
+						${bold("Chohan")} - A traditional Japanese gambling game
+
+						**Results:** ${Constants.Emoji.Dice[roll1 as 1 | 2 | 3 | 4 | 5 | 6]} ${Constants.Emoji.Dice[roll2 as 1 | 2 | 3 | 4 | 5 | 6]}
+						**Sum:** ${sum} (${isEven ? "Even" : "Odd"})
+						**Your Bet:** ${choice === "even" ? "Even (Cho)" : "Odd (Han)"}
+
+						${won ? `🎉 ${bold("You won!")}` : `💔 ${bold("You lost!")}`}
+						${won ? `+${currency} ${wager.toLocaleString()}` : `-${currency} ${wager.toLocaleString()}`}
+
+						**New Balance:** ${currency} ${newBal.toLocaleString()}
+					`,
+				},
+			],
+		};
 	}
 }
 

@@ -17,11 +17,18 @@
  **/
 
 import { channelMention } from "@discordjs/formatters";
-import { updateGuild } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { APIPartialChannel } from "discord-api-types/v10";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * Configure where starred messages should be sent to
 	 *
@@ -29,7 +36,7 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { channel }: Options) {
-		await updateGuild(guild.id, {
+		await this.db.setGuildSettings(guild.id, {
 			stars: { channelId: channel.id },
 		});
 

@@ -16,18 +16,46 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
+import { Database, wrap } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Clear a badge from your level card
 	 *
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild, author }: Context, { slot }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild, author }: Context, { slot }: Options) {
+		if (slot < 1 || slot > 6) {
+			return "Invalid slot! Please choose a slot between 1 and 6.";
+		}
+
+		const member = await this.db.getMemberSettings(guild.id, author.id);
+
+		// Find badge in this slot
+		const badgeIndex = member.badges.findIndex((b) => b.active && b.slot === slot);
+
+		if (badgeIndex === -1) {
+			return `Slot ${slot} is already empty!`;
+		}
+
+		const badgeName = member.badges[badgeIndex].itemId;
+
+		// Deactivate the badge
+		member.badges[badgeIndex] = {
+			...member.badges[badgeIndex],
+			active: false,
+			slot: 0,
+		};
+
+		await this.db.setMemberSettings(guild.id, author.id, wrap(member).toObject());
+
+		return `Successfully cleared **${badgeName}** from slot ${slot}!`;
 	}
 }
 

@@ -40,6 +40,14 @@ export const Constants = {
 		Enabled: formatEmoji("1337095458232729692"),
 		Success: formatEmoji("1337095460128690286"),
 		Error: formatEmoji("1337095459235172465"),
+		Dice: {
+			1: formatEmoji("724289280687734839"),
+			2: formatEmoji("724289296957177866"),
+			3: formatEmoji("724289311800950867"),
+			4: formatEmoji("724289325885554698"),
+			5: formatEmoji("724289338430455848"),
+			6: formatEmoji("725440439640915999"),
+		} as Record<1 | 2 | 3 | 4 | 5 | 6, string>,
 	},
 	Slots: {
 		Symbols: ["🍒", "🍌", "🍉", "🍓", "🍎", "🍇", "🍐", "💎"],

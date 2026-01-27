@@ -1,5 +1,5 @@
+import type { REST } from "@discordjs/rest";
 import { logger } from "@riceball/logger";
-import type { Client } from "@spectacles/proxy";
 import {
 	type APIChannel,
 	type APIGuild,
@@ -20,10 +20,10 @@ const CacheKeys = {
 
 @injectable()
 export class API {
-	private readonly proxy: Client;
+	private readonly proxy: REST;
 	public readonly redis: Redis;
 
-	public constructor(@inject(Deps.Rest) proxy: Client, @inject(Deps.Redis) redis: Redis) {
+	public constructor(@inject(Deps.Rest) proxy: REST, @inject(Deps.Redis) redis: Redis) {
 		this.proxy = proxy;
 		this.redis = redis;
 	}
@@ -43,7 +43,7 @@ export class API {
 		return this.makeGetRequest<APIMessage>(Routes.channelMessage(channel, message));
 	}
 
-	private async makeGetRequest<T = unknown>(route: string): Promise<T> {
+	private async makeGetRequest<T = unknown>(route: `/${string}`): Promise<T> {
 		try {
 			return (await this.proxy.get(route)) as Promise<T>;
 		} catch (error) {
@@ -94,7 +94,7 @@ function cache(key: (typeof CacheKeys)[keyof typeof CacheKeys]) {
 
 export async function getGuild(id: Snowflake): Promise<APIGuild> {
 	const redis = container.resolve<Redis>(Deps.Redis);
-	const rest = container.resolve<Client>(Deps.Rest);
+	const rest = container.resolve<REST>(Deps.Rest);
 
 	const cached = await redis.get(`API:guild:${id}`);
 
@@ -111,7 +111,7 @@ export async function getGuild(id: Snowflake): Promise<APIGuild> {
 
 export async function getChannel(id: Snowflake) {
 	const redis = container.resolve<Redis>(Deps.Redis);
-	const rest = container.resolve<Client>(Deps.Rest);
+	const rest = container.resolve<REST>(Deps.Rest);
 
 	const cached = await redis.get(`API:channel:${id}`);
 
@@ -128,7 +128,7 @@ export async function getChannel(id: Snowflake) {
 
 export async function getMessage(channel: Snowflake, message: Snowflake) {
 	const redis = container.resolve<Redis>(Deps.Redis);
-	const rest = container.resolve<Client>(Deps.Rest);
+	const rest = container.resolve<REST>(Deps.Rest);
 
 	const cached = await redis.get(`API:message:${channel}:${message}`);
 

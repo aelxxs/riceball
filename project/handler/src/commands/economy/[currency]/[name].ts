@@ -16,10 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { updateGuild } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * Set the name of your server's currency
 	 *
@@ -27,7 +31,7 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { name }: Options) {
-		await updateGuild(guild.id, {
+		await this.db.setGuildSettings(guild.id, {
 			economy: { currencyName: name },
 		});
 

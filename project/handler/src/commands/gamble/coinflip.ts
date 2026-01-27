@@ -16,10 +16,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { getGuild, getMember, updateMember } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public db: Database;
+
+	public constructor(@inject(Database) db: Database) {
+		this.db = db;
+	}
 	/**
 	 * Flip a coin
 	 *
@@ -29,14 +36,14 @@ export default class implements Command {
 	public async chatInputRun({ guild, author }: Context, { wager, choice }: Options) {
 		const coin = Math.random() < 0.5 ? "heads" : "tails";
 
-		const { bal } = await getMember(guild.id, author.id);
-		const { economy } = await getGuild(guild.id);
+		const { bal } = await this.db.getMemberSettings(guild.id, author.id);
+		const { economy } = await this.db.getGuildSettings(guild.id);
 
 		if (bal < wager) {
 			throw `You do not have enough ${economy.currencyName ?? economy.currencyIcon} to make this wager.`;
 		}
 
-		await updateMember(guild.id, author.id, {
+		await this.db.setMemberSettings(guild.id, author.id, {
 			bal: bal + (coin === choice ? wager : -wager),
 		});
 
