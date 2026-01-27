@@ -8,7 +8,7 @@ export class Economy {
 	enabled = true;
 
 	@Property({ nullable: true })
-	currencyName?: string;
+	currencyName: string | null = null;
 
 	@Property()
 	currencyIcon = "💴";
