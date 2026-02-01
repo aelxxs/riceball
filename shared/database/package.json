@@ -50,23 +50,23 @@
 		"dist"
 	],
 	"dependencies": {
-		"@mikro-orm/core": "^6.5.9",
-		"@mikro-orm/migrations-mongodb": "^6.5.9",
-		"@mikro-orm/mongodb": "^6.5.9",
-		"@mikro-orm/reflection": "^6.5.9",
+		"@mikro-orm/core": "^6.6.6",
+		"@mikro-orm/migrations-mongodb": "^6.6.6",
+		"@mikro-orm/mongodb": "^6.6.6",
+		"@mikro-orm/reflection": "^6.6.6",
 		"@riceball/logger": "workspace:*",
 		"dotenv": "17.2.3",
-		"ioredis": "5.8.2",
+		"ioredis": "5.9.2",
 		"reflect-metadata": "0.2.2",
 		"ts-node": "^10.9.2",
-		"tsup": "^8.5.0",
+		"tsup": "^8.5.1",
 		"tsyringe": "4.10.0",
-		"zod": "^4.1.12"
+		"zod": "^4.3.6"
 	},
 	"devDependencies": {
-		"@mikro-orm/cli": "^6.5.9",
+		"@mikro-orm/cli": "^6.6.6",
 		"@riceball/ts-config": "workspace:*",
-		"@types/node": "24.10.4",
+		"@types/node": "25.2.0",
 		"typescript": "^5.9.3"
 	},
 	"mikro-orm": {
