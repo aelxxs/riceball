@@ -267,7 +267,9 @@ let open = $state(false);
     border: none;
     border-radius: var(--border-radius);
     padding: var(--space-xs) var(--space-s);
-    transition: all 0.2s;
+    transition:
+      all 0.2s,
+      border 0s;
 
     &:hover {
       color: var(--txt-bold);
