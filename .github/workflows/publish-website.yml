@@ -7,7 +7,7 @@ on:
     paths:
       - 'project/website/**'
       - 'shared/**'
-      - 'project/handler/pnpm-lock.yaml'
+      - 'project/website/pnpm-lock.yaml'
   workflow_dispatch:
 
 env:
