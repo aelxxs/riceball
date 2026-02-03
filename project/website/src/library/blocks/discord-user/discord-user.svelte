@@ -71,12 +71,11 @@ let open = $state(false);
                       {#snippet child({ props })}
                         <a
                           {...props}
-                          href="/@me"
+                          href="/profile"
                           data-sveltekit-preload-data="hover"
                         >
                           <UserIcon size={16} />
                           <p class="txt:bold">My Profile</p>
-                          <small class="txt-muted">@aelxxs</small>
                         </a>
                       {/snippet}
                     </DropdownMenu.Item>

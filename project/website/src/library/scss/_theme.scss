@@ -7,138 +7,145 @@
 :root:not([dark]) {
   color-scheme: dark;
 
-  --theme-hue: 225deg;
-  --theme-saturation: 18%;
-  --theme-saturation-high: calc(var(--theme-saturation) * 3.25);
+  // ========================================
+  // THEME BASE - Change these to customize your entire site!
+  // ========================================
+  --theme-hue: 235deg;               // Primary hue (0-360): 235=indigo, 200=cyan, 280=purple, 340=pink
+  --theme-saturation: 45%;           // Color intensity (0-100%)
+  --theme-saturation-high: calc(var(--theme-saturation) * 2);
 
-  --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 57%);
+  // Secondary theme colors (different hues for variety)
+  --theme-hue-secondary: 330deg;     // For pink/secondary accents
+  --theme-hue-accent: 265deg;        // For purple/accent colors
+
+  // ========================================
+  // ORIGINAL THEME VARIABLES (HSL-based)
+  // ========================================
+  --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 64%);
   --clr-theme-2-translucent: hsl(
     var(--theme-hue),
     var(--theme-saturation-high),
-    60%,
+    64%,
     0.25
   );
 
   --clr-theme-error: hsl(0, var(--theme-saturation-high), 60%);
   --clr-theme-error-transparent: #4b2833;
-  --clr-theme-error: rgb(255 107 134 / 0.75);
-  --clr-theme-error-transparent: #4b2833;
 
-  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 7.25%);
+  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 6%);
   --clr-bg-translucent: hsl(
     var(--theme-hue),
     var(--theme-saturation),
     10%,
-    0.75
+    0.7
   );
 
   --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 9%);
   --clr-bg-accent-secondary: hsl(
     var(--theme-hue),
     var(--theme-saturation),
-    19%
+    20%
   );
 
-  --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.3);
+  --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.4);
 
-  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 15.5%);
-  --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 30%, 1);
-  --clr-bg-input-hover: hsl(var(--theme-hue), var(--theme-saturation), 18%);
-  --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 18%);
-  --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 25%, 0.55);
-  --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 25%);
-  --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 30%);
-  --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 65%);
-  --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 75%;
-  --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 15%);
+  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 13%);
+  --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 32%);
+  --clr-bg-input-hover: hsl(var(--theme-hue), var(--theme-saturation), 22%);
+  --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 17%);
+  --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 16%);
+  --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 28%);
+  --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 35%);
+  --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 64%);
+  --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 64%;
+  --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 17%);
 
-  --txt-bold: hsl(var(--theme-hue), var(--theme-saturation), 90%);
-  --txt-main: hsl(var(--theme-hue), var(--theme-saturation), 70%);
+  --txt-bold: hsl(var(--theme-hue), var(--theme-saturation), 92%);
+  --txt-main: hsl(var(--theme-hue), var(--theme-saturation), 75%);
   --txt-themed: hsl(
     var(--theme-hue),
-    calc(var(--theme-saturation-high) - 10%),
-    67%
+    calc(var(--theme-saturation-high) - 8%),
+    70%
   );
-  --txt-muted: hsl(var(--theme-hue), var(--theme-saturation), 70%, 0.85);
+  --txt-muted: hsl(var(--theme-hue), var(--theme-saturation), 72%, 0.85);
+
+  // Theme colors for gradients (derived from base hue)
+  --clr-primary: hsl(var(--theme-hue), var(--theme-saturation-high), 60%);
+  --clr-secondary: hsl(var(--theme-hue-secondary), var(--theme-saturation-high), 60%);
+  --clr-accent: hsl(var(--theme-hue-accent), var(--theme-saturation-high), 65%);
+  --clr-neutral: hsl(var(--theme-hue), 15%, 73%);
+  --clr-cyan: hsl(185deg, 85%, 82%);
+
+  // Gradients - uses theme hues for consistent styling
+  --gradient-primary: linear-gradient(135deg,
+    hsl(var(--theme-hue), var(--theme-saturation-high), 60%),
+    hsl(var(--theme-hue-accent), var(--theme-saturation-high), 65%)
+  );
+  --gradient-hero: linear-gradient(135deg,
+    hsl(var(--theme-hue), var(--theme-saturation-high), 60%),
+    hsl(var(--theme-hue-secondary), var(--theme-saturation-high), 60%),
+    hsl(var(--theme-hue-accent), var(--theme-saturation-high), 65%)
+  );
+  --gradient-stat: linear-gradient(135deg,
+    hsl(var(--theme-hue), var(--theme-saturation-high), 60%),
+    hsl(var(--theme-hue-secondary), var(--theme-saturation-high), 60%)
+  );
+
+  // Radial gradients for orbs and glows
+  --gradient-orb-primary: radial-gradient(circle,
+    hsl(var(--theme-hue), var(--theme-saturation-high), 60%),
+    transparent
+  );
+  --gradient-orb-secondary: radial-gradient(circle,
+    hsl(var(--theme-hue-secondary), var(--theme-saturation-high), 60%),
+    transparent
+  );
+  --gradient-orb-accent: radial-gradient(circle,
+    hsl(var(--theme-hue-accent), var(--theme-saturation-high), 65%),
+    transparent
+  );
+
+  // Shadows - glowy drop shadows with theme colors
+  --shadow-glow-sm: 0 10px 20px hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.2);
+  --shadow-glow-md: 0 20px 40px hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.3);
+  --shadow-glow-lg: 0 30px 60px hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.4);
+
+  // Glass/Card backgrounds with theme tint
+  --glass-bg-subtle: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.05);
+  --glass-bg-light: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.1);
+  --glass-bg-medium: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.15);
+  --glass-bg-strong: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.2);
+
+  // Borders with theme colors
+  --glass-border-subtle: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.1);
+  --glass-border-light: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.2);
+  --glass-border-medium: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.3);
+  --glass-border-strong: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.4);
+  --glass-border-hover: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.5);
+
+  // Cursor glow effect
+  --cursor-glow: radial-gradient(circle,
+    hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.15),
+    transparent
+  );
+
+  // Grid pattern
+  --grid-pattern:
+    linear-gradient(0deg, hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.05) 1px, transparent 1px);
+
+  // Navbar
+  --navbar-bg: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.8);
+  --navbar-bg-solid: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.95);
+  --navbar-border: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.1);
+
+  // Pulse animation color
+  --pulse-color: hsl(var(--theme-hue), var(--theme-saturation-high), 60%);
 
   // layout
-  --header-height: clamp(3.75rem, 10vw, 4rem);
-  --header-height-lg: clamp(3.75rem, 10vw, 3.75rem);
+  --header-height: clamp(3.25rem, 10vw, 3.85rem);
+  --header-height-lg: clamp(3.25rem, 10vw, 3.55rem);
 }
-
-// :root:not([dark]) {
-//   color-scheme: light;
-
-//   --theme-hue: 220deg;
-//   --theme-saturation: 29%;
-//   --theme-saturation-high: calc(var(--theme-saturation) * 2.5);
-
-//   --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 65%);
-//   --clr-theme-2-translucent: hsl(
-//     var(--theme-hue),
-//     var(--theme-saturation-high),
-//     50%,
-//     0.25
-//   );
-
-//   --clr-theme-error: hsl(0, var(--theme-saturation-high), 60%);
-//   --clr-theme-error-transparent: hsl(
-//     0,
-//     var(--theme-saturation-high),
-//     60%,
-//     0.45
-//   );
-
-//   --clr-theme-error: rgb(255 107 134 / 0.75);
-//   --clr-theme-error-transparent: rgb(255 107 134 / 0.25);
-
-//   --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 97%);
-//   --clr-bg-translucent: hsl(
-//     var(--theme-hue),
-//     var(--theme-saturation),
-//     90%,
-//     0.75
-//   );
-
-//   --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 100%);
-//   --clr-bg-accent-secondary: hsl(
-//     var(--theme-hue),
-//     var(--theme-saturation),
-//     94%
-//   );
-
-//   --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.3);
-
-//   --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 95%);
-//   --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 95%, 1);
-//   --clr-bg-input-hover: hsl(
-//     var(--theme-hue),
-//     var(--theme-saturation),
-//     95%,
-//     0.75
-//   );
-//   --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 95%);
-
-//   --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 85%, 0.75);
-//   --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 25%);
-//   --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 30%);
-//   --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 65%);
-//   --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 75%;
-//   --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 15%);
-
-//   --txt-bold: hsl(var(--theme-hue), var(--theme-saturation), 10%);
-//   --txt-main: hsl(var(--theme-hue), var(--theme-saturation), 15%);
-//   --txt-themed: hsl(
-//     var(--theme-hue),
-//     calc(var(--theme-saturation-high) - 10%),
-//     27%
-//   );
-//   --txt-muted: hsl(var(--theme-hue), var(--theme-saturation), 15%, 0.85);
-
-//   // layout
-//   --header-height: clamp(3.75rem, 10vw, 4rem);
-//   --header-height-lg: clamp(3.75rem, 10vw, 3.85rem);
-// }
 
 body {
   background-color: var(--clr-bg);
@@ -146,19 +153,19 @@ body {
 }
 
 em-emoji-picker {
-  $theme-hue: 225deg;
-  $theme-saturation: 18%;
-  $theme-saturation-high: calc($theme-saturation * 3);
+  $theme-hue: 235deg;
+  $theme-saturation: 40%;
+  $theme-saturation-high: calc($theme-saturation * 2);
   $theme-lightness: 10%;
 
   $theme-rgb: hsl($theme-hue, $theme-saturation, $theme-lightness);
 
-  $theme-2-rgb: hsl($theme-hue, $theme-saturation-high, 60%);
+  $theme-2-rgb: hsl($theme-hue, $theme-saturation-high, 64%);
   $input: hsl($theme-hue, $theme-saturation, 11%);
-  $input-light: hsl($theme-hue, $theme-saturation, 30%);
-  $border: hsl($theme-hue, $theme-saturation, 25%, 0.5);
-  $text-main: hsl($theme-hue, $theme-saturation, 70%);
-  $text-bold: hsl($theme-hue, $theme-saturation, 90%);
+  $input-light: hsl($theme-hue, $theme-saturation, 32%);
+  $border: hsl($theme-hue, $theme-saturation, 28%, 0.5);
+  $text-main: hsl($theme-hue, $theme-saturation, 75%);
+  $text-bold: hsl($theme-hue, $theme-saturation, 92%);
 
   --border-radius: var(--radius-xs);
   --category-icon-size: 1.35rem;

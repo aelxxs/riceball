@@ -21,7 +21,7 @@ switch (type) {
 		if (icon) {
 			iconUrl = cdn.appIcon(id, icon);
 		} else {
-			iconUrl = cdn.defaultAvatar((Number.parseInt(id) >> 22) % 6);
+			iconUrl = cdn.defaultAvatar((Number.parseInt(id, 10) >> 22) % 6);
 		}
 		break;
 	case "guild":
@@ -33,7 +33,7 @@ switch (type) {
 		if (icon) {
 			iconUrl = cdn.avatar(id, icon);
 		} else {
-			iconUrl = cdn.defaultAvatar((Number.parseInt(id) >> 22) % 6);
+			iconUrl = cdn.defaultAvatar((Number.parseInt(id, 10) >> 22) % 6);
 		}
 		break;
 }

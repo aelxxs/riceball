@@ -152,20 +152,20 @@ h5 {
 }
 
 .show\:md {
-  display: none;
+  display: none !important;
 }
 
 .hide\:md {
-  display: flex;
+  display: flex !important;
 }
 
 @media (min-width: 875px) {
   .show\:md {
-    display: flex;
+    display: flex !important;
   }
 
   .hide\:md {
-    display: none;
+    display: none !important;
   }
 }
 

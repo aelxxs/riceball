@@ -236,6 +236,8 @@ let selectedItem = $derived(allItems.find((item) => item.value === value));
     overflow-y: auto;
     width: var(--bits-select-anchor-width);
     box-shadow: 0 0 10px 1px var(--clr-shadow);
+    position: relative;
+    z-index: 50; /* ensure it sits above cards */
   }
 
   /* Item Styling */

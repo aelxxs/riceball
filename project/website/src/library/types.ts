@@ -9,23 +9,14 @@ import type {
 	RESTAPIPartialCurrentUserGuild,
 } from "discord-api-types/v10";
 
-export type ManagedGuild = RESTAPIPartialCurrentUserGuild & {
-	riceball: boolean;
-};
+export type ManagedGuild = RESTAPIPartialCurrentUserGuild & { riceball: boolean };
 
 export type DashboardChannels = Array<
-	| APIGuildTextChannel<GuildTextChannelType>
-	| (APIGuildCategoryChannel & {
-			children: Array<APIChannel>;
-	  })
+	APIGuildTextChannel<GuildTextChannelType> | (APIGuildCategoryChannel & { children: Array<APIChannel> })
 >;
 
 export type ItemizedChannels = Array<
-	| { value: string; label: string }
-	| {
-			label: string;
-			items: Array<{ value: string; label: string }>;
-	  }
+	{ value: string; label: string } | { label: string; items: Array<{ value: string; label: string }> }
 >;
 
 export type DashboardGuild = ManagedGuild &

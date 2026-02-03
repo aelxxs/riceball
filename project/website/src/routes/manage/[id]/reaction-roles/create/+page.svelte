@@ -12,7 +12,6 @@ import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
 import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
 import { Control, Field, Fieldset } from "$lib/blocks/forms";
 import { Input } from "$lib/blocks/input";
-import { RadioGroup, RadioGroupItem } from "$lib/blocks/radio-group";
 import { ChannelSelect, Select } from "$lib/blocks/select";
 import SelectDiscord from "$lib/blocks/select-discord/select-discord.svelte";
 import { WebsiteRoutes } from "$lib/constants";
@@ -26,12 +25,12 @@ const { data } = $props();
 const goBack = () => goto(WebsiteRoutes.ReactionRoles(data.guild.id));
 
 const form = superForm(data.form, {
-	validators: zodClient(ReactionRoleSchema),
 	dataType: "json",
+	onResult: () => {},
 	onUpdate: ({ result }) => {
 		switch (result.type) {
 			case "success":
-				toast.success("Settings saved successfully!");
+				// toast.success("Settings saved successfully!");
 				goBack();
 				break;
 			case "failure":
@@ -42,28 +41,26 @@ const form = superForm(data.form, {
 				break;
 		}
 	},
+	resetForm: false,
+	validators: zodClient(ReactionRoleSchema),
 });
 
 const { form: formData, submit, enhance } = form;
 
-const types = [
+const _types = [
 	{
-		value: "TOGGLE",
 		label: "Toggle Role",
 		description: "Adds or removes a role from a user when they react to the message.",
 	},
 	{
-		value: "ADD",
 		label: "Add Role Only",
 		description: "Adds a role to a user when they react to the message. The user must not have the role already.",
 	},
 	{
-		value: "REMOVE",
 		label: "Remove Role Only",
 		description: "Removes a role from a user when they react to the message. The user must have the role already.",
 	},
 	{
-		value: "UNIQUE",
 		label: "Unique Role",
 		description: "Remove all other roles from a user when they react to the message.",
 	},
@@ -73,8 +70,8 @@ $effect.pre(() => {
 	appState.setControlTitle("New Reaction Role");
 	appState.setControlsVisible(true);
 	appState.setControls([
-		{ label: "Cancel", handler: goBack, variant: "destructive" },
-		{ label: "Create", handler: submit },
+		{ handler: goBack, label: "Cancel", variant: "destructive" },
+		{ handler: submit, label: "Create" },
 	]);
 });
 
@@ -86,6 +83,7 @@ const pair = $state({ emoji: "", roles: [] });
 
 if ($formData.channelId.length === 0) {
 	if (data.guild.itemizedChannels.length > 0) {
+		$formData.channelId = getFirstChannelFromItemizedChannelList(data.guild.itemizedChannels).value;
 		$formData.channelId = getFirstChannelFromItemizedChannelList(data.guild.itemizedChannels).value;
 	}
 }

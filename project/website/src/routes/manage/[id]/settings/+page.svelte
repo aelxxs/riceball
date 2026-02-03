@@ -4,7 +4,7 @@ import SuperDebug, { superForm } from "sveltekit-superforms";
 import { DashboardCard, DashboardCardSideBySide } from "$lib/blocks/dashboard-card";
 import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
 import { Control, Field } from "$lib/blocks/forms";
-import { Restrictions } from "$lib/blocks/restrictions";
+import Restrictions from "$lib/blocks/restrictions/restrictions.svelte";
 import { Select } from "$lib/blocks/select";
 import { getSaveModal, shake } from "$lib/utility/context.svelte";
 
@@ -14,15 +14,6 @@ const modal = getSaveModal();
 
 const form = superForm(data.form, {
 	dataType: "json",
-	resetForm: false,
-	taintedMessage: () => {
-		return new Promise(() => {
-			shake.shake = true;
-			setTimeout(() => {
-				shake.shake = false;
-			}, 500);
-		});
-	},
 	onUpdate: ({ result }) => {
 		switch (result.type) {
 			case "success":
@@ -36,6 +27,15 @@ const form = superForm(data.form, {
 				break;
 		}
 	},
+	resetForm: false,
+	taintedMessage: () => {
+		return new Promise(() => {
+			shake.shake = true;
+			setTimeout(() => {
+				shake.shake = false;
+			}, 500);
+		});
+	},
 });
 
 const { form: formData, enhance, tainted, isTainted, submit, delayed, submitting } = form;
@@ -43,10 +43,10 @@ const { form: formData, enhance, tainted, isTainted, submit, delayed, submitting
 $effect(() => {
 	if (isTainted($tainted)) {
 		modal.showModal({
-			save: submit,
-			undo: form.reset,
 			delayed: $delayed,
+			save: submit,
 			submitting: $submitting,
+			undo: form.reset,
 		});
 	} else {
 		modal.hideModal();
@@ -54,10 +54,10 @@ $effect(() => {
 });
 </script>
 
-<!-- <SuperDebug data={$formData} /> -->
+<SuperDebug data={$formData} />
 
 <form class="stack" method="POST" action="?/save" use:enhance>
-  <DashboardCardSideBySide
+  <!-- <DashboardCardSideBySide
     module1Props={{
       title: "Locale",
       description: "Change the language Rice Ball uses.",
@@ -100,7 +100,7 @@ $effect(() => {
         </Field>
       </div>
     {/snippet}
-  </DashboardCardSideBySide>
+  </DashboardCardSideBySide> -->
 
   <DashboardCard
     title="Default Embed Color"

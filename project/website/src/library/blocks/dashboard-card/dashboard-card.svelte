@@ -88,8 +88,49 @@ function toggleOpen() {
   .root {
     --padding: var(--space-m);
     border-radius: var(--border-radius);
-    background-color: transparent;
-    border: 1.25px solid var(--clr-bg-border);
+    background: linear-gradient(
+      135deg,
+      var(--glass-bg-subtle),
+      var(--glass-bg-subtle)
+    );
+    border: var(--glass-border-light);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: visible; /* allow dropdowns/select menus to render outside */
+  }
+
+  .root::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.5),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .root:hover {
+    background: linear-gradient(
+      135deg,
+      var(--glass-bg-light),
+      var(--glass-bg-subtle)
+    );
+    border: var(--glass-border-medium);
+    box-shadow:
+      0 8px 16px hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.1),
+      0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .root:hover::before {
+    opacity: 1;
   }
 
   .trigger {
@@ -100,7 +141,7 @@ function toggleOpen() {
     transition: opacity 0.2s ease-out;
 
     &:hover {
-      opacity: 0.75;
+      opacity: 0.85;
     }
   }
 
@@ -108,6 +149,7 @@ function toggleOpen() {
     display: inline-flex;
     transform: rotate(0deg);
     transition: transform 0.2s ease-out 0s;
+    color: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.8);
   }
 
   .rotate {

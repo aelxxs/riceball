@@ -1,15 +1,13 @@
 import { GuildSchema } from "@riceball/db/zod";
 import type { Actions } from "@sveltejs/kit";
 import { fail, superValidate } from "sveltekit-superforms";
-import { zod } from "sveltekit-superforms/adapters";
+import { zod4 as zod } from "sveltekit-superforms/adapters";
 import type { PageServerLoad } from "../$types";
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const guild = await locals.db.getGuildSettings(params.id);
 
-	return {
-		form: await superValidate(guild, zod(GuildSchema)),
-	};
+	return { form: await superValidate(guild, zod(GuildSchema)) };
 };
 
 export const actions: Actions = {
@@ -20,9 +18,7 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 
-		await locals.db.setGuildSettings(params.id, {
-			...form.data,
-		});
+		await locals.db.setGuildSettings(params.id, { ...form.data });
 
 		return { form };
 	},

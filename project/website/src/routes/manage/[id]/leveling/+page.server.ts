@@ -1,8 +1,8 @@
-import { getGuild, updateGuild } from "@riceball/db";
 import { LevelsWithRelationsSchema } from "@riceball/db/custom";
 import type { Actions } from "@sveltejs/kit";
 import { fail, superValidate } from "sveltekit-superforms";
-import { zod } from "sveltekit-superforms/adapters";
+import { zod4 as zod } from "sveltekit-superforms/adapters";
+
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -10,7 +10,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 	return {
 		form: await superValidate(levels, zod(LevelsWithRelationsSchema)),
-		// form: await superValidate(zod(LevelsWithRelationsSchema)),
 	};
 };
 

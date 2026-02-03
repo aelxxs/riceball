@@ -1,13 +1,8 @@
 <script lang="ts">
-// - Icons
-
 import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
-import HashIcon from "lucide-svelte/icons/hash";
 import MenuIcon from "lucide-svelte/icons/menu";
 import XIconIcon from "lucide-svelte/icons/x";
-import { onMount } from "svelte";
 import { fade, fly } from "svelte/transition";
-// @ts-expect-error
 import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
 import { enhance } from "$app/forms";
 import { Button } from "$lib/blocks/button";
@@ -161,15 +156,20 @@ const guild = getGuild();
     grid-template-columns: 1fr;
     position: sticky;
     top: var(--header-height);
-    z-index: 1;
-    background-color: var(--clr-bg-accent);
+    z-index: 10;
+    background: var(--navbar-bg);
     overflow: hidden;
-    backdrop-filter: blur(5rem);
-    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: var(--header-height-lg);
-    border-bottom: 1px solid var(--clr-bg-border);
+    border-bottom: var(--glass-border-medium);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
     &.bg-solid {
-      background-color: var(--clr-bg);
+      background: var(--navbar-bg-solid);
+      border-bottom: var(--glass-border-strong);
     }
   }
 

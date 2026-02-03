@@ -8,27 +8,29 @@ import { env } from "$env/dynamic/private";
 import { handle as authenticationHandle } from "./auth";
 
 const authorizationHandle: Handle = async ({ event, resolve }) => {
-	if (event.url.pathname.startsWith("/manage")) {
+	const pathname = event.url.pathname;
+	const needsDb =
+		pathname.startsWith("/manage") || pathname.startsWith("/leaderboard") || pathname.startsWith("/profile");
+
+	if (needsDb) {
 		await setupDatabase({
 			mongoUrl: env.MONGO_URL,
 			redisUrl: env.REDIS_URL,
 		});
 
+		event.locals.api = new REST().setToken(env.DISCORD_TOKEN);
+		event.locals.db = container.resolve(Database);
+	}
+
+	if (pathname.startsWith("/manage") || pathname.startsWith("/profile")) {
 		const session = await event.locals.auth();
 
 		if (!session) {
 			throw redirect(303, "/");
 		}
 
-		event.locals.api = new REST().setToken(env.DISCORD_TOKEN);
 		event.locals.userApi = new REST().setToken(session.accessToken);
 		event.locals.session = session;
-		event.locals.db = container.resolve(Database);
-
-		// const redis = new RedisClient("localhost");
-		// const gateway = new Redis("website", redis);
-
-		// event.locals.gateway = gateway;
 	}
 
 	return resolve(event);

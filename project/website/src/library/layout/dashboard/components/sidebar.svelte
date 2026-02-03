@@ -1,11 +1,10 @@
 <script lang="ts">
 // - Icons
 
-import { LinkPreview, Select, Tooltip } from "bits-ui";
+import { Select, Tooltip } from "bits-ui";
 import CheckIcon from "lucide-svelte/icons/check";
 import ChevronDown from "lucide-svelte/icons/chevron-down";
 import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
-import { fly } from "svelte/transition";
 import { DiscordIcon } from "$lib/blocks/discord-icon";
 import { Divider } from "$lib/blocks/divider";
 import { generateSidebarRoutes, type SidebarRoute } from "$lib/constants";
@@ -175,10 +174,15 @@ let open = $state(false);
   }
 
   .extended-info-content {
-    --bg: var(--clr-bg-accent);
-    border: 1px solid var(--clr-bg-border);
+    background: linear-gradient(
+      135deg,
+      var(--glass-bg-light),
+      var(--glass-bg-subtle)
+    );
+    border: var(--glass-border-medium);
     max-width: 45ch;
     z-index: 2;
+    backdrop-filter: blur(10px);
   }
 
   .header-trigger {
@@ -192,21 +196,25 @@ let open = $state(false);
     line-height: var(--line-height-body);
     letter-spacing: var(--letter-spacing-normal);
     color: var(--txt-main);
-    transition-property: border-color, box-shadow;
+    transition-property: border-color, box-shadow, background-color;
     transition-duration: var(--input-transition-duration);
     transition-timing-function: var(--input-transition-timing-function);
-    border-bottom: 1px solid var(--clr-bg-border);
+    border-bottom: var(--glass-border-medium);
     padding-inline: var(--space-m);
     z-index: 1;
   }
 
   .content {
     --border-radius: 0;
-    --bg: var(--clr-bg-accent);
+    background: linear-gradient(
+      135deg,
+      var(--glass-bg-light),
+      var(--glass-bg-subtle)
+    );
     --padding: var(--space-xs);
     backdrop-filter: blur(5rem);
     width: calc(var(--bits-select-anchor-width));
-    border-bottom: 1px solid var(--clr-bg-border);
+    border-bottom: var(--glass-border-medium);
     z-index: 1;
   }
 
@@ -215,7 +223,8 @@ let open = $state(false);
   .header-trigger:focus,
   .header-trigger:focus-visible,
   .header-trigger:active {
-    background-color: var(--clr-bg-accent);
+    background: var(--glass-bg-subtle);
+    border-bottom: var(--glass-border-strong);
   }
 
   .chevron {
@@ -239,40 +248,47 @@ let open = $state(false);
     align-items: center;
     justify-content: space-between;
     padding: var(--space-xs) var(--space-s);
-    border-radius: 0.35rem;
+    border-radius: var(--border-radius);
     transition: background-color 0.2s;
   }
 
   .item[data-selected] {
-    background-color: var(--clr-bg-input);
-    color: var(--txt-themed);
+    background: var(--glass-bg-light);
+    color: var(--clr-primary);
     font-weight: 500;
   }
 
   .item:hover {
-    background-color: var(--clr-bg-input);
+    background: var(--glass-bg-subtle);
   }
 
   .link {
     position: relative;
     border: none;
-    border-radius: 0.35rem;
+    border-radius: var(--border-radius);
     padding: var(--space-xs) var(--space-s);
     transition: all 0.2s;
 
     &:hover {
       color: var(--txt-bold);
-      background-color: var(--clr-bg-input-active);
+      background: var(--glass-bg-subtle);
     }
 
     &:hover .icon {
-      color: var(--clr-theme-2);
+      color: var(--clr-primary);
     }
 
     &.active {
       transform: scale(1.025);
-      background-color: var(--clr-bg-input-active);
+      background: linear-gradient(
+        135deg,
+        var(--glass-bg-light),
+        var(--glass-bg-subtle)
+      );
+      border: var(--glass-border-medium);
       color: var(--txt-bold);
+      box-shadow: 0 2px 8px
+        hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.15);
     }
 
     &.active.secondary {
@@ -284,7 +300,7 @@ let open = $state(false);
     .header-trigger {
       height: var(--header-height);
       padding: var(--space-xs) var(--space-xs);
-      background-color: var(--clr-bg-accent);
+      background: var(--glass-bg-subtle);
       height: auto;
       border-radius: var(--border-radius);
       border: 0;

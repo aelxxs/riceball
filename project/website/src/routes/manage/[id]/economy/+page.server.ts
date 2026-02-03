@@ -2,7 +2,7 @@ import { EconomyWithRelationsSchema } from "@riceball/db/zod";
 import type { Actions } from "@sveltejs/kit";
 import { fail } from "@sveltejs/kit";
 import { superValidate } from "sveltekit-superforms";
-import { zod } from "sveltekit-superforms/adapters";
+import { zod4 as zod } from "sveltekit-superforms/adapters";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params, locals }) => {
@@ -18,9 +18,7 @@ export const actions: Actions = {
 		const form = await superValidate(request, zod(EconomyWithRelationsSchema));
 
 		if (!form.valid || !params.id) {
-			return fail(400, {
-				form,
-			});
+			return fail(400, { form });
 		}
 
 		await locals.db.setGuildSettings(params.id, {

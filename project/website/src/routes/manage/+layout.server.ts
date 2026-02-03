@@ -11,16 +11,24 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		locals.api.get(Routes.currentApplication()) as Promise<APIApplication>,
 	]);
 
-	const managedGuilds = (await Promise.all(
-		userGuilds.map(async (guild) => {
-			const hasManagePermissions = BigInt(guild.permissions) & BigInt(1 << 5);
-			const riceball = hasManagePermissions ? await botInGuild(locals.api, guild.id) : false;
+	// Filter guilds with manage permissions first
+	const guildsWithManagePerms = userGuilds.filter((guild) => {
+		return BigInt(guild.permissions) & BigInt(1 << 5);
+	});
 
-			return hasManagePermissions ? { ...guild, riceball } : null;
-		}),
-	)) as ManagedGuild[];
+	// Check bot presence in all managed guilds in parallel
+	const riceballChecks = await Promise.all(guildsWithManagePerms.map((guild) => botInGuild(locals.api, guild.id)));
 
-	return { guilds: managedGuilds.filter(Boolean), client };
+	// Combine results
+	const managedGuilds: ManagedGuild[] = guildsWithManagePerms.map((guild, index) => ({
+		...guild,
+		riceball: riceballChecks[index],
+	}));
+
+	return {
+		guilds: managedGuilds,
+		client,
+	};
 };
 
 async function botInGuild(api: REST, id: string) {

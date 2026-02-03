@@ -65,7 +65,7 @@ onMount(() => {
 		Emoji,
 		Placeholder.configure({ placeholder }),
 		CharacterCount.configure({ limit: maxLength }),
-		Underline,
+		// Underline,
 	];
 
 	const content = markdownToHTML(value ?? "", {

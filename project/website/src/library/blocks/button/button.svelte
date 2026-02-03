@@ -84,25 +84,45 @@ let {
     }
 
     .button[data-variant="default"] {
-      background-color: var(--clr-theme-2);
+      background: var(--gradient-primary);
+      box-shadow: 0 2px 8px
+        hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.2);
+    }
+
+    .button[data-variant="default"]:hover {
+      box-shadow: var(--shadow-glow-md);
+      transform: translateY(-1px);
     }
 
     .button[data-variant="destructive"] {
       color: var(--clr-theme-error) !important;
       background-color: var(--clr-theme-error-transparent);
+      border: 1px solid var(--clr-theme-error);
+    }
+
+    .button[data-variant="destructive"]:hover {
+      background-color: var(--clr-theme-error);
+      border-color: var(--clr-theme-error);
     }
 
     .button[data-variant="outline"] {
       background-color: transparent;
-      border: 1px solid var(--clr-bg-border);
+      border: var(--glass-border-strong);
     }
 
     .button[data-variant="outline"]:hover {
-      background-color: var(--clr-bg-input-light);
+      background: var(--glass-bg-light);
+      border: var(--glass-border-strong);
     }
 
     .button[data-variant="secondary"] {
-      background-color: var(--clr-bg-input-light);
+      background: var(--glass-bg-light);
+      border: var(--glass-border-light);
+    }
+
+    .button[data-variant="secondary"]:hover {
+      background: var(--glass-bg-medium);
+      border: var(--glass-border-medium);
     }
 
     .button[data-variant="secondary-alt"] {
@@ -110,7 +130,7 @@ let {
     }
 
     .button[data-variant="secondary-alt"]:hover {
-      background-color: var(--clr-theme-2);
+      background: var(--gradient-primary);
     }
 
     .button[data-variant="ghost"] {
@@ -118,7 +138,7 @@ let {
     }
 
     .button[data-variant="ghost"]:hover {
-      background-color: var(--clr-bg-input-light);
+      background: var(--glass-bg-light);
     }
 
     .button[data-variant="link"] {

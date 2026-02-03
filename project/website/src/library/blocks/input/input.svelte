@@ -35,12 +35,13 @@ let {
     font-weight: var(--font-weight-normal);
     line-height: var(--line-height-body);
     letter-spacing: var(--letter-spacing-normal);
-    border: 1.5px solid transparent;
+    border: var(--glass-border-medium);
     border-radius: var(--border-radius);
     padding: var(--space-xs) var(--space-xs);
     color: var(--txt-main);
-    background-color: var(--clr-bg-input);
-    transition-property: border-color, box-shadow;
+    background: var(--navbar-bg);
+    backdrop-filter: blur(8px);
+    transition-property: border-color, box-shadow, background;
     transition-duration: var(--input-transition-duration);
     transition-timing-function: var(--input-transition-timing-function);
     outline: 2px solid transparent;
@@ -80,12 +81,14 @@ let {
   }
 
   .container:hover {
-    border-color: var(--clr-bg-border-hover);
+    border: var(--glass-border-medium);
+    background: var(--glass-bg-light);
   }
 
   .container:focus-within {
-    border-color: var(--clr-bg-border-hover);
-    box-shadow: 0 0 0 0.225rem hsl(var(--clr-bg-border-hover-hsl) / 0.2);
+    border: var(--glass-border-hover);
+    background: var(--glass-bg-medium);
+    box-shadow: 0 0 0 0.225rem var(--glass-bg-medium);
   }
 
   .container:has(input[data-fs-error]) {

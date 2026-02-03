@@ -10,11 +10,9 @@ import { getAppState } from "$lib/utility/context.svelte";
 
 const { data } = $props();
 
-const embedCreateForm = superForm(data.form, {
-	dataType: "json",
-});
+const embedCreateForm = superForm(data.form, { dataType: "json" });
 
-const { form, submit, enhance } = embedCreateForm;
+const { form: formData, submit, enhance } = embedCreateForm;
 
 const handleCancel = () => goto(WebsiteRoutes.Embeds(data.guild.id));
 const handleSubmit = () => submit();
@@ -25,19 +23,24 @@ $effect.pre(() => {
 	appState.setControlTitle("Create Embed");
 	appState.setControlsVisible(true);
 	appState.setControls([
-		{ label: "Cancel", handler: handleCancel, variant: "destructive" },
-		{ label: "Publish", handler: handleSubmit },
+		{ handler: handleCancel, label: "Cancel", variant: "destructive" },
+		{ handler: handleSubmit, label: "Publish" },
 	]);
 });
 
 beforeNavigate(appState.destroyControls);
+
+// filter webhooks by selected channelId
+const channelWebhooks = $derived.by(() => {
+	return data.webhooks.filter(({ channel_id }) => channel_id === $formData.channelId);
+});
 </script>
 
-<SuperDebug data={$form} />
+<SuperDebug data={$formData} />
 
 <!-- Channel -->
 <form class="stack" method="POST" action="?/save" use:enhance>
-  <DashboardCardSideBySide
+  <!-- <DashboardCardSideBySide
     module1Props={{
       title: "Embed Name",
       description: "Set a name for the embed.",
@@ -52,16 +55,19 @@ beforeNavigate(appState.destroyControls);
     {/snippet}
 
     {#snippet module2()}
-      <ChannelSelect items={data.guild.itemizedChannels} />
+      <ChannelSelect
+        bind:value={$formData.channelId}
+        items={data.guild.itemizedChannels}
+      />
     {/snippet}
-  </DashboardCardSideBySide>
+  </DashboardCardSideBySide> -->
 
   <DashboardCard title="Embed" description="Create a new embed message.">
     <DiscordMessageCreator
       guild={data.guild}
       client={data.client}
-      bind:content={$form.content}
-      bind:embeds={$form.embeds}
+      bind:content={$formData.content}
+      bind:embeds={$formData.embeds}
       maxEmbeds={10}
     />
   </DashboardCard>
@@ -70,8 +76,13 @@ beforeNavigate(appState.destroyControls);
     title="Sender"
     description="Customize the sender for this embed message."
   >
+    <!--  -->
     <div class="max-w-form">
-      <Input placeholder="Sender Name" class="max-w-form" />
+      <Input
+        bind:value={$formData.webhook.name}
+        placeholder="Sender Name"
+        class="max-w-form"
+      />
     </div>
   </DashboardCard>
 </form>

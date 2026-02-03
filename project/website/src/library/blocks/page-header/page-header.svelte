@@ -34,8 +34,11 @@ const user = page.data.session?.user;
 <style lang="scss">
   .icon {
     height: 1.75rem;
-    filter: drop-shadow(0 0 0.5rem var(--clr-bg-border));
+    filter: drop-shadow(
+      0 0 0.5rem hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.3)
+    );
   }
+
   .header-wrapper {
     padding-inline: var(--space-m);
     display: flex;
@@ -44,24 +47,28 @@ const user = page.data.session?.user;
     margin: 0 auto;
     position: sticky;
     top: 0;
-    background-color: var(--clr-bg);
+    background: var(--navbar-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: var(--glass-border-medium);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
 
-    backdrop-filter: blur(5rem);
-    border-bottom: 1px solid var(--clr-bg-border);
-    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    z-index: 1;
     &.bg-solid {
-      background-color: var(--clr-bg);
+      background: var(--navbar-bg-solid);
+      border-bottom: var(--glass-border-strong);
     }
   }
 
   a {
-    transition: all 0.25s;
+    transition: all 0.25s ease;
+    color: var(--clr-neutral);
+    font-weight: 500;
+    text-decoration: none;
   }
 
   a:hover {
-    text-decoration: underline;
-    color: var(--txt-themed);
+    color: var(--clr-primary);
+    text-decoration: none;
   }
 
   .show\:md {
