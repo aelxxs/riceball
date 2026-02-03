@@ -24,24 +24,27 @@ export class Database {
 		this.em = em.fork();
 	}
 
-	public getGuildSettings(key: string): Promise<Guild> {
-		return this.cache.guilds.read(key);
+	public async getGuildSettings(key: string): Promise<Guild> {
+		const settings = await this.cache.guilds.read(key);
+		return JSON.parse(JSON.stringify(settings));
 	}
 
 	public setGuildSettings(key: string, value: Payload<Guild>): Promise<void> {
 		return this.cache.guilds.write(key, value);
 	}
 
-	public getUserSettings(key: string): Promise<User> {
-		return this.cache.users.read(key);
+	public async getUserSettings(key: string): Promise<User> {
+		const settings = await this.cache.users.read(key);
+		return JSON.parse(JSON.stringify(settings));
 	}
 
 	public setUserSettings(key: string, value: Payload<User>): Promise<void> {
 		return this.cache.users.write(key, value);
 	}
 
-	public getMemberSettings(guildId: string, memberId: string): Promise<Member> {
-		return this.cache.members.read(makeKey(guildId, memberId));
+	public async getMemberSettings(guildId: string, memberId: string): Promise<Member> {
+		const settings = await this.cache.members.read(makeKey(guildId, memberId));
+		return JSON.parse(JSON.stringify(settings));
 	}
 
 	public setMemberSettings(guildId: string, memberId: string, value: Payload<Member>): Promise<void> {
