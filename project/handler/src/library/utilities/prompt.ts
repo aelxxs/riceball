@@ -16,9 +16,9 @@ export interface PromptOptions {
 }
 
 export interface PromptResult {
-	success: boolean;
-	value?: any;
+	value?: unknown;
 	error?: string;
+	success: boolean;
 }
 
 /**
