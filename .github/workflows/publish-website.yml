@@ -58,6 +58,7 @@ jobs:
       - name: Trigger Deployment via API
         run: |
           set -e
+          echo "Deploying website with Application ID: ${{ secrets.WEBSITE_APPLICATION_ID }}"
           curl -X POST "${{ secrets.DEPLOYMENT_URL }}"    \
             -H 'accept: application/json'                 \
             -H 'Content-Type: application/json'           \
