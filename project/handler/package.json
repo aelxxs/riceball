@@ -25,7 +25,7 @@
 		"canvas-constructor": "7.0.2",
 		"common-tags": "1.8.2",
 		"discord-api-types": "0.38.38",
-		"dotenv": "17.2.3",
+		"dotenv": "17.2.4",
 		"ioredis": "5.9.2",
 		"ms": "^2.1.3",
 		"node-emoji": "^2.2.0",
