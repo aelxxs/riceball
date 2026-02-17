@@ -191,7 +191,7 @@ importers:
         version: 5.6.0
       emoji-picker-element:
         specifier: ^1.28.1
-        version: 1.28.1
+        version: 1.29.0
       formsnap:
         specifier: ^2.0.1
         version: 2.0.1(svelte@5.50.2)(sveltekit-superforms@2.29.1(@sveltejs/kit@2.50.2(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.50.2)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2)))(svelte@5.50.2)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2)))(@types/json-schema@7.0.15)(svelte@5.50.2)(typescript@5.9.3))
@@ -2320,8 +2320,8 @@ packages:
   emoji-mart@5.6.0:
     resolution: {integrity: sha512-eJp3QRe79pjwa+duv+n7+5YsNhRcMl812EcFVwrnRvYKoNPoQb5qxU8DG6Bgwji0akHdp6D4Ln6tYLG58MFSow==}
 
-  emoji-picker-element@1.28.1:
-    resolution: {integrity: sha512-8c64IPish2PWoV9oYCo2pvuPHwIv+uK9bO0dfpPyMupDAvaWL9ZvYhWNTAR+2sx7BhfRjciImqP6CIUgNX+DMg==}
+  emoji-picker-element@1.29.0:
+    resolution: {integrity: sha512-lQm8YayfwIP5j+Xe1O2Fjul7hv2b4spPS16X99O4qKQdzDQaEeiAqqYaRONHncewcpisUf6qGFJkhM2G3riEdA==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -5374,7 +5374,7 @@ snapshots:
 
   emoji-mart@5.6.0: {}
 
-  emoji-picker-element@1.28.1: {}
+  emoji-picker-element@1.29.0: {}
 
   emoji-regex@8.0.0: {}
 
