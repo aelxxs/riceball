@@ -362,7 +362,7 @@ importers:
     dependencies:
       '@khanacademy/simple-markdown':
         specifier: ^2.2.0
-        version: 2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 2.2.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       discord-api-types:
         specifier: ^0.38.38
         version: 0.38.38
@@ -1042,8 +1042,8 @@ packages:
   '@khanacademy/perseus-utils@2.1.4':
     resolution: {integrity: sha512-TQLLUZQWc0K0gCLejNTd7G2y1qMhF3BtM9rBGvSObo10EVL4LwA2nCgm0FaPLowCp0ujweZACh9ty+xlekkGXA==}
 
-  '@khanacademy/simple-markdown@2.2.0':
-    resolution: {integrity: sha512-kbAiY4fVIRqGfH1OdqffeldeSxcY/rfBODyNH6ZKKoLh40pPlU6iunPyQk1GnOdfwPeE+6J93TDwN2ZIUlD5LA==}
+  '@khanacademy/simple-markdown@2.2.1':
+    resolution: {integrity: sha512-9xmLOLIh//ZiWwQFtJETnV8Ha24J3KgHpcwrROjqjuXD3tNiNZrVMBBZU93Aw1/jeocA7p5jiYBrErZiqGlLag==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -4199,7 +4199,7 @@ snapshots:
 
   '@khanacademy/perseus-utils@2.1.4': {}
 
-  '@khanacademy/simple-markdown@2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@khanacademy/simple-markdown@2.2.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@khanacademy/perseus-utils': 2.1.4
       react: 18.3.1
