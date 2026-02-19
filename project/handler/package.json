@@ -37,7 +37,7 @@
 		"@riceball/ts-config": "workspace:*",
 		"@types/common-tags": "1.8.4",
 		"@types/ms": "^2.1.0",
-		"@types/node": "25.2.0",
+		"@types/node": "25.3.0",
 		"@types/node-emoji": "^2.1.0",
 		"pkgroll": "^2.23.0",
 		"tslib": "2.8.1",
