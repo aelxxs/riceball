@@ -92,7 +92,7 @@ importers:
         version: 2.1.0
       pkgroll:
         specifier: ^2.23.0
-        version: 2.23.0(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2))
+        version: 2.26.3(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2))
       tslib:
         specifier: 2.8.1
         version: 2.8.1
@@ -2886,8 +2886,8 @@ packages:
   pkg-types@1.3.1:
     resolution: {integrity: sha512-/Jm5M4RvtBFVkKWRu2BLUTNP8/M2a+UwuAX+ae4770q1qVGtfjG+WTCupoZixokjmHiry8uI+dlY8KXYV5HVVQ==}
 
-  pkgroll@2.23.0:
-    resolution: {integrity: sha512-n3DACf3DZCbfTzr/LnZ+KDT272zzqzduvQxMS7j96wYA94YUA4MgoCCcmV6XZ1r5ypdBzDs44C6FwSXuDpxKVw==}
+  pkgroll@2.26.3:
+    resolution: {integrity: sha512-Ed+uTZXaYHiwPCf4nH32toY/x7PkqMpeDAmcO0GtAQsgdCGGTXMt/Y8fdq8q9MwEzn0S+qeSnyL13PQ/1wZImg==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -3092,8 +3092,8 @@ packages:
       rollup: ^3.29.4 || ^4
       typescript: ^4.5 || ^5.0
 
-  rollup-plugin-import-trace@1.0.0:
-    resolution: {integrity: sha512-byUjwhEc42qnbcTOZ7E0cDDNidkKkN4VwoW5dknA/61F0c60v2l2ktPraUH4+ehhZ/L/yS/Exry/q8gz0hEZOQ==}
+  rollup-plugin-import-trace@1.0.1:
+    resolution: {integrity: sha512-dWOKrdYba2BXDJh82kkuM4pAR3M6r7WFp6vbVxAgvLfug2WniMFAg2uZ5sNQ/8CoQWo5l2N5EXDG8+QClKk1YQ==}
     engines: {node: '>=20.20.0'}
     peerDependencies:
       rollup: ^3.0.0 || ^4.0.0
@@ -5914,7 +5914,7 @@ snapshots:
       mlly: 1.8.0
       pathe: 2.0.3
 
-  pkgroll@2.23.0(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2)):
+  pkgroll@2.26.3(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2)):
     dependencies:
       '@rollup/plugin-alias': 6.0.0(rollup@4.57.1)
       '@rollup/plugin-commonjs': 29.0.0(rollup@4.57.1)
@@ -5925,7 +5925,7 @@ snapshots:
       esbuild: 0.26.0
       magic-string: 0.30.21
       rollup: 4.57.1
-      rollup-plugin-import-trace: 1.0.0(rollup@4.57.1)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2))
+      rollup-plugin-import-trace: 1.0.1(rollup@4.57.1)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2))
       rollup-pluginutils: 2.8.2
       yaml: 2.8.2
     optionalDependencies:
@@ -6151,7 +6151,7 @@ snapshots:
     optionalDependencies:
       '@babel/code-frame': 7.29.0
 
-  rollup-plugin-import-trace@1.0.0(rollup@4.57.1)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2)):
+  rollup-plugin-import-trace@1.0.1(rollup@4.57.1)(vite@7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2)):
     optionalDependencies:
       rollup: 4.57.1
       vite: 7.3.1(@types/node@25.2.0)(sass@1.97.3)(yaml@2.8.2)
