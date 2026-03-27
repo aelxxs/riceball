@@ -15,7 +15,7 @@
 	"dependencies": {
 		"@discordjs/core": "^2.4.0",
 		"@discordjs/formatters": "^0.6.2",
-		"@discordjs/rest": "2.6.0",
+		"@discordjs/rest": "2.6.1",
 		"@napi-rs/canvas": "0.1.89",
 		"@riceball/colorify": "workspace:*",
 		"@riceball/db": "workspace:*",
