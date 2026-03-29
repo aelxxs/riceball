@@ -1,28 +1,28 @@
 <script lang="ts">
-  import type { NodeViewProps } from "@tiptap/core";
-  import { AtSignIcon, HashIcon, type Icon } from "lucide-svelte";
-  import { NodeViewWrapper } from "svelte-tiptap";
+import type { NodeViewProps } from "@tiptap/core";
+import { AtSignIcon, HashIcon, type Icon } from "lucide-svelte";
+import { NodeViewWrapper } from "svelte-tiptap";
 
-  const { node }: NodeViewProps = $props();
+const { node }: NodeViewProps = $props();
 
-  type Attrs = {
-    type: "user" | "role" | "channel" | "everyone" | "here";
-    name: string;
-    mention: string;
-  };
+type Attrs = {
+	type: "user" | "role" | "channel" | "everyone" | "here";
+	name: string;
+	mention: string;
+};
 
-  const attrs = $derived(node.attrs as Attrs);
-  const name = $derived(attrs.name);
-  const icon = $derived.by<typeof Icon | null>(() => {
-    switch (attrs.type) {
-      case "role":
-        return AtSignIcon;
-      case "channel":
-        return HashIcon;
-      default:
-        return null;
-    }
-  });
+const attrs = $derived(node.attrs as Attrs);
+const name = $derived(attrs.name);
+const icon = $derived.by<typeof Icon | null>(() => {
+	switch (attrs.type) {
+		case "role":
+			return AtSignIcon;
+		case "channel":
+			return HashIcon;
+		default:
+			return null;
+	}
+});
 </script>
 
 <NodeViewWrapper id="discord-mention">
