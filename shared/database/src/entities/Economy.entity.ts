@@ -15,7 +15,7 @@ export class Economy {
 	@Property()
 	enabled = true;
 
-	@Property({ nullable: true, type: 'string' })
+	@Property({ nullable: true, type: "string" })
 	currencyName: string | null = null;
 
 	@Property()
