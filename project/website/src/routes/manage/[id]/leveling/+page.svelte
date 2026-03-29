@@ -1,131 +1,134 @@
 <script lang="ts">
-import {
-	composeLevelCard,
-	generateEnhancedPalettes,
-	getHSLAOpacity,
-	type HEXColorString,
-	hexToHsla,
-	hslaToObj,
-	hslaToStr,
-	isLight,
-	rgbaArrayToHex,
-	setHSLAOpacity,
-} from "@riceball/colorify";
-import { ToggleGroup } from "bits-ui";
-import { getColor, getPalette } from "colorthief";
-import { onMount } from "svelte";
-import { toast } from "svelte-sonner";
-import SuperDebug, { fileProxy, superForm } from "sveltekit-superforms";
-import ColorPicker from "$lib/blocks/color-picker/color-picker.svelte";
-import { DashboardCard } from "$lib/blocks/dashboard-card";
-import ImageUpload from "$lib/blocks/embed-creator/blocks/image-upload.svelte";
-import { Control, Field } from "$lib/blocks/forms";
-import { LevelingCardPreview } from "$lib/blocks/leveling-card-preview";
-import { RadioGroup } from "$lib/blocks/radio-group";
-import { Restrictions } from "$lib/blocks/restrictions";
-import { Slider } from "$lib/blocks/slider/slider";
-import { Switch } from "$lib/blocks/switch";
-import { getSaveModal, shake } from "$lib/utility/context.svelte.js";
-import { LevelingUp, TextLeveling } from "./sections/index.js";
-import LevelUpRewards from "./sections/level-up-rewards.svelte";
+  import ColorPicker from "$lib/blocks/color-picker/color-picker.svelte";
+  import { DashboardCard } from "$lib/blocks/dashboard-card";
+  import ImageUpload from "$lib/blocks/embed-creator/blocks/image-upload.svelte";
+  import { Control, Field } from "$lib/blocks/forms";
+  import { LevelingCardPreview } from "$lib/blocks/leveling-card-preview";
+  import { RadioGroup } from "$lib/blocks/radio-group";
+  import { Restrictions } from "$lib/blocks/restrictions";
+  import { Slider } from "$lib/blocks/slider/slider";
+  import { Switch } from "$lib/blocks/switch";
+  import { getSaveModal, shake } from "$lib/utility/context.svelte.js";
+  import {
+    composeLevelCard,
+    generateEnhancedPalettes,
+    getHSLAOpacity,
+    type HEXColorString,
+    hexToHsla,
+    hslaToObj,
+    hslaToStr,
+    isLight,
+    rgbaArrayToHex,
+    setHSLAOpacity,
+  } from "@riceball/colorify";
+  import { ToggleGroup } from "bits-ui";
+  import { getColor, getPalette } from "colorthief";
+  import { onMount } from "svelte";
+  import { toast } from "svelte-sonner";
+  import SuperDebug, { fileProxy, superForm } from "sveltekit-superforms";
+  import { LevelingUp, TextLeveling } from "./sections/index.js";
+  import LevelUpRewards from "./sections/level-up-rewards.svelte";
 
-const { data } = $props();
+  const { data } = $props();
 
-const modal = getSaveModal();
+  const modal = getSaveModal();
 
-const settingsForm = superForm(data.form, {
-	dataType: "json",
-	resetForm: false,
-	taintedMessage: () => {
-		return new Promise(() => {
-			shake.shake = true;
-			setTimeout(() => {
-				shake.shake = false;
-			}, 500);
-		});
-	},
-	onUpdate: ({ result }) => {
-		switch (result.type) {
-			case "success":
-				modal.hideModal();
-				toast.success("Settings saved successfully!");
-				break;
-			case "failure":
-				console.log(result);
-				toast.error("Failed to save settings.");
-				break;
-			default:
-				break;
-		}
-	},
-});
+  const settingsForm = superForm(data.form, {
+    dataType: "json",
+    resetForm: false,
+    taintedMessage: () => {
+      return new Promise(() => {
+        shake.shake = true;
+        setTimeout(() => {
+          shake.shake = false;
+        }, 500);
+      });
+    },
+    onUpdate: ({ result }) => {
+      switch (result.type) {
+        case "success":
+          modal.hideModal();
+          toast.success("Settings saved successfully!");
+          break;
+        case "failure":
+          console.log(result);
+          toast.error("Failed to save settings.");
+          break;
+        default:
+          break;
+      }
+    },
+  });
 
-const { form, enhance, tainted, isTainted, submit, delayed, submitting } = settingsForm;
+  const { form, enhance, tainted, isTainted, submit, delayed, submitting } =
+    settingsForm;
 
-$effect(() => {
-	if (isTainted($tainted)) {
-		modal.showModal({
-			save: submit,
-			undo: settingsForm.reset,
-			delayed: $delayed,
-			submitting: $submitting,
-		});
-	} else {
-		modal.hideModal();
-	}
-});
+  $effect(() => {
+    if (isTainted($tainted)) {
+      modal.showModal({
+        save: submit,
+        undo: settingsForm.reset,
+        delayed: $delayed,
+        submitting: $submitting,
+      });
+    } else {
+      modal.hideModal();
+    }
+  });
 
-const embed = $state($form.notifyMessageEmbed);
+  const embed = $state($form.notifyMessageEmbed);
 
-$effect(() => {
-	$form.notifyMessageEmbed = embed;
-});
+  $effect(() => {
+    $form.notifyMessageEmbed = embed;
+  });
 
-let dominantColor = $state<HEXColorString>("#000000");
-let palette = $state<HEXColorString[]>([]);
+  let dominantColor = $state<HEXColorString>("#000000");
+  let palette = $state<HEXColorString[]>([]);
 
-const handleImageUpload = (url: string) => {
-	const img = new Image();
-	img.src = url;
-	img.crossOrigin = "Anonymous";
-	img.onload = () => {
-    const dominant = getColor(img);
+  const handleImageUpload = (url: string) => {
+    const img = new Image();
+    img.src = url;
+    img.crossOrigin = "Anonymous";
+    img.onload = () => {
+      const dominant = getColor(img);
 
-		if (dominant) {
-			dominantColor = rgbaArrayToHex(dominant);
-		}
+      if (dominant) {
+        dominantColor = rgbaArrayToHex(dominant);
+      }
 
-    const colors = getPalette(img, 5);
+      const colors = getPalette(img, 5);
 
-		// conver to hex string
-		const hexColors = colors?.map((c) => rgbaArrayToHex(c));
+      // conver to hex string
+      const hexColors = colors?.map((c) => rgbaArrayToHex(c));
 
-		palette = hexColors || [];
-	};
-};
+      palette = hexColors || [];
+    };
+  };
 
-const card = $derived(composeLevelCard($form.rankCard));
+  const card = $derived(composeLevelCard($form.rankCard));
 
-const palettes = $derived.by(() => {
-	const hslas = [hexToHsla(dominantColor)];
+  const palettes = $derived.by(() => {
+    const hslas = [hexToHsla(dominantColor)];
 
-	const pregen = hslas.flatMap((hsla) => generateEnhancedPalettes(hsla));
+    const pregen = hslas.flatMap((hsla) => generateEnhancedPalettes(hsla));
 
-	// Convert each HSLA color back to HEX
-	return pregen.map((palette) => Object.values(palette).map((hslaColor) => hslaColor));
-});
+    // Convert each HSLA color back to HEX
+    return pregen.map((palette) =>
+      Object.values(palette).map((hslaColor) => hslaColor),
+    );
+  });
 
-onMount(() => {
-	if ($form.rankCard.wrapperImage) {
-		// handleImageUpload($form.rankCard.wrapperImage);
-		// handleImageUpload(page.data.session?.user?.image);
-	} else {
-	}
-});
+  onMount(() => {
+    if ($form.rankCard.wrapperImage) {
+      // handleImageUpload($form.rankCard.wrapperImage);
+      // handleImageUpload(page.data.session?.user?.image);
+    } else {
+    }
+  });
 
-const rankCardWrapperImage = fileProxy(form, "rankCard.wrapperImage");
+  const rankCardWrapperImage = fileProxy(form, "rankCard.wrapperImage");
 
-const multipliers = [0.25, 0.5, 1, 1.5, 2];
+  const multipliers = [0.25, 0.5, 1, 1.5, 2];
 </script>
 
 <!-- <SuperDebug data={$form} /> -->
