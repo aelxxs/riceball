@@ -1,28 +1,28 @@
 <script lang="ts">
-  // - Icons
+// - Icons
 
-  import { DiscordIcon } from "$lib/blocks/discord-icon";
-  import { Divider } from "$lib/blocks/divider";
-  import { generateSidebarRoutes, type SidebarRoute } from "$lib/constants";
-  import type { DashboardGuild, ManagedGuild } from "$lib/types";
-  import { layoutState } from "$lib/utility/context.svelte";
-  import { flyAndScale } from "$lib/utility/transitions";
-  import { Select, Tooltip } from "bits-ui";
-  import CheckIcon from "lucide-svelte/icons/check";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
-  import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
+import { Select, Tooltip } from "bits-ui";
+import CheckIcon from "lucide-svelte/icons/check";
+import ChevronDown from "lucide-svelte/icons/chevron-down";
+import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
+import { DiscordIcon } from "$lib/blocks/discord-icon";
+import { Divider } from "$lib/blocks/divider";
+import { generateSidebarRoutes, type SidebarRoute } from "$lib/constants";
+import type { DashboardGuild, ManagedGuild } from "$lib/types";
+import { layoutState } from "$lib/utility/context.svelte";
+import { flyAndScale } from "$lib/utility/transitions";
 
-  type Props = {
-    guild: DashboardGuild;
-    guilds: ManagedGuild[];
-    plugin: SidebarRoute;
-  };
+type Props = {
+	guild: DashboardGuild;
+	guilds: ManagedGuild[];
+	plugin: SidebarRoute;
+};
 
-  const { guild, guilds, plugin }: Props = $props();
+const { guild, guilds, plugin }: Props = $props();
 
-  const sections = generateSidebarRoutes(guild.id);
+const sections = generateSidebarRoutes(guild.id);
 
-  let open = $state(false);
+let open = $state(false);
 </script>
 
 <svelte:window

@@ -1,52 +1,43 @@
 <script lang="ts">
-  import { Button } from "$lib/blocks/button";
-  import ButtonWithConfirmation from "$lib/blocks/button-with-confirmation/button-with-confirmation.svelte";
-  import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
-  import Input from "$lib/blocks/input/input.svelte";
-  import type { ReactionRole } from "@riceball/db";
-  import { DropdownMenu, Label } from "bits-ui";
-  import {
-    EllipsisVerticalIcon,
-    PlusIcon,
-    SearchIcon,
-    Trash2,
-  } from "lucide-svelte";
+import type { ReactionRole } from "@riceball/db";
+import { DropdownMenu, Label } from "bits-ui";
+import { EllipsisVerticalIcon, PlusIcon, SearchIcon, Trash2 } from "lucide-svelte";
+import { Button } from "$lib/blocks/button";
+import ButtonWithConfirmation from "$lib/blocks/button-with-confirmation/button-with-confirmation.svelte";
+import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
+import Input from "$lib/blocks/input/input.svelte";
 
-  type ReactionRoleCard = {
-    alias: string;
-    channelId: string;
-    id: string;
-    messageId?: string;
-    createdAt?: string | number | Date | null;
-    pairs?: Array<{ emoji: string }>;
-  };
+type ReactionRoleCard = {
+	alias: string;
+	channelId: string;
+	id: string;
+	messageId?: string;
+	createdAt?: string | number | Date | null;
+	pairs?: Array<{ emoji: string }>;
+};
 
-  let { data } = $props();
-  const reactionRoles = $derived(data.reactionRoles as ReactionRole[]);
+let { data } = $props();
+const reactionRoles = $derived(data.reactionRoles as ReactionRole[]);
 
-  let searchQuery = $state("");
+let searchQuery = $state("");
 
-  const channelName = (channelId: string) => {
-    const channel = data.guild?.channels?.find(
-      (entry) => entry.id === channelId,
-    );
-    return channel?.name ?? "unknown-channel";
-  };
+const channelName = (channelId: string) => {
+	const channel = data.guild?.channels?.find((entry) => entry.id === channelId);
+	return channel?.name ?? "unknown-channel";
+};
 
-  const formatTimestamp = (
-    value: string | number | Date | null | undefined,
-  ) => {
-    if (!value) {
-      return "Unknown date";
-    }
+const formatTimestamp = (value: string | number | Date | null | undefined) => {
+	if (!value) {
+		return "Unknown date";
+	}
 
-    const date = value instanceof Date ? value : new Date(value);
-    if (Number.isNaN(date.getTime())) {
-      return "Unknown date";
-    }
+	const date = value instanceof Date ? value : new Date(value);
+	if (Number.isNaN(date.getTime())) {
+		return "Unknown date";
+	}
 
-    return date.toLocaleString();
-  };
+	return date.toLocaleString();
+};
 </script>
 
 <DashboardCard

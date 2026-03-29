@@ -24,8 +24,8 @@
 	},
 	"devDependencies": {
 		"@riceball/ts-config": "workspace:*",
-		"@types/node": "25.3.3",
+		"@types/node": "25.5.0",
 		"bunchee": "^6.9.4",
-		"typescript": "^5.9.3"
+		"typescript": "^6.0.2"
 	}
 }

@@ -8,109 +8,109 @@ const THEME_TRANSITION_ATTR = "data-theme-changing";
 const ROOT_LIGHT_ATTR = "dark";
 
 const isThemeMode = (value: string | null): value is ThemeMode => {
-  return value === "dark" || value === "light";
+	return value === "dark" || value === "light";
 };
 
 const getRoot = (): HTMLElement | null => {
-  if (typeof document === "undefined") {
-    return null;
-  }
+	if (typeof document === "undefined") {
+		return null;
+	}
 
-  return document.documentElement;
+	return document.documentElement;
 };
 
 export const getActiveTheme = (): ThemeMode => {
-  const root = getRoot();
-  if (!root) {
-    return "dark";
-  }
+	const root = getRoot();
+	if (!root) {
+		return "dark";
+	}
 
-  return root.hasAttribute(ROOT_LIGHT_ATTR) ? "light" : "dark";
+	return root.hasAttribute(ROOT_LIGHT_ATTR) ? "light" : "dark";
 };
 
 const applyThemeToRoot = (theme: ThemeMode): void => {
-  const root = getRoot();
-  if (!root) {
-    return;
-  }
+	const root = getRoot();
+	if (!root) {
+		return;
+	}
 
-  root.setAttribute("data-theme", theme);
+	root.setAttribute("data-theme", theme);
 
-  if (theme === "light") {
-    root.setAttribute(ROOT_LIGHT_ATTR, "");
-    return;
-  }
+	if (theme === "light") {
+		root.setAttribute(ROOT_LIGHT_ATTR, "");
+		return;
+	}
 
-  root.removeAttribute(ROOT_LIGHT_ATTR);
+	root.removeAttribute(ROOT_LIGHT_ATTR);
 };
 
 const suppressTransitions = (callback: () => void): void => {
-  const root = getRoot();
-  if (!root) {
-    callback();
-    return;
-  }
+	const root = getRoot();
+	if (!root) {
+		callback();
+		return;
+	}
 
-  root.setAttribute(THEME_TRANSITION_ATTR, "");
-  callback();
+	root.setAttribute(THEME_TRANSITION_ATTR, "");
+	callback();
 
-  if (typeof window === "undefined") {
-    root.removeAttribute(THEME_TRANSITION_ATTR);
-    return;
-  }
+	if (typeof window === "undefined") {
+		root.removeAttribute(THEME_TRANSITION_ATTR);
+		return;
+	}
 
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(() => {
-      root.removeAttribute(THEME_TRANSITION_ATTR);
-    });
-  });
+	window.requestAnimationFrame(() => {
+		window.requestAnimationFrame(() => {
+			root.removeAttribute(THEME_TRANSITION_ATTR);
+		});
+	});
 };
 
 const emitThemeChange = (theme: ThemeMode): void => {
-  if (typeof window === "undefined") {
-    return;
-  }
+	if (typeof window === "undefined") {
+		return;
+	}
 
-  window.dispatchEvent(
-    new CustomEvent<{ theme: ThemeMode }>(THEME_CHANGE_EVENT, {
-      detail: { theme },
-    }),
-  );
+	window.dispatchEvent(
+		new CustomEvent<{ theme: ThemeMode }>(THEME_CHANGE_EVENT, {
+			detail: { theme },
+		}),
+	);
 };
 
 export const setTheme = (theme: ThemeMode): ThemeMode => {
-  if (typeof window !== "undefined") {
-    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
-  }
+	if (typeof window !== "undefined") {
+		window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+	}
 
-  suppressTransitions(() => {
-    applyThemeToRoot(theme);
-  });
-  emitThemeChange(theme);
-  return theme;
+	suppressTransitions(() => {
+		applyThemeToRoot(theme);
+	});
+	emitThemeChange(theme);
+	return theme;
 };
 
 export const toggleTheme = (): ThemeMode => {
-  const nextTheme = getActiveTheme() === "dark" ? "light" : "dark";
-  return setTheme(nextTheme);
+	const nextTheme = getActiveTheme() === "dark" ? "light" : "dark";
+	return setTheme(nextTheme);
 };
 
 export const initializeTheme = (): ThemeMode => {
-  if (typeof window === "undefined") {
-    return "dark";
-  }
+	if (typeof window === "undefined") {
+		return "dark";
+	}
 
-  const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-  if (isThemeMode(savedTheme)) {
-    applyThemeToRoot(savedTheme);
-    emitThemeChange(savedTheme);
-    return savedTheme;
-  }
+	const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+	if (isThemeMode(savedTheme)) {
+		applyThemeToRoot(savedTheme);
+		emitThemeChange(savedTheme);
+		return savedTheme;
+	}
 
-  const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-  const initialTheme: ThemeMode = prefersLight ? "light" : "dark";
-  applyThemeToRoot(initialTheme);
-  window.localStorage.setItem(THEME_STORAGE_KEY, initialTheme);
-  emitThemeChange(initialTheme);
-  return initialTheme;
+	const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+	const initialTheme: ThemeMode = prefersLight ? "light" : "dark";
+	applyThemeToRoot(initialTheme);
+	window.localStorage.setItem(THEME_STORAGE_KEY, initialTheme);
+	emitThemeChange(initialTheme);
+	return initialTheme;
 };

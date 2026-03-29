@@ -40,10 +40,7 @@ export * from "./entities";
 export * from "./repositories/RepositoryManager.js";
 export * from "./utils/constants.js";
 export * from "./utils/types.js";
-
-export { container };
-
-export { wrap };
+export { container, wrap };
 
 export const getGuild = () => {};
 export const updateGuild = () => {};

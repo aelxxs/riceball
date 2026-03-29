@@ -3,8 +3,8 @@ import Item from "./radio-group-item.svelte";
 
 export {
 	Item,
+	Item as RadioGroupItem,
 	//
 	Root as RadioGroup,
-	Item as RadioGroupItem,
 	Root,
 };

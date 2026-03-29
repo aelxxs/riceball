@@ -1,25 +1,25 @@
 <script lang="ts">
-  import { page } from "$app/state";
-  import { layoutState } from "$lib/utility/context.svelte";
-  import { getActiveTheme, toggleTheme } from "$lib/utility/theme";
-  import { BellIcon } from "lucide-svelte";
-  import MoonIcon from "lucide-svelte/icons/moon";
-  import SunIcon from "lucide-svelte/icons/sun";
-  import { onMount } from "svelte";
-  import { DiscordUser } from "../discord-user";
-  import { Divider } from "../divider";
+import { BellIcon } from "lucide-svelte";
+import MoonIcon from "lucide-svelte/icons/moon";
+import SunIcon from "lucide-svelte/icons/sun";
+import { onMount } from "svelte";
+import { page } from "$app/state";
+import { layoutState } from "$lib/utility/context.svelte";
+import { getActiveTheme, toggleTheme } from "$lib/utility/theme";
+import { DiscordUser } from "../discord-user";
+import { Divider } from "../divider";
 
-  const user = page.data.session?.user;
+const user = page.data.session?.user;
 
-  let isLightTheme = $state(false);
+let isLightTheme = $state(false);
 
-  onMount(() => {
-    isLightTheme = getActiveTheme() === "light";
-  });
+onMount(() => {
+	isLightTheme = getActiveTheme() === "light";
+});
 
-  const handleThemeToggle = () => {
-    isLightTheme = toggleTheme() === "light";
-  };
+const handleThemeToggle = () => {
+	isLightTheme = toggleTheme() === "light";
+};
 </script>
 
 <div class="header-wrapper" class:bg-solid={layoutState.sideBarOpen}>

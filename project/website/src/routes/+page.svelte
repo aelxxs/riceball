@@ -1,43 +1,43 @@
 <script lang="ts">
-  import { signIn } from "@auth/sveltekit/client";
-  import { onMount } from "svelte";
-  import { fade, fly, scale } from "svelte/transition";
+import { signIn } from "@auth/sveltekit/client";
+import { onMount } from "svelte";
+import { fade, fly, scale } from "svelte/transition";
 
-  let mounted = false;
-  let mouseX = 0;
-  let mouseY = 0;
-  let particles: Array<{
-    id: number;
-    x: number;
-    y: number;
-    size: number;
-    duration: number;
-  }> = [];
+let mounted = false;
+let mouseX = 0;
+let mouseY = 0;
+let particles: Array<{
+	id: number;
+	x: number;
+	y: number;
+	size: number;
+	duration: number;
+}> = [];
 
-  onMount(() => {
-    mounted = true;
-    // Generate initial particles
-    generateParticles();
-  });
+onMount(() => {
+	mounted = true;
+	// Generate initial particles
+	generateParticles();
+});
 
-  function generateParticles() {
-    particles = Array.from({ length: 15 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 4 + 2,
-      duration: Math.random() * 20 + 15,
-    }));
-  }
+function generateParticles() {
+	particles = Array.from({ length: 15 }, (_, i) => ({
+		id: i,
+		x: Math.random() * 100,
+		y: Math.random() * 100,
+		size: Math.random() * 4 + 2,
+		duration: Math.random() * 20 + 15,
+	}));
+}
 
-  function handleMouseMove(e: MouseEvent) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  }
+function handleMouseMove(e: MouseEvent) {
+	mouseX = e.clientX;
+	mouseY = e.clientY;
+}
 
-  function handleFeatureClick(feature: string) {
-    console.log(`Clicked on ${feature}`);
-  }
+function handleFeatureClick(feature: string) {
+	console.log(`Clicked on ${feature}`);
+}
 </script>
 
 <svelte:window on:mousemove={handleMouseMove} />

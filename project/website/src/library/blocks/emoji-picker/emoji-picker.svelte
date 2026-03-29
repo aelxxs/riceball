@@ -1,243 +1,226 @@
 <script lang="ts">
-  import {
-    getActiveTheme,
-    THEME_CHANGE_EVENT,
-    type ThemeMode,
-  } from "$lib/utility/theme";
-  import { flyAndScale } from "$lib/utility/transitions";
-  import { CDN } from "@discordjs/rest";
-  import { Popover } from "bits-ui";
-  import type { APIGuild } from "discord-api-types/v10";
-  import { onMount } from "svelte";
-  import type { Emoji } from "./picker.svelte";
+import { CDN } from "@discordjs/rest";
+import { Popover } from "bits-ui";
+import type { APIGuild } from "discord-api-types/v10";
+import { onMount } from "svelte";
+import { getActiveTheme, THEME_CHANGE_EVENT, type ThemeMode } from "$lib/utility/theme";
+import { flyAndScale } from "$lib/utility/transitions";
+import type { Emoji } from "./picker.svelte";
 
-  let contentElement = $state<HTMLElement | null>(null);
-  let pickerTheme = $state<ThemeMode>("dark");
+let contentElement = $state<HTMLElement | null>(null);
+let pickerTheme = $state<ThemeMode>("dark");
 
-  type Props = {
-    open?: boolean;
-    value?: string;
-    guild: APIGuild;
-    onEmojiPick?: (emoji: Emoji) => void;
-    showSelected?: boolean;
-    hideAfterPick?: boolean;
-  };
+type Props = {
+	open?: boolean;
+	value?: string;
+	guild: APIGuild;
+	onEmojiPick?: (emoji: Emoji) => void;
+	showSelected?: boolean;
+	hideAfterPick?: boolean;
+};
 
-  let {
-    open = $bindable(false),
-    value = $bindable(),
-    guild = $bindable(),
-    onEmojiPick,
-    showSelected = false,
-    hideAfterPick = true,
-  }: Props = $props();
-  const cdn = new CDN();
+let {
+	open = $bindable(false),
+	value = $bindable(),
+	guild = $bindable(),
+	onEmojiPick,
+	showSelected = false,
+	hideAfterPick = true,
+}: Props = $props();
+const cdn = new CDN();
 
-  const onEmojiSelect = (emoji: Emoji) => {
-    value = emoji.native ?? emoji.id;
-    if (onEmojiPick) {
-      onEmojiPick(emoji);
-    }
-    if (hideAfterPick) {
-      open = false;
-    }
-  };
+const onEmojiSelect = (emoji: Emoji) => {
+	value = emoji.native ?? emoji.id;
+	if (onEmojiPick) {
+		onEmojiPick(emoji);
+	}
+	if (hideAfterPick) {
+		open = false;
+	}
+};
 
-  // biome-ignore lint/suspicious/noExplicitAny: for now
-  let Picker: any;
+// biome-ignore lint/suspicious/noExplicitAny: for now
+let Picker: any;
 
-  onMount(async () => {
-    const EmojiMart = await import("emoji-mart");
-    Picker = EmojiMart.Picker;
-  });
+onMount(async () => {
+	const EmojiMart = await import("emoji-mart");
+	Picker = EmojiMart.Picker;
+});
 
-  onMount(() => {
-    pickerTheme = getActiveTheme();
+onMount(() => {
+	pickerTheme = getActiveTheme();
 
-    const handleThemeChange = (event: Event) => {
-      const nextTheme = (event as CustomEvent<{ theme: ThemeMode }>).detail
-        ?.theme;
-      if (!nextTheme || nextTheme === pickerTheme) {
-        return;
-      }
+	const handleThemeChange = (event: Event) => {
+		const nextTheme = (event as CustomEvent<{ theme: ThemeMode }>).detail?.theme;
+		if (!nextTheme || nextTheme === pickerTheme) {
+			return;
+		}
 
-      pickerTheme = nextTheme;
-      contentElement?.replaceChildren();
-    };
+		pickerTheme = nextTheme;
+		contentElement?.replaceChildren();
+	};
 
-    window.addEventListener(THEME_CHANGE_EVENT, handleThemeChange);
+	window.addEventListener(THEME_CHANGE_EVENT, handleThemeChange);
 
-    return () => {
-      window.removeEventListener(THEME_CHANGE_EVENT, handleThemeChange);
-    };
-  });
+	return () => {
+		window.removeEventListener(THEME_CHANGE_EVENT, handleThemeChange);
+	};
+});
 
-  $effect(() => {
-    if (contentElement && !contentElement.hasChildNodes()) {
-      const emojis = guild.emojis.map((emoji) => ({
-        id: emoji.animated
-          ? `<a:${emoji.name}:${emoji.id}>`
-          : `<:${emoji.name}:${emoji.id}>`,
-        name: emoji.name,
-        keywords: [emoji.name],
-        skins: [
-          {
-            src: emoji.id
-              ? cdn.emoji(emoji.id, {
-                  extension: emoji.animated ? "gif" : "png",
-                })
-              : undefined,
-          },
-        ],
-      }));
+$effect(() => {
+	if (contentElement && !contentElement.hasChildNodes()) {
+		const emojis = guild.emojis.map((emoji) => ({
+			id: emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`,
+			name: emoji.name,
+			keywords: [emoji.name],
+			skins: [
+				{
+					src: emoji.id
+						? cdn.emoji(emoji.id, {
+								extension: emoji.animated ? "gif" : "png",
+							})
+						: undefined,
+				},
+			],
+		}));
 
-      const picker = new Picker({
-        icons: "solid",
-        set: "twitter",
-        onEmojiSelect,
-        custom: [{ id: guild.id, name: guild.name, emojis }],
-        maxFrequentRows: 0,
-        categories: [
-          guild.id,
-          "people",
-          "nature",
-          "foods",
-          "activity",
-          "places",
-          "objects",
-          "symbols",
-          "flags",
-        ],
-        emojiButtonRadius: "0.5rem",
-        emojiButtonColors: ["var(--clr-bg-input-hover)"],
-        skinTonePosition: "search",
-        theme: pickerTheme,
-        previewEmoji: "rice_ball",
-      });
-      contentElement.appendChild(picker as unknown as Node);
-    }
-  });
+		const picker = new Picker({
+			icons: "solid",
+			set: "twitter",
+			onEmojiSelect,
+			custom: [{ id: guild.id, name: guild.name, emojis }],
+			maxFrequentRows: 0,
+			categories: [guild.id, "people", "nature", "foods", "activity", "places", "objects", "symbols", "flags"],
+			emojiButtonRadius: "0.5rem",
+			emojiButtonColors: ["var(--clr-bg-input-hover)"],
+			skinTonePosition: "search",
+			theme: pickerTheme,
+			previewEmoji: "rice_ball",
+		});
+		contentElement.appendChild(picker as unknown as Node);
+	}
+});
 
-  const getRandomFaceEmoji = () => {
-    const faces = [
-      "😀",
-      "😃",
-      "😄",
-      "😁",
-      "😆",
-      "😅",
-      "🤣",
-      "😂",
-      "🙂",
-      "🙃",
-      "😉",
-      "😊",
-      "😇",
-      "🥰",
-      "😍",
-      "🤩",
-      "😘",
-      "😗",
-      "☺️",
-      "😚",
-      "😙",
-      "🥲",
-      "😋",
-      "😛",
-      "😜",
-      "🤪",
-      "😝",
-      "🤑",
-      "🤗",
-      "🤭",
-      "🤫",
-      "🤔",
-      "🤐",
-      "🤨",
-      "😐",
-      "😑",
-      "😶",
-      "😏",
-      "😒",
-      "🙄",
-      "😬",
-      "🤥",
-      "😌",
-      "😔",
-      "😪",
-      "🤤",
-      "😴",
-      "😷",
-      "🤒",
-      "🤕",
-      "🤢",
-      "🤮",
-      "🤧",
-      "🥵",
-      "🥶",
-      "🥴",
-      "😵",
-      "🤯",
-      "🤠",
-      "🥳",
-      "😎",
-      "🤓",
-      "🧐",
-      "😕",
-      "😟",
-      "🙁",
-      "☹️",
-      "😮",
-      "😯",
-      "😲",
-      "😳",
-      "🥺",
-      "😦",
-      "😧",
-      "😨",
-      "😰",
-      "😥",
-      "😢",
-      "😭",
-      "😱",
-      "😖",
-      "😣",
-      "😞",
-      "😓",
-      "😩",
-      "😫",
-      "🥱",
-      "😤",
-      "😡",
-      "😠",
-      "🤬",
-      "😈",
-      "👿",
-      "💩",
-      "🤡",
-      "👹",
-      "👺",
-      "👻",
-      "👽",
-      "🤖",
-      "😺",
-      "😸",
-      "😹",
-      "😻",
-      "😼",
-      "😽",
-      "🙀",
-      "😿",
-      "😾",
-    ];
-    return faces[Math.floor(Math.random() * faces.length)];
-  };
+const getRandomFaceEmoji = () => {
+	const faces = [
+		"😀",
+		"😃",
+		"😄",
+		"😁",
+		"😆",
+		"😅",
+		"🤣",
+		"😂",
+		"🙂",
+		"🙃",
+		"😉",
+		"😊",
+		"😇",
+		"🥰",
+		"😍",
+		"🤩",
+		"😘",
+		"😗",
+		"☺️",
+		"😚",
+		"😙",
+		"🥲",
+		"😋",
+		"😛",
+		"😜",
+		"🤪",
+		"😝",
+		"🤑",
+		"🤗",
+		"🤭",
+		"🤫",
+		"🤔",
+		"🤐",
+		"🤨",
+		"😐",
+		"😑",
+		"😶",
+		"😏",
+		"😒",
+		"🙄",
+		"😬",
+		"🤥",
+		"😌",
+		"😔",
+		"😪",
+		"🤤",
+		"😴",
+		"😷",
+		"🤒",
+		"🤕",
+		"🤢",
+		"🤮",
+		"🤧",
+		"🥵",
+		"🥶",
+		"🥴",
+		"😵",
+		"🤯",
+		"🤠",
+		"🥳",
+		"😎",
+		"🤓",
+		"🧐",
+		"😕",
+		"😟",
+		"🙁",
+		"☹️",
+		"😮",
+		"😯",
+		"😲",
+		"😳",
+		"🥺",
+		"😦",
+		"😧",
+		"😨",
+		"😰",
+		"😥",
+		"😢",
+		"😭",
+		"😱",
+		"😖",
+		"😣",
+		"😞",
+		"😓",
+		"😩",
+		"😫",
+		"🥱",
+		"😤",
+		"😡",
+		"😠",
+		"🤬",
+		"😈",
+		"👿",
+		"💩",
+		"🤡",
+		"👹",
+		"👺",
+		"👻",
+		"👽",
+		"🤖",
+		"😺",
+		"😸",
+		"😹",
+		"😻",
+		"😼",
+		"😽",
+		"🙀",
+		"😿",
+		"😾",
+	];
+	return faces[Math.floor(Math.random() * faces.length)];
+};
 
-  const currentEmoji = $state(getRandomFaceEmoji());
+const currentEmoji = $state(getRandomFaceEmoji());
 
-  const handleMouseEnter = () => {
-    // currentEmoji = getRandomFaceEmoji();
-  };
+const handleMouseEnter = () => {
+	// currentEmoji = getRandomFaceEmoji();
+};
 </script>
 
 <Popover.Root bind:open onOpenChange={(newOpen) => (open = newOpen)}>

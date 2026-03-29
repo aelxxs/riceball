@@ -1,82 +1,77 @@
 <script lang="ts">
-  import { ReactionRoleSchema } from "@riceball/db/zod";
-  import { ElementField } from "formsnap";
-  import { Trash2Icon } from "lucide-svelte";
-  import { toast } from "svelte-sonner";
-  import SuperDebug, { superForm } from "sveltekit-superforms";
-  import { zodClient } from "sveltekit-superforms/adapters";
-  import { beforeNavigate, goto } from "$app/navigation";
-  import { Button } from "$lib/blocks/button";
-  import {
-    DashboardCard,
-    DashboardCardSideBySide,
-  } from "$lib/blocks/dashboard-card";
-  import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
-  import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
-  import { Control, Field, Fieldset } from "$lib/blocks/forms";
-  import { Input } from "$lib/blocks/input";
-  import { ChannelSelect } from "$lib/blocks/select";
-  import SelectDiscord from "$lib/blocks/select-discord/select-discord.svelte";
-  import { WebsiteRoutes } from "$lib/constants";
-  import { getAppState } from "$lib/utility/context.svelte.js";
-  import { getFirstChannelFromItemizedChannelList } from "$lib/utility/utils.js";
+import { ReactionRoleSchema } from "@riceball/db/zod";
+import { ElementField } from "formsnap";
+import { Trash2Icon } from "lucide-svelte";
+import { toast } from "svelte-sonner";
+import SuperDebug, { superForm } from "sveltekit-superforms";
+import { zodClient } from "sveltekit-superforms/adapters";
+import { beforeNavigate, goto } from "$app/navigation";
+import { Button } from "$lib/blocks/button";
+import { DashboardCard, DashboardCardSideBySide } from "$lib/blocks/dashboard-card";
+import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
+import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
+import { Control, Field, Fieldset } from "$lib/blocks/forms";
+import { Input } from "$lib/blocks/input";
+import { ChannelSelect } from "$lib/blocks/select";
+import SelectDiscord from "$lib/blocks/select-discord/select-discord.svelte";
+import { WebsiteRoutes } from "$lib/constants";
+import { getAppState } from "$lib/utility/context.svelte.js";
+import { getFirstChannelFromItemizedChannelList } from "$lib/utility/utils.js";
 
-  const appState = getAppState();
+const appState = getAppState();
 
-  const { data } = $props();
+const { data } = $props();
 
-  const goBack = () => goto(WebsiteRoutes.ReactionRoles(data.guild.id));
+const goBack = () => goto(WebsiteRoutes.ReactionRoles(data.guild.id));
 
-  const form = superForm(data.form, {
-    dataType: "json",
-    onResult: () => {},
-    onUpdate: ({ result }) => {
-      switch (result.type) {
-        case "success":
-          goBack();
-          break;
-        case "failure":
-          console.log({ result });
-          toast.error("Failed to save settings.");
-          break;
-        default:
-          break;
-      }
-    },
-    resetForm: false,
-    validators: zodClient(ReactionRoleSchema),
-  });
+const form = superForm(data.form, {
+	dataType: "json",
+	onResult: () => {},
+	onUpdate: ({ result }) => {
+		switch (result.type) {
+			case "success":
+				goBack();
+				break;
+			case "failure":
+				console.log({ result });
+				toast.error("Failed to save settings.");
+				break;
+			default:
+				break;
+		}
+	},
+	resetForm: false,
+	validators: zodClient(ReactionRoleSchema),
+});
 
-  const { form: formData, submit, enhance } = form;
+const { form: formData, submit, enhance } = form;
 
-  $effect.pre(() => {
-    appState.setControlTitle("Edit Reaction Role");
-    appState.setControlsVisible(true);
-    appState.setControls([
-      { handler: goBack, label: "Cancel", variant: "destructive" },
-      { handler: submit, label: "Save" },
-    ]);
-  });
+$effect.pre(() => {
+	appState.setControlTitle("Edit Reaction Role");
+	appState.setControlsVisible(true);
+	appState.setControls([
+		{ handler: goBack, label: "Cancel", variant: "destructive" },
+		{ handler: submit, label: "Save" },
+	]);
+});
 
-  beforeNavigate(() => {
-    appState.destroyControls();
-  });
+beforeNavigate(() => {
+	appState.destroyControls();
+});
 
-  if ($formData.channelId.length === 0) {
-    if (data.guild.itemizedChannels.length > 0) {
-      $formData.channelId = getFirstChannelFromItemizedChannelList(
-        data.guild.itemizedChannels,
-      ).value;
-    }
-  }
+if ($formData.channelId.length === 0) {
+	if (data.guild.itemizedChannels.length > 0) {
+		$formData.channelId = getFirstChannelFromItemizedChannelList(data.guild.itemizedChannels).value;
+	}
+}
 
-  const addReactionRolePair = () => {
-    $formData.pairs = [...$formData.pairs, { emoji: "", roles: [] }];
-  };
+const addReactionRolePair = () => {
+	$formData.pairs = [...$formData.pairs, { emoji: "", roles: [] }];
+};
 
-  const removeReactionRolePair = (i: number) => {
-    $formData.pairs = $formData.pairs.filter((_, index) => index !== i);
-  };
+const removeReactionRolePair = (i: number) => {
+	$formData.pairs = $formData.pairs.filter((_, index) => index !== i);
+};
 </script>
 
 <SuperDebug data={$formData} />

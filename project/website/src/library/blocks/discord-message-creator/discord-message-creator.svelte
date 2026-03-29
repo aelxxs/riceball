@@ -1,90 +1,90 @@
 <script lang="ts">
-  import { ButtonWithConfirmation } from "$lib/blocks/button-with-confirmation";
-  import { Constants } from "$lib/constants";
-  import type { DashboardGuild } from "$lib/types";
-  import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
-  import type { APIApplication } from "discord-api-types/v10";
-  import CheckIcon from "lucide-svelte/icons/check";
-  import PlusIcon from "lucide-svelte/icons/plus";
-  import Trash2 from "lucide-svelte/icons/trash-2";
-  import { slide } from "svelte/transition";
-  import { Button } from "../button";
-  import { DiscordIcon } from "../discord-icon";
-  import Editable from "../editable/editable.svelte";
-  import EmbedCreator from "../embed-creator/embed-creator.svelte";
+import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
+import type { APIApplication } from "discord-api-types/v10";
+import CheckIcon from "lucide-svelte/icons/check";
+import PlusIcon from "lucide-svelte/icons/plus";
+import Trash2 from "lucide-svelte/icons/trash-2";
+import { slide } from "svelte/transition";
+import { ButtonWithConfirmation } from "$lib/blocks/button-with-confirmation";
+import { Constants } from "$lib/constants";
+import type { DashboardGuild } from "$lib/types";
+import { Button } from "../button";
+import { DiscordIcon } from "../discord-icon";
+import Editable from "../editable/editable.svelte";
+import EmbedCreator from "../embed-creator/embed-creator.svelte";
 
-  type Props = {
-    client: APIApplication;
-    guild: DashboardGuild;
-    content?: string | null;
-    embeds?: DiscordEmbedWithRelations[] | DiscordEmbedWithRelations | null;
-    withEmbed?: boolean;
-    maxEmbeds?: number;
-    reactions?: string[];
-    noContent?: boolean;
-  };
+type Props = {
+	client: APIApplication;
+	guild: DashboardGuild;
+	content?: string | null;
+	embeds?: DiscordEmbedWithRelations[] | DiscordEmbedWithRelations | null;
+	withEmbed?: boolean;
+	maxEmbeds?: number;
+	reactions?: string[];
+	noContent?: boolean;
+};
 
-  let {
-    guild,
-    client,
-    content = $bindable(),
-    embeds = $bindable([]),
-    withEmbed = $bindable(false),
-    maxEmbeds = $bindable(1),
-    reactions = $bindable([]),
-    noContent = $bindable(false),
-  }: Props = $props();
+let {
+	guild,
+	client,
+	content = $bindable(),
+	embeds = $bindable([]),
+	withEmbed = $bindable(false),
+	maxEmbeds = $bindable(1),
+	reactions = $bindable([]),
+	noContent = $bindable(false),
+}: Props = $props();
 
-  const createEmptyEmbed = (): DiscordEmbedWithRelations => ({
-    ...Constants.EmptyEmbed,
-    author: { ...Constants.EmptyEmbed.author },
-    fields: [...Constants.EmptyEmbed.fields],
-    footer: { ...Constants.EmptyEmbed.footer },
-    image: { ...Constants.EmptyEmbed.image },
-    thumbnail: { ...Constants.EmptyEmbed.thumbnail },
-  });
+const createEmptyEmbed = (): DiscordEmbedWithRelations => ({
+	...Constants.EmptyEmbed,
+	author: { ...Constants.EmptyEmbed.author },
+	fields: [...Constants.EmptyEmbed.fields],
+	footer: { ...Constants.EmptyEmbed.footer },
+	image: { ...Constants.EmptyEmbed.image },
+	thumbnail: { ...Constants.EmptyEmbed.thumbnail },
+});
 
-  const getTime = () => {
-    return new Date().toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-    });
-  };
+const getTime = () => {
+	return new Date().toLocaleTimeString("en-US", {
+		hour: "numeric",
+		minute: "numeric",
+	});
+};
 
-  let time = $state(getTime());
+let time = $state(getTime());
 
-  $effect(() => {
-    const interval = setInterval(() => {
-      time = getTime();
-    }, 1000);
+$effect(() => {
+	const interval = setInterval(() => {
+		time = getTime();
+	}, 1000);
 
-    return () => clearInterval(interval);
-  });
+	return () => clearInterval(interval);
+});
 
-  $effect(() => {
-    if (!withEmbed) {
-      return;
-    }
+$effect(() => {
+	if (!withEmbed) {
+		return;
+	}
 
-    if (Array.isArray(embeds)) {
-      if (embeds.length === 0) {
-        embeds = [createEmptyEmbed()];
-      }
-      return;
-    }
+	if (Array.isArray(embeds)) {
+		if (embeds.length === 0) {
+			embeds = [createEmptyEmbed()];
+		}
+		return;
+	}
 
-    if (!embeds) {
-      embeds = createEmptyEmbed();
-    }
-  });
+	if (!embeds) {
+		embeds = createEmptyEmbed();
+	}
+});
 
-  const addEmbed = () => {
-    if (Array.isArray(embeds)) {
-      embeds = [...embeds, createEmptyEmbed()];
-    } else {
-      embeds = createEmptyEmbed();
-    }
-  };
+const addEmbed = () => {
+	if (Array.isArray(embeds)) {
+		embeds = [...embeds, createEmptyEmbed()];
+	} else {
+		embeds = createEmptyEmbed();
+	}
+};
 </script>
 
 <div class="stack space-xs">
