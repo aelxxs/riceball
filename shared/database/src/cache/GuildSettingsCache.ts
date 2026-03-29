@@ -20,7 +20,7 @@ export class GuildSettingsCache extends BaseSettingsCache<Guild> {
 
 		if (!guild) {
 			guild = this.db.guilds.create({ id: key });
-			await this.db.em.persistAndFlush(guild);
+			await this.db.em.persist(guild).flush();
 		}
 
 		await this.set(key, guild);

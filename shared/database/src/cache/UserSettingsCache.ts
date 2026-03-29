@@ -20,7 +20,7 @@ export class UserSettingsCache extends BaseSettingsCache<User> {
 
 		if (!user) {
 			user = this.db.users.create({ id: key });
-			await this.db.em.persistAndFlush(user);
+			await this.db.em.persist(user).flush();
 		}
 
 		await this.set(key, user);

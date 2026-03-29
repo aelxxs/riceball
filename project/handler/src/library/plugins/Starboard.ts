@@ -103,7 +103,7 @@ export class Starboard {
 				count: 1,
 				users: [starredByUserId],
 			});
-			await this.db.em.persistAndFlush(newStar);
+			await this.db.em.persist(newStar).flush();
 		} else {
 			if (star.users.includes(starredByUserId)) {
 				return "You have already starred this message.";
@@ -122,7 +122,7 @@ export class Starboard {
 			if (starboardMessage?.id) {
 				star.messageId = starboardMessage.id;
 			}
-			await this.db.em.persistAndFlush(star);
+			await this.db.em.persist(star).flush();
 		}
 	}
 
@@ -162,14 +162,14 @@ export class Starboard {
 
 		const newUsers = star.users.filter((id) => id !== starredByUserId);
 		if (newUsers.length === 0) {
-			await this.db.em.removeAndFlush(star);
+			await this.db.em.persist(star).flush();
 			if (star.messageId) {
 				await deleteMessage(stars.channelId, star.messageId);
 			}
 		} else {
 			star.users = newUsers;
 			star.count = star.count - 1;
-			await this.db.em.persistAndFlush(star);
+			await this.db.em.persist(star).flush();
 
 			const embed = this.buildStarboardEmbed(guild, message, star.count);
 			if (star.count < stars.threshold) {

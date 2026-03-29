@@ -592,7 +592,7 @@ export default class implements Command {
 			enabled: true,
 			pairs: mergedPairs,
 		});
-		await this.db.em.persistAndFlush(reactionRole);
+		await this.db.em.persist(reactionRole).flush();
 
 		// Success message
 		await update(ctx.i, {

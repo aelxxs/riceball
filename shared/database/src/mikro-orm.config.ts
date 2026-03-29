@@ -24,7 +24,7 @@ export default defineConfig({
 	strict: true,
 	entities: [...entities],
 	discovery: {
-		disableDynamicFileAccess: true,
+		// disableDynamicFileAccess: true,
 	},
 	dbName: process.env.PRODUCTION ? "production" : "development",
 	clientUrl: process.env.DATABASE_URL,

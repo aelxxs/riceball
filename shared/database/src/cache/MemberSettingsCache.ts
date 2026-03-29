@@ -22,7 +22,7 @@ export class MemberSettingsCache extends BaseSettingsCache<Member> {
 
 		if (!member) {
 			member = this.db.members.create({ userId, guildId });
-			await this.db.em.persistAndFlush(member);
+			await this.db.em.persist(member).flush();
 		}
 
 		await this.set(key, member);

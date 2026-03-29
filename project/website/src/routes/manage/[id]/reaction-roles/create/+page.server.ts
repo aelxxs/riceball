@@ -63,7 +63,7 @@ export const actions: Actions = {
 			type: ReactionRoleType.TOGGLE,
 		});
 
-		await db.em.persistAndFlush(reactionRole);
+		await db.em.persist(reactionRole).flush();
 
 		return { form };
 	},
