@@ -1,6 +1,6 @@
 // @riceball/colorify.ts
 
-import type { Card } from "@riceball/db";
+import type { CardWithRelations } from "@riceball/db/zod";
 
 export type HSLColorString = `hsla(${number}, ${number}%, ${number}%, ${number})`;
 export type HEXColorString = `#${string}`;
@@ -54,7 +54,7 @@ export const isLight = (hsla: HSLAColorObject): boolean => {
 };
 
 // return a card with hsla strings
-export const composeLevelCard = (card: Card) => {
+export const composeLevelCard = (card: CardWithRelations) => {
 	return {
 		...card,
 		wrapperColor: hslaToStr(card.wrapperColor ?? defaultCard.wrapperColor),

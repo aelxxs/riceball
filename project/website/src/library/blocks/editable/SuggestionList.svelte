@@ -43,20 +43,7 @@ function scrollToHighlighted() {
 }
 </script>
 
-<Select.Root
-  type="single"
-  open
-  onValueChange={(s) => {
-    const flatItems = items.flatMap((item) =>
-      "items" in item ? item.items : item,
-    );
-    const item = flatItems.find((i) => i.value === s);
-
-    if (item) {
-      command(item);
-    }
-  }}
->
+<Select.Root type="single" open>
   <Select.ContentStatic class="select-content stack space-2xs">
     {#snippet child({ props })}
       <div {...props}>
@@ -78,6 +65,12 @@ function scrollToHighlighted() {
                   <div
                     class="item cluster space-xs"
                     class:data-highlighted={currentIndex === highlightedIndex}
+                    role="button"
+                    tabindex="-1"
+                    onmousedown={(event) => {
+                      event.preventDefault();
+                      command(subItem);
+                    }}
                   >
                     <ItemIcon size={16} />
                     {subItem.label}
@@ -95,6 +88,12 @@ function scrollToHighlighted() {
               <div
                 class="item cluster space-xs"
                 class:data-highlighted={currentIndex === highlightedIndex}
+                role="button"
+                tabindex="-1"
+                onmousedown={(event) => {
+                  event.preventDefault();
+                  command(item);
+                }}
               >
                 <ItemIcon size={16} />
                 {item.label}
@@ -120,6 +119,8 @@ function scrollToHighlighted() {
     border: 2px solid transparent;
     border-color: var(--clr-bg-border-hover);
     box-shadow: 0 0 0 0.225rem hsl(var(--clr-bg-border-hover-hsl) / 0.05);
+    position: relative;
+    z-index: 1000;
   }
 
   .item {

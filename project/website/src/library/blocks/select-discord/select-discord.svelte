@@ -1,12 +1,12 @@
 <script lang="ts">
 import { Combobox, type Selected } from "bits-ui";
 import type { Icon } from "lucide-svelte";
-// - Icons
 import AtSignIcon from "lucide-svelte/icons/at-sign";
 import HashIcon from "lucide-svelte/icons/hash";
 import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
 import XIcon from "lucide-svelte/icons/x";
 import type { Snippet } from "svelte";
+// - Icons
 import { flyAndScale } from "$lib/utility/transitions";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox";
@@ -417,6 +417,8 @@ function focusInput(node: HTMLElement, _isOpen: boolean) {
     overflow-y: auto;
     width: var(--bits-combobox-anchor-width);
     box-shadow: 0 0 10px 1px var(--clr-shadow);
+    position: relative;
+    z-index: 1000;
   }
 
   .combobox-item {

@@ -1,12 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%sveltekit.assets%/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (() => {
+        var STORAGE_KEY = "riceball-theme";
+        var ROOT_LIGHT_ATTR = "dark";
+        var root = document.documentElement;
+        var stored = null;
+        var theme = "dark";
+
+        try {
+          stored = window.localStorage.getItem(STORAGE_KEY);
+          theme =
+            stored === "dark" || stored === "light"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: light)").matches
+                ? "light"
+                : "dark";
+
+          root.setAttribute("data-theme", theme);
+
+          if (theme === "light") {
+            root.setAttribute(ROOT_LIGHT_ATTR, "");
+          } else {
+            root.removeAttribute(ROOT_LIGHT_ATTR);
+          }
+        } catch (_error) {
+          root.setAttribute("data-theme", "dark");
+          root.removeAttribute(ROOT_LIGHT_ATTR);
+        }
+      })();
+    </script>
     %sveltekit.head%
   </head>
+
   <body>
     <div style="display: contents">%sveltekit.body%</div>
   </body>
+
 </html>

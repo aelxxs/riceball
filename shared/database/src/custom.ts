@@ -26,19 +26,17 @@ export type LevelsWithRelations = z.infer<typeof LevelsSchema> & LevelsRelations
  * - channelRestriction
  * - rewards
  */
-export const LevelsWithRelationsSchema = LevelsSchema.merge(
-	z.object({
-		// rankCardWrapperImage: z
-		// 	.instanceof(File)
-		// 	.optional()
-		// 	.refine((value) => value instanceof File, {
-		// 		message: "Invalid file type",
-		// 	}),
-		rankCard: z.lazy(() => CardWithRelationsSchema),
-		boosts: z.lazy(() => ExpBoostSchema).array(),
-		notifyMessageEmbed: z.lazy(() => DiscordEmbedWithRelationsSchema).nullable(),
-		roleRestriction: z.lazy(() => RestrictionSchema),
-		channelRestriction: z.lazy(() => RestrictionSchema),
-		rewards: z.lazy(() => RewardSchema).array(),
-	}),
-);
+export const LevelsWithRelationsSchema = LevelsSchema.extend({
+	// rankCardWrapperImage: z
+	// 	.instanceof(File)
+	// 	.optional()
+	// 	.refine((value) => value instanceof File, {
+	// 		message: "Invalid file type",
+	// 	}),
+	rankCard: z.lazy(() => CardWithRelationsSchema),
+	boosts: z.lazy(() => ExpBoostSchema).array(),
+	notifyMessageEmbed: z.lazy(() => DiscordEmbedWithRelationsSchema).nullable(),
+	roleRestriction: z.lazy(() => RestrictionSchema),
+	channelRestriction: z.lazy(() => RestrictionSchema),
+	rewards: z.lazy(() => RewardSchema).array(),
+});

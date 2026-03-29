@@ -1,7 +1,7 @@
 <script lang="ts">
 // - Icons
 
-import type { APIEmbedField } from "discord-api-types/v10";
+import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
 import ArrowDownFromLineIcon from "lucide-svelte/icons/arrow-down-from-line";
 import ArrowRightFromLineIcon from "lucide-svelte/icons/arrow-right-from-line";
 import TrashIcon from "lucide-svelte/icons/trash";
@@ -10,23 +10,32 @@ import { Button } from "$lib/blocks/button";
 import Editable from "$lib/blocks/editable/editable.svelte";
 import type { DashboardGuild } from "$lib/types";
 
+type EmbedFieldValue = DiscordEmbedWithRelations["fields"][number];
+
 type Props = {
-	field: APIEmbedField;
+	field: EmbedFieldValue;
+	onChange?: (field: EmbedFieldValue) => void;
 	onDelete: () => void;
-	onToggleInline: () => void;
 	guild: DashboardGuild;
 };
 
-const {
-	field = $bindable<APIEmbedField>({
+let {
+	field = {
 		name: "",
 		value: "",
 		inline: false,
-	}),
-	onDelete = $bindable(() => {}),
-	onToggleInline = $bindable(() => {}),
+	},
+	onChange,
+	onDelete = () => {},
 	guild,
 }: Props = $props();
+
+const updateField = (patch: Partial<EmbedFieldValue>) => {
+	const nextField = { ...field, ...patch };
+
+	field = nextField;
+	onChange?.(nextField);
+};
 </script>
 
 <div class="field" class:inline={field.inline}>
@@ -35,7 +44,8 @@ const {
       <Editable
         type="text"
         class="fw:bold"
-        bind:value={field.name}
+        value={field.name}
+        onValueChange={(value) => updateField({ name: value })}
         placeholder="Field"
         {guild}
         maxLength={256}
@@ -44,7 +54,10 @@ const {
       <Button variant="icon-only" onclick={onDelete}>
         <TrashIcon size={12} />
       </Button>
-      <Button variant="icon-only" onclick={onToggleInline}>
+      <Button
+        variant="icon-only"
+        onclick={() => updateField({ inline: !field.inline })}
+      >
         {#if field.inline}
           <ArrowRightFromLineIcon size={12} />
         {:else}
@@ -54,7 +67,8 @@ const {
     </div>
     <Editable
       type="text"
-      bind:value={field.value}
+      value={field.value}
+      onValueChange={(value) => updateField({ value })}
       placeholder="Field Value"
       {guild}
       maxLength={1024}

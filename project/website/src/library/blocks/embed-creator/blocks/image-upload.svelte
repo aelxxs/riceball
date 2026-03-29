@@ -15,6 +15,7 @@ let {
 	cropper = $bindable(true),
 	previewMode = false,
 	onNewImage = $bindable(() => {}),
+	onUrlChange,
 } = $props();
 
 let inputElement: HTMLInputElement | null = $state(null);
@@ -36,6 +37,8 @@ function handleFileChange(event: Event) {
 				cropModalOpen = true;
 			} else {
 				url = imageSrc;
+				onUrlChange?.(imageSrc);
+				onNewImage(imageSrc);
 			}
 		};
 		reader.readAsDataURL(file);
@@ -49,6 +52,7 @@ function handleClick() {
 function deleteImage(e: MouseEvent) {
 	e.stopPropagation();
 	url = null;
+	onUrlChange?.(null);
 	if (inputElement) {
 		inputElement.value = "";
 	}
@@ -104,8 +108,8 @@ async function handleCrop() {
 
 	const croppedImageUrl = await getCroppedImg(imageSrc, croppedAreaPixels);
 	if (croppedImageUrl) {
-		console.log({ croppedImageUrl });
 		url = croppedImageUrl;
+		onUrlChange?.(croppedImageUrl);
 		onNewImage(croppedImageUrl);
 		cropModalOpen = false;
 	}

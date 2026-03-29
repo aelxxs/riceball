@@ -4,7 +4,14 @@
   --border-radius: var(--radius-xs);
 }
 
-:root:not([dark]) {
+:root[data-theme-changing] *,
+:root[data-theme-changing] *::before,
+:root[data-theme-changing] *::after {
+  transition: none !important;
+}
+
+:root:not([dark]),
+:root[data-theme="dark"] {
   color-scheme: dark;
 
   // ========================================
@@ -147,6 +154,97 @@
   --header-height-lg: clamp(3.25rem, 10vw, 3.55rem);
 }
 
+/* Secondary light theme (enabled when the `dark` attribute is present on :root). */
+:root[dark],
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --theme-hue: 210deg;
+  --theme-saturation: 30%;
+  --theme-saturation-high: calc(var(--theme-saturation) * 1.35);
+
+  --theme-hue-secondary: 188deg;
+  --theme-hue-accent: 24deg;
+
+  --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 44%);
+  --clr-theme-2-translucent: hsl(
+    var(--theme-hue),
+    var(--theme-saturation-high),
+    44%,
+    0.16
+  );
+
+  --clr-theme-error: hsl(0deg 72% 48%);
+  --clr-theme-error-transparent: hsl(0deg 72% 48% / 0.14);
+
+  --clr-bg: hsl(var(--theme-hue), 30%, 97%);
+  --clr-bg-translucent: hsl(var(--theme-hue), 30%, 97%, 0.7);
+
+  --clr-bg-accent: hsl(var(--theme-hue), 24%, 95%);
+  --clr-bg-accent-secondary: hsl(var(--theme-hue), 24%, 91%);
+
+  --clr-shadow: hsl(var(--theme-hue), 22%, 30%, 0.16);
+
+  --clr-bg-input: hsl(var(--theme-hue), 22%, 100%);
+  --clr-bg-input-light: hsl(var(--theme-hue), 20%, 96%);
+  --clr-bg-input-hover: hsl(var(--theme-hue), 24%, 93%);
+  --clr-bg-input-active: hsl(var(--theme-hue), 24%, 90%);
+  --clr-bg-border: hsl(var(--theme-hue), 18%, 82%);
+  --clr-bg-border-strong: hsl(var(--theme-hue), 18%, 72%);
+  --clr-bg-border-light: hsl(var(--theme-hue), 18%, 88%);
+  --clr-bg-border-hover: hsl(var(--theme-hue), var(--theme-saturation-high), 44%);
+  --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 44%;
+  --clr-bg-invert: hsl(var(--theme-hue), 18%, 88%);
+
+  --txt-bold: hsl(var(--theme-hue), 32%, 16%);
+  --txt-main: hsl(var(--theme-hue), 24%, 27%);
+  --txt-themed: hsl(var(--theme-hue), var(--theme-saturation-high), 37%);
+  --txt-muted: hsl(var(--theme-hue), 18%, 42%, 0.9);
+
+  --clr-primary: hsl(var(--theme-hue), var(--theme-saturation-high), 44%);
+  --clr-secondary: hsl(var(--theme-hue-secondary), 38%, 45%);
+  --clr-accent: hsl(var(--theme-hue-accent), 62%, 48%);
+  --clr-neutral: hsl(var(--theme-hue), 12%, 56%);
+  --clr-cyan: hsl(188deg, 56%, 48%);
+
+  /* Flat-only light theme tokens (no gradients). */
+  --gradient-primary: var(--clr-primary);
+  --gradient-hero: var(--clr-primary);
+  --gradient-stat: var(--clr-secondary);
+
+  --gradient-orb-primary: none;
+  --gradient-orb-secondary: none;
+  --gradient-orb-accent: none;
+
+  --shadow-glow-sm: 0 8px 18px hsl(var(--theme-hue), 20%, 30%, 0.12);
+  --shadow-glow-md: 0 14px 30px hsl(var(--theme-hue), 20%, 30%, 0.14);
+  --shadow-glow-lg: 0 20px 44px hsl(var(--theme-hue), 20%, 30%, 0.16);
+
+  --glass-bg-subtle: hsl(var(--theme-hue), 24%, 94%, 0.55);
+  --glass-bg-light: hsl(var(--theme-hue), 24%, 92%, 0.65);
+  --glass-bg-medium: hsl(var(--theme-hue), 24%, 90%, 0.75);
+  --glass-bg-strong: hsl(var(--theme-hue), 24%, 88%, 0.85);
+
+  --glass-border-subtle: 1px solid hsl(var(--theme-hue), 18%, 82%, 0.45);
+  --glass-border-light: 1px solid hsl(var(--theme-hue), 18%, 78%, 0.65);
+  --glass-border-medium: 1px solid hsl(var(--theme-hue), 18%, 72%, 0.75);
+  --glass-border-strong: 1px solid hsl(var(--theme-hue), 18%, 66%, 0.9);
+  --glass-border-hover: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 44%, 0.7);
+
+  --cursor-glow: none;
+
+  --grid-pattern: none;
+
+  --navbar-bg: hsl(var(--theme-hue), 25%, 98%, 0.85);
+  --navbar-bg-solid: hsl(var(--theme-hue), 22%, 97%, 0.98);
+  --navbar-border: hsl(var(--theme-hue), 18%, 82%, 0.75);
+
+  --pulse-color: var(--clr-primary);
+
+  --header-height: clamp(3.25rem, 10vw, 3.85rem);
+  --header-height-lg: clamp(3.25rem, 10vw, 3.55rem);
+}
+
 body {
   background-color: var(--clr-bg);
   color: var(--txt-main);
@@ -196,6 +294,30 @@ em-emoji-picker {
   height: 50vh;
   min-height: 400px;
   max-height: 800px;
+}
+
+:root[dark] em-emoji-picker,
+:root[data-theme="light"] em-emoji-picker {
+  $light-accent: hsl(210deg, 40.5%, 44%);
+  $light-input: hsl(210deg, 24%, 93%);
+  $light-surface: hsl(210deg, 22%, 100%);
+  $light-text: hsl(210deg, 24%, 27%);
+
+  --color-border: var(--clr-bg-border-strong);
+  --color-border-over: var(--clr-theme-2);
+  --rgb-accent: #{color.channel($light-accent, "red", $space: rgb)},
+    #{color.channel($light-accent, "green", $space: rgb)},
+    #{color.channel($light-accent, "blue", $space: rgb)};
+  --rgb-background: #{color.channel($light-surface, "red", $space: rgb)},
+    #{color.channel($light-surface, "green", $space: rgb)},
+    #{color.channel($light-surface, "blue", $space: rgb)};
+  --rgb-color: #{color.channel($light-text, "red", $space: rgb)},
+    #{color.channel($light-text, "green", $space: rgb)},
+    #{color.channel($light-text, "blue", $space: rgb)};
+  --rgb-input: #{color.channel($light-input, "red", $space: rgb)},
+    #{color.channel($light-input, "green", $space: rgb)},
+    #{color.channel($light-input, "blue", $space: rgb)};
+  --shadow: 0 0 10px 1px hsl(var(--theme-hue), 22%, 30%, 0.16);
 }
 
 .clr-dark {

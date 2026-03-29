@@ -11,12 +11,12 @@ import { createEditor, type Editor, EditorContent } from "svelte-tiptap";
 import type { DashboardGuild } from "$lib/types";
 import EmojiPicker from "../emoji-picker/emoji-picker.svelte";
 import { ChannelMention, Emoji, RoleMention, Tag } from "./extensions/index.svelte";
-import { Underline } from "./Underline";
 
 type Props = {
 	type: "text" | "textarea";
 	placeholder: string;
 	value?: string | null;
+	onValueChange?: (value: string) => void;
 	maxLength: number | null;
 	guild: DashboardGuild;
 	class?: string;
@@ -28,6 +28,7 @@ type Props = {
 let {
 	placeholder = "Start typing...",
 	value = $bindable(),
+	onValueChange,
 	maxLength = 2000,
 	guild,
 	class: className,
@@ -36,12 +37,12 @@ let {
 	editable = $bindable(true),
 }: Props = $props();
 
-const channels = guild.itemizedChannels;
-const roles = guild.itemizedRoles;
-
 let editor = $state() as Readable<Editor>;
 
 onMount(() => {
+	const channels = guild.itemizedChannels;
+	const roles = guild.itemizedRoles;
+
 	const extensions = [
 		Image.configure({
 			HTMLAttributes: { class: "tiptap-img" },
@@ -65,7 +66,6 @@ onMount(() => {
 		Emoji,
 		Placeholder.configure({ placeholder }),
 		CharacterCount.configure({ limit: maxLength }),
-		// Underline,
 	];
 
 	const content = markdownToHTML(value ?? "", {
@@ -88,7 +88,7 @@ onMount(() => {
 		},
 	});
 
-	() => {
+	return () => {
 		if ($editor) {
 			$editor.destroy();
 		}
@@ -97,23 +97,41 @@ onMount(() => {
 
 $effect(() => {
 	if ($editor) {
-		value = serializer.serialize($editor.state.doc);
+		const nextValue = serializer.serialize($editor.state.doc);
+
+		if (nextValue === (value ?? "")) {
+			return;
+		}
+
+		value = nextValue;
+		onValueChange?.(nextValue);
 	}
 });
 
 $effect(() => {
 	if ($editor) {
-		if (!editable) {
-			$editor.setOptions({ editable: false });
-		} else {
-			$editor.setOptions({ editable: true });
-		}
+		$editor.setOptions({ editable: Boolean(editable) });
 	}
 });
 
-const getEmojiSrc = (emoji: { src?: string; unified?: string }) => {
-	if (emoji.src) return emoji.src;
-	return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emoji.unified}.svg`;
+const getEmojiSrc = (emoji: unknown) => {
+	if (!emoji || typeof emoji !== "object") {
+		return "";
+	}
+
+	const data = emoji as {
+		src?: string;
+		unified?: string;
+		skins?: Array<{ src?: string }>;
+	};
+
+	if (data.src) return data.src;
+	if (data.skins?.[0]?.src) return data.skins[0].src;
+	if (data.unified) {
+		return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${data.unified}.svg`;
+	}
+
+	return "";
 };
 
 const lineCount = $derived.by(() => {
@@ -130,43 +148,59 @@ const characterCount = $derived.by(() => {
 	return 0;
 });
 
-let focused = $derived.by(() => {
-	if ($editor) {
-		return $editor.isFocused;
-	}
-	return false;
-});
-
 let open = $state(false);
-let hovering = $state(false);
+let active = $state(false);
+
+const handleFocusOut = (event: FocusEvent) => {
+	const currentTarget = event.currentTarget;
+	const relatedTarget = event.relatedTarget;
+
+	if (currentTarget instanceof HTMLElement && relatedTarget instanceof Node && currentTarget.contains(relatedTarget)) {
+		return;
+	}
+
+	active = false;
+};
 </script>
 
-<div class="textarea" class:pad-right={!noEmojiPicker} class:styled>
+<div
+  class={`textarea${className ? ` ${className}` : ""}`}
+  class:pad-right={!noEmojiPicker}
+  class:styled
+  onfocusin={() => (active = true)}
+  onfocusout={handleFocusOut}
+>
   <EditorContent editor={$editor} />
   {#if maxLength && lineCount > 1}
     <small class="character-count">
       {characterCount} / {maxLength}
     </small>
   {/if}
-  {#if hovering || open || (!noEmojiPicker && focused)}
+  {#if !noEmojiPicker && (active || open)}
     <div
       role="button"
       tabindex="0"
       onfocus={() => (open = true)}
       class="emoji-picker"
-      onmouseover={() => (hovering = true)}
-      onmouseleave={() => (hovering = false)}
       transition:fade={{ duration: 100 }}
     >
       <EmojiPicker
         {guild}
         bind:open
         onEmojiPick={(emoji) => {
+          if (!$editor) {
+            return;
+          }
+
+          const src = getEmojiSrc(emoji);
+          if (!src) {
+            return;
+          }
+
           $editor.commands.setImage({
-            src: getEmojiSrc(emoji),
+            src,
             title: emoji.native ?? emoji.id,
           });
-          $editor = $editor;
         }}
       />
     </div>
@@ -210,15 +244,6 @@ let hovering = $state(false);
     opacity: 0.5;
     resize: none;
   }
-
-  /* .styled:hover {
-    border-color: var(--clr-bg-border-hover);
-  }
-
-  .styled:focus-within {
-    border-color: var(--clr-bg-border-hover);
-    box-shadow: 0 0 0 0.25rem hsl(var(--clr-bg-border-hover-hsl) / 0.095);
-  } */
 
   .pad-right {
     padding-right: 2.5rem;

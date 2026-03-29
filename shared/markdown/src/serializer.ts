@@ -1,11 +1,6 @@
 import type { Node } from "prosemirror-model";
 
-export type NodeSerializerOptions = {
-	state: MarkdownSerializerState;
-	node: Node;
-	parent: Node;
-	index: number;
-};
+export type NodeSerializerOptions = { state: MarkdownSerializerState; node: Node; parent: Node; index: number };
 export type NodeSerializerSpec = (options: NodeSerializerOptions) => void;
 export type NodeSerializerSpecs = Record<string, NodeSerializerSpec>;
 
@@ -41,7 +36,7 @@ export class MarkdownSerializerState {
 	public wrapBlock(newDelimiter: string, firstDelim: string | null, node: Node, f: () => void) {
 		const oldDelimiter = this.delimiter;
 
-		console.log({ oldDelimiter, newDelimiter });
+		console.log({ newDelimiter, oldDelimiter });
 		this.write(firstDelim || newDelimiter);
 		this.delimiter = this.delimiter + newDelimiter;
 		f();
@@ -80,7 +75,7 @@ export class MarkdownSerializerState {
 	public render(node: Node, parent: Node, index: number) {
 		const spec = this.nodes[node.type.name];
 		if (!spec) throw new Error(`Can't find node spec for type '${node.type.name}'`);
-		spec({ state: this, node, parent, index });
+		spec({ index, node, parent, state: this });
 	}
 
 	public renderContent(parent: Node) {
@@ -161,10 +156,7 @@ export class MarkdownSerializerState {
 	}
 
 	public getEnclosingWhitespace(text: string) {
-		return {
-			leading: (/^(\s+)/.exec(text) || [])[0],
-			trailing: (/(\s+)$/.exec(text) || [])[0],
-		};
+		return { leading: (/^(\s+)/.exec(text) || [])[0], trailing: (/(\s+)$/.exec(text) || [])[0] };
 	}
 
 	public trimWhitespace() {
@@ -199,27 +191,14 @@ export const serializer = new MarkdownSerializer({
 		state.wrapBlock("> ", null, node, () => state.renderContent(node));
 		state.out = state.out.replace(/\n>(\s*)$/g, "");
 	},
-	paragraph: ({ state, node }) => {
-		if (!node.textContent) {
-			return state.write("\n");
-		}
-		state.renderInline(node);
-		state.closeBlock(node);
-	},
-	image: ({ state, node }) => {
-		state.write(node.attrs.title);
-	},
-	heading: ({ state, node }) => {
-		state.write(`${state.repeat("#", node.attrs.level)} `);
-		state.renderInline(node);
-		state.closeBlock(node);
-		state.write("<!--HEADING_END-->"); // Add a marker after each heading
-	},
 	bulletList: ({ state, node }) => {
-		state.renderList(node, "  ", () => `${node.attrs.bullet || "*"} `);
+		state.renderList(node, "  ", () => `${node.attrs.bullet || "-"} `);
 	},
-	listItem: ({ state, node }) => {
-		state.renderContent(node);
+	"channel-mention": ({ state, node }) => {
+		state.write(`${node.attrs.mention}`);
+	},
+	"role-mention": ({ state, node }) => {
+		state.write(`${node.attrs.mention}`);
 	},
 	codeBlock: ({ state, node }) => {
 		// Make sure the front matter fences are longer than any dash sequence within it
@@ -233,8 +212,9 @@ export const serializer = new MarkdownSerializer({
 		state.write(fence);
 		state.closeBlock(node);
 	},
-	tag: ({ state, node }) => {
-		state.write(`{${node.attrs.id}}`);
+	"discord-mention": ({ state, node }) => {
+		console.log("found discord mention", node.attrs);
+		state.write(`${node.attrs.mention}`);
 	},
 	hardBreak: ({ parent, state, node, index }) => {
 		for (let i = index + 1; i < parent.childCount; i++) {
@@ -244,10 +224,26 @@ export const serializer = new MarkdownSerializer({
 			}
 		}
 	},
-	mention: ({ state, node }) => {
-		state.write(`${node.attrs.mention}`);
+	heading: ({ state, node }) => {
+		state.write(`${state.repeat("#", node.attrs.level)} `);
+		state.renderInline(node);
+		state.closeBlock(node);
+		state.write("<!--HEADING_END-->"); // Add a marker after each heading
 	},
-	"channel-mention": ({ state, node }) => {
-		state.write(`${node.attrs.channel}`);
+	image: ({ state, node }) => {
+		state.write(node.attrs.title);
+	},
+	listItem: ({ state, node }) => {
+		state.renderContent(node);
+	},
+	paragraph: ({ state, node }) => {
+		if (!node.textContent) {
+			return state.write("\n");
+		}
+		state.renderInline(node);
+		state.closeBlock(node);
+	},
+	tag: ({ state, node }) => {
+		state.write(`{${node.attrs.id}}`);
 	},
 });

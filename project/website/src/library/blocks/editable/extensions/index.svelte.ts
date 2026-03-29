@@ -158,11 +158,11 @@ export const CustomSuggestion = Node.create<DiscordMentionOptions>({
 						.focus()
 						.insertContentAt(range, [
 							{
-								type: "discord-mention",
+								type: this.name,
 								attrs: {
 									type: this.options.type,
 									name: props.label,
-									mention: getMention(this.options.char, props.value),
+									mention: getMention(this.options.type, props.value),
 								},
 							},
 							{ type: "text", text: " " },

@@ -1,15 +1,52 @@
 <script lang="ts">
-import { DropdownMenu, Label } from "bits-ui";
-import { EllipsisVerticalIcon, PlusIcon, SearchIcon, Trash2 } from "lucide-svelte";
-import { Button } from "$lib/blocks/button";
-import ButtonWithConfirmation from "$lib/blocks/button-with-confirmation/button-with-confirmation.svelte";
-import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
-import Input from "$lib/blocks/input/input.svelte";
+  import { Button } from "$lib/blocks/button";
+  import ButtonWithConfirmation from "$lib/blocks/button-with-confirmation/button-with-confirmation.svelte";
+  import DashboardCard from "$lib/blocks/dashboard-card/dashboard-card.svelte";
+  import Input from "$lib/blocks/input/input.svelte";
+  import type { ReactionRole } from "@riceball/db";
+  import { DropdownMenu, Label } from "bits-ui";
+  import {
+    EllipsisVerticalIcon,
+    PlusIcon,
+    SearchIcon,
+    Trash2,
+  } from "lucide-svelte";
 
-const { data } = $props();
-const { reactionRoles } = data;
+  type ReactionRoleCard = {
+    alias: string;
+    channelId: string;
+    id: string;
+    messageId?: string;
+    createdAt?: string | number | Date | null;
+    pairs?: Array<{ emoji: string }>;
+  };
 
-let searchQuery = $state("");
+  let { data } = $props();
+  const reactionRoles = $derived(data.reactionRoles as ReactionRole[]);
+
+  let searchQuery = $state("");
+
+  const channelName = (channelId: string) => {
+    const channel = data.guild?.channels?.find(
+      (entry) => entry.id === channelId,
+    );
+    return channel?.name ?? "unknown-channel";
+  };
+
+  const formatTimestamp = (
+    value: string | number | Date | null | undefined,
+  ) => {
+    if (!value) {
+      return "Unknown date";
+    }
+
+    const date = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return "Unknown date";
+    }
+
+    return date.toLocaleString();
+  };
 </script>
 
 <DashboardCard
@@ -55,7 +92,7 @@ let searchQuery = $state("");
   </div>
 </DashboardCard>
 
-{#snippet ReactionRole(message)}
+{#snippet ReactionRole(message: ReactionRole)}
   {@const href = `/manage/${data.guild.id}/reaction-roles/${message.id}`}
   <a class="box embed" {href} aria-label="View and Edit Embed">
     <div class="content repel">
@@ -77,7 +114,11 @@ let searchQuery = $state("");
               <a {href} class="txt-link">Edit</a>
             </DropdownMenu.Item>
             <DropdownMenu.Item>
-              <ButtonWithConfirmation onConfirm={() => {}}>
+              <ButtonWithConfirmation
+                title="Delete Reaction Role?"
+                description="This action cannot be undone."
+                onConfirm={() => {}}
+              >
                 {#snippet button()}
                   <Button size="icon" variant="destructive">
                     <Trash2 size={16} />
@@ -90,7 +131,7 @@ let searchQuery = $state("");
         </DropdownMenu.Root>
       </div>
       <div class="cluster">
-        {#if message?.pairs?.length > 0}
+        {#if (message.pairs?.length ?? 0) > 0}
           {#each message?.pairs as rr, i}
             {rr.emoji}
           {/each}

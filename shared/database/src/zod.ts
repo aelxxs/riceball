@@ -36,6 +36,56 @@ export const FontFamilySchema = z.enum(["SANS_SERIF", "SERIF", "MONOSPACE", "HAN
 
 export type FontFamilyType = `${z.infer<typeof FontFamilySchema>}`;
 
+export enum MessageType {
+	EMBED = "EMBED",
+	TEXT = "TEXT",
+}
+
+export enum DiscordEntity {
+	CHANNEL = "CHANNEL",
+	ROLE = "ROLE",
+	USER = "USER",
+}
+
+export enum CurrencyIconLocation {
+	LEFT = "LEFT",
+	RIGHT = "RIGHT",
+}
+
+export enum ItemType {
+	ROLES = "ROLES",
+	BADGE = "BADGE",
+	STATIC = "STATIC",
+	CUSTOM = "CUSTOM",
+}
+
+export enum ReactionRoleType {
+	ADD = "ADD",
+	REMOVE = "REMOVE",
+	UNIQUE = "UNIQUE",
+	TOGGLE = "TOGGLE",
+}
+
+export enum RestrictionType {
+	BLOCK_ALL = "BLOCK_ALL",
+	ALLOW_ALL = "ALLOW_ALL",
+}
+
+export enum FontFamily {
+	SANS_SERIF = "SANS_SERIF",
+	SERIF = "SERIF",
+	MONOSPACE = "MONOSPACE",
+	HANDWRITTEN = "HANDWRITTEN",
+	CURSIVE = "CURSIVE",
+}
+
+export enum Destination {
+	ACTIVE_CHANNEL = "ACTIVE_CHANNEL",
+	CUSTOM_CHANNEL = "CUSTOM_CHANNEL",
+	PRIVATE_MESSAGE = "PRIVATE_MESSAGE",
+	DISABLED = "DISABLED",
+}
+
 /////////////////////////////////////////
 // MODELS
 /////////////////////////////////////////
@@ -63,11 +113,9 @@ export type MessageRelations = {
 
 export type MessageWithRelations = z.infer<typeof MessageSchema> & MessageRelations;
 
-export const MessageWithRelationsSchema: z.ZodType<MessageWithRelations> = MessageSchema.merge(
-	z.object({
-		embeds: z.lazy(() => DiscordEmbedSchema).array(),
-	}),
-);
+export const MessageWithRelationsSchema = MessageSchema.extend({
+	embeds: z.lazy(() => DiscordEmbedSchema).array(),
+});
 
 /////////////////////////////////////////
 // GUILD SCHEMA
@@ -94,14 +142,12 @@ export type GuildRelations = {
 
 export type GuildWithRelations = z.infer<typeof GuildSchema> & GuildRelations;
 
-export const GuildWithRelationsSchema: z.ZodType<GuildWithRelations> = GuildSchema.merge(
-	z.object({
-		embeds: z.lazy(() => DiscordEmbedSchema).array(),
-		levels: z.lazy(() => LevelsSchema),
-		stars: z.lazy(() => StarsSchema),
-		economy: z.lazy(() => EconomySchema),
-	}),
-);
+export const GuildWithRelationsSchema: z.ZodType<GuildWithRelations> = GuildSchema.extend({
+	embeds: z.lazy(() => DiscordEmbedSchema).array(),
+	levels: z.lazy(() => LevelsSchema),
+	stars: z.lazy(() => StarsSchema),
+	economy: z.lazy(() => EconomySchema),
+});
 
 /////////////////////////////////////////
 // REACTION ROLE SCHEMA
@@ -134,17 +180,15 @@ export type ReactionRoleRelations = {
 
 export type ReactionRoleWithRelations = z.infer<typeof ReactionRoleSchema> & ReactionRoleRelations;
 
-export const ReactionRoleWithRelationsSchema: z.ZodType<ReactionRoleWithRelations> = ReactionRoleSchema.merge(
-	z.object({
-		messageEmbed: z.lazy(() => DiscordEmbedSchema).nullable(),
-		pairs: z
-			.lazy(() => ReactionRolePairSchema)
-			.array()
-			.min(1, { message: "You must provide at least one reaction role pair." })
-			.max(20, { message: "A message can have a maximum of 20 reaction role pairs." })
-			.nonempty(),
-	}),
-);
+export const ReactionRoleWithRelationsSchema: z.ZodType<ReactionRoleWithRelations> = ReactionRoleSchema.extend({
+	messageEmbed: z.lazy(() => DiscordEmbedSchema).nullable(),
+	pairs: z
+		.lazy(() => ReactionRolePairSchema)
+		.array()
+		.min(1, { message: "You must provide at least one reaction role pair." })
+		.max(20, { message: "A message can have a maximum of 20 reaction role pairs." })
+		.nonempty(),
+});
 
 /////////////////////////////////////////
 // STAR SCHEMA
@@ -194,13 +238,11 @@ export type ItemRelations = {
 
 export type ItemWithRelations = z.infer<typeof ItemSchema> & ItemRelations;
 
-export const ItemWithRelationsSchema: z.ZodType<ItemWithRelations> = ItemSchema.merge(
-	z.object({
-		data: z.lazy(() => ItemDataSchema).nullable(),
-		response: z.lazy(() => PurchaseResponseSchema).nullable(),
-		requires: z.lazy(() => PurchaseRequiresSchema).nullable(),
-	}),
-);
+export const ItemWithRelationsSchema: z.ZodType<ItemWithRelations> = ItemSchema.extend({
+	data: z.lazy(() => ItemDataSchema).nullable(),
+	response: z.lazy(() => PurchaseResponseSchema).nullable(),
+	requires: z.lazy(() => PurchaseRequiresSchema).nullable(),
+});
 
 /////////////////////////////////////////
 // USER SCHEMA
@@ -246,14 +288,12 @@ export type MemberRelations = {
 
 export type MemberWithRelations = z.infer<typeof MemberSchema> & MemberRelations;
 
-export const MemberWithRelationsSchema: z.ZodType<MemberWithRelations> = MemberSchema.merge(
-	z.object({
-		card: z.lazy(() => CardSchema),
-		cardPresets: z.lazy(() => CardSchema).array(),
-		badges: z.lazy(() => BadgeSchema).array(),
-		inventory: z.lazy(() => InventoryItemSchema).array(),
-	}),
-);
+export const MemberWithRelationsSchema: z.ZodType<MemberWithRelations> = MemberSchema.extend({
+	card: z.lazy(() => CardSchema),
+	cardPresets: z.lazy(() => CardSchema).array(),
+	badges: z.lazy(() => BadgeSchema).array(),
+	inventory: z.lazy(() => InventoryItemSchema).array(),
+});
 
 /////////////////////////////////////////
 // COMPOSITE TYPES
@@ -293,15 +333,13 @@ export type DiscordEmbedRelations = {
 
 export type DiscordEmbedWithRelations = z.infer<typeof DiscordEmbedSchema> & DiscordEmbedRelations;
 
-export const DiscordEmbedWithRelationsSchema: z.ZodType<DiscordEmbedWithRelations> = DiscordEmbedSchema.merge(
-	z.object({
-		footer: z.lazy(() => DiscordEmbedFooterSchema),
-		image: z.lazy(() => DiscordEmbedImageSchema),
-		thumbnail: z.lazy(() => DiscordEmbedThumbnailSchema),
-		author: z.lazy(() => DiscordEmbedAuthorSchema),
-		fields: z.lazy(() => DiscordEmbedFieldSchema).array(),
-	}),
-);
+export const DiscordEmbedWithRelationsSchema: z.ZodType<DiscordEmbedWithRelations> = DiscordEmbedSchema.extend({
+	footer: z.lazy(() => DiscordEmbedFooterSchema),
+	image: z.lazy(() => DiscordEmbedImageSchema),
+	thumbnail: z.lazy(() => DiscordEmbedThumbnailSchema),
+	author: z.lazy(() => DiscordEmbedAuthorSchema),
+	fields: z.lazy(() => DiscordEmbedFieldSchema).array(),
+});
 // DISCORD EMBED AUTHOR
 //------------------------------------------------------
 
@@ -375,7 +413,7 @@ export type DiscordEmbedThumbnail = z.infer<typeof DiscordEmbedThumbnailSchema>;
 /////////////////////////////////////////
 
 export const RestrictionSchema = z.object({
-	type: RestrictionTypeSchema,
+	type: z.enum(RestrictionType),
 	omit: z.string().array(),
 });
 
@@ -406,8 +444,8 @@ export type ReactionRolePair = z.infer<typeof ReactionRolePairSchema>;
 /////////////////////////////////////////
 
 export const LevelsSchema = z.object({
-	notifyDestination: DestinationSchema,
-	notifyMessageType: MessageTypeSchema,
+	notifyDestination: z.enum(Destination),
+	notifyMessageType: z.enum(MessageType),
 	enabled: z.boolean(),
 	stackRewards: z.boolean(),
 	clearOnLeave: z.boolean(),
@@ -442,16 +480,14 @@ export type LevelsRelations = {
 
 export type LevelsWithRelations = z.infer<typeof LevelsSchema> & LevelsRelations;
 
-export const LevelsWithRelationsSchema: z.ZodType<LevelsWithRelations> = LevelsSchema.merge(
-	z.object({
-		rankCard: z.lazy(() => CardSchema),
-		boosts: z.lazy(() => ExpBoostSchema).array(),
-		notifyMessageEmbed: z.lazy(() => DiscordEmbedSchema),
-		roleRestriction: z.lazy(() => RestrictionSchema),
-		channelRestriction: z.lazy(() => RestrictionSchema),
-		rewards: z.lazy(() => RewardSchema).array(),
-	}),
-);
+export const LevelsWithRelationsSchema: z.ZodType<LevelsWithRelations> = LevelsSchema.extend({
+	rankCard: z.lazy(() => CardSchema),
+	boosts: z.lazy(() => ExpBoostSchema).array(),
+	notifyMessageEmbed: z.lazy(() => DiscordEmbedSchema),
+	roleRestriction: z.lazy(() => RestrictionSchema),
+	channelRestriction: z.lazy(() => RestrictionSchema),
+	rewards: z.lazy(() => RewardSchema).array(),
+});
 // REWARD
 //------------------------------------------------------
 
@@ -473,7 +509,7 @@ export type Reward = z.infer<typeof RewardSchema>;
 /////////////////////////////////////////
 
 export const ExpBoostSchema = z.object({
-	type: DiscordEntitySchema,
+	type: z.enum(DiscordEntity),
 	id: z.string(),
 	boost: z.number().int(),
 });
@@ -508,10 +544,10 @@ export type Stars = z.infer<typeof StarsSchema>;
 /////////////////////////////////////////
 
 export const EconomySchema = z.object({
-	currencyIconLocation: CurrencyIconLocationSchema,
 	enabled: z.boolean(),
 	currencyName: z.string().nullable(),
 	currencyIcon: z.string(),
+	currencyIconLocation: z.enum(CurrencyIconLocation),
 	inventorySize: z.number().int(),
 	wagerMin: z.number().int(),
 	wagerMax: z.number().int(),
@@ -534,18 +570,16 @@ export type Economy = z.infer<typeof EconomySchema>;
 //------------------------------------------------------
 
 export type EconomyRelations = {
-	roleRestriction?: Restriction | null;
-	channelRestriction?: Restriction | null;
+	roleRestriction: Restriction;
+	channelRestriction: Restriction;
 };
 
 export type EconomyWithRelations = z.infer<typeof EconomySchema> & EconomyRelations;
 
-export const EconomyWithRelationsSchema: z.ZodType<EconomyWithRelations> = EconomySchema.merge(
-	z.object({
-		roleRestriction: z.lazy(() => RestrictionSchema).nullable(),
-		channelRestriction: z.lazy(() => RestrictionSchema).nullable(),
-	}),
-);
+export const EconomyWithRelationsSchema = EconomySchema.extend({
+	roleRestriction: z.lazy(() => RestrictionSchema),
+	channelRestriction: z.lazy(() => RestrictionSchema),
+});
 // ITEM DATA
 //------------------------------------------------------
 
@@ -663,16 +697,14 @@ export type CardRelations = {
 
 export type CardWithRelations = z.infer<typeof CardSchema> & CardRelations;
 
-export const CardWithRelationsSchema: z.ZodType<CardWithRelations> = CardSchema.merge(
-	z.object({
-		wrapperColor: z.lazy(() => HSLAColorSchema).nullable(),
-		overlayColor: z.lazy(() => HSLAColorSchema).nullable(),
-		overlayAccentColor: z.lazy(() => HSLAColorSchema).nullable(),
-		progressBarColor: z.lazy(() => HSLAColorSchema).nullable(),
-		textColor: z.lazy(() => HSLAColorSchema).nullable(),
-		subtextColor: z.lazy(() => HSLAColorSchema).nullable(),
-	}),
-);
+export const CardWithRelationsSchema: z.ZodType<CardWithRelations> = CardSchema.extend({
+	wrapperColor: z.lazy(() => HSLAColorSchema).nullable(),
+	overlayColor: z.lazy(() => HSLAColorSchema).nullable(),
+	overlayAccentColor: z.lazy(() => HSLAColorSchema).nullable(),
+	progressBarColor: z.lazy(() => HSLAColorSchema).nullable(),
+	textColor: z.lazy(() => HSLAColorSchema).nullable(),
+	subtextColor: z.lazy(() => HSLAColorSchema).nullable(),
+});
 // HSLA COLOR
 //------------------------------------------------------
 

@@ -1,68 +1,90 @@
 <script lang="ts">
-import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
-import type { APIApplication } from "discord-api-types/v10";
-import CheckIcon from "lucide-svelte/icons/check";
-import PlusIcon from "lucide-svelte/icons/plus";
-import Trash2 from "lucide-svelte/icons/trash-2";
-import { slide } from "svelte/transition";
-import { ButtonWithConfirmation } from "$lib/blocks/button-with-confirmation";
-import { Constants } from "$lib/constants";
-import type { DashboardGuild } from "$lib/types";
-import { Button } from "../button";
-import { DiscordIcon } from "../discord-icon";
-import Editable from "../editable/editable.svelte";
-import EmbedCreator from "../embed-creator/embed-creator.svelte";
+  import { ButtonWithConfirmation } from "$lib/blocks/button-with-confirmation";
+  import { Constants } from "$lib/constants";
+  import type { DashboardGuild } from "$lib/types";
+  import type { DiscordEmbedWithRelations } from "@riceball/db/zod";
+  import type { APIApplication } from "discord-api-types/v10";
+  import CheckIcon from "lucide-svelte/icons/check";
+  import PlusIcon from "lucide-svelte/icons/plus";
+  import Trash2 from "lucide-svelte/icons/trash-2";
+  import { slide } from "svelte/transition";
+  import { Button } from "../button";
+  import { DiscordIcon } from "../discord-icon";
+  import Editable from "../editable/editable.svelte";
+  import EmbedCreator from "../embed-creator/embed-creator.svelte";
 
-type Props = {
-	client: APIApplication;
-	guild: DashboardGuild;
-	content?: string | null;
-	embeds?: DiscordEmbedWithRelations[] | DiscordEmbedWithRelations | null;
-	withEmbed?: boolean;
-	maxEmbeds?: number;
-	reactions?: string[];
-	noContent?: boolean;
-};
+  type Props = {
+    client: APIApplication;
+    guild: DashboardGuild;
+    content?: string | null;
+    embeds?: DiscordEmbedWithRelations[] | DiscordEmbedWithRelations | null;
+    withEmbed?: boolean;
+    maxEmbeds?: number;
+    reactions?: string[];
+    noContent?: boolean;
+  };
 
-let {
-	guild,
-	client,
-	content = $bindable(),
-	embeds = $bindable([]),
-	withEmbed = $bindable(false),
-	maxEmbeds = $bindable(1),
-	reactions = $bindable([]),
-	noContent = $bindable(false),
-}: Props = $props();
+  let {
+    guild,
+    client,
+    content = $bindable(),
+    embeds = $bindable([]),
+    withEmbed = $bindable(false),
+    maxEmbeds = $bindable(1),
+    reactions = $bindable([]),
+    noContent = $bindable(false),
+  }: Props = $props();
 
-const getTime = () => {
-	return new Date().toLocaleTimeString("en-US", {
-		hour: "numeric",
-		minute: "numeric",
-	});
-};
+  const createEmptyEmbed = (): DiscordEmbedWithRelations => ({
+    ...Constants.EmptyEmbed,
+    author: { ...Constants.EmptyEmbed.author },
+    fields: [...Constants.EmptyEmbed.fields],
+    footer: { ...Constants.EmptyEmbed.footer },
+    image: { ...Constants.EmptyEmbed.image },
+    thumbnail: { ...Constants.EmptyEmbed.thumbnail },
+  });
 
-let time = $state(getTime());
+  const getTime = () => {
+    return new Date().toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+    });
+  };
 
-$effect(() => {
-	const interval = setInterval(() => {
-		time = getTime();
-	}, 1000);
+  let time = $state(getTime());
 
-	if (withEmbed) {
-		addEmbed();
-	}
+  $effect(() => {
+    const interval = setInterval(() => {
+      time = getTime();
+    }, 1000);
 
-	return () => clearInterval(interval);
-});
+    return () => clearInterval(interval);
+  });
 
-const addEmbed = () => {
-	if (Array.isArray(embeds)) {
-		embeds = [...embeds, Constants.EmptyEmbed];
-	} else {
-		embeds = Constants.EmptyEmbed;
-	}
-};
+  $effect(() => {
+    if (!withEmbed) {
+      return;
+    }
+
+    if (Array.isArray(embeds)) {
+      if (embeds.length === 0) {
+        embeds = [createEmptyEmbed()];
+      }
+      return;
+    }
+
+    if (!embeds) {
+      embeds = createEmptyEmbed();
+    }
+  });
+
+  const addEmbed = () => {
+    if (Array.isArray(embeds)) {
+      embeds = [...embeds, createEmptyEmbed()];
+    } else {
+      embeds = createEmptyEmbed();
+    }
+  };
 </script>
 
 <div class="stack space-xs">
@@ -79,7 +101,7 @@ const addEmbed = () => {
     <div class="stack space-xs message max-w-form">
       <div class="cluster space-2xs">
         <span class="fw:bold">{client.name}</span>
-        <span class="badge cluster">
+        <span class="badge">
           <CheckIcon size="0.75rem" strokeWidth={4.75} />
           <small class="fw:bold">APP</small>
         </span>
@@ -102,7 +124,14 @@ const addEmbed = () => {
           <div class="max-w-form">
             <EmbedCreator
               {guild}
-              bind:embed={embeds[i]}
+              embed={embeds[i]}
+              onChange={(nextEmbed) => {
+                if (Array.isArray(embeds)) {
+                  embeds = embeds.map((embed, index) =>
+                    index === i ? nextEmbed : embed,
+                  );
+                }
+              }}
               handleDelete={maxEmbeds === 1
                 ? undefined
                 : () => {
@@ -117,7 +146,10 @@ const addEmbed = () => {
         <div class="max-w-form">
           <EmbedCreator
             {guild}
-            bind:embed={embeds}
+            embed={embeds}
+            onChange={(nextEmbed) => {
+              embeds = nextEmbed;
+            }}
             handleDelete={maxEmbeds === 1
               ? undefined
               : () => {
@@ -128,7 +160,7 @@ const addEmbed = () => {
       {/if}
       <div class="cluster">
         {#each reactions as reaction}
-          <span class="reaction cluster">
+          <span class="reaction">
             <p class="fw:bold">{reaction}</p>
             <p>1</p>
           </span>
@@ -171,7 +203,9 @@ const addEmbed = () => {
     width: 100%;
   }
   .badge {
-    --cluster-gap: 0.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     background-color: var(--clr-theme-2);
     color: var(--txt-bold);
     border-radius: 0.3rem;
@@ -179,7 +213,9 @@ const addEmbed = () => {
   }
 
   .reaction {
-    --cluster-gap: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     background-color: var(--clr-theme-2-trasnslucent);
     color: var(--txt-bold);
     border-radius: 0.3rem;

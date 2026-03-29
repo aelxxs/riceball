@@ -159,7 +159,7 @@ export default class implements Command {
 			color: state.color,
 		};
 
-		await editMessage(ctx.i.channel!.id!, ctx.i.message!.id, {
+		await editMessage(ctx.i.channel!.id, ctx.i.message!.id, {
 			embeds: [typeEmbed],
 			components: [
 				actionRow({

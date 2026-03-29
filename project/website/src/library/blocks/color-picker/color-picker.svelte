@@ -7,13 +7,35 @@ import { flyAndScale } from "$lib/utility/transitions";
 import { Button } from "../button";
 import Picker from "./picker.svelte";
 
+type Props = {
+	format?: string;
+	color?: string;
+	showSelectedColor?: boolean;
+	onColorChange?: (color: string) => void;
+};
+
 const onClickClose = () => {
 	isOpen = false;
 };
 
-let { format = "hex", color = $bindable("#ff0000"), showSelectedColor = $bindable(false) } = $props();
+let {
+	format = "hex",
+	color = $bindable("#ff0000"),
+	showSelectedColor = $bindable(false),
+	onColorChange,
+}: Props = $props();
 
 let isOpen = $state(false);
+let lastColor = $state(color);
+
+$effect(() => {
+	if (color === lastColor) {
+		return;
+	}
+
+	lastColor = color;
+	onColorChange?.(color);
+});
 </script>
 
 <Popover.Root bind:open={isOpen} onOpenChange={(open) => (isOpen = open)}>
@@ -62,6 +84,11 @@ let isOpen = $state(false);
     position: relative;
     outline: 0;
     border: 0;
+    z-index: 1000;
+  }
+
+  .content :global(.clr-picker[data-inline="true"]) {
+    z-index: 1001;
   }
 
   .contain {

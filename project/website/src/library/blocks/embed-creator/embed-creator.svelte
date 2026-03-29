@@ -17,18 +17,47 @@ type Props = {
 	embed: DiscordEmbedWithRelations;
 	guild: DashboardGuild;
 	handleDelete?: () => void;
+	onChange?: (embed: DiscordEmbedWithRelations) => void;
 };
 
 const hexToInteger = (hex: string) => Number.parseInt(hex.replace("#", ""), 16);
 const integerToHex = (int: number) => `#${int?.toString(16).padStart(6, "0")}`;
 
-let { embed = $bindable<DiscordEmbedWithRelations>(), guild, handleDelete }: Props = $props();
+type EmbedFieldValue = DiscordEmbedWithRelations["fields"][number];
+
+let { embed, guild, handleDelete, onChange }: Props = $props();
+
+const cloneEmbed = (value: DiscordEmbedWithRelations): DiscordEmbedWithRelations => ({
+	...value,
+	author: { ...value.author },
+	fields: value.fields.map((field) => ({ ...field })),
+	footer: { ...value.footer },
+	image: { ...value.image },
+	thumbnail: { ...value.thumbnail },
+});
+
+const updateEmbed = (updater: (current: DiscordEmbedWithRelations) => DiscordEmbedWithRelations) => {
+	const nextEmbed = updater(cloneEmbed(embed));
+
+	embed = nextEmbed;
+	onChange?.(nextEmbed);
+};
+
+const updateField = (index: number, nextField: EmbedFieldValue) => {
+	updateEmbed((current) => ({
+		...current,
+		fields: current.fields.map((field, fieldIndex) => (fieldIndex === index ? nextField : field)),
+	}));
+};
 
 /**
  * Adds a new field to the embed
  */
 const addField = () => {
-	embed.fields.push({ name: "", value: "", inline: false });
+	updateEmbed((current) => ({
+		...current,
+		fields: [...current.fields, { name: "", value: "", inline: false }],
+	}));
 };
 
 /**
@@ -36,31 +65,11 @@ const addField = () => {
  * @param index
  */
 function handleFieldDelete(index: number) {
-	if (embed.fields) {
-		embed.fields = embed.fields.filter((_, i) => i !== index);
-	}
+	updateEmbed((current) => ({
+		...current,
+		fields: current.fields.filter((_, fieldIndex) => fieldIndex !== index),
+	}));
 }
-
-/**
- * Toggles the inline property of a field
- * @param index
- */
-function handleFieldToggleInline(index: number) {
-	if (embed.fields) {
-		embed.fields = embed.fields.map((field, i) => {
-			return i === index ? { ...field, inline: !field.inline } : field;
-		});
-	}
-}
-
-const color = {
-	get value() {
-		return integerToHex(embed.color);
-	},
-	set value(color: string) {
-		embed.color = hexToInteger(color);
-	},
-};
 
 let preview = $state(false);
 </script>
@@ -72,15 +81,29 @@ let preview = $state(false);
         {#if !preview || embed.author.icon_url.length || embed.author.name.length}
           <div class="cluster space-2xs">
             {#if !preview && !embed.author.icon_url.length}
-              <ImageUpload bind:url={embed.author.icon_url} w={23.5} h={23.5} />
+              <ImageUpload
+                url={embed.author.icon_url}
+                onUrlChange={(url: string | null) =>
+                  updateEmbed((current) => ({
+                    ...current,
+                    author: { ...current.author, icon_url: url ?? "" },
+                  }))}
+                w={23.5}
+                h={23.5}
+              />
             {/if}
-            {#if !preview && !embed.author.name.length}
+            {#if !preview}
               <Editable
                 editable={!preview}
                 type="text"
                 class="fs:xs fw:bold"
                 placeholder="Author Name"
-                bind:value={embed.author.name}
+                value={embed.author.name}
+                onValueChange={(value) =>
+                  updateEmbed((current) => ({
+                    ...current,
+                    author: { ...current.author, name: value },
+                  }))}
                 maxLength={2048}
                 {guild}
               />
@@ -93,7 +116,12 @@ let preview = $state(false);
             type="text"
             class="fs:sm fw:bold txt:bold"
             placeholder="Title"
-            bind:value={embed.title}
+            value={embed.title}
+            onValueChange={(value) =>
+              updateEmbed((current) => ({
+                ...current,
+                title: value,
+              }))}
             maxLength={256}
             {guild}
           />
@@ -101,24 +129,38 @@ let preview = $state(false);
             editable={!preview}
             type="textarea"
             placeholder="Description"
-            bind:value={embed.description}
+            value={embed.description}
+            onValueChange={(value) =>
+              updateEmbed((current) => ({
+                ...current,
+                description: value,
+              }))}
             maxLength={4096}
             {guild}
           />
         </div>
       </div>
       {#if !preview && !embed.thumbnail.url.length}
-        <ImageUpload bind:url={embed.thumbnail.url} w={80} h={80} />
+        <ImageUpload
+          url={embed.thumbnail.url}
+          onUrlChange={(url: string | null) =>
+            updateEmbed((current) => ({
+              ...current,
+              thumbnail: { ...current.thumbnail, url: url ?? "" },
+            }))}
+          w={80}
+          h={80}
+        />
       {/if}
     </div>
 
     {#if embed.fields.length}
       <div class="fields text-group-1">
-        {#each embed.fields as _, i}
+        {#each embed.fields as field, i}
           <EmbedField
-            bind:field={embed.fields[i]}
+            {field}
+            onChange={(nextField) => updateField(i, nextField)}
             onDelete={() => handleFieldDelete(i)}
-            onToggleInline={() => handleFieldToggleInline(i)}
             {guild}
           />
         {/each}
@@ -135,21 +177,43 @@ let preview = $state(false);
     {/if}
 
     {#if !preview && !embed.image.url.length}
-      <ImageUpload ratio={2 / 0.85} bind:url={embed.image.url} />
+      <ImageUpload
+        ratio={2 / 0.85}
+        url={embed.image.url}
+        onUrlChange={(url: string | null) =>
+          updateEmbed((current) => ({
+            ...current,
+            image: { ...current.image, url: url ?? "" },
+          }))}
+      />
     {/if}
 
     {#if !preview || embed.footer.icon_url.length || embed.footer.text.length}
       <div class="cluster space-2xs text-group-2">
         {#if !preview && !embed.footer.icon_url.length}
-          <ImageUpload w={23.5} h={23.5} bind:url={embed.footer.icon_url} />
+          <ImageUpload
+            w={23.5}
+            h={23.5}
+            url={embed.footer.icon_url}
+            onUrlChange={(url: string | null) =>
+              updateEmbed((current) => ({
+                ...current,
+                footer: { ...current.footer, icon_url: url ?? "" },
+              }))}
+          />
         {/if}
 
-        {#if !preview && !embed.footer.text.length}
+        {#if !preview}
           <Editable
             type="text"
             class="fs:xs fw:bold"
             placeholder="Footer"
-            bind:value={embed.footer.text}
+            value={embed.footer.text}
+            onValueChange={(value) =>
+              updateEmbed((current) => ({
+                ...current,
+                footer: { ...current.footer, text: value },
+              }))}
             maxLength={2048}
             {guild}
           />
@@ -171,7 +235,14 @@ let preview = $state(false);
         <EyeIcon size={16} />
       {/if}
     </Button>
-    <ColorPicker bind:color={color.value} />
+    <ColorPicker
+      color={integerToHex(embed.color)}
+      onColorChange={(color) =>
+        updateEmbed((current) => ({
+          ...current,
+          color: hexToInteger(color),
+        }))}
+    />
     {#if handleDelete}
       <ButtonWithConfirmation
         onConfirm={handleDelete}

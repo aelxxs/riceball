@@ -1,28 +1,28 @@
 <script lang="ts">
-// - Icons
+  // - Icons
 
-import { Select, Tooltip } from "bits-ui";
-import CheckIcon from "lucide-svelte/icons/check";
-import ChevronDown from "lucide-svelte/icons/chevron-down";
-import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
-import { DiscordIcon } from "$lib/blocks/discord-icon";
-import { Divider } from "$lib/blocks/divider";
-import { generateSidebarRoutes, type SidebarRoute } from "$lib/constants";
-import type { DashboardGuild, ManagedGuild } from "$lib/types";
-import { layoutState } from "$lib/utility/context.svelte";
-import { flyAndScale } from "$lib/utility/transitions";
+  import { DiscordIcon } from "$lib/blocks/discord-icon";
+  import { Divider } from "$lib/blocks/divider";
+  import { generateSidebarRoutes, type SidebarRoute } from "$lib/constants";
+  import type { DashboardGuild, ManagedGuild } from "$lib/types";
+  import { layoutState } from "$lib/utility/context.svelte";
+  import { flyAndScale } from "$lib/utility/transitions";
+  import { Select, Tooltip } from "bits-ui";
+  import CheckIcon from "lucide-svelte/icons/check";
+  import ChevronDown from "lucide-svelte/icons/chevron-down";
+  import PlusCircleIcon from "lucide-svelte/icons/plus-circle";
 
-type Props = {
-	guild: DashboardGuild;
-	guilds: ManagedGuild[];
-	plugin: SidebarRoute;
-};
+  type Props = {
+    guild: DashboardGuild;
+    guilds: ManagedGuild[];
+    plugin: SidebarRoute;
+  };
 
-const { guild, guilds, plugin }: Props = $props();
+  const { guild, guilds, plugin }: Props = $props();
 
-const sections = generateSidebarRoutes(guild.id);
+  const sections = generateSidebarRoutes(guild.id);
 
-let open = $state(false);
+  let open = $state(false);
 </script>
 
 <svelte:window
@@ -174,15 +174,18 @@ let open = $state(false);
   }
 
   .extended-info-content {
-    background: linear-gradient(
+    background-color: var(--clr-bg-accent-secondary);
+    background-image: linear-gradient(
       135deg,
       var(--glass-bg-light),
       var(--glass-bg-subtle)
     );
     border: var(--glass-border-medium);
+    color: var(--txt-main);
     max-width: 45ch;
     z-index: 2;
     backdrop-filter: blur(10px);
+    box-shadow: 0 10px 24px var(--clr-shadow);
   }
 
   .header-trigger {
@@ -264,7 +267,7 @@ let open = $state(false);
 
   .link {
     position: relative;
-    border: none;
+    border: 1px solid transparent;
     border-radius: var(--border-radius);
     padding: var(--space-xs) var(--space-s);
     transition:

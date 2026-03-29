@@ -1,27 +1,31 @@
 <script lang="ts">
-import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
-import MenuIcon from "lucide-svelte/icons/menu";
-import XIconIcon from "lucide-svelte/icons/x";
-import { fade, fly } from "svelte/transition";
-import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
-import { enhance } from "$app/forms";
-import { Button } from "$lib/blocks/button";
-import { Divider } from "$lib/blocks/divider";
-import Switch from "$lib/blocks/switch/switch.svelte";
-import { getAppState, getGuild, layoutState } from "$lib/utility/context.svelte";
+  import { enhance } from "$app/forms";
+  import { Button } from "$lib/blocks/button";
+  import { Divider } from "$lib/blocks/divider";
+  import Switch from "$lib/blocks/switch/switch.svelte";
+  import {
+    getAppState,
+    getGuild,
+    layoutState,
+  } from "$lib/utility/context.svelte";
+  import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
+  import MenuIcon from "lucide-svelte/icons/menu";
+  import XIconIcon from "lucide-svelte/icons/x";
+  import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
+  import { fade, fly } from "svelte/transition";
 
-const duration = 0.3;
+  const duration = 0.3;
 
-const { plugin, toggleOpen } = $props();
+  const { plugin, toggleOpen } = $props();
 
-const goBack = () => window.history.back();
+  const goBack = () => window.history.back();
 
-const state = getAppState();
-const guild = getGuild();
+  const appState = getAppState();
+  const guild = getGuild();
 </script>
 
 <div class="transition-wrapper" class:bg-solid={layoutState.sideBarOpen}>
-  {#if state.showControls}
+  {#if appState.showControls}
     <div
       class="header"
       in:fly={{ duration: 250, x: 100 }}
@@ -32,7 +36,7 @@ const guild = getGuild();
           <Button size="icon" variant="ghost" onclick={goBack}>
             <ChevronLeftIcon size="1.2rem" />
           </Button>
-          <h4>{state.controlTitle.value}</h4>
+          <h4>{appState.controlTitle.value}</h4>
         </div>
         <div
           class="cluster"
@@ -40,7 +44,7 @@ const guild = getGuild();
           out:fly={{ duration: 250, x: 50, delay: 0 }}
         >
           <!-- controls -->
-          {#each state.controls as control}
+          {#each appState.controls as control}
             <Button variant={control.variant} onclick={control.handler}>
               <div class="cluster space-2xs">
                 {#if control.icon}
@@ -163,9 +167,6 @@ const guild = getGuild();
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: var(--header-height-lg);
     border-bottom: var(--glass-border-medium);
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
     &.bg-solid {
       background: var(--navbar-bg-solid);

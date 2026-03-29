@@ -44,17 +44,7 @@ function scrollToHighlighted() {
 </script>
 
 {#if items.length}
-  <Select.Root
-    type="single"
-    open
-    onValueChange={(s) => {
-      const item = items.find((i) => i.value === s);
-
-      if (item) {
-        command(item);
-      }
-    }}
-  >
+  <Select.Root type="single" open>
     <Select.ContentStatic
       onmouseover={() => {
         highlightedIndex = -1;
@@ -77,6 +67,12 @@ function scrollToHighlighted() {
                 <div
                   class="item cluster space-xs"
                   class:data-highlighted={currentIndex === highlightedIndex}
+                  role="button"
+                  tabindex="-1"
+                  onmousedown={(event) => {
+                    event.preventDefault();
+                    command(item);
+                  }}
                 >
                   <!-- <ItemIcon size={16} /> -->
                   <!-- img -->
@@ -110,6 +106,8 @@ function scrollToHighlighted() {
     border: 2px solid transparent;
     border-color: var(--clr-bg-border-hover);
     box-shadow: 0 0 0 0.225rem hsl(var(--clr-bg-border-hover-hsl) / 0.05);
+    position: relative;
+    z-index: 1000;
   }
 
   .item {

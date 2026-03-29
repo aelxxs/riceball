@@ -1,4 +1,4 @@
-import { Embeddable, Embedded, Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { Embeddable, Embedded, Entity, type Opt, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
 import type { ObjectId } from "@mikro-orm/mongodb";
 import { DiscordEmbed } from "./DiscordEmbed.entity.js";
 
@@ -6,6 +6,9 @@ import { DiscordEmbed } from "./DiscordEmbed.entity.js";
 export class ReactionRole {
 	@PrimaryKey({ nullable: true })
 	_id?: ObjectId;
+
+	@SerializedPrimaryKey()
+	id!: string;
 
 	@Property()
 	guildId!: string;
@@ -30,6 +33,9 @@ export class ReactionRole {
 
 	@Property()
 	enabled = true;
+
+	@Property()
+	createdAt: Date & Opt = new Date();
 
 	@Embedded(() => ReactionRolePair)
 	pairs: ReactionRolePair[] = [];

@@ -1,6 +1,7 @@
 import type { SingleASTNode } from "@khanacademy/simple-markdown";
+import SimpleMarkdown from "@khanacademy/simple-markdown";
 import type { APIChannel, APIRole } from "discord-api-types/v10";
-import parse from "discord-markdown-parser";
+import parse, * as DiscordMarkdown from "discord-markdown-parser";
 import twemoji from "twemoji";
 
 /**
@@ -74,6 +75,8 @@ function interpret(tokens: SingleASTNode | SingleASTNode[], ctx: Context): strin
 		case "here":
 		case "everyone":
 			return makeMention(tokens.type, "", ctx);
+		case "list":
+			return `<ul>${tokens.items.map((item: SingleASTNode) => `<li>${interpret(item, ctx)}</li>`).join("")}</ul>`;
 		default:
 			return "";
 	}
@@ -126,16 +129,34 @@ const getMention = (type: MentionType, id?: string): string => {
 const TAG_REGEX = /{([^}]+)}/g;
 
 type MentionType = "role" | "channel" | "everyone" | "here";
-type Context = {
-	roles: APIRole[];
-	channels: APIChannel[];
-};
+type Context = { roles: APIRole[]; channels: APIChannel[] };
 
 /**
  * Converts Markdown to HTML with Discord-specific parsing.
  */
 export function markdownToHTML(markdown: string, context: Context): string {
 	const tokens = parse(markdown);
+
+	let output = interpret(tokens, context);
+
+	output = output.replaceAll(TAG_REGEX, (_, tag) => `<tag id="${tag}">${tag}</tag>`);
+
+	return output;
+}
+
+export function markup(markdown: string, context: Context) {
+	const rules = { ...DiscordMarkdown.rules, list: SimpleMarkdown.defaultRules.list };
+
+	const parser = SimpleMarkdown.parserFor(rules);
+
+	const md = markdown //
+		// FIXME(@all): continue quotes across line breaks
+		.replaceAll("\n>\n", "\n>  \n")
+		// FIXME(@all): perserve line breaks
+		.replaceAll("\n\n", "\n  \n");
+
+	const tokens = parser(md, { inline: true });
+
 	let output = interpret(tokens, context);
 
 	output = output.replaceAll(TAG_REGEX, (_, tag) => `<tag id="${tag}">${tag}</tag>`);
