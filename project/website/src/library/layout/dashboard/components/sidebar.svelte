@@ -20,7 +20,7 @@ type Props = {
 
 const { guild, guilds, plugin }: Props = $props();
 
-const sections = generateSidebarRoutes(guild.id);
+const sections = $derived(generateSidebarRoutes(guild.id));
 
 let open = $state(false);
 </script>

@@ -11,17 +11,18 @@ type Attrs = {
 	mention: string;
 };
 
-const { name, type } = node.attrs as Attrs;
-
-let icon: typeof Icon | null = $state(null);
-switch (type) {
-	case "role":
-		icon = AtSignIcon;
-		break;
-	case "channel":
-		icon = HashIcon;
-		break;
-}
+const attrs = $derived(node.attrs as Attrs);
+const name = $derived(attrs.name);
+const icon = $derived.by<typeof Icon | null>(() => {
+  switch (attrs.type) {
+    case "role":
+      return AtSignIcon;
+    case "channel":
+      return HashIcon;
+    default:
+      return null;
+  }
+});
 </script>
 
 <NodeViewWrapper id="discord-mention">

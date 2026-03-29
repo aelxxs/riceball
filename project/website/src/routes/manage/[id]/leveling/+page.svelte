@@ -12,7 +12,7 @@ import {
 	setHSLAOpacity,
 } from "@riceball/colorify";
 import { ToggleGroup } from "bits-ui";
-import ColorThief from "colorthief";
+import { getColor, getPalette } from "colorthief";
 import { onMount } from "svelte";
 import { toast } from "svelte-sonner";
 import SuperDebug, { fileProxy, superForm } from "sveltekit-superforms";
@@ -89,14 +89,13 @@ const handleImageUpload = (url: string) => {
 	img.src = url;
 	img.crossOrigin = "Anonymous";
 	img.onload = () => {
-		const colorThief = new ColorThief();
-		const dominant = colorThief.getColor(img);
+    const dominant = getColor(img);
 
 		if (dominant) {
 			dominantColor = rgbaArrayToHex(dominant);
 		}
 
-		const colors = colorThief.getPalette(img, 5);
+    const colors = getPalette(img, 5);
 
 		// conver to hex string
 		const hexColors = colors?.map((c) => rgbaArrayToHex(c));

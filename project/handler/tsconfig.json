@@ -2,6 +2,7 @@
 	"extends": "@riceball/ts-config/base.json",
 	"compilerOptions": {
 		"baseUrl": "src",
+		"ignoreDeprecations": "6.0",
 		"lib": ["ES2015", "DOM"],
 		"outDir": "./dist",
 		"types": ["node"]

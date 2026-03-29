@@ -17,6 +17,7 @@
 		"emitDecoratorMetadata": true,
 		"useDefineForClassFields": true,
 		"skipLibCheck": true,
+		"ignoreDeprecations": "6.0",
 		"target": "ESNext",
 		"moduleDetection": "force",
 		"resolveJsonModule": true,
