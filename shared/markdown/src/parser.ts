@@ -1,7 +1,7 @@
 import type { SingleASTNode } from "@khanacademy/simple-markdown";
 import SimpleMarkdown from "@khanacademy/simple-markdown";
 import type { APIChannel, APIRole } from "discord-api-types/v10";
-import parse, * as DiscordMarkdown from "discord-markdown-parser";
+import { rules as dmRules, parse } from "discord-markdown-parser";
 import twemoji from "twemoji";
 
 /**
@@ -145,7 +145,7 @@ export function markdownToHTML(markdown: string, context: Context): string {
 }
 
 export function markup(markdown: string, context: Context) {
-	const rules = { ...DiscordMarkdown.rules, list: SimpleMarkdown.defaultRules.list };
+	const rules = { ...dmRules, list: SimpleMarkdown.defaultRules.list };
 
 	const parser = SimpleMarkdown.parserFor(rules);
 

@@ -1,7 +1,7 @@
 @property --cluster-gap {
   syntax: "<length>";
   inherits: false;
-  initial-value: 0px;
+  initial-value: var(--space-s);
 }
 
 .cluster {
