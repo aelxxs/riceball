@@ -5,7 +5,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "tsup && pnpm run build:cache",
+		"build": "tsup && (pnpm run build:cache || echo 'Cache generation skipped, requires Node >=22')",
 		"build:cache": "mikro-orm cache:generate --combined --ts --config ./src/mikro-orm.config.ts",
 		"dev": "tsup --watch",
 		"start": "node ./dist/index.js",

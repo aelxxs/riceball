@@ -20,10 +20,10 @@ export class Card {
 	@Property()
 	name = "";
 
-	@Property({ nullable: true })
+	@Property({ nullable: true, type: 'number' })
 	borderRadius?: number | null = null;
 
-	@Property({ nullable: true })
+	@Property({ nullable: true, type: 'string' })
 	wrapperImage?: string | null = null;
 
 	@Embedded(() => HSLAColor, { nullable: true })

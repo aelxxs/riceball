@@ -8,7 +8,7 @@ export class Stars {
 	@Property()
 	enabled = true;
 
-	@Property({ nullable: true })
+	@Property({ nullable: true, type: 'string' })
 	channelId?: string | null;
 
 	@Property()
@@ -26,7 +26,7 @@ export class Stars {
 	@Property()
 	selfStarWarning = false;
 
-	@Property({ nullable: true })
+	@Property({ nullable: true, type: 'string' })
 	messageContent?: string | null;
 
 	@Embedded(() => DiscordEmbed, { nullable: true })

@@ -1,23 +1,27 @@
 <script lang="ts">
-import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
-import MenuIcon from "lucide-svelte/icons/menu";
-import XIconIcon from "lucide-svelte/icons/x";
-import { fade, fly } from "svelte/transition";
-import Motion from "svelte-motion/src/motion/MotionSSR.svelte";
-import { enhance } from "$app/forms";
-import { Button } from "$lib/blocks/button";
-import { Divider } from "$lib/blocks/divider";
-import Switch from "$lib/blocks/switch/switch.svelte";
-import { getAppState, getGuild, layoutState } from "$lib/utility/context.svelte";
+  import { enhance } from "$app/forms";
+  import { Button } from "$lib/blocks/button";
+  import { Divider } from "$lib/blocks/divider";
+  import Switch from "$lib/blocks/switch/switch.svelte";
+  import {
+    getAppState,
+    getGuild,
+    layoutState,
+  } from "$lib/utility/context.svelte";
+  import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
+  import MenuIcon from "lucide-svelte/icons/menu";
+  import XIconIcon from "lucide-svelte/icons/x";
+  import { MotionSSR as Motion } from "svelte-motion";
+  import { fade, fly } from "svelte/transition";
 
-const duration = 0.3;
+  const duration = 0.3;
 
-const { plugin, toggleOpen } = $props();
+  const { plugin, toggleOpen } = $props();
 
-const goBack = () => window.history.back();
+  const goBack = () => window.history.back();
 
-const appState = getAppState();
-const guild = getGuild();
+  const appState = getAppState();
+  const guild = getGuild();
 </script>
 
 <div class="transition-wrapper" class:bg-solid={layoutState.sideBarOpen}>
