@@ -1,4 +1,5 @@
-import { Embeddable, Embedded, Entity, type Opt, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
+import type { Opt } from "@mikro-orm/core";
+import { Embeddable, Embedded, Entity, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/decorators/legacy";
 import type { ObjectId } from "@mikro-orm/mongodb";
 import { DiscordEmbed } from "./DiscordEmbed.entity.js";
 

@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
+import { Entity, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/decorators/legacy";
 import type { ObjectId } from "@mikro-orm/mongodb";
 
 @Entity()

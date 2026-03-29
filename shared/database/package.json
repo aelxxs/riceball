@@ -5,8 +5,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "tsup --onSuccess 'pnpm run build:cache'",
-		"build:cache": "mikro-orm-esm cache:generate --combined",
+		"build": "tsup && pnpm run build:cache",
+		"build:cache": "mikro-orm cache:generate --combined --ts --config ./src/mikro-orm.config.ts",
 		"dev": "tsup --watch",
 		"start": "node ./dist/index.js",
 		"check-types": "tsc --noEmit"
@@ -51,6 +51,7 @@
 	],
 	"dependencies": {
 		"@mikro-orm/core": "^7.0.6",
+		"@mikro-orm/decorators": "^7.0.6",
 		"@mikro-orm/migrations-mongodb": "^7.0.6",
 		"@mikro-orm/mongodb": "^7.0.6",
 		"@mikro-orm/reflection": "^7.0.6",
@@ -58,7 +59,6 @@
 		"dotenv": "17.3.1",
 		"ioredis": "5.10.1",
 		"reflect-metadata": "0.2.2",
-		"ts-node": "^10.9.2",
 		"tsup": "^8.5.1",
 		"tsyringe": "4.10.0",
 		"zod": "^4.3.6"
@@ -67,9 +67,11 @@
 		"@mikro-orm/cli": "^7.0.6",
 		"@riceball/ts-config": "workspace:*",
 		"@types/node": "25.5.0",
+		"tsx": "^4.20.6",
 		"typescript": "^6.0.2"
 	},
 	"mikro-orm": {
+		"tsLoader": "tsx",
 		"configPaths": [
 			"./src/mikro-orm.config.ts",
 			"./dist/mikro-orm.config.js"

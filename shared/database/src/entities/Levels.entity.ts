@@ -1,4 +1,5 @@
-import { Embeddable, Embedded, Enum, type Opt, Property } from "@mikro-orm/core";
+import type { Opt } from "@mikro-orm/core";
+import { Embeddable, Embedded, Enum, Property } from "@mikro-orm/decorators/legacy";
 import { Card } from "./Card.entity.js";
 import { DiscordEmbed } from "./DiscordEmbed.entity.js";
 import { Restriction } from "./Restriction.entity.js";

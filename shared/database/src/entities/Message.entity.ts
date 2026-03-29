@@ -1,4 +1,4 @@
-import { Embedded, Entity, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
+import { Embedded, Entity, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/decorators/legacy";
 import type { ObjectId } from "@mikro-orm/mongodb";
 import { DiscordEmbed } from "./DiscordEmbed.entity.js";
 

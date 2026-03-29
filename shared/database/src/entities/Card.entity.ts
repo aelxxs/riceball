@@ -1,4 +1,4 @@
-import { Embeddable, Embedded, Property } from "@mikro-orm/core";
+import { Embeddable, Embedded, Property } from "@mikro-orm/decorators/legacy";
 
 @Embeddable()
 export class HSLAColor {

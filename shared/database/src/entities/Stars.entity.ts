@@ -1,4 +1,4 @@
-import { Embeddable, Embedded, Property } from "@mikro-orm/core";
+import { Embeddable, Embedded, Property } from "@mikro-orm/decorators/legacy";
 import { DiscordEmbed } from "./DiscordEmbed.entity.js";
 import { Restriction } from "./Restriction.entity.js";
 import { MessageType } from "./shared-enums.js";

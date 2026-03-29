@@ -1,4 +1,5 @@
-import { Embedded, Entity, type Opt, PrimaryKey, Property, SerializedPrimaryKey, Unique } from "@mikro-orm/core";
+import type { Opt } from "@mikro-orm/core";
+import { Embedded, Entity, PrimaryKey, Property, SerializedPrimaryKey, Unique } from "@mikro-orm/decorators/legacy";
 import type { ObjectId } from "@mikro-orm/mongodb";
 import { Card } from "./Card.entity.js";
 import { Badge, InventoryItem } from "./Economy.entity.js";

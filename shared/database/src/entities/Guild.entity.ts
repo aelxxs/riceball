@@ -1,6 +1,6 @@
 // entities/Guild.ts
-import { Embedded, Entity, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
-import type { Opt } from "@mikro-orm/mongodb";
+import type { Opt } from "@mikro-orm/core";
+import { Embedded, Entity, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/decorators/legacy";
 import { DiscordEmbed } from "./DiscordEmbed.entity.js";
 import { Economy } from "./Economy.entity.js";
 import { Levels } from "./Levels.entity.js";

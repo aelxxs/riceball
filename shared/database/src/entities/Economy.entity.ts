@@ -1,4 +1,12 @@
-import { Embeddable, Embedded, Entity, Enum, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
+import {
+	Embeddable,
+	Embedded,
+	Entity,
+	Enum,
+	PrimaryKey,
+	Property,
+	SerializedPrimaryKey,
+} from "@mikro-orm/decorators/legacy";
 import type { ObjectId } from "@mikro-orm/mongodb";
 import { Restriction } from "./Restriction.entity.js";
 

@@ -1,13 +1,13 @@
+import type { Opt } from "@mikro-orm/core";
 import {
 	Embedded,
 	Entity,
 	ManyToOne,
-	type Opt,
 	PrimaryKey,
 	Property,
 	SerializedPrimaryKey,
 	Unique,
-} from "@mikro-orm/core";
+} from "@mikro-orm/decorators/legacy";
 import type { ObjectId } from "@mikro-orm/mongodb";
 import { Card } from "./Card.entity.js";
 import { User } from "./User.entity.js";
