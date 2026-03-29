@@ -138,10 +138,10 @@ export const DiscordEmbedSchema = z
 	.refine(
 		(data) => {
 			const totalLength =
-				(data.title?.length ?? 0) +
-				(data.description?.length ?? 0) +
-				(data.fields?.reduce((acc, field) => acc + (field.name?.length ?? 0) + (field.value?.length ?? 0), 0) ??
-					0);
+				(data.title?.length ?? 0)
+				+ (data.description?.length ?? 0)
+				+ (data.fields?.reduce((acc, field) => acc + (field.name?.length ?? 0) + (field.value?.length ?? 0), 0)
+					?? 0);
 
 			return totalLength <= 6000;
 		},

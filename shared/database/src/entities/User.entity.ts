@@ -32,6 +32,10 @@ export class User {
 	@Property()
 	lastReputation: number & Opt = 0;
 
-	@OneToMany(() => CardPreset, (preset) => preset.user, { nullable: true })
+	@OneToMany(
+		() => CardPreset,
+		(preset) => preset.user,
+		{ nullable: true },
+	)
 	cardPresets: CardPreset[] & Opt = [];
 }
