@@ -12,7 +12,7 @@
 		"test": "turbo run test"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.9",
+		"@biomejs/biome": "2.4.11",
 		"turbo": "2.9.1"
 	},
 	"packageManager": "pnpm@10.29.2"
