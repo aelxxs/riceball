@@ -1,10 +1,11 @@
-import { container, ReactionRole, ReactionRoleType, RepositoryManager } from "@riceball/db";
+import { ReactionRole, type ReactionRoleType } from "@riceball/db";
 import { ReactionRoleSchema } from "@riceball/db/zod";
 import type { Actions } from "@sveltejs/kit";
 import { fail } from "@sveltejs/kit";
 import { type APIMessage, Routes } from "discord-api-types/v10";
-import { superValidate } from "sveltekit-superforms";
+import { message, superValidate } from "sveltekit-superforms";
 import { zod4 as zod } from "sveltekit-superforms/adapters";
+import { describeDiscordError, toReactionParam, validateReactionPairs } from "$lib/server/reaction-emoji";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async () => {
@@ -12,6 +13,7 @@ export const load: PageServerLoad = async () => {
 		form: await superValidate(
 			{
 				alias: "New Reaction Role",
+				enabled: true,
 				messageContent: "React to this message to get your roles!",
 				pairs: [{ emoji: "✅", roles: [] }],
 				type: "TOGGLE",
@@ -29,41 +31,48 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 
-		const { channelId, messageContent, messageEmbed } = form.data;
+		const { alias, channelId, messageContent, messageEmbed, pairs, type } = form.data;
 
-		const db = container.resolve(RepositoryManager);
+		const invalid = validateReactionPairs(pairs);
+		if (invalid) {
+			return message(form, invalid, { status: 400 });
+		}
 
-		const reactionRoleRepository = db.em.getRepository(ReactionRole);
+		let posted: APIMessage;
+		try {
+			posted = (await locals.api.post(Routes.channelMessages(channelId), {
+				body: { content: messageContent, embeds: messageEmbed ? [messageEmbed] : [] },
+			})) as APIMessage;
+		} catch (error) {
+			return message(form, `Couldn't send the message: ${describeDiscordError(error)}`, { status: 502 });
+		}
 
-		const message = (await locals.api.post(Routes.channelMessages(channelId), {
-			body: { content: messageContent, embeds: messageEmbed ? [messageEmbed] : [] },
-		})) as APIMessage;
+		// Sequential so the reactions appear in the same order as the pairs.
+		for (const pair of pairs) {
+			try {
+				await locals.api.put(Routes.channelMessageOwnReaction(channelId, posted.id, toReactionParam(pair.emoji)));
+			} catch (error) {
+				await locals.api.delete(Routes.channelMessage(channelId, posted.id)).catch(() => {});
+				return message(form, `Couldn't react with ${pair.emoji}: ${describeDiscordError(error)}`, {
+					status: 502,
+				});
+			}
+		}
 
-		await Promise.all(
-			form.data.pairs.map((pair) =>
-				locals.api.put(Routes.channelMessageOwnReaction(channelId, message.id, encodeURIComponent(pair.emoji))),
-			),
-		);
-
-		const reactionRole = reactionRoleRepository.create({
-			...form.data,
+		const database = locals.db.rm.em.fork();
+		const reactionRole = database.create(ReactionRole, {
+			alias,
+			channelId,
+			enabled: true,
 			guildId: params.id,
 			messageContent,
 			messageEmbed: messageEmbed || null,
-			messageId: message.id,
-			type: ReactionRoleType.TOGGLE,
+			messageId: posted.id,
+			pairs,
+			type: type as ReactionRoleType,
 		});
 
-		console.log("creating reaction role", {
-			...form.data,
-			guildId: params.id,
-			messageContent,
-			messageEmbed: messageEmbed || null,
-			messageId: message.id,
-			type: ReactionRoleType.TOGGLE,
-		});
-
-		await db.em.persist(reactionRole).flush();
+		await database.persist(reactionRole).flush();
 
 		return { form };
 	},

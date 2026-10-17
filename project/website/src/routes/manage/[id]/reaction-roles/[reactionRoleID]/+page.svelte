@@ -3,7 +3,7 @@ import { ReactionRoleSchema } from "@riceball/db/zod";
 import { ElementField } from "formsnap";
 import { Trash2Icon } from "lucide-svelte";
 import { toast } from "svelte-sonner";
-import SuperDebug, { superForm } from "sveltekit-superforms";
+import { superForm } from "sveltekit-superforms";
 import { zodClient } from "sveltekit-superforms/adapters";
 import { beforeNavigate, goto } from "$app/navigation";
 import { Button } from "$lib/blocks/button";
@@ -12,8 +12,10 @@ import { DiscordMessageCreator } from "$lib/blocks/discord-message-creator";
 import EmojiPicker from "$lib/blocks/emoji-picker/emoji-picker.svelte";
 import { Control, Field, Fieldset } from "$lib/blocks/forms";
 import { Input } from "$lib/blocks/input";
+import { RadioGroup, RadioGroupItem } from "$lib/blocks/radio-group";
 import { ChannelSelect } from "$lib/blocks/select";
 import SelectDiscord from "$lib/blocks/select-discord/select-discord.svelte";
+import { Switch } from "$lib/blocks/switch";
 import { WebsiteRoutes } from "$lib/constants";
 import { getAppState } from "$lib/utility/context.svelte.js";
 import { getFirstChannelFromItemizedChannelList } from "$lib/utility/utils.js";
@@ -27,14 +29,16 @@ const goBack = () => goto(WebsiteRoutes.ReactionRoles(data.guild.id));
 const form = superForm(data.form, {
 	dataType: "json",
 	onResult: () => {},
-	onUpdate: ({ result }) => {
+	onUpdate: ({ form: updated, result }) => {
 		switch (result.type) {
 			case "success":
 				goBack();
 				break;
 			case "failure":
-				console.log({ result });
-				toast.error("Failed to save settings.");
+				toast.error(
+					updated.message ??
+						(updated.errors.pairs ? "Each reaction needs an emoji and 1 to 5 roles." : "Failed to save settings."),
+				);
 				break;
 			default:
 				break;
@@ -45,6 +49,30 @@ const form = superForm(data.form, {
 });
 
 const { form: formData, submit, enhance } = form;
+
+const types = [
+	{
+		value: "TOGGLE",
+		label: "Toggle",
+		description: "Reacting gives the roles. Removing the reaction takes them away.",
+	},
+	{
+		value: "ADD",
+		label: "Add only",
+		description: "Reacting gives the roles. Removing the reaction does nothing, so members keep them.",
+	},
+	{
+		value: "REMOVE",
+		label: "Remove only",
+		description: "Reacting takes the roles away. Removing the reaction does nothing.",
+	},
+	{
+		value: "UNIQUE",
+		label: "Unique",
+		description:
+			"Members can only hold the roles of one reaction. Reacting with another swaps their roles and clears their previous reaction.",
+	},
+] as const;
 
 $effect.pre(() => {
 	appState.setControlTitle("Edit Reaction Role");
@@ -73,8 +101,6 @@ const removeReactionRolePair = (i: number) => {
 	$formData.pairs = $formData.pairs.filter((_, index) => index !== i);
 };
 </script>
-
-<SuperDebug data={$formData} />
 
 <form class="stack" method="POST" action="?/save" use:enhance>
   <DashboardCardSideBySide
@@ -127,7 +153,7 @@ const removeReactionRolePair = (i: number) => {
     <div class="max-w-form flow">
       <Fieldset {form} name="pairs">
         {#each $formData.pairs as _, i}
-          <ElementField {form} name="type">
+          <ElementField {form} name="pairs[{i}]">
             <Control
               label="Reaction Role Pair {i + 1}"
               description="When a user reacts to the message with this emoji, they will be given the roles."
@@ -184,6 +210,47 @@ const removeReactionRolePair = (i: number) => {
         bind:embeds={$formData.messageEmbed}
         reactions={$formData.pairs.map((pair) => pair.emoji)}
       />
+    </div>
+  </DashboardCard>
+
+  <DashboardCard
+    title="Type"
+    description="Configure what happens when a member reacts to the message."
+  >
+    <div class="max-w-form">
+      <Fieldset {form} name="type">
+        <RadioGroup bind:value={$formData.type}>
+          {#each types as type}
+            <Control
+              label={type.label}
+              description={type.description}
+              orientation="horizontal"
+            >
+              {#snippet children({ props })}
+                <RadioGroupItem {...props} id={type.value} value={type.value} />
+              {/snippet}
+            </Control>
+          {/each}
+        </RadioGroup>
+      </Fieldset>
+    </div>
+  </DashboardCard>
+
+  <DashboardCard
+    title="Status"
+    description="Paused reaction roles keep their message, but reacting does nothing."
+  >
+    <div class="max-w-form">
+      <Field {form} name="enabled">
+        <Control label="Enabled" screenReaderOnly>
+          {#snippet children({ props })}
+            <div class="cluster gap:-2">
+              <Switch {...props} bind:checked={$formData.enabled} />
+              <p>Give and remove roles when members react</p>
+            </div>
+          {/snippet}
+        </Control>
+      </Field>
     </div>
   </DashboardCard>
 </form>

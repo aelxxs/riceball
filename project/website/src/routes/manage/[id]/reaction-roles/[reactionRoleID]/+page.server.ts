@@ -3,8 +3,9 @@ import { type ReactionRole as ReactionRoleFormData, ReactionRoleSchema } from "@
 import type { Actions } from "@sveltejs/kit";
 import { error, fail } from "@sveltejs/kit";
 import { type APIMessage, Routes } from "discord-api-types/v10";
-import { superValidate } from "sveltekit-superforms";
+import { message, superValidate } from "sveltekit-superforms";
 import { zod4 as zod } from "sveltekit-superforms/adapters";
+import { describeDiscordError, emojiKey, toReactionParam, validateReactionPairs } from "$lib/server/reaction-emoji";
 import type { PageServerLoad } from "./$types";
 
 const resolveReactionRole = async (
@@ -60,60 +61,85 @@ export const actions: Actions = {
 			throw error(404, "Reaction role not found");
 		}
 
-		const { channelId, messageContent, messageEmbed } = form.data;
-		let nextChannelId = reactionRole.channelId;
-		let nextMessageId = reactionRole.messageId;
+		const { channelId, messageContent, messageEmbed, pairs } = form.data;
 
-		if (channelId !== reactionRole.channelId) {
-			const message = (await locals.api.post(Routes.channelMessages(channelId), {
-				body: {
-					content: messageContent,
-					embeds: messageEmbed ? [messageEmbed] : [],
-				},
-			})) as APIMessage;
+		const invalid = validateReactionPairs(pairs);
+		if (invalid) {
+			return message(form, invalid, { status: 400 });
+		}
 
-			nextChannelId = channelId;
-			nextMessageId = message.id;
+		const body = { content: messageContent, embeds: messageEmbed ? [messageEmbed] : [] };
+		const previous = { channelId: reactionRole.channelId, messageId: reactionRole.messageId };
+		const moved = channelId !== previous.channelId;
+		const failedReactions: string[] = [];
+		let nextMessageId = previous.messageId;
 
+		if (moved) {
 			try {
-				await locals.api.delete(Routes.channelMessage(reactionRole.channelId, reactionRole.messageId));
-			} catch {
-				// Ignore failures deleting old message so save can continue.
+				const posted = (await locals.api.post(Routes.channelMessages(channelId), { body })) as APIMessage;
+				nextMessageId = posted.id;
+			} catch (error) {
+				return message(form, `Couldn't send the message: ${describeDiscordError(error)}`, { status: 502 });
+			}
+
+			for (const pair of pairs) {
+				try {
+					await locals.api.put(
+						Routes.channelMessageOwnReaction(channelId, nextMessageId, toReactionParam(pair.emoji)),
+					);
+				} catch (error) {
+					await locals.api.delete(Routes.channelMessage(channelId, nextMessageId)).catch(() => {});
+					return message(form, `Couldn't react with ${pair.emoji}: ${describeDiscordError(error)}`, {
+						status: 502,
+					});
+				}
 			}
 		} else {
-			await locals.api.patch(Routes.channelMessage(reactionRole.channelId, reactionRole.messageId), {
-				body: {
-					content: messageContent,
-					embeds: messageEmbed ? [messageEmbed] : [],
-				},
-			});
-		}
+			try {
+				await locals.api.patch(Routes.channelMessage(channelId, nextMessageId), { body });
+			} catch (error) {
+				return message(form, `Couldn't update the message: ${describeDiscordError(error)}`, { status: 502 });
+			}
 
-		try {
-			await locals.api.delete(Routes.channelMessageAllReactions(nextChannelId, nextMessageId));
-		} catch {
-			// It's fine if there were no previous reactions.
-		}
+			// Only drop reactions for removed emojis so members keep their reactions on unchanged pairs.
+			const kept = new Set(pairs.map((pair) => emojiKey(pair.emoji)));
+			for (const pair of reactionRole.pairs) {
+				if (kept.has(emojiKey(pair.emoji))) continue;
+				await locals.api
+					.delete(Routes.channelMessageReaction(channelId, nextMessageId, toReactionParam(pair.emoji)))
+					.catch(() => {});
+			}
 
-		const emojis = form.data.pairs.map((pair) => pair.emoji).filter((emoji) => emoji.length > 0);
-		await Promise.all(
-			emojis.map((emoji) =>
-				locals.api.put(
-					Routes.channelMessageOwnReaction(nextChannelId, nextMessageId, encodeURIComponent(emoji)),
-				),
-			),
-		);
+			for (const pair of pairs) {
+				try {
+					await locals.api.put(
+						Routes.channelMessageOwnReaction(channelId, nextMessageId, toReactionParam(pair.emoji)),
+					);
+				} catch {
+					failedReactions.push(pair.emoji);
+				}
+			}
+		}
 
 		reactionRole.alias = form.data.alias;
-		reactionRole.channelId = nextChannelId;
+		reactionRole.channelId = channelId;
 		reactionRole.enabled = form.data.enabled;
 		reactionRole.messageContent = form.data.messageContent;
 		reactionRole.messageEmbed = form.data.messageEmbed ?? undefined;
 		reactionRole.messageId = nextMessageId;
-		reactionRole.pairs = form.data.pairs;
+		reactionRole.pairs = pairs;
 		reactionRole.type = form.data.type as ReactionRoleType;
 
 		await database.persist(reactionRole).flush();
+
+		// Deleted only after the new message id is saved, so the bot's cleanup of the old message matches nothing.
+		if (moved) {
+			await locals.api.delete(Routes.channelMessage(previous.channelId, previous.messageId)).catch(() => {});
+		}
+
+		if (failedReactions.length) {
+			return message(form, `Saved, but couldn't react with ${failedReactions.join(" ")}.`, { status: 502 });
+		}
 
 		return { form };
 	},
