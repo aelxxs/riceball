@@ -3,11 +3,13 @@ import type { APIEmbed, Snowflake } from "discord-api-types/v10";
 import { Constants } from "library/common";
 import type { MessagePayload } from "library/core";
 import { type Context, editMessage } from "library/core";
-import { prompt, Validators } from "./prompt";
+import { type PromptResult, prompt, Validators } from "./prompt";
+
+type StepValidator<T> = (input: string) => PromptResult | { success: boolean; value?: T; error?: string };
 
 export interface PromptStep<T = any> {
 	content: MessagePayload;
-	validator: (input: string) => { success: boolean; value?: T; error?: string };
+	validator: StepValidator<T>;
 	onRetry?: (attempt: number, error: string) => MessagePayload;
 	timeout?: number;
 	retries?: number;
@@ -75,7 +77,7 @@ export function promptBoolean(options: PromptStepOptions): PromptStep<boolean> {
  */
 export function promptOptional(
 	options: PromptStepOptions & {
-		validator?: (input: string) => { success: boolean; value?: string; error?: string };
+		validator?: (input: string) => PromptResult;
 	},
 ): PromptStep<string | undefined> {
 	return {
@@ -90,7 +92,7 @@ export function promptOptional(
  */
 export function promptCustom<T>(
 	options: PromptStepOptions & {
-		validator: (input: string) => { success: boolean; value?: T; error?: string };
+		validator: StepValidator<T>;
 	},
 ): PromptStep<T> {
 	return {

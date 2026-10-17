@@ -16,34 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { Economy } from "library/plugins";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
 export default class implements Command {
-	public constructor(@inject(Database) private db: Database) {}
+	public constructor(@inject(Economy) private economy: Economy) {}
 
 	/**
 	 * Autocomplete for the command
 	 *
 	 * @param {Context} context - The context of the command
-	 * @param {string} input - The input of the user
+	 * @param {Options} options - The options of the command
 	 **/
-	public async autocompleteRun({ guild }: Context, input: string) {
-		const transformed = input.toLowerCase().trim();
+	public async autocompleteRun({ guild }: Context, { item }: Options) {
+		const items = await this.economy.searchItems(guild.id, item ?? "", {});
 
-		const items = await this.db.rm.items.find({ guildId: guild.id });
-
-		const filtered = items
-			.filter((item) => item.name.toLowerCase().includes(transformed))
-			.slice(0, 25)
-			.map((item) => ({
-				name: `${item.name}${item.active ? "" : " (Archived)"}`,
-				value: item._id,
-			}));
-
-		return filtered;
+		return items.map((shopItem) => ({
+			name: `${shopItem.name}${shopItem.active ? "" : " (Archived)"}`,
+			value: shopItem._id.toString(),
+		}));
 	}
 
 	/**
@@ -53,16 +46,9 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { item }: Options) {
-		const shopItem = await this.db.rm.items.findOne({ _id: item, guildId: guild.id });
+		const deleted = await this.economy.deleteItem(guild.id, item);
 
-		if (!shopItem) {
-			return "Item not found. Please ensure the item exists in your server's shop.";
-		}
-
-		const itemName = shopItem.name;
-		await this.db.rm.em.removeAndFlush(shopItem);
-
-		return `The shop item \`${itemName}\` has been deleted.`;
+		return `The shop item \`${deleted.name}\` has been deleted and removed from every inventory.`;
 	}
 }
 

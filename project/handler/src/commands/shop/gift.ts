@@ -16,18 +16,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
 import type { APIUser } from "discord-api-types/v10";
 import type { Command, Context } from "library/core";
+import { Economy } from "library/plugins";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Economy) private economy: Economy) {}
+
 	/**
 	 * Autocomplete for the command
 	 *
 	 * @param {Context} context - The context of the command
-	 * @param {string} input - The input of the user
+	 * @param {Options} options - The options of the command
 	 **/
-	public autocompleteRun({ guild }: Context, input: string) {}
+	public autocompleteRun({ guild, author }: Context, { item }: Partial<Record<keyof Options, string>>) {
+		return this.economy.searchInventory(guild.id, author.id, item ?? "");
+	}
 
 	/**
 	 * Gift an item to another user
@@ -35,8 +41,18 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild }: Context, { item, user }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild, author }: Context, { item, user }: Options) {
+		if (user.id === author.id) {
+			throw "You can't gift an item to yourself.";
+		}
+
+		if (user.bot) {
+			throw "You can't gift items to bots.";
+		}
+
+		const gifted = await this.economy.gift(guild.id, author.id, user.id, item);
+
+		return `You gifted \`${gifted.name}\` to <@${user.id}>!`;
 	}
 }
 

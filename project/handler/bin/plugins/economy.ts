@@ -165,6 +165,45 @@ export default {
 					name: "update",
 					type: ApplicationCommandOptionType.Subcommand,
 					description: "Update a shop item",
+					options: [
+						{
+							name: "item",
+							type: ApplicationCommandOptionType.String,
+							description: "The shop item to update",
+							required: true,
+							autocomplete: true,
+						},
+						{
+							name: "name",
+							type: ApplicationCommandOptionType.String,
+							description: "The new name of the item",
+							max_length: 100,
+						},
+						{
+							name: "price",
+							type: ApplicationCommandOptionType.Integer,
+							description: "The new price of the item",
+							min_value: 1,
+						},
+						{
+							name: "stock",
+							type: ApplicationCommandOptionType.Integer,
+							description: "The new stock of the item, -1 for unlimited",
+							min_value: -1,
+						},
+						{
+							name: "description",
+							type: ApplicationCommandOptionType.String,
+							description: "The new description of the item",
+							max_length: 150,
+						},
+						{
+							name: "limit",
+							type: ApplicationCommandOptionType.Integer,
+							description: "How many of this item a member may hold, -1 for unlimited",
+							min_value: -1,
+						},
+					],
 				},
 				{
 					name: "archive",

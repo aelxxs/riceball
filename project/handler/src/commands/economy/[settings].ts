@@ -17,13 +17,16 @@
  **/
 
 import { bold, codeBlock, subtext } from "@discordjs/formatters";
-import { getGuild } from "@riceball/db";
+import { Database } from "@riceball/db";
 import { stripIndents } from "common-tags";
-import { Constants } from "library/common";
 import type { Command, Context } from "library/core";
 import { formatBoolean, formatEconomyRate } from "library/utilities/formatters";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Database) private db: Database) {}
+
 	/**
 	 * View your server's Economy settings
 	 *
@@ -31,29 +34,7 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context) {
-		const { economy } = await getGuild(guild.id);
-
-		// 	economy: {
-		//     enabled: true,
-		//     currencyName: null,
-		//     currencyIcon: '💴',
-		//     inventorySize: 10,
-		//     wagerMin: 1,
-		//     wagerMax: 0,
-		//     dailyRewardMin: 5,
-		//     dailyRewardMax: 25,
-		//     textRateMin: 5,
-		//     textRateMax: 25,
-		//     textCooldown: 25,
-		//     allowNegativeBalance: false,
-		//     negativeBalanceLimit: 0,
-		//     defaultBalance: 0,
-		//     debugMode: false,
-		//     clearOnLeave: false,
-		//     autoUseItems: false,
-		//     roleRestriction: null,
-		//     channelRestriction: null
-		// }
+		const { economy } = await this.db.getGuildSettings(guild.id);
 
 		return {
 			title: "Economy",
@@ -162,7 +143,7 @@ export default class implements Command {
 				{
 					name: "Restrictions",
 					value: stripIndents`
-								${subtext("Allow or deny roles, users, or channels from using the starboard.")}
+								${subtext("Allow or deny roles, users, or channels from using the economy.")}
 								${codeBlock(
 									"yaml",
 									stripIndents`

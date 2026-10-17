@@ -16,17 +16,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import {} from "@riceball/db";
+import { ItemType } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { Economy } from "library/plugins";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Economy) private economy: Economy) {}
+
 	/**
 	 * Autocomplete for the command
 	 *
 	 * @param {Context} context - The context of the command
-	 * @param {string} input - The input of the user
+	 * @param {Options} options - The options of the command
 	 **/
-	public autocompleteRun({ guild }: Context, input: string) {}
+	public autocompleteRun({ guild, author }: Context, { item }: Options) {
+		return this.economy.searchInventory(guild.id, author.id, item ?? "");
+	}
 
 	/**
 	 * Use an item from your inventory
@@ -34,8 +41,19 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {Options} options - The options of the command
 	 **/
-	public chatInputRun({ guild }: Context, { item }: Options) {
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+	public async chatInputRun({ guild, author }: Context, { item }: Options) {
+		const { item: used, remaining } = await this.economy.use(guild.id, author.id, item);
+
+		const reward =
+			used.type === ItemType.ROLES
+				? "Your role(s) have been granted."
+				: used.type === ItemType.BADGE
+					? "The badge has been added to your collection, equip it with `/badge set`."
+					: "";
+
+		const response = used.response?.content ? `\n${used.response.content}` : "";
+
+		return `Used \`${used.name}\`. ${reward} You have ${remaining} left.${response}`;
 	}
 }
 

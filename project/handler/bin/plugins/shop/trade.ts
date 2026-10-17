@@ -18,5 +18,17 @@ export default {
 			required: true,
 			autocomplete: true,
 		},
+		{
+			name: "request",
+			type: ApplicationCommandOptionType.String,
+			description: "An item from their inventory you want in return",
+			autocomplete: true,
+		},
+		{
+			name: "price",
+			type: ApplicationCommandOptionType.Integer,
+			description: "An amount of currency you want in return",
+			min_value: 1,
+		},
 	],
 };
