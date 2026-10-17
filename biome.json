@@ -18,6 +18,8 @@
 			"!**/generated",
 			"!**/build",
 			"!**/node_modules",
+			"!**/.claude",
+			"!**/*.svg",
 			"!**/shared/database/temp/metadata.json"
 		]
 	},
@@ -45,10 +47,15 @@
 			"!**/generated",
 			"!**/build",
 			"!**/node_modules",
+			"!**/.claude",
+			"!**/*.svg",
 			"!**/shared/database/temp/metadata.json"
 		],
 		"rules": {
-			"recommended": true,
+			"preset": "recommended",
+			"style": {
+				"noNonNullAssertion": "warn"
+			},
 			"correctness": {
 				"noUnusedImports": "off",
 				"noUnusedVariables": "off",
