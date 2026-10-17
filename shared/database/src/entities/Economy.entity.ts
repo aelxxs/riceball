@@ -130,10 +130,10 @@ export class Badge {
 @Entity()
 export class Item {
 	@PrimaryKey()
-	_id!: string;
+	_id!: ObjectId;
 
 	@SerializedPrimaryKey()
-	id!: ObjectId;
+	id!: string;
 
 	@Property()
 	guildId!: string;
