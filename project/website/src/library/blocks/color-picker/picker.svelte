@@ -7,7 +7,7 @@ let parent = $state<HTMLDivElement | null>(null);
 
 onMount(() => {
 	let closeButton: HTMLButtonElement | null;
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	// biome-ignore lint/suspicious/noExplicitAny: Coloris is imported dynamically and ships no types
 	let Coloris: any;
 	const init = async () => {
 		Coloris = await import("@melloware/coloris");

@@ -18,10 +18,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	]);
 
 	return {
-		plugins: Object.fromEntries(PLUGIN_KEYS.map((key) => [key, { enabled: settings[key]?.enabled ?? true }])) as Record<
-			PluginKey,
-			{ enabled: boolean }
-		>,
+		plugins: Object.fromEntries(
+			PLUGIN_KEYS.map((key) => [key, { enabled: settings[key]?.enabled ?? true }]),
+		) as Record<PluginKey, { enabled: boolean }>,
 		stats: {
 			membersWithExp,
 			reactionRoleMenus,

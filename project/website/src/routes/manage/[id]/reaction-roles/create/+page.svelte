@@ -35,8 +35,8 @@ const form = superForm(data.form, {
 				break;
 			case "failure":
 				toast.error(
-					updated.message ??
-						(updated.errors.pairs ? "Each reaction needs an emoji and 1 to 5 roles." : "Failed to save settings."),
+					updated.message
+						?? (updated.errors.pairs ? "Each reaction needs an emoji and 1 to 5 roles." : "Failed to save settings."),
 				);
 				break;
 			default:

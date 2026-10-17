@@ -156,7 +156,7 @@ export class Starboard {
 		if (!stars.channelId) return;
 
 		const star = await this.db.rm.stars.findOne({ refMessageId: message.id });
-		if (!star || !star.users.includes(starredByUserId)) {
+		if (!star?.users.includes(starredByUserId)) {
 			return;
 		}
 

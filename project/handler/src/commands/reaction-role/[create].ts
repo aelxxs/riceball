@@ -451,7 +451,7 @@ export default class implements Command {
 		const state = this.states.get(stateKey);
 
 		console.log({ state, stateKey, roleIds });
-		if (!state || !state.lastEmoji) return;
+		if (!state?.lastEmoji) return;
 
 		// Normalize to array
 		const roles = Array.isArray(roleIds) ? roleIds : [roleIds];

@@ -50,7 +50,9 @@ export const actions: Actions = {
 		// Sequential so the reactions appear in the same order as the pairs.
 		for (const pair of pairs) {
 			try {
-				await locals.api.put(Routes.channelMessageOwnReaction(channelId, posted.id, toReactionParam(pair.emoji)));
+				await locals.api.put(
+					Routes.channelMessageOwnReaction(channelId, posted.id, toReactionParam(pair.emoji)),
+				);
 			} catch (error) {
 				await locals.api.delete(Routes.channelMessage(channelId, posted.id)).catch(() => {});
 				return message(form, `Couldn't react with ${pair.emoji}: ${describeDiscordError(error)}`, {
