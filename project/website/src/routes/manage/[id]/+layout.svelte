@@ -2,13 +2,29 @@
 import { CDN } from "@discordjs/rest";
 import { onMount, type Snippet, setContext } from "svelte";
 import { Dashboard } from "$lib/layout/dashboard";
+import type { DashboardGuild } from "$lib/types";
 import { layoutState, setGuild, setGuilds } from "$lib/utility/context.svelte";
 import type { PageProps } from "./$types";
 
 const { data, children }: PageProps & { children: Snippet } = $props();
 
 data.guild.client = data.client;
-setGuild(data.guild);
+
+$effect.pre(() => {
+	data.guild.client = data.client;
+});
+
+// Context is set once, but `data.guild` is replaced whenever the layout reloads (e.g. after a plugin toggle),
+// so forward every read to the latest object; reads made in templates or $derived stay reactive.
+setGuild(
+	new Proxy({} as DashboardGuild, {
+		get: (_, key) => Reflect.get(data.guild, key),
+		set: (_, key, value) => Reflect.set(data.guild, key, value),
+		has: (_, key) => Reflect.has(data.guild, key),
+		ownKeys: () => Reflect.ownKeys(data.guild),
+		getOwnPropertyDescriptor: (_, key) => Reflect.getOwnPropertyDescriptor(data.guild, key),
+	}),
+);
 setGuilds(data.guilds);
 setContext("shake", false);
 

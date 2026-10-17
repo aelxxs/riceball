@@ -17,6 +17,8 @@ export const Constants = {
 		GatewayDispatchEvents.GuildCreate,
 		GatewayDispatchEvents.GuildDelete,
 		GatewayDispatchEvents.GuildUpdate,
+		GatewayDispatchEvents.GuildMemberAdd,
+		GatewayDispatchEvents.GuildMemberRemove,
 		GatewayDispatchEvents.InteractionCreate,
 		GatewayDispatchEvents.MessageCreate,
 		GatewayDispatchEvents.MessageDeleteBulk,

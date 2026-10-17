@@ -1,10 +1,13 @@
 <script lang="ts">
+import type { SubmitFunction } from "@sveltejs/kit";
 import ChevronLeftIcon from "lucide-svelte/icons/chevron-left";
 import MenuIcon from "lucide-svelte/icons/menu";
 import XIconIcon from "lucide-svelte/icons/x";
 import { fade, fly } from "svelte/transition";
 import { MotionSSR as Motion } from "svelte-motion";
-import { enhance } from "$app/forms";
+import { toast } from "svelte-sonner";
+import { applyAction, enhance } from "$app/forms";
+import { invalidateAll } from "$app/navigation";
 import { Button } from "$lib/blocks/button";
 import { Divider } from "$lib/blocks/divider";
 import Switch from "$lib/blocks/switch/switch.svelte";
@@ -12,12 +15,46 @@ import { getAppState, getGuild, layoutState } from "$lib/utility/context.svelte"
 
 const duration = 0.3;
 
+const TOGGLEABLE_PLUGINS = ["levels", "economy", "stars"] as const;
+
+type ToggleablePlugin = (typeof TOGGLEABLE_PLUGINS)[number];
+
 const { plugin, toggleOpen } = $props();
 
 const goBack = () => window.history.back();
 
 const appState = getAppState();
 const guild = getGuild();
+
+const pluginKey = $derived(TOGGLEABLE_PLUGINS.includes(plugin.id) ? (plugin.id as ToggleablePlugin) : undefined);
+
+const enabled = $derived.by(() => {
+	if (!pluginKey) return false;
+	const settings = guild.settings as Partial<Record<ToggleablePlugin, { enabled?: boolean }>>;
+	return settings[pluginKey]?.enabled ?? true;
+});
+
+let pending = $state(false);
+let resetKey = $state(0);
+
+// The action lives on the overview route, so skip applyAction on success to leave this page's form state alone
+const handleToggle: SubmitFunction = () => {
+	pending = true;
+
+	return async ({ result }) => {
+		if (result.type === "success") {
+			await invalidateAll();
+		} else if (result.type === "redirect") {
+			await applyAction(result);
+		} else {
+			resetKey++;
+			const message = result.type === "failure" ? result.data?.message : undefined;
+			toast.error(typeof message === "string" ? message : "Couldn't update the plugin.");
+		}
+
+		pending = false;
+	};
+};
 </script>
 
 <div class="transition-wrapper" class:bg-solid={layoutState.sideBarOpen}>
@@ -125,20 +162,26 @@ const guild = getGuild();
         </div>
 
         <div transition:fade={{ delay: 250 }} style="display: inline-flex;">
-          {#if plugin.id && guild.settings[plugin.id]}
-            {@const enabled = guild.settings[plugin.id].enabled}
+          {#if pluginKey}
             <form
               method="POST"
               action={`/manage/${guild.id}?/togglePlugin`}
-              use:enhance
+              use:enhance={handleToggle}
             >
-              <input type="hidden" name="pluginId" value={plugin.id} />
-              <input type="hidden" name="enabled" value={!enabled} />
+              <input type="hidden" name="pluginId" value={pluginKey} />
+              <input type="hidden" name="enabled" value={String(!enabled)} />
               <div class="cluster">
                 <p class="txt:bold fw:md">
                   {enabled ? "Enabled" : "Disabled"}
                 </p>
-                <Switch checked={enabled} type="submit" />
+                {#key resetKey}
+                  <Switch
+                    checked={enabled}
+                    type="submit"
+                    disabled={pending}
+                    aria-label={`${enabled ? "Disable" : "Enable"} ${plugin.name}`}
+                  />
+                {/key}
               </div>
             </form>
             <!-- {:else}
