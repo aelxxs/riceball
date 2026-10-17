@@ -1,9 +1,3 @@
-@property --space {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: var(--space-s);
-}
-
 .stack {
   --space: var(--space-s);
   /* ↓ The flex context */
