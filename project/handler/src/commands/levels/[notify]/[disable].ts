@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Database } from "@riceball/db";
+import { Database, Destination } from "@riceball/db";
 import type { Command, Context } from "library/core";
 import { inject, injectable } from "tsyringe";
 
@@ -31,7 +31,7 @@ export default class implements Command {
 	 **/
 	public async chatInputRun({ guild }: Context) {
 		await this.db.setGuildSettings(guild.id, {
-			levels: { enabled: false },
+			levels: { notifyDestination: Destination.DISABLED },
 		});
 
 		return "Level up announcements have been disabled.";

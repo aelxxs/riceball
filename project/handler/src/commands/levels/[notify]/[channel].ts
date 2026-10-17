@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Database } from "@riceball/db";
+import { Database, Destination } from "@riceball/db";
 import type { APIPartialChannel } from "discord-api-types/v10";
 import type { Command, Context } from "library/core";
 import { inject, injectable } from "tsyringe";
@@ -33,7 +33,7 @@ export default class implements Command {
 	 **/
 	public async chatInputRun({ guild }: Context, { channel }: Options) {
 		await this.db.setGuildSettings(guild.id, {
-			levels: { notifyChannel: channel.id },
+			levels: { notifyDestination: Destination.CUSTOM_CHANNEL, notifyChannel: channel.id },
 		});
 
 		return `The announcement channel has been set to <#${channel.id}>`;

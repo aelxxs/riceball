@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Database } from "@riceball/db";
+import { Database, Destination } from "@riceball/db";
 import type { Command, Context } from "library/core";
 import { inject, injectable } from "tsyringe";
 
@@ -30,8 +30,12 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ guild }: Context) {
+		const { levels } = await this.db.getGuildSettings(guild.id);
+
 		await this.db.setGuildSettings(guild.id, {
-			levels: { enabled: true },
+			levels: {
+				notifyDestination: levels.notifyChannel ? Destination.CUSTOM_CHANNEL : Destination.ACTIVE_CHANNEL,
+			},
 		});
 
 		return "Level up announcements have been enabled.";

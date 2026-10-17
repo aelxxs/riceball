@@ -19,6 +19,7 @@
 import { join } from "node:path";
 import { abbreviateNumber, composeLevelCard } from "@riceball/colorify";
 import { Database } from "@riceball/db";
+import type { CardWithRelations } from "@riceball/db/zod";
 import { Canvas, loadFont, loadImage, registerFont } from "canvas-constructor/napi-rs";
 import type { APIGuild, APIUser } from "discord-api-types/v10";
 import type Redis from "ioredis";
@@ -88,7 +89,7 @@ export default class implements Command {
 			progressBarColor,
 			textColor,
 			subtextColor,
-		} = composeLevelCard(card);
+		} = composeLevelCard(card as CardWithRelations);
 
 		const [avatar, icon, background, flag] = await Promise.all([
 			loadImage(getUserAvatar(user)),

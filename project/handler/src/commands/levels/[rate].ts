@@ -31,14 +31,13 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { type, rate, cooldown }: Options) {
-		const cooldownInMs = cooldown * 1000;
-
 		switch (type) {
 			case "message":
 				await this.db.setGuildSettings(guild.id, {
 					levels: {
 						textRateMin: rate,
-						textCooldown: cooldownInMs,
+						textRateMax: rate,
+						textCooldown: cooldown,
 					},
 				});
 				break;
@@ -46,7 +45,8 @@ export default class implements Command {
 				await this.db.setGuildSettings(guild.id, {
 					levels: {
 						voiceRateMin: rate,
-						voiceCooldown: cooldownInMs,
+						voiceRateMax: rate,
+						voiceCooldown: cooldown,
 					},
 				});
 				break;

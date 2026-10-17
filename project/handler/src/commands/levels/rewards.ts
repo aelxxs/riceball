@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-// import { getLevelingRewards } from "@riceball/db";
+import { roleMention } from "@discordjs/formatters";
 import { stripIndents } from "common-tags";
 import { type Command, type Context, getGuildIcon } from "library/core";
 import { Levels } from "library/plugins";
@@ -32,32 +32,32 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ guild }: Context) {
-		// const rewards = await getLevelingRewards(guild.id);
-		// return {
-		// 	embeds: [
-		// 		{
-		// 			thumbnail: {
-		// 				url: getGuildIcon(guild),
-		// 			},
-		// 			author: {
-		// 				name: `${guild.name} – Rewards`,
-		// 				icon_url: getGuildIcon(guild),
-		// 			},
-		// 			description: stripIndents`
-		// 				\`\`\`
-		// 				Viewing Leveling Rewards
-		// 				\`\`\`
-		// 				> ${rewards.length === 0 ? "No rewards have been set up yet." : ""}
-		// 			`,
-		// 			fields: rewards.map((reward) => ({
-		// 				name: `${reward.level} – ${this.levels.totalXpReq(reward.level)} exp.`,
-		// 				value: `> ${reward.roles.map((role) => `<@&${role}>`).join(" ")}`,
-		// 			})),
-		// 			footer: {
-		// 				text: "Rice Ball – Rewards",
-		// 			},
-		// 		},
-		// 	],
-		// };
+		const rewards = await this.levels.getRewards(guild.id);
+		const icon = getGuildIcon(guild);
+
+		return {
+			embeds: [
+				{
+					thumbnail: icon ? { url: icon } : undefined,
+					author: {
+						name: `${guild.name} – Rewards`,
+						icon_url: icon,
+					},
+					description: stripIndents`
+						\`\`\`
+						Viewing Leveling Rewards
+						\`\`\`
+						${rewards.length === 0 ? "> No rewards have been set up yet." : ""}
+					`,
+					fields: rewards.slice(0, 25).map((reward) => ({
+						name: `Level ${reward.level} – ${this.levels.totalXpReq(reward.level).toLocaleString()} exp.`,
+						value: `> ${reward.roles.map((role) => roleMention(role)).join(" ")}`,
+					})),
+					footer: {
+						text: "Rice Ball – Rewards",
+					},
+				},
+			],
+		};
 	}
 }

@@ -17,30 +17,36 @@
  **/
 
 import type { Command, Context } from "library/core";
+import { Levels } from "library/plugins";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Levels) private levels: Levels) {}
+
 	public async autocompleteRun({ guild }: Context) {
-		// const rewards = await getLevelingRewards(guild.id);
-		// return rewards.map((reward) => ({
-		// 	name: `Level ${reward.level}`,
-		// 	value: `${reward.level}`,
-		// }));
+		const rewards = await this.levels.getRewards(guild.id);
+
+		return rewards.slice(0, 25).map(({ level, roles }) => ({
+			name: `Level ${level} (${roles.length} ${roles.length === 1 ? "role" : "roles"})`,
+			value: level,
+		}));
 	}
 
 	/**
 	 * Remove a reward from the leveling rewards list
 	 *
 	 * @param {Context} context - The context of the command
-	 * @param {Options} options - The options of the command`
+	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { level }: Options) {
-		try {
-			// await deleteLevelingReward(guild.id, level);
+		const removed = await this.levels.removeReward(guild.id, level);
 
-			return `Successfully removed the reward for level \`${level}\`.`;
-		} catch {
+		if (!removed) {
 			throw `No reward was found for level \`${level}\`.`;
 		}
+
+		return `Successfully removed the reward for level \`${level}\`.`;
 	}
 }
 

@@ -16,12 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-// import { createLevelingReward } from "@riceball/db";
-import { logger } from "@riceball/logger";
 import type { APIRole } from "discord-api-types/v10";
 import type { Command, Context } from "library/core";
+import { Levels } from "library/plugins";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export default class implements Command {
+	public constructor(@inject(Levels) private levels: Levels) {}
+
 	/**
 	 * Add a reward to the leveling rewards list
 	 *
@@ -29,14 +32,17 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { level, reward }: Options) {
-		try {
-			// await createLevelingReward(guild.id, level, reward.id);
-
-			return `Users will now receive the <@&${reward.id}> role at level \`${level}\`.`;
-		} catch (error) {
-			logger.error(error);
-			throw `A reward already exists at level \`${level}\`.`;
+		if (reward.id === guild.id) {
+			throw "The `@everyone` role cannot be used as a reward.";
 		}
+
+		if (reward.managed) {
+			throw "Managed roles cannot be used as rewards.";
+		}
+
+		await this.levels.addReward(guild.id, level, reward.id);
+
+		return `Users will now receive the <@&${reward.id}> role at level \`${level}\`.`;
 	}
 }
 
