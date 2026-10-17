@@ -15,9 +15,8 @@ FROM base AS builder
     RUN apk update
     RUN apk add --no-cache libc6-compat
 
-    RUN pnpm add -g turbo
     COPY . .
-    RUN turbo prune handler --docker
+    RUN pnpm dlx turbo@2.9.14 prune handler --docker
 
 # ================= #
 #  Installer Stage  #
