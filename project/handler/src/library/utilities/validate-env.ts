@@ -1,6 +1,6 @@
 import { logger } from "@riceball/logger";
 
-const envVars = ["DISCORD_TOKEN", "REDIS_URL", "MONGO_URL", "WEBSITE_GROUP", "DISCORD_GROUP", "GATEWAY_GROUP"];
+const envVars = ["DISCORD_TOKEN", "REDIS_URL", "MONGO_URL", "WEBSITE_GROUP", "GATEWAY_GROUP"];
 
 export const validateEnv = () => {
 	const missing = [];

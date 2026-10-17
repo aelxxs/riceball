@@ -34,3 +34,7 @@ vite.config.ts.timestamp-*
 
 **/metadata.json
 temp/**
+
+# local tooling
+.claude/
+.playwright-mcp/

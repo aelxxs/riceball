@@ -18,7 +18,6 @@ const start = async () => {
 	const redis = new RedisClient(Constants.RedisURL);
 
 	const gateway = new Redis(Constants.GatewayGroup, redis);
-	const discord = new Redis(Constants.DiscordGroup, redis);
 	const website = new Redis(Constants.WebsiteGroup, redis);
 
 	website.subscribe(Constants.WebsiteEvents);
@@ -46,7 +45,7 @@ const start = async () => {
 	void handle();
 	loadCanvasFonts();
 
-	return { gateway, discord };
+	return { gateway };
 };
 
 const gracefulShutdown = async (gateway: Redis) => {
@@ -59,8 +58,7 @@ const gracefulShutdown = async (gateway: Redis) => {
 
 try {
 	logger.info("Starting");
-	start().then(async ({ gateway, discord }) => {
-		logger.info(`Discord Broker: (redis ${discord.redis.status})`);
+	start().then(async ({ gateway }) => {
 		logger.info(`Gateway Broker: (redis ${gateway.redis.status})`);
 		logger.info(`Subscribed to ${Constants.GatewayEvents.length} Events`);
 		logger.info("Handler Service Started");

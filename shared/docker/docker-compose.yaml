@@ -31,16 +31,6 @@ services:
         condition: service_healthy
     restart: on-failure
 
-  proxy:
-    image: spectacles/proxy
-    container_name: proxy
-    environment:
-      REDIS_URL: redis:6379
-    depends_on:
-      redis:
-        condition: service_healthy
-    restart: on-failure
-
   redis:
     container_name: redis
     image: redis:alpine
