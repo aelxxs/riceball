@@ -33,7 +33,7 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ author }: Context) {
-		const { cardPresets } = await this.db.getUserSettings(author.id);
+		const cardPresets = await this.db.getCardPresets(author.id);
 
 		if (cardPresets.length < 1) {
 			throw "You don't have any presets saved. Please save one first.";

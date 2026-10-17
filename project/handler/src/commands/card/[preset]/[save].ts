@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { CardPreset, Database } from "@riceball/db";
+import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
 import { inject, injectable } from "tsyringe";
 
@@ -35,7 +35,7 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild, author }: Context, { name, description, public: isPublic }: Options) {
-		const { cardPresets } = await this.db.getUserSettings(author.id);
+		const cardPresets = await this.db.getCardPresets(author.id);
 		const { card } = await this.db.getMemberSettings(guild.id, author.id);
 
 		const preset = cardPresets.find((preset) => preset.name === name);
@@ -48,17 +48,11 @@ export default class implements Command {
 			throw "You have reached the maximum number of presets. Please delete one to create a new one.";
 		}
 
-		const newPreset = this.db.rm.cardPresets.create({
-			id: crypto.randomUUID(),
+		await this.db.createCardPreset(author.id, {
 			name,
-			description: description ?? null,
-			public: isPublic ?? false,
+			description,
+			public: isPublic,
 			card,
-			user: author.id,
-		});
-
-		await this.db.setUserSettings(author.id, {
-			cardPresets: [...cardPresets, newPreset],
 		});
 
 		return "Your preset has been saved successfully!";

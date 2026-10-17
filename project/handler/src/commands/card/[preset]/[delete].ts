@@ -35,10 +35,10 @@ export default class implements Command {
 	 * @param {string} input - The input of the user
 	 **/
 	public async autocompleteRun({ author }: Context, { name }: Options) {
-		const { cardPresets } = await this.db.getUserSettings(author.id);
+		const cardPresets = await this.db.getCardPresets(author.id);
 
 		if (name.length < 1) {
-			return cardPresets.map((preset) => ({
+			return cardPresets.slice(0, 25).map((preset) => ({
 				name: preset.name,
 				value: preset.id,
 			}));
@@ -46,6 +46,7 @@ export default class implements Command {
 
 		return cardPresets
 			.filter((preset) => preset.name.toLowerCase().includes(name.toLowerCase()))
+			.slice(0, 25)
 			.map((preset) => ({
 				name: preset.name,
 				value: preset.id,
@@ -59,15 +60,11 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ author }: Context, { name: id }: Options) {
-		const { cardPresets } = await this.db.getUserSettings(author.id);
-
-		const presetToDelete = cardPresets.find((preset) => preset.id === id);
+		const presetToDelete = await this.db.deleteCardPreset(author.id, id);
 
 		if (!presetToDelete) {
 			throw "This preset does not exist.";
 		}
-
-		this.db.em.remove(presetToDelete).flush();
 
 		return `Sucessfully deleted preset **${presetToDelete.name}**!`;
 	}

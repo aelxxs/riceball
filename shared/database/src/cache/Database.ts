@@ -1,8 +1,10 @@
-import type { EntityManager } from "@mikro-orm/mongodb";
+import { type EntityManager, wrap } from "@mikro-orm/mongodb";
 import { inject, injectable } from "tsyringe";
+import type { Card } from "../entities/Card.entity.js";
+import { CardPreset } from "../entities/CardPreset.entity.js";
 import type { Guild } from "../entities/Guild.entity.js";
 import type { Member } from "../entities/Member.entity.js";
-import type { User } from "../entities/User.entity.js";
+import { User } from "../entities/User.entity.js";
 import type { RepositoryManager } from "../repositories/RepositoryManager.js";
 import { Deps } from "../utils/constants.js";
 import type { Payload } from "../utils/types.js";
@@ -56,6 +58,41 @@ export class Database {
 	 */
 	public invalidateMemberSettings(guildId: string, memberIds: string[]): Promise<void> {
 		return this.cache.members.delete(memberIds.map((memberId) => makeKey(guildId, memberId)));
+	}
+
+	// Presets are a relation on User, so they never appear in the cached user settings
+	public async getCardPresets(userId: string) {
+		const presets = await this.em.fork().find(CardPreset, { user: userId }, { orderBy: { createdAt: "asc" } });
+		return presets.map((preset) => wrap(preset).toObject());
+	}
+
+	public async createCardPreset(
+		userId: string,
+		data: { name: string; description?: string | null; public?: boolean; card: Card },
+	) {
+		await this.getUserSettings(userId);
+
+		const em = this.em.fork();
+		const preset = em.create(CardPreset, {
+			name: data.name,
+			description: data.description ?? undefined,
+			public: data.public ?? false,
+			card: data.card,
+			user: em.getReference(User, userId),
+		});
+
+		await em.persist(preset).flush();
+		return wrap(preset).toObject();
+	}
+
+	public async deleteCardPreset(userId: string, presetId: string) {
+		const em = this.em.fork();
+		const preset = await em.findOne(CardPreset, { id: presetId, user: userId });
+		if (!preset) return null;
+
+		const removed = wrap(preset).toObject();
+		await em.remove(preset).flush();
+		return removed;
 	}
 }
 
