@@ -16,10 +16,10 @@ export class GuildSettingsCache extends BaseSettingsCache<Guild> {
 	}
 
 	protected async load(key: string): Promise<Guild> {
-		let guild = await this.db.guilds.findOne({ id: key });
+		let guild = await this.db.guilds.findOne({ _id: key });
 
 		if (!guild) {
-			guild = this.db.guilds.create({ id: key });
+			guild = this.db.guilds.create({ _id: key });
 			await this.db.em.persist(guild).flush();
 		}
 
