@@ -14,140 +14,83 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  // ========================================
-  // THEME BASE - Change these to customize your entire site!
-  // ========================================
-  --theme-hue: 235deg;               // Primary hue (0-360): 235=indigo, 200=cyan, 280=purple, 340=pink
-  --theme-saturation: 45%;           // Color intensity (0-100%)
-  --theme-saturation-high: calc(var(--theme-saturation) * 2);
+  // Near-neutral cool grey; color comes from accents, not surfaces
+  --theme-hue: 228deg;
+  --theme-saturation: 9%;
+  --theme-saturation-high: 62%;
 
-  // Secondary theme colors (different hues for variety)
-  --theme-hue-secondary: 330deg;     // For pink/secondary accents
-  --theme-hue-accent: 265deg;        // For purple/accent colors
+  --theme-hue-secondary: 330deg;
+  --theme-hue-accent: 265deg;
 
-  // ========================================
-  // ORIGINAL THEME VARIABLES (HSL-based)
-  // ========================================
-  --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 64%);
-  --clr-theme-2-translucent: hsl(
-    var(--theme-hue),
-    var(--theme-saturation-high),
-    64%,
-    0.25
-  );
+  --clr-theme-2: hsl(var(--theme-hue), var(--theme-saturation-high), 67%);
+  --clr-theme-2-translucent: hsl(var(--theme-hue), var(--theme-saturation-high), 67%, 0.2);
 
-  --clr-theme-error: hsl(0, var(--theme-saturation-high), 60%);
-  --clr-theme-error-transparent: #4b2833;
+  --clr-theme-error: hsl(0deg, 72%, 66%);
+  --clr-theme-error-transparent: hsl(0deg, 45%, 22%);
 
-  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 6%);
-  --clr-bg-translucent: hsl(
-    var(--theme-hue),
-    var(--theme-saturation),
-    10%,
-    0.7
-  );
+  // Surfaces step up in lightness: page → card → input → raised
+  --clr-bg: hsl(var(--theme-hue), var(--theme-saturation), 10%);
+  --clr-bg-translucent: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.8);
+  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 13%);
+  --clr-bg-accent-secondary: hsl(var(--theme-hue), var(--theme-saturation), 19%);
 
-  --clr-bg-accent: hsl(var(--theme-hue), var(--theme-saturation), 9%);
-  --clr-bg-accent-secondary: hsl(
-    var(--theme-hue),
-    var(--theme-saturation),
-    20%
-  );
+  --clr-shadow: hsl(var(--theme-hue), 20%, 3%, 0.45);
 
-  --clr-shadow: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.4);
+  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 16%);
+  --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 27%);
+  --clr-bg-input-hover: hsl(var(--theme-hue), var(--theme-saturation), 19%);
+  --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 21%);
+  --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 20%);
+  --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 26%);
+  --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 32%);
+  --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 67%);
+  --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 67%;
+  --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 19%);
 
-  --clr-bg-input: hsl(var(--theme-hue), var(--theme-saturation), 13%);
-  --clr-bg-input-light: hsl(var(--theme-hue), var(--theme-saturation), 32%);
-  --clr-bg-input-hover: hsl(var(--theme-hue), var(--theme-saturation), 22%);
-  --clr-bg-input-active: hsl(var(--theme-hue), var(--theme-saturation), 17%);
-  --clr-bg-border: hsl(var(--theme-hue), var(--theme-saturation), 16%);
-  --clr-bg-border-strong: hsl(var(--theme-hue), var(--theme-saturation), 28%);
-  --clr-bg-border-light: hsl(var(--theme-hue), var(--theme-saturation), 35%);
-  --clr-bg-border-hover: hsl(var(--theme-hue) var(--theme-saturation-high) 64%);
-  --clr-bg-border-hover-hsl: var(--theme-hue) var(--theme-saturation-high) 64%;
-  --clr-bg-invert: hsl(var(--theme-hue), var(--theme-saturation), 17%);
+  --txt-bold: hsl(var(--theme-hue), 14%, 95%);
+  --txt-main: hsl(var(--theme-hue), 10%, 80%);
+  --txt-themed: hsl(var(--theme-hue), 75%, 77%);
+  --txt-muted: hsl(var(--theme-hue), 8%, 63%);
 
-  --txt-bold: hsl(var(--theme-hue), var(--theme-saturation), 92%);
-  --txt-main: hsl(var(--theme-hue), var(--theme-saturation), 75%);
-  --txt-themed: hsl(
-    var(--theme-hue),
-    calc(var(--theme-saturation-high) - 8%),
-    70%
-  );
-  --txt-muted: hsl(var(--theme-hue), var(--theme-saturation), 72%, 0.85);
+  --clr-primary: hsl(var(--theme-hue), var(--theme-saturation-high), 67%);
+  --clr-secondary: hsl(var(--theme-hue-secondary), 55%, 70%);
+  --clr-accent: hsl(var(--theme-hue-accent), 55%, 72%);
+  --clr-neutral: hsl(var(--theme-hue), 10%, 72%);
+  --clr-cyan: hsl(185deg, 60%, 72%);
 
-  // Theme colors for gradients (derived from base hue)
-  --clr-primary: hsl(var(--theme-hue), var(--theme-saturation-high), 60%);
-  --clr-secondary: hsl(var(--theme-hue-secondary), var(--theme-saturation-high), 60%);
-  --clr-accent: hsl(var(--theme-hue-accent), var(--theme-saturation-high), 65%);
-  --clr-neutral: hsl(var(--theme-hue), 15%, 73%);
-  --clr-cyan: hsl(185deg, 85%, 82%);
+  --gradient-primary: var(--clr-primary);
+  --gradient-hero: var(--clr-primary);
+  --gradient-stat: var(--clr-secondary);
 
-  // Gradients - uses theme hues for consistent styling
-  --gradient-primary: linear-gradient(135deg,
-    hsl(var(--theme-hue), var(--theme-saturation-high), 60%),
-    hsl(var(--theme-hue-accent), var(--theme-saturation-high), 65%)
-  );
-  --gradient-hero: linear-gradient(135deg,
-    hsl(var(--theme-hue), var(--theme-saturation-high), 60%),
-    hsl(var(--theme-hue-secondary), var(--theme-saturation-high), 60%),
-    hsl(var(--theme-hue-accent), var(--theme-saturation-high), 65%)
-  );
-  --gradient-stat: linear-gradient(135deg,
-    hsl(var(--theme-hue), var(--theme-saturation-high), 60%),
-    hsl(var(--theme-hue-secondary), var(--theme-saturation-high), 60%)
-  );
+  --gradient-orb-primary: none;
+  --gradient-orb-secondary: none;
+  --gradient-orb-accent: none;
 
-  // Radial gradients for orbs and glows
-  --gradient-orb-primary: radial-gradient(circle,
-    hsl(var(--theme-hue), var(--theme-saturation-high), 60%),
-    transparent
-  );
-  --gradient-orb-secondary: radial-gradient(circle,
-    hsl(var(--theme-hue-secondary), var(--theme-saturation-high), 60%),
-    transparent
-  );
-  --gradient-orb-accent: radial-gradient(circle,
-    hsl(var(--theme-hue-accent), var(--theme-saturation-high), 65%),
-    transparent
-  );
+  --shadow-glow-sm: 0 2px 8px hsl(var(--theme-hue), 20%, 3%, 0.35);
+  --shadow-glow-md: 0 6px 16px hsl(var(--theme-hue), 20%, 3%, 0.4);
+  --shadow-glow-lg: 0 12px 28px hsl(var(--theme-hue), 20%, 3%, 0.45);
 
-  // Shadows - glowy drop shadows with theme colors
-  --shadow-glow-sm: 0 10px 20px hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.2);
-  --shadow-glow-md: 0 20px 40px hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.3);
-  --shadow-glow-lg: 0 30px 60px hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.4);
+  // Solid surfaces; translucent indigo here is what made cards look blue
+  --glass-bg-subtle: hsl(var(--theme-hue), var(--theme-saturation), 13%);
+  --glass-bg-light: hsl(var(--theme-hue), var(--theme-saturation), 16%);
+  --glass-bg-medium: hsl(var(--theme-hue), var(--theme-saturation), 18%);
+  --glass-bg-strong: hsl(var(--theme-hue), var(--theme-saturation), 21%);
 
-  // Glass/Card backgrounds with theme tint
-  --glass-bg-subtle: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.05);
-  --glass-bg-light: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.1);
-  --glass-bg-medium: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.15);
-  --glass-bg-strong: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.2);
+  --glass-border-subtle: 1px solid hsl(0deg 0% 100% / 0.05);
+  --glass-border-light: 1px solid hsl(0deg 0% 100% / 0.07);
+  --glass-border-medium: 1px solid hsl(0deg 0% 100% / 0.09);
+  --glass-border-strong: 1px solid hsl(0deg 0% 100% / 0.13);
+  --glass-border-hover: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 67%, 0.55);
 
-  // Borders with theme colors
-  --glass-border-subtle: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.1);
-  --glass-border-light: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.2);
-  --glass-border-medium: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.3);
-  --glass-border-strong: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.4);
-  --glass-border-hover: 1px solid hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.5);
+  --cursor-glow: none;
 
-  // Cursor glow effect
-  --cursor-glow: radial-gradient(circle,
-    hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.15),
-    transparent
-  );
+  --grid-pattern: none;
 
-  // Grid pattern
-  --grid-pattern:
-    linear-gradient(0deg, hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.05) 1px, transparent 1px);
+  --navbar-bg: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.85);
+  --navbar-bg-solid: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.97);
+  --navbar-border: hsl(0deg 0% 100% / 0.07);
 
-  // Navbar
-  --navbar-bg: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.8);
-  --navbar-bg-solid: hsl(var(--theme-hue), var(--theme-saturation), 10%, 0.95);
-  --navbar-border: hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.1);
-
-  // Pulse animation color
-  --pulse-color: hsl(var(--theme-hue), var(--theme-saturation-high), 60%);
+  --pulse-color: var(--clr-primary);
 
   // layout
   --header-height: clamp(3.25rem, 10vw, 3.85rem);

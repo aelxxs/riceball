@@ -175,11 +175,7 @@ let open = $state(false);
 
   .extended-info-content {
     background-color: var(--clr-bg-accent-secondary);
-    background-image: linear-gradient(
-      135deg,
-      var(--glass-bg-light),
-      var(--glass-bg-subtle)
-    );
+    background: var(--glass-bg-light);
     border: var(--glass-border-medium);
     color: var(--txt-main);
     max-width: 45ch;
@@ -209,11 +205,7 @@ let open = $state(false);
 
   .content {
     --border-radius: 0;
-    background: linear-gradient(
-      135deg,
-      var(--glass-bg-light),
-      var(--glass-bg-subtle)
-    );
+    background: var(--glass-bg-light);
     --padding: var(--space-xs);
     backdrop-filter: blur(5rem);
     width: calc(var(--bits-select-anchor-width));
@@ -284,16 +276,9 @@ let open = $state(false);
     }
 
     &.active {
-      transform: scale(1.025);
-      background: linear-gradient(
-        135deg,
-        var(--glass-bg-light),
-        var(--glass-bg-subtle)
-      );
+      background: var(--glass-bg-light);
       border: var(--glass-border-medium);
       color: var(--txt-bold);
-      box-shadow: 0 2px 8px
-        hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.15);
     }
 
     &.active.secondary {

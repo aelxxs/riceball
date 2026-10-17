@@ -1,6 +1,5 @@
 <script lang="ts">
 import type { Snippet } from "svelte";
-import { onMount } from "svelte";
 import { Toaster } from "svelte-sonner";
 import { navigating, page } from "$app/state";
 import PageHeader from "$lib/blocks/page-header/page-header.svelte";
@@ -18,24 +17,6 @@ const guild = getGuild();
 const guilds = getGuilds();
 
 const sections = generateSidebarRoutes(guild.id);
-
-let particles: Array<{
-	id: number;
-	x: number;
-	y: number;
-	size: number;
-	duration: number;
-}> = [];
-
-onMount(() => {
-	particles = Array.from({ length: 8 }, (_, i) => ({
-		id: i,
-		x: Math.random() * 100,
-		y: Math.random() * 100,
-		size: Math.random() * 3 + 1,
-		duration: Math.random() * 25 + 20,
-	}));
-});
 
 const getCurrentPlugin = () => {
 	const basePathname = page.url.pathname.split("/").slice(0, 4).join("/");
@@ -104,25 +85,6 @@ const toggleOpen = () => {
 
 <PageHeader />
 
-<!-- Animated Background -->
-<div class="background">
-  <div class="gradient-orb orb-1"></div>
-  <div class="gradient-orb orb-2"></div>
-
-  <!-- Particles -->
-  <div class="particles-container">
-    {#each particles as particle (particle.id)}
-      <div
-        class="particle"
-        style="--x: {particle.x}%; --y: {particle.y}%; --size: {particle.size}px; --duration: {particle.duration}s"
-      ></div>
-    {/each}
-  </div>
-
-  <!-- Grid -->
-  <div class="grid"></div>
-</div>
-
 <div class="with-sidebar">
   <div id="sidebar" class:open={layoutState.sideBarOpen}>
     <Sidebar {guild} {guilds} {plugin} />
@@ -151,74 +113,6 @@ const toggleOpen = () => {
 </div>
 
 <style>
-  .background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-
-  .gradient-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.15;
-    animation: float 25s ease-in-out infinite;
-  }
-
-  .orb-1 {
-    width: 500px;
-    height: 500px;
-    background: var(--gradient-orb-primary);
-    top: -150px;
-    right: -150px;
-    animation-delay: 0s;
-  }
-
-  .orb-2 {
-    width: 400px;
-    height: 400px;
-    background: var(--gradient-orb-accent);
-    bottom: -100px;
-    left: 10%;
-    animation-delay: -10s;
-  }
-
-  .particles-container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-  .particle {
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    width: var(--size);
-    height: var(--size);
-    background: radial-gradient(
-      circle,
-      hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.4),
-      transparent
-    );
-    border-radius: 50%;
-    animation: float var(--duration) ease-in-out infinite;
-    opacity: 0.3;
-  }
-
-  .grid {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: var(--grid-pattern);
-    background-size: 60px 60px;
-    opacity: 0.8;
-  }
-
   @keyframes shake {
     0% {
       transform: translate(1px, 1px) rotate(0deg);
@@ -252,19 +146,6 @@ const toggleOpen = () => {
     }
     100% {
       transform: translate(1px, -2px) rotate(-1deg);
-    }
-  }
-
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0px) translateX(0px);
-    }
-    33% {
-      transform: translateY(-30px) translateX(20px);
-    }
-    66% {
-      transform: translateY(20px) translateX(-20px);
     }
   }
 
@@ -353,9 +234,7 @@ const toggleOpen = () => {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: var(--gradient-primary);
-    box-shadow: 0 0 20px
-      hsl(var(--theme-hue), var(--theme-saturation-high), 60%, 0.5);
+    background: var(--clr-primary);
     animation: bounce 1.4s ease-in-out infinite;
   }
 

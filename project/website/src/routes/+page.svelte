@@ -235,8 +235,8 @@ function handleFeatureClick(feature: string) {
     width: 100%;
     min-height: 100vh;
     overflow-x: hidden;
-    background: #0a0e27;
-    color: #fff;
+    background: var(--clr-bg);
+    color: var(--txt-main);
   }
 
   .navbar {
@@ -268,7 +268,7 @@ function handleFeatureClick(feature: string) {
     text-decoration: none;
     font-weight: 700;
     font-size: 1.25rem;
-    color: white;
+    color: var(--txt-bold);
     transition: opacity 0.3s ease;
 
     img {
