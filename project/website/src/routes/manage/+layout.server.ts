@@ -1,20 +1,16 @@
 import type { REST } from "@discordjs/rest";
-import { type APIApplication, type RESTGetAPICurrentUserGuildsResult, Routes } from "discord-api-types/v10";
+import { type APIApplication, Routes } from "discord-api-types/v10";
+import { canManageGuild, getUserGuilds } from "$lib/server/permissions";
 import type { ManagedGuild } from "$lib/types";
 import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	const [userGuilds, client] = await Promise.all([
-		locals.userApi.get(Routes.userGuilds(), {
-			authPrefix: "Bearer",
-		}) as Promise<RESTGetAPICurrentUserGuildsResult>,
+		getUserGuilds(locals.userApi, locals.session.accessToken),
 		locals.api.get(Routes.currentApplication()) as Promise<APIApplication>,
 	]);
 
-	// Filter guilds with manage permissions first
-	const guildsWithManagePerms = userGuilds.filter((guild) => {
-		return BigInt(guild.permissions) & BigInt(1 << 5);
-	});
+	const guildsWithManagePerms = userGuilds.filter(canManageGuild);
 
 	// Check bot presence in all managed guilds in parallel
 	const riceballChecks = await Promise.all(guildsWithManagePerms.map((guild) => botInGuild(locals.api, guild.id)));

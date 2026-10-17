@@ -2,9 +2,10 @@ import "reflect-metadata";
 
 import { REST } from "@discordjs/rest";
 import { container, Database, setupDatabase } from "@riceball/db";
-import { type Handle, redirect } from "@sveltejs/kit";
+import { error, type Handle, redirect } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import { env } from "$env/dynamic/private";
+import { canManageGuild, getUserGuilds } from "$lib/server/permissions";
 import { handle as authenticationHandle } from "./auth";
 
 const authorizationHandle: Handle = async ({ event, resolve }) => {
@@ -31,6 +32,17 @@ const authorizationHandle: Handle = async ({ event, resolve }) => {
 
 		event.locals.userApi = new REST().setToken(session.accessToken);
 		event.locals.session = session;
+
+		const guildId = pathname.match(/^\/manage\/(\d{17,20})(?:\/|$)/)?.[1];
+
+		if (guildId) {
+			const guilds = await getUserGuilds(event.locals.userApi, session.accessToken);
+			const guild = guilds.find(({ id }) => id === guildId);
+
+			if (!guild || !canManageGuild(guild)) {
+				error(403, "You don't have permission to manage this server.");
+			}
+		}
 	}
 
 	return resolve(event);
