@@ -1,12 +1,11 @@
 import type { Opt } from "@mikro-orm/core";
 import { Entity, OneToMany, PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/decorators/legacy";
-import type { ObjectId } from "@mikro-orm/mongodb";
 import { CardPreset } from "./CardPreset.entity.js";
 
 @Entity()
 export class User {
 	@PrimaryKey()
-	_id!: ObjectId;
+	_id!: string;
 
 	@SerializedPrimaryKey()
 	id!: string;

@@ -12,8 +12,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (!session?.user) {
 		throw redirect(303, "/");
 	}
-	// Discord user ID is in the sub claim or id field
-	const userId = (session.user as any).sub || (session.user as any).id || session.user.email;
+	const userId = session.user.id;
 
 	if (!userId) {
 		throw redirect(303, "/");
@@ -73,7 +72,7 @@ export const actions: Actions = {
 		if (!session?.user) {
 			throw redirect(303, "/");
 		}
-		const userId = (session.user as any).sub || (session.user as any).id || session.user.email;
+		const userId = session.user.id;
 
 		if (!userId) {
 			throw redirect(303, "/");

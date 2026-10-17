@@ -38,6 +38,9 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 			if (token.accessToken) {
 				session.accessToken = token.accessToken;
 			}
+			if (token.sub) {
+				session.user.id = token.sub;
+			}
 			return session;
 		},
 	},
