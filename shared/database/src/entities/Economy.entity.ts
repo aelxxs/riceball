@@ -40,6 +40,9 @@ export class Economy {
 	dailyRewardMax = 25;
 
 	@Property()
+	dailyCooldown = 86400;
+
+	@Property()
 	textRateMin = 5;
 
 	@Property()

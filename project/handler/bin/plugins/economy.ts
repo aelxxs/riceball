@@ -130,7 +130,117 @@ export default {
 						{
 							name: "cooldown",
 							type: ApplicationCommandOptionType.String,
-							description: "The daily cooldown",
+							description: "The daily cooldown, e.g. 24h or 1d (a plain number is read as hours)",
+							required: true,
+						},
+					],
+				},
+			],
+		},
+		{
+			name: "balance",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Manage member balances",
+			options: [
+				{
+					name: "give",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Add currency to a member's balance",
+					options: [
+						{
+							name: "user",
+							type: ApplicationCommandOptionType.User,
+							description: "The member to give currency to",
+							required: true,
+						},
+						{
+							name: "amount",
+							type: ApplicationCommandOptionType.Integer,
+							description: "The amount to give",
+							required: true,
+							min_value: 1,
+							max_value: 1_000_000_000,
+						},
+					],
+				},
+				{
+					name: "remove",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Remove currency from a member's balance",
+					options: [
+						{
+							name: "user",
+							type: ApplicationCommandOptionType.User,
+							description: "The member to remove currency from",
+							required: true,
+						},
+						{
+							name: "amount",
+							type: ApplicationCommandOptionType.Integer,
+							description: "The amount to remove",
+							required: true,
+							min_value: 1,
+							max_value: 1_000_000_000,
+						},
+					],
+				},
+				{
+					name: "set",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Set a member's balance",
+					options: [
+						{
+							name: "user",
+							type: ApplicationCommandOptionType.User,
+							description: "The member whose balance to set",
+							required: true,
+						},
+						{
+							name: "amount",
+							type: ApplicationCommandOptionType.Integer,
+							description: "The new balance",
+							required: true,
+							min_value: -1_000_000_000,
+							max_value: 1_000_000_000,
+						},
+					],
+				},
+				{
+					name: "starting",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Set the balance new members start with",
+					options: [
+						{
+							name: "amount",
+							type: ApplicationCommandOptionType.Integer,
+							description: "The starting balance",
+							required: true,
+							min_value: 0,
+							max_value: 1_000_000_000,
+						},
+					],
+				},
+			],
+		},
+		{
+			name: "reset",
+			type: ApplicationCommandOptionType.SubcommandGroup,
+			description: "Reset economy data",
+			options: [
+				{
+					name: "server",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset every member's balance, inventory and badges",
+				},
+				{
+					name: "user",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Reset a user's balance, inventory and badges",
+					options: [
+						{
+							name: "user",
+							type: ApplicationCommandOptionType.User,
+							description: "The user to reset",
 							required: true,
 						},
 					],

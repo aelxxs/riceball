@@ -553,6 +553,7 @@ export const EconomySchema = z.object({
 	wagerMax: z.number().int(),
 	dailyRewardMin: z.number().int(),
 	dailyRewardMax: z.number().int(),
+	dailyCooldown: z.number().int().default(86400),
 	textRateMin: z.number().int(),
 	textRateMax: z.number().int(),
 	textCooldown: z.number().int(),

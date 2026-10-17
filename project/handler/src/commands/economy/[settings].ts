@@ -21,6 +21,7 @@ import { Database } from "@riceball/db";
 import { stripIndents } from "common-tags";
 import type { Command, Context } from "library/core";
 import { formatBoolean, formatEconomyRate } from "library/utilities/formatters";
+import ms from "ms";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -83,7 +84,7 @@ export default class implements Command {
 							economy.dailyRewardMin === economy.dailyRewardMax
 								? economy.dailyRewardMin.toString()
 								: `${economy.dailyRewardMin}–${economy.dailyRewardMax}`,
-						)}
+						)} every ${ms((economy.dailyCooldown > 0 ? economy.dailyCooldown : 86400) * 1000, { long: true })}
 					`,
 				},
 

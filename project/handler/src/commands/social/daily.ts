@@ -18,46 +18,46 @@
 
 import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { Economy } from "library/plugins";
 import ms from "ms";
 import { inject, injectable } from "tsyringe";
 
-const ONE_DAY = 86400000;
+const DEFAULT_DAILY_COOLDOWN = 86400;
 
 @injectable()
 export default class implements Command {
-	public db: Database;
+	public constructor(
+		@inject(Database) private db: Database,
+		@inject(Economy) private economy: Economy,
+	) {}
 
-	public constructor(@inject(Database) db: Database) {
-		this.db = db;
-	} /**
+	/**
 	 * Claim your daily reward
 	 *
 	 * @param {Context} context - The context of the command
 	 **/
 	public async chatInputRun({ author, guild }: Context) {
-		const { lastDaily, bal } = await this.db.getMemberSettings(guild.id, author.id);
+		const economy = await this.economy.getSettings(guild.id);
+		const { lastDaily } = await this.db.getMemberSettings(guild.id, author.id);
+
+		// Settings cached before dailyCooldown existed won't have it
+		const cooldown = (economy.dailyCooldown > 0 ? economy.dailyCooldown : DEFAULT_DAILY_COOLDOWN) * 1000;
 
 		const now = Date.now();
-		const dif = now - lastDaily;
+		const elapsed = now - lastDaily;
 
-		if (dif >= ONE_DAY) {
-			const { economy } = await this.db.getGuildSettings(guild.id);
-			const { dailyRewardMin, dailyRewardMax } = economy;
-
-			const reward = Math.floor(Math.random() * (dailyRewardMax - dailyRewardMin + 1)) + dailyRewardMin;
-
-			await this.db.setMemberSettings(guild.id, author.id, {
-				bal: bal + reward,
-				lastDaily: now,
-			});
-
-			return `You claimed your daily reward of \`${reward.toLocaleString()}\` ${
-				economy.currencyIcon
-			}! You now have a balance of \`${(bal + reward).toLocaleString()}\` ${economy.currencyIcon}`;
+		if (elapsed < cooldown) {
+			throw `You can claim your daily reward in \`${ms(cooldown - elapsed, { long: true })}\`!`;
 		}
 
-		const timeLeft = ONE_DAY - dif;
+		const { dailyRewardMin, dailyRewardMax } = economy;
+		const reward = Math.floor(Math.random() * (dailyRewardMax - dailyRewardMin + 1)) + dailyRewardMin;
 
-		throw `You can claim your daily reward in \`${ms(timeLeft, { long: true })}\`!`;
+		await this.db.setMemberSettings(guild.id, author.id, { lastDaily: now });
+		const bal = await this.economy.giveBalance(guild.id, author.id, reward);
+
+		return `You claimed your daily reward of \`${reward.toLocaleString()}\` ${
+			economy.currencyIcon
+		}! You now have a balance of \`${bal.toLocaleString()}\` ${economy.currencyIcon}`;
 	}
 }

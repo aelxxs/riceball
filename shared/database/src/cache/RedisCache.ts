@@ -25,4 +25,10 @@ export class RedisCache<T> {
 	public async set(key: string, value: T): Promise<void> {
 		await this.redis.set(key, JSON.stringify(value), "EX", EXPIRE);
 	}
+
+	public async delete(keys: string[]): Promise<void> {
+		for (let i = 0; i < keys.length; i += 1000) {
+			await this.redis.unlink(...keys.slice(i, i + 1000));
+		}
+	}
 }

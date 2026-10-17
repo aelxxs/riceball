@@ -35,7 +35,11 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild, author }: Context, { user }: Options) {
-		const { bal } = await this.db.getMemberSettings(guild.id, author.id);
+		if (user?.bot) {
+			throw "Bots don't have a balance.";
+		}
+
+		const { bal } = await this.db.getMemberSettings(guild.id, user?.id ?? author.id);
 		const { economy } = await this.db.getGuildSettings(guild.id);
 
 		return `${user ? `${user.username} has` : "You have"} a balance of **${bal.toLocaleString()}** ${

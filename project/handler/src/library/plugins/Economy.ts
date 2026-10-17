@@ -10,13 +10,18 @@ import {
 	ItemType,
 	Member,
 } from "@riceball/db";
-import { Routes, type Snowflake } from "discord-api-types/v10";
+import { type GatewayMessageCreateDispatchData, Routes, type Snowflake } from "discord-api-types/v10";
+import type Redis from "ioredis";
 import { Deps } from "library/common";
 import { container, inject, injectable } from "tsyringe";
+import { Levels } from "./Levels";
 
 type EntityManager = Database["em"];
 
 const OBJECT_ID = /^[a-f\d]{24}$/i;
+
+const textCurrencyCooldownKey = (guildId: Snowflake, userId: Snowflake) =>
+	`text-currency-cooldown:${guildId}:${userId}` as const;
 
 // Item documents are mutated from short-lived transaction forks, so always re-read them.
 const FIND_OPTIONS = { orderBy: { price: "asc" }, refresh: true } as const;
@@ -65,9 +70,11 @@ export interface TradeOffer {
 @injectable()
 export class Economy {
 	private readonly db: Database;
+	private readonly redis: Redis;
 
-	public constructor(@inject(Database) db: Database) {
+	public constructor(@inject(Database) db: Database, @inject(Deps.Redis) redis: Redis) {
 		this.db = db;
+		this.redis = redis;
 	}
 
 	public async getSettings(guildId: Snowflake): Promise<EconomySettings> {
@@ -85,6 +92,112 @@ export class Economy {
 		return economy.currencyIconLocation === CurrencyIconLocation.RIGHT
 			? `${value} ${economy.currencyIcon}`
 			: `${economy.currencyIcon} ${value}`;
+	}
+
+	/**
+	 * The lowest balance a member may be left with when currency is taken from them.
+	 */
+	public balanceFloor(economy: EconomySettings) {
+		return economy.allowNegativeBalance ? -Math.abs(economy.negativeBalanceLimit ?? 0) : 0;
+	}
+
+	/**
+	 * Pays the author of a guild message for chatting, at most once per the configured text cooldown.
+	 */
+	public async giveTextCurrency(message: GatewayMessageCreateDispatchData) {
+		if (!message.guild_id || !message.member) return;
+
+		const guildId = message.guild_id;
+		const { economy } = await this.db.getGuildSettings(guildId);
+
+		if (!economy.enabled) return;
+		if (Levels.isRestricted(economy, message.channel_id, message.member.roles)) return;
+
+		const min = Math.max(0, economy.textRateMin ?? 0);
+		const max = Math.max(min, economy.textRateMax ?? min);
+
+		if (max === 0) return;
+
+		const cooldown = Math.max(1, Math.round(economy.textCooldown ?? 25));
+		const cooldownKey = textCurrencyCooldownKey(guildId, message.author.id);
+
+		// SET NX doubles as the cooldown check so concurrent messages can't both earn currency
+		const acquired = await this.redis.set(cooldownKey, "1", "EX", cooldown, "NX");
+		if (!acquired) return;
+
+		const amount = min + Math.floor(Math.random() * (max - min + 1));
+		if (amount === 0) return;
+
+		await this.updateBalance(guildId, message.author.id, (bal) => bal + amount);
+	}
+
+	public giveBalance(guildId: Snowflake, userId: Snowflake, amount: number) {
+		return this.updateBalance(guildId, userId, (bal) => bal + amount);
+	}
+
+	public async removeBalance(guildId: Snowflake, userId: Snowflake, amount: number) {
+		const { economy } = await this.db.getGuildSettings(guildId);
+		const floor = this.balanceFloor(economy);
+
+		return this.updateBalance(guildId, userId, (bal) => {
+			if (bal - amount >= floor) return bal - amount;
+
+			const removable = Math.max(0, bal - floor);
+
+			throw removable > 0
+				? `That would take their balance below ${this.formatCurrency(economy, floor)}. You can remove at most ${this.formatCurrency(economy, removable)}.`
+				: `Their balance can't go any lower than ${this.formatCurrency(economy, floor)}.`;
+		});
+	}
+
+	public async setBalance(guildId: Snowflake, userId: Snowflake, amount: number) {
+		const { economy } = await this.db.getGuildSettings(guildId);
+		const floor = this.balanceFloor(economy);
+
+		if (amount < floor) {
+			throw `A balance can't be lower than ${this.formatCurrency(economy, floor)}.`;
+		}
+
+		return this.updateBalance(guildId, userId, () => amount);
+	}
+
+	/**
+	 * Reset a member's balance to the starting balance and clear their inventory and badges.
+	 */
+	public async resetMember(guildId: Snowflake, userId: Snowflake) {
+		const exists = await this.db.rm.members.count({ guildId, userId });
+
+		if (!exists) {
+			throw "That user has no economy data in this server.";
+		}
+
+		const { economy } = await this.db.getGuildSettings(guildId);
+
+		await this.db.setMemberSettings(guildId, userId, {
+			bal: economy.defaultBalance,
+			inventory: [],
+			badges: [],
+		});
+	}
+
+	/**
+	 * Reset every member's balance to the starting balance and clear all inventories and badges.
+	 * @returns How many members were reset
+	 */
+	public async resetGuild(guildId: Snowflake) {
+		const { economy } = await this.db.getGuildSettings(guildId);
+		const em = this.db.em.fork({ clear: true });
+
+		await em.nativeUpdate(Member, { guildId }, { bal: economy.defaultBalance, inventory: [], badges: [] });
+
+		// The bulk update bypasses the member cache, so drop every cached member of the guild
+		const members = await em.find(Member, { guildId }, { fields: ["userId"], disableIdentityMap: true });
+		await this.db.invalidateMemberSettings(
+			guildId,
+			members.map(({ userId }) => userId),
+		);
+
+		return members.length;
 	}
 
 	public fetchItems(guildId: Snowflake) {
@@ -414,6 +527,20 @@ export class Economy {
 		await Promise.all(
 			members.map((member) => this.db.setMemberSettings(guildId, member.userId, { inventory: member.inventory })),
 		);
+	}
+
+	private async updateBalance(guildId: Snowflake, userId: Snowflake, update: (bal: number) => number) {
+		await this.db.getMemberSettings(guildId, userId);
+
+		const bal = await this.transaction(async (em) => {
+			const member = await em.findOneOrFail(Member, { guildId, userId });
+			member.bal = update(member.bal);
+			return member.bal;
+		});
+
+		await this.db.setMemberSettings(guildId, userId, { bal });
+
+		return bal;
 	}
 
 	private transaction<T>(cb: (em: EntityManager) => Promise<T>) {

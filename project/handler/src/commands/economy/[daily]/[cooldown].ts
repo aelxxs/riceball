@@ -18,7 +18,11 @@
 
 import { Database } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import ms from "ms";
 import { inject, injectable } from "tsyringe";
+
+const MIN_COOLDOWN = 60;
+const MAX_COOLDOWN = 30 * 24 * 60 * 60;
 
 @injectable()
 export default class implements Command {
@@ -31,24 +35,24 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { cooldown }: Options) {
-		// Convert hours to milliseconds
-		const hours = Number.parseInt(cooldown, 10);
+		const input = cooldown.trim();
+		// A bare number is read as hours, matching the command's original behaviour
+		const millis = /^\d+(\.\d+)?$/.test(input) ? Number(input) * 60 * 60 * 1000 : ms(input as ms.StringValue);
+		const seconds = Math.round(millis / 1000);
 
-		if (Number.isNaN(hours) || hours < 0) {
-			return "Invalid cooldown value. Please provide a positive number of hours.";
+		if (!Number.isFinite(seconds) || seconds < MIN_COOLDOWN || seconds > MAX_COOLDOWN) {
+			throw "Please provide a cooldown between 1 minute and 30 days, e.g. `24h`, `12h` or `1d`.";
 		}
 
-		const cooldownMs = hours * 60 * 60 * 1000;
-
 		await this.db.setGuildSettings(guild.id, {
-			economy: { textCooldown: cooldownMs },
+			economy: { dailyCooldown: seconds },
 		});
 
-		return `The daily cooldown has been set to ${hours} hour${hours !== 1 ? "s" : ""}.`;
+		return `The daily cooldown has been set to ${ms(seconds * 1000, { long: true })}.`;
 	}
 }
 
 interface Options {
-	/* The daily cooldown */
+	/* The daily cooldown, e.g. 24h or 1d */
 	cooldown: string;
 }

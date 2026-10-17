@@ -1,5 +1,6 @@
 import type { Redis } from "ioredis";
 import { inject, injectable } from "tsyringe";
+import { Guild } from "../entities/Guild.entity.js";
 import type { Member } from "../entities/Member.entity.js";
 import type { RepositoryManager } from "../repositories/RepositoryManager.js";
 import { Deps } from "../utils/constants.js";
@@ -21,7 +22,8 @@ export class MemberSettingsCache extends BaseSettingsCache<Member> {
 		let member = await this.db.members.findOne({ userId, guildId });
 
 		if (!member) {
-			member = this.db.members.create({ userId, guildId });
+			const guild = await this.db.em.findOne(Guild, { id: guildId }, { disableIdentityMap: true });
+			member = this.db.members.create({ userId, guildId, bal: guild?.economy?.defaultBalance ?? 0 });
 			await this.db.em.persist(member).flush();
 		}
 

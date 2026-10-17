@@ -50,6 +50,13 @@ export class Database {
 	public setMemberSettings(guildId: string, memberId: string, value: Payload<Member>): Promise<void> {
 		return this.cache.members.write(makeKey(guildId, memberId), value);
 	}
+
+	/**
+	 * Drop cached settings for members whose documents were changed outside the cache, e.g. by a bulk update.
+	 */
+	public invalidateMemberSettings(guildId: string, memberIds: string[]): Promise<void> {
+		return this.cache.members.delete(memberIds.map((memberId) => makeKey(guildId, memberId)));
+	}
 }
 
 const makeKey = (guildId: string, memberId: string): string => {
