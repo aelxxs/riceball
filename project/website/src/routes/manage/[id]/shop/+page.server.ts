@@ -35,9 +35,11 @@ const toShopItem = (item: Item): ShopItem => ({
 	active: item.active,
 });
 
+const OBJECT_ID = /^[0-9a-f]{24}$/i;
+
 const findItem = (db: Database, guildId: string, id: unknown) => {
-	if (typeof id !== "string" || !id) return null;
-	return db.rm.items.findOne({ _id: id, guildId });
+	if (typeof id !== "string" || !OBJECT_ID.test(id)) return null;
+	return db.rm.items.findOne({ id, guildId });
 };
 
 /**

@@ -104,7 +104,7 @@ export class Economy {
 	 */
 	public async fetchItem(guildId: Snowflake, idOrName: string, em: EntityManager = this.db.rm.em) {
 		if (OBJECT_ID.test(idOrName)) {
-			const item = await em.findOne(Item, { _id: idOrName, guildId }, { refresh: true });
+			const item = await em.findOne(Item, { id: idOrName, guildId }, { refresh: true });
 			if (item) return item;
 		}
 
@@ -221,7 +221,7 @@ export class Economy {
 		}
 
 		const items = await this.db.rm.items.find(
-			{ guildId, _id: { $in: inventory.map((entry) => entry.itemId) } },
+			{ guildId, id: { $in: inventory.map((entry) => entry.itemId) } },
 			{ refresh: true },
 		);
 		const byId = new Map(items.map((item) => [item._id.toString(), item]));
