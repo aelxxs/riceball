@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Database } from "@riceball/db";
+import { Database, ReactionRole } from "@riceball/db";
 import type { Command, Context } from "library/core";
 import { inject, injectable } from "tsyringe";
 
@@ -31,7 +31,8 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { message }: Options) {
-		const reactionRole = await this.db.rm.reactionRoles.findOne({
+		const em = this.db.rm.em.fork();
+		const reactionRole = await em.findOne(ReactionRole, {
 			guildId: guild.id,
 			messageId: message,
 		});
@@ -41,7 +42,7 @@ export default class implements Command {
 		}
 
 		const alias = reactionRole.alias;
-		await this.db.rm.em.removeAndFlush(reactionRole);
+		await em.remove(reactionRole).flush();
 
 		return `Successfully deleted reaction role message \`${alias}\`.`;
 	}

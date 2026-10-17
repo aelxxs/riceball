@@ -17,16 +17,16 @@
  **/
 
 import { roleMention } from "@discordjs/formatters";
-import type { REST } from "@discordjs/rest";
-import { Database, DiscordEmbed, ReactionRoleType } from "@riceball/db";
+import { Database, DiscordEmbed, ReactionRole, ReactionRoleType } from "@riceball/db";
 import { stripIndents } from "common-tags";
-import type { APIEmbed, APIEmoji, Snowflake } from "discord-api-types/v10";
-import { ComponentType, Routes } from "discord-api-types/v10";
-import { Constants, Deps } from "library/common";
+import type { APIEmbed, GatewayMessageReactionAddDispatchData, Snowflake } from "discord-api-types/v10";
+import { ComponentType } from "discord-api-types/v10";
+import { Constants } from "library/common";
 import { actionRow, button, select } from "library/components";
 import type { Command, Component, Context } from "library/core";
-import { editMessage, send, update } from "library/core";
+import { addReaction, editMessage, send, update } from "library/core";
 import { ReactionCollector } from "library/core/collectors/ReactionCollector";
+import { ReactionRoles } from "library/plugins/ReactionRoles";
 import { cancelable, PromptResponse } from "library/utilities/prompt";
 import { promptCustom, runPrompts } from "library/utilities/prompt-generator";
 import { inject, injectable } from "tsyringe";
@@ -50,12 +50,10 @@ interface ReactionRoleState {
 @injectable()
 export default class implements Command {
 	private db: Database;
-	private rest: REST;
 	private states = new Map<string, ReactionRoleState>();
 
-	public constructor(@inject(Database) db: Database, @inject(Deps.Rest) rest: REST) {
+	public constructor(@inject(Database) db: Database) {
 		this.db = db;
-		this.rest = rest;
 	}
 
 	/**
@@ -203,7 +201,7 @@ export default class implements Command {
 
 	private async *promptMessageDetails(embed: APIEmbed, stateKey: string): AsyncGenerator<any, boolean, any> {
 		// Prompt for title and description
-		const messageContent = yield promptCustom<{ title: string; description: string }>({
+		const messageContent: { title: string; description: string } = yield promptCustom({
 			content: stripIndents`
 				📝 | What would you like the reaction menu to say?
 
@@ -239,7 +237,7 @@ export default class implements Command {
 		});
 
 		// Prompt for color
-		const color: number = yield promptCustom<number>({
+		const color: number = yield promptCustom({
 			content:
 				"🎨 | What color would you like the embed to have? Provide a hex code (e.g., `#5865F2`) or `random`.",
 			validator: cancelable((input: string) => {
@@ -269,7 +267,7 @@ export default class implements Command {
 
 		// Prompt for alias
 		const suggestedAlias = state.title!.toLowerCase().replace(/\s+/g, "-");
-		const alias: string = yield promptCustom<string>({
+		const alias: string = yield promptCustom({
 			content: `🏷️ | What alias would you like to use? This is used to identify the reaction role menu.\n\n**Suggested:** \`${suggestedAlias}\``,
 			validator: cancelable((input: string) => {
 				const cleaned = input.toLowerCase().replace(/\s+/g, "-");
@@ -490,9 +488,8 @@ export default class implements Command {
 
 		const collector = new ReactionCollector(
 			i,
-			(reaction) => {
-				return reaction.user_id === userId;
-			},
+			// The collector is typed with APIEmoji but receives the raw reaction dispatch.
+			(reaction) => (reaction as unknown as GatewayMessageReactionAddDispatchData).user_id === userId,
 			{
 				timeout: 300000, // 5 minutes
 				max: 1,
@@ -565,15 +562,9 @@ export default class implements Command {
 			return;
 		}
 
-		// Apply reactions to the message via REST API
-		await Promise.all(
-			mergedPairs.map((pair) =>
-				this.rest.put(
-					Routes.channelMessageOwnReaction(state.channel!, message.id, encodeURIComponent(pair.emoji)),
-					{ body: undefined },
-				),
-			),
-		);
+		for (const pair of mergedPairs) {
+			await addReaction(state.channel!, message.id, ReactionRoles.toReactionParam(pair.emoji));
+		}
 
 		// Save to database
 		const embedEntity = new DiscordEmbed();
@@ -581,7 +572,8 @@ export default class implements Command {
 		embedEntity.description = description;
 		embedEntity.color = state.color!;
 
-		const reactionRole = this.db.rm.reactionRoles.create({
+		const em = this.db.rm.em.fork();
+		const reactionRole = em.create(ReactionRole, {
 			guildId: guild.id,
 			channelId: state.channel!,
 			messageId: message.id,
@@ -592,7 +584,7 @@ export default class implements Command {
 			enabled: true,
 			pairs: mergedPairs,
 		});
-		await this.db.em.persist(reactionRole).flush();
+		await em.persist(reactionRole).flush();
 
 		// Success message
 		await update(ctx.i, {

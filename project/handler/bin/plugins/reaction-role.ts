@@ -14,7 +14,7 @@ export default {
 				{
 					name: "message",
 					type: ApplicationCommandOptionType.String,
-					description: "The message to add the reaction role to",
+					description: "The ID or link of the message to add the reaction role to",
 					required: true,
 				},
 				{

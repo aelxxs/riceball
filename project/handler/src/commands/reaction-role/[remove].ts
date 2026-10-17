@@ -16,8 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Database } from "@riceball/db";
+import { Database, ReactionRole } from "@riceball/db";
 import type { Command, Context } from "library/core";
+import { ReactionRoles } from "library/plugins/ReactionRoles";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -31,7 +32,8 @@ export default class implements Command {
 	 * @param {Options} options - The options of the command
 	 **/
 	public async chatInputRun({ guild }: Context, { message, emoji }: Options) {
-		const reactionRole = await this.db.rm.reactionRoles.findOne({
+		const em = this.db.rm.em.fork();
+		const reactionRole = await em.findOne(ReactionRole, {
 			guildId: guild.id,
 			messageId: message,
 		});
@@ -40,14 +42,15 @@ export default class implements Command {
 			return "Reaction role message not found. Please ensure the message ID is correct.";
 		}
 
-		const pairIndex = reactionRole.pairs.findIndex((pair) => pair.emoji === emoji);
+		const key = ReactionRoles.emojiKey(emoji);
+		const pairIndex = reactionRole.pairs.findIndex((pair) => ReactionRoles.emojiKey(pair.emoji) === key);
 
 		if (pairIndex === -1) {
 			return `The emoji ${emoji} is not configured as a reaction role on this message.`;
 		}
 
-		reactionRole.pairs.splice(pairIndex, 1);
-		await this.db.rm.em.flush();
+		reactionRole.pairs = reactionRole.pairs.filter((_, index) => index !== pairIndex);
+		await em.flush();
 
 		if (reactionRole.pairs.length === 0) {
 			return `Removed ${emoji} from \`${reactionRole.alias}\`. This was the last reaction role, consider deleting the message.`;

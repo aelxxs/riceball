@@ -3,7 +3,9 @@ import { logger } from "@riceball/logger";
 import {
 	type APIChannel,
 	type APIGuild,
+	type APIGuildMember,
 	type APIMessage,
+	type APIRole,
 	type APIUser,
 	Routes,
 	type Snowflake,
@@ -141,6 +143,47 @@ export async function getMessage(channel: Snowflake, message: Snowflake) {
 	await redis.set(`API:message:${channel}:${message}`, JSON.stringify(msg));
 
 	return msg as APIMessage;
+}
+
+export async function getMember(guildId: Snowflake, userId: Snowflake) {
+	const rest = container.resolve<REST>(Deps.Rest);
+	return (await rest.get(Routes.guildMember(guildId, userId))) as APIGuildMember;
+}
+
+export async function getGuildRoles(guildId: Snowflake) {
+	const rest = container.resolve<REST>(Deps.Rest);
+	return (await rest.get(Routes.guildRoles(guildId))) as APIRole[];
+}
+
+export function addMemberRole(guildId: Snowflake, userId: Snowflake, roleId: Snowflake, reason?: string) {
+	const rest = container.resolve<REST>(Deps.Rest);
+	return rest.put(Routes.guildMemberRole(guildId, userId, roleId), { reason });
+}
+
+export function removeMemberRole(guildId: Snowflake, userId: Snowflake, roleId: Snowflake, reason?: string) {
+	const rest = container.resolve<REST>(Deps.Rest);
+	return rest.delete(Routes.guildMemberRole(guildId, userId, roleId), { reason });
+}
+
+export function setMemberRoles(guildId: Snowflake, userId: Snowflake, roles: Snowflake[], reason?: string) {
+	const rest = container.resolve<REST>(Deps.Rest);
+	return rest.patch(Routes.guildMember(guildId, userId), { body: { roles }, reason });
+}
+
+/**
+ * @param emoji - A unicode emoji or a custom emoji in `name:id` form.
+ */
+export function addReaction(channelId: Snowflake, messageId: Snowflake, emoji: string) {
+	const rest = container.resolve<REST>(Deps.Rest);
+	return rest.put(Routes.channelMessageOwnReaction(channelId, messageId, encodeURIComponent(emoji)));
+}
+
+/**
+ * @param emoji - A unicode emoji or a custom emoji in `name:id` form.
+ */
+export function removeUserReaction(channelId: Snowflake, messageId: Snowflake, emoji: string, userId: Snowflake) {
+	const rest = container.resolve<REST>(Deps.Rest);
+	return rest.delete(Routes.channelMessageUserReaction(channelId, messageId, encodeURIComponent(emoji), userId));
 }
 
 export function getGuildIcon(guild: APIGuild) {
