@@ -22,6 +22,8 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 	trustHost: true,
 	providers: [
 		Discord({
+			// Discord now sends `iss` on the callback (RFC 9207); without this Auth.js expects its "https://authjs.dev" placeholder
+			issuer: "https://discord.com",
 			authorization: { params: { scope } },
 		}),
 	],
