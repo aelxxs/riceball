@@ -34,6 +34,7 @@ export const Constants = {
 	],
 	MongoURL: process.env.MONGO_URL ?? "mongodb://localhost:27017",
 	RedisURL: process.env.REDIS_URL ?? "localhost",
+	SupportURL: process.env.SUPPORT_SERVER_URL ?? "https://discord.gg/AuWCjAb",
 	Emoji: {
 		Disabled: formatEmoji("1337095456727236640"),
 		Enabled: formatEmoji("1337095458232729692"),

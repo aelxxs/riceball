@@ -17,7 +17,7 @@
  **/
 
 import { bold, channelMention, codeBlock, subtext } from "@discordjs/formatters";
-import { Database, type Levels } from "@riceball/db";
+import { Database, Destination, type Levels } from "@riceball/db";
 import { stripIndents } from "common-tags";
 import { ButtonStyle, ComponentType, TextInputStyle } from "discord-api-types/v10";
 import { actionRow, button, modal, select } from "library/components";
@@ -96,7 +96,7 @@ export default class implements Command {
 		};
 	};
 
-	public selectSetting: Component = async (ctx: Context, [setting]) => {
+	public selectSetting: Component = async (ctx: Context, setting) => {
 		switch (setting) {
 			case "enabled":
 				return this.editBoolean(ctx, setting as keyof Levels as string);
@@ -106,7 +106,7 @@ export default class implements Command {
 			case "notify":
 				return this.editSubSettings(ctx, setting);
 			case "notifyEnabled":
-				return this.editBoolean(ctx, "enabled");
+				return this.editNotifyEnabled(ctx);
 			case "notifyChannel":
 				return this.selectChannel(ctx, "notifyChannel");
 			case "notifyMessage":
@@ -117,7 +117,7 @@ export default class implements Command {
 		}
 	};
 
-	public editMessage: Component = async (ctx: Context, [message]) => {
+	public editMessage: Component = async (ctx: Context, message) => {
 		await this.db.setGuildSettings(ctx.guild.id, {
 			levels: { notifyMessageContent: message },
 		});
@@ -198,11 +198,14 @@ export default class implements Command {
 		};
 	};
 
-	public editChannel: Component = async (ctx: Context, [channel, json]) => {
+	public editChannel: Component = async (ctx: Context, channel, json) => {
 		const { setting } = JSON.parse(json);
 
 		await this.db.setGuildSettings(ctx.guild.id, {
-			levels: { [setting]: channel },
+			levels:
+				setting === "notifyChannel"
+					? { notifyDestination: Destination.CUSTOM_CHANNEL, notifyChannel: channel }
+					: { [setting]: channel },
 		});
 
 		return this.editSettings(ctx);
@@ -236,7 +239,7 @@ export default class implements Command {
 		};
 	};
 
-	public toggleSetting: Component = async (ctx: Context, [json]) => {
+	public toggleSetting: Component = async (ctx: Context, json) => {
 		const { setting, value } = JSON.parse(json);
 
 		await this.db.setGuildSettings(ctx.guild.id, {
@@ -246,7 +249,46 @@ export default class implements Command {
 		return this.editSettings(ctx);
 	};
 
-	public generateEmbed(levels: Levels, setting: keyof Levels | null = null) {
+	public editNotifyEnabled: Component = async ({ guild }: Context) => {
+		const { levels } = await this.db.getGuildSettings(guild.id);
+
+		const { text, emoji } = formatBooleanForButton(levels.notifyDestination !== Destination.DISABLED);
+
+		return {
+			embeds: [this.generateEmbed(levels, "notify")],
+			components: [
+				actionRow({
+					command: "levels/settings",
+					components: [
+						button({
+							method: this.toggleNotify,
+							label: text,
+							emoji: emoji.id
+								? { id: emoji.id, name: emoji.name ?? undefined, animated: emoji.animated }
+								: undefined,
+						}),
+					],
+				}),
+			],
+		};
+	};
+
+	// mirrors /levels notify enable and disable, which only change where announcements are sent
+	public toggleNotify: Component = async (ctx: Context) => {
+		const { levels } = await this.db.getGuildSettings(ctx.guild.id);
+
+		let notifyDestination = Destination.DISABLED;
+
+		if (levels.notifyDestination === Destination.DISABLED) {
+			notifyDestination = levels.notifyChannel ? Destination.CUSTOM_CHANNEL : Destination.ACTIVE_CHANNEL;
+		}
+
+		await this.db.setGuildSettings(ctx.guild.id, { levels: { notifyDestination } });
+
+		return this.editSettings(ctx);
+	};
+
+	public generateEmbed(levels: Levels, setting: string | null = null) {
 		const embed = {
 			title: "Levels",
 			description: stripIndents`
@@ -282,16 +324,14 @@ export default class implements Command {
 				},
 				{
 					__id: "notify",
-					name: formatBoolean(levels.enabled),
+					name: formatBoolean(levels.notifyDestination !== Destination.DISABLED),
 					value: "",
 					inline: true,
 				},
 				{
 					__id: "notify",
 					value: "",
-					name: `${"Send to"} ${
-						levels.notifyChannel ? channelMention(levels.notifyChannel as string) : "Current Channel"
-					}`,
+					name: `Send to ${this.formatDestination(levels)}`,
 					inline: true,
 				},
 				{
@@ -346,5 +386,16 @@ export default class implements Command {
 		}
 
 		return embed;
+	}
+
+	private formatDestination(levels: Levels) {
+		switch (levels.notifyDestination) {
+			case Destination.CUSTOM_CHANNEL:
+				return levels.notifyChannel ? channelMention(levels.notifyChannel) : "Current Channel";
+			case Destination.PRIVATE_MESSAGE:
+				return "Direct Messages";
+			default:
+				return "Current Channel";
+		}
 	}
 }

@@ -106,6 +106,28 @@ export default {
 					type: ApplicationCommandOptionType.Subcommand,
 					description: "Enable level up announcements",
 				},
+				{
+					name: "preview",
+					type: ApplicationCommandOptionType.Subcommand,
+					description: "Preview the announcement made when you level up",
+				},
+			],
+		},
+		{
+			name: "prune",
+			type: ApplicationCommandOptionType.Subcommand,
+			description: "Reset the exp of members who have left the server",
+		},
+		{
+			name: "reset",
+			type: ApplicationCommandOptionType.Subcommand,
+			description: "Reset the exp of every member, or of a single member",
+			options: [
+				{
+					name: "member",
+					type: ApplicationCommandOptionType.User,
+					description: "The member to reset, or everyone when omitted",
+				},
 			],
 		},
 		{

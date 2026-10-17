@@ -1,5 +1,5 @@
 import { userMention } from "@discordjs/formatters";
-import type { REST } from "@discordjs/rest";
+import { DiscordAPIError, type REST } from "@discordjs/rest";
 import {
 	Database,
 	Destination,
@@ -15,8 +15,11 @@ import { logger } from "@riceball/logger";
 import {
 	type APIChannel,
 	type APIEmbed,
+	type APIGuildMember,
 	type APIRole,
+	type APIUser,
 	type GatewayMessageCreateDispatchData,
+	RESTJSONErrorCodes,
 	type RESTPostAPIChannelMessageJSONBody,
 	Routes,
 	type Snowflake,
@@ -28,6 +31,8 @@ import { inject, injectable } from "tsyringe";
 const DEFAULT_NOTIFY_MESSAGE = "Congratulations {user}! You have reached level **{level}**.";
 const DEFAULT_EMBED_COLOR = 9042682;
 const REWARD_AUDIT_REASON = "Leveling reward";
+const RESET_BATCH_SIZE = 500;
+const MEMBER_FETCH_CONCURRENCY = 5;
 
 export const MAX_ROLES_PER_REWARD = 5;
 
@@ -240,15 +245,15 @@ export class Levels {
 		}
 	}
 
-	private async announceLevelUp(message: GatewayMessageCreateDispatchData, settings: Guild, lvl: number) {
+	/**
+	 * Builds the level up announcement for a user exactly as it is sent, without a destination.
+	 */
+	public renderLevelUpMessage(settings: Guild, user: Pick<APIUser, "id" | "username">, lvl: number) {
 		const { levels } = settings;
-		const { author } = message;
-
-		if (levels.notifyDestination === Destination.DISABLED) return;
 
 		const placeholders: Record<string, string> = {
-			user: userMention(author.id),
-			username: author.username,
+			user: userMention(user.id),
+			username: user.username,
 			level: lvl.toLocaleString(),
 		};
 
@@ -259,7 +264,7 @@ export class Levels {
 		const content = levels.notifyMessageContent ? fill(levels.notifyMessageContent) : undefined;
 
 		const body: RESTPostAPIChannelMessageJSONBody = {
-			allowed_mentions: { users: [author.id] },
+			allowed_mentions: { users: [user.id] },
 		};
 
 		if (levels.notifyMessageType === MessageType.TEXT) {
@@ -274,6 +279,17 @@ export class Levels {
 				body.embeds = [{ color, description: content ?? fill(DEFAULT_NOTIFY_MESSAGE) }];
 			}
 		}
+
+		return body;
+	}
+
+	private async announceLevelUp(message: GatewayMessageCreateDispatchData, settings: Guild, lvl: number) {
+		const { levels } = settings;
+		const { author } = message;
+
+		if (levels.notifyDestination === Destination.DISABLED) return;
+
+		const body = this.renderLevelUpMessage(settings, author, lvl);
 
 		let channelId = message.channel_id;
 
@@ -355,6 +371,118 @@ export class Levels {
 
 		// ALLOW_ALL omits blocked entities; BLOCK_ALL omits the only allowed ones
 		return restriction.type === RestrictionType.BLOCK_ALL ? !omitted : omitted;
+	}
+
+	/**
+	 * Get the ids of every member in a guild that has earned exp
+	 */
+	public async getExpHolders(guildId: Snowflake): Promise<Snowflake[]> {
+		const members = await this.db.rm.members.find(
+			{ guildId, exp: { $gt: 0 } },
+			{ fields: ["userId"], disableIdentityMap: true },
+		);
+
+		return members.map(({ userId }) => userId);
+	}
+
+	/**
+	 * Set the exp of members back to zero, keeping the member cache in sync
+	 * @param guildId - The id of the guild to reset exp in
+	 * @param userIds - The members to reset, defaults to every member with exp
+	 * @returns How many members had their exp reset
+	 */
+	public async resetExp(guildId: Snowflake, userIds?: Snowflake[]): Promise<number> {
+		const targets = userIds ?? (await this.getExpHolders(guildId));
+		let count = 0;
+
+		for (let i = 0; i < targets.length; i += RESET_BATCH_SIZE) {
+			const batch = targets.slice(i, i + RESET_BATCH_SIZE);
+
+			// refresh so stale entities in the long-lived identity map can't hide exp from the change set
+			const members = await this.db.rm.members.find(
+				{ guildId, userId: { $in: batch }, exp: { $gt: 0 } },
+				{ refresh: true },
+			);
+
+			for (const member of members) member.exp = 0;
+
+			await this.db.rm.em.flush();
+			await this.redis.del(...batch.map((userId) => `${guildId}:${userId}`));
+
+			count += members.length;
+		}
+
+		return count;
+	}
+
+	/**
+	 * Find members with exp who are no longer in the guild.
+	 *
+	 * Listing guild members over REST requires the privileged GUILD_MEMBERS intent, so when it is
+	 * unavailable each member with exp is fetched individually instead.
+	 */
+	public async findDepartedMembers(guildId: Snowflake): Promise<Snowflake[]> {
+		const holders = await this.getExpHolders(guildId);
+		if (!holders.length) return [];
+
+		const present = await this.listGuildMemberIds(guildId);
+
+		if (present) {
+			return holders.filter((userId) => !present.has(userId));
+		}
+
+		const departed: Snowflake[] = [];
+		const queue = [...holders];
+
+		const worker = async () => {
+			for (let userId = queue.shift(); userId; userId = queue.shift()) {
+				if (!(await this.isGuildMember(guildId, userId))) departed.push(userId);
+			}
+		};
+
+		await Promise.all(Array.from({ length: MEMBER_FETCH_CONCURRENCY }, worker));
+
+		return departed;
+	}
+
+	private async listGuildMemberIds(guildId: Snowflake): Promise<Set<Snowflake> | null> {
+		const ids = new Set<Snowflake>();
+		let after = "0";
+
+		try {
+			while (true) {
+				const query = new URLSearchParams({ limit: "1000", after });
+				const page = (await this.rest.get(Routes.guildMembers(guildId), { query })) as APIGuildMember[];
+
+				for (const { user } of page) ids.add(user.id);
+
+				if (page.length < 1000) return ids;
+
+				after = page[page.length - 1].user.id;
+			}
+		} catch (error) {
+			if (error instanceof DiscordAPIError && error.status === 403) return null;
+			throw error;
+		}
+	}
+
+	private async isGuildMember(guildId: Snowflake, userId: Snowflake) {
+		try {
+			await this.rest.get(Routes.guildMember(guildId, userId));
+			return true;
+		} catch (error) {
+			if (
+				error instanceof DiscordAPIError
+				&& (error.code === RESTJSONErrorCodes.UnknownMember || error.code === RESTJSONErrorCodes.UnknownUser)
+			) {
+				return false;
+			}
+
+			// anything else is inconclusive, so never treat the member as gone
+			logger.warn(`Failed to check membership of ${userId} in guild ${guildId}`);
+			logger.trace(error);
+			return true;
+		}
 	}
 
 	/**

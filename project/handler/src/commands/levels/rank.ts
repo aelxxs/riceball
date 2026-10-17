@@ -18,7 +18,7 @@
 
 import { join } from "node:path";
 import { abbreviateNumber, composeLevelCard } from "@riceball/colorify";
-import { Database } from "@riceball/db";
+import { type Card, Database } from "@riceball/db";
 import type { CardWithRelations } from "@riceball/db/zod";
 import { Canvas, loadFont, loadImage, registerFont } from "canvas-constructor/napi-rs";
 import type { APIGuild, APIUser } from "discord-api-types/v10";
@@ -66,12 +66,14 @@ export default class implements Command {
 	 * Generate a rank card for a user
 	 * @param {APIGuild} guild - The guild to generate the rank card for
 	 * @param {APIUser} user - The user to generate the rank card for
+	 * @param {Card} design - A card design to render instead of the user's saved one
 	 * @returns {Promise<Buffer>} The rank card
 	 * @private
 	 * */
-	public async generateRankCard(guild: APIGuild, user: APIUser): Promise<Buffer> {
+	public async generateRankCard(guild: APIGuild, user: APIUser, design?: Card): Promise<Buffer> {
 		const { reputation, country, bio } = await this.db.getUserSettings(user.id);
-		const { card, badges, exp } = await this.db.getMemberSettings(guild.id, user.id);
+		const { card: savedCard, exp } = await this.db.getMemberSettings(guild.id, user.id);
+		const card = design ?? savedCard;
 
 		const rank = await this.levels.getMemberRank(guild.id, user.id);
 

@@ -30,7 +30,7 @@ export default class implements Command {
 	 * @param {Context} context - The context of the command
 	 * @param {string} input - The input of the user
 	 **/
-	public async autocompleteRun({ guild, author }: Context, input: string) {
+	public async autocompleteRun({ guild, author }: Context, { badge: input = "" }: Partial<Options>) {
 		const { badges } = await this.db.getMemberSettings(guild.id, author.id);
 
 		if (!badges || badges.length === 0) {

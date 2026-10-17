@@ -17,8 +17,10 @@
  **/
 
 import { Database } from "@riceball/db";
+import { Deps } from "library/common";
 import type { Command, Context } from "library/core";
-import { inject, injectable } from "tsyringe";
+import { container, inject, injectable } from "tsyringe";
+import type RankCommand from "../../levels/rank";
 
 @injectable()
 export default class implements Command {
@@ -67,7 +69,14 @@ export default class implements Command {
 			throw "This preset does not exist.";
 		}
 
-		return "Sorry, this command was registered but not implemented. Please try again later.";
+		// resolved at runtime rather than imported so the bundler keeps rank.ts, and its asset paths, in its own file
+		const rank = container.resolve<Map<string, Command>>(Deps.Plugins).get("rank") as RankCommand;
+		const card = await rank.generateRankCard(guild, author, presetToPreview.card);
+
+		return {
+			content: `Preview of the **${presetToPreview.name}** preset:`,
+			files: [{ name: `${Date.now()}-${author.username}-preset.png`, data: card }],
+		};
 	}
 }
 

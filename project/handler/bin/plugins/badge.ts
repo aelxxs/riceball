@@ -47,5 +47,19 @@ export default {
 			type: ApplicationCommandOptionType.Subcommand,
 			description: "Clear all badges from your level card",
 		},
+		{
+			name: "preview",
+			type: ApplicationCommandOptionType.Subcommand,
+			description: "Preview a badge from this server's shop",
+			options: [
+				{
+					name: "badge",
+					type: ApplicationCommandOptionType.String,
+					description: "The badge to preview",
+					required: true,
+					autocomplete: true,
+				},
+			],
+		},
 	],
 };
