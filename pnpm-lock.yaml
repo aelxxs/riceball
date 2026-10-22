@@ -24,8 +24,8 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
       '@discordjs/rest':
-        specifier: 2.6.1
-        version: 2.6.1
+        specifier: 2.6.3
+        version: 2.6.3
       '@napi-rs/canvas':
         specifier: 0.1.97
         version: 0.1.97
@@ -115,8 +115,8 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
       '@discordjs/rest':
-        specifier: 2.6.1
-        version: 2.6.1
+        specifier: 2.6.3
+        version: 2.6.3
       '@emoji-mart/data':
         specifier: ^1.2.1
         version: 1.2.1
@@ -527,8 +527,8 @@ packages:
     resolution: {integrity: sha512-y4UPwWhH6vChKRkGdMB4odasUbHOUwy7KL+OVwF86PvT6QVOwElx+TiI1/6kcmcEe+g5YRXJFiXSXUdabqZOvQ==}
     engines: {node: '>=16.11.0'}
 
-  '@discordjs/rest@2.6.1':
-    resolution: {integrity: sha512-wwQdgjeaoYFiaG+atbqx6aJDpqW7JHAo0HrQkBTbYzM3/PJ3GweQIpgElNcGZ26DCUOXMyawYd0YF7vtr+fZXg==}
+  '@discordjs/rest@2.6.3':
+    resolution: {integrity: sha512-wvOylxNYJkwKjctS/Mn5GP1w9r3/rzyH+ThD1JlAca6zEdlHs8QWBBUQJpU5Q+W6DoIj/Ljh1IPlZs7hTU+UAg==}
     engines: {node: '>=18'}
 
   '@discordjs/util@1.2.0':
@@ -2624,6 +2624,9 @@ packages:
   discord-api-types@0.38.43:
     resolution: {integrity: sha512-sSoBf/nK6m7BGtw65mi+QBuvEWaHE8MMziFLqWL+gT6ME/BLg34dRSVKS3Husx40uU06bvxUc3/X+D9Y6/zAbw==}
 
+  discord-api-types@0.38.57:
+    resolution: {integrity: sha512-R1CTSSt4RshqCq23j2Xq2ZscvzB4LzG9OB1CYQdKUGdw8Ti/oF/72EEtK2mNpagG/Vj9NcBT7dw9lKLf+Dacfg==}
+
   discord-markdown-parser@1.3.1:
     resolution: {integrity: sha512-YHLMi+9W4KSO27uW8D7DX6S9uu/M7qntmkUIxMSsJrxwtxfdcHA55fcLoRkBFyxXdxi2PKRqC3Z7MXLMS4XP9Q==}
 
@@ -3729,8 +3732,8 @@ packages:
     resolution: {integrity: sha512-gBLkYIlEnSp8pFbT64yFgGE6UIB9tAkhukC23PmMDCe5Nd+cRqKxSjw5y54MK2AZMgZfJWMaNE4nYUHgi1XEOw==}
     engines: {node: '>=18.17'}
 
-  undici@6.24.1:
-    resolution: {integrity: sha512-sC+b0tB1whOCzbtlx20fx3WgCXwkW627p4EA9uM+/tNNPkSS+eSEld6pAs9nDv7WbY1UUljBMYPtu9BCOrCWKA==}
+  undici@6.29.1:
+    resolution: {integrity: sha512-EvRlUt/QqAEvXdQeRMYUfwOQsfzpDztykrG2owGEE/rBOBoYv9uF39ZzsNDh4lTFHhTr2XOZjKkYgueD12ZmGA==}
     engines: {node: '>=18.17'}
 
   unicode-emoji-modifier-base@1.0.0:
@@ -4000,7 +4003,7 @@ snapshots:
 
   '@discordjs/core@2.4.0':
     dependencies:
-      '@discordjs/rest': 2.6.1
+      '@discordjs/rest': 2.6.3
       '@discordjs/util': 1.2.0
       '@discordjs/ws': 2.0.4
       '@sapphire/snowflake': 3.5.5
@@ -4014,17 +4017,17 @@ snapshots:
     dependencies:
       discord-api-types: 0.38.43
 
-  '@discordjs/rest@2.6.1':
+  '@discordjs/rest@2.6.3':
     dependencies:
       '@discordjs/collection': 2.1.1
       '@discordjs/util': 1.2.0
       '@sapphire/async-queue': 1.5.5
       '@sapphire/snowflake': 3.5.5
       '@vladfrangu/async_event_emitter': 2.4.7
-      discord-api-types: 0.38.43
+      discord-api-types: 0.38.57
       magic-bytes.js: 1.13.0
       tslib: 2.8.1
-      undici: 6.24.1
+      undici: 6.29.1
 
   '@discordjs/util@1.2.0':
     dependencies:
@@ -4033,7 +4036,7 @@ snapshots:
   '@discordjs/ws@1.2.3':
     dependencies:
       '@discordjs/collection': 2.1.1
-      '@discordjs/rest': 2.6.1
+      '@discordjs/rest': 2.6.3
       '@discordjs/util': 1.2.0
       '@sapphire/async-queue': 1.5.5
       '@types/ws': 8.18.1
@@ -4048,7 +4051,7 @@ snapshots:
   '@discordjs/ws@2.0.4':
     dependencies:
       '@discordjs/collection': 2.1.1
-      '@discordjs/rest': 2.6.1
+      '@discordjs/rest': 2.6.3
       '@discordjs/util': 1.2.0
       '@sapphire/async-queue': 1.5.5
       '@types/ws': 8.18.1
@@ -5646,6 +5649,8 @@ snapshots:
 
   discord-api-types@0.38.43: {}
 
+  discord-api-types@0.38.57: {}
+
   discord-markdown-parser@1.3.1: {}
 
   discord.js@14.25.1:
@@ -5653,7 +5658,7 @@ snapshots:
       '@discordjs/builders': 1.14.0
       '@discordjs/collection': 1.5.3
       '@discordjs/formatters': 0.6.2
-      '@discordjs/rest': 2.6.1
+      '@discordjs/rest': 2.6.3
       '@discordjs/util': 1.2.0
       '@discordjs/ws': 1.2.3
       '@sapphire/snowflake': 3.5.3
@@ -6926,7 +6931,7 @@ snapshots:
 
   undici@6.21.3: {}
 
-  undici@6.24.1: {}
+  undici@6.29.1: {}
 
   unicode-emoji-modifier-base@1.0.0: {}
 
