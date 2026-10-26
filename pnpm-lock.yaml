@@ -52,7 +52,7 @@ importers:
         version: 1.8.2
       discord-api-types:
         specifier: 0.38.43
-        version: 0.38.43
+        version: 0.38.57
       dotenv:
         specifier: 17.3.1
         version: 17.3.1
@@ -179,7 +179,7 @@ importers:
         version: 3.3.1(sharp@0.33.5)
       discord-api-types:
         specifier: 0.38.43
-        version: 0.38.43
+        version: 0.38.57
       discord.js:
         specifier: ^14.25.1
         version: 14.25.1
@@ -252,7 +252,7 @@ importers:
         version: 5.55.7
       svelte-check:
         specifier: ^4.7.7
-        version: 4.7.7(picomatch@4.0.7)(svelte@5.55.7)(typescript@6.0.3)
+        version: 4.7.7(picomatch@4.0.4)(svelte@5.55.7)(typescript@6.0.3)
       svelte-preprocess:
         specifier: ^6.0.3
         version: 6.0.3(postcss-load-config@6.0.1(postcss@8.5.30)(tsx@4.21.0)(yaml@2.8.3))(postcss@8.5.30)(sass@1.98.0)(svelte@5.55.7)(typescript@6.0.3)
@@ -368,7 +368,7 @@ importers:
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       discord-api-types:
         specifier: ^0.38.43
-        version: 0.38.43
+        version: 0.38.57
       discord-markdown-parser:
         specifier: ^1.3.1
         version: 1.3.1
@@ -2621,9 +2621,6 @@ packages:
   devalue@5.9.4:
     resolution: {integrity: sha512-sPAT4pztbu6586/hrhOnMKS17IJrvg12mXiSPSS3W5qDeN2RGgvZ0diZCm31dBbnevfVmujNO3IM2wrS4Y2Rhg==}
 
-  discord-api-types@0.38.43:
-    resolution: {integrity: sha512-sSoBf/nK6m7BGtw65mi+QBuvEWaHE8MMziFLqWL+gT6ME/BLg34dRSVKS3Husx40uU06bvxUc3/X+D9Y6/zAbw==}
-
   discord-api-types@0.38.57:
     resolution: {integrity: sha512-R1CTSSt4RshqCq23j2Xq2ZscvzB4LzG9OB1CYQdKUGdw8Ti/oF/72EEtK2mNpagG/Vj9NcBT7dw9lKLf+Dacfg==}
 
@@ -3997,7 +3994,7 @@ snapshots:
       '@discordjs/formatters': 0.6.2
       '@discordjs/util': 1.2.0
       '@sapphire/shapeshift': 4.0.0
-      discord-api-types: 0.38.43
+      discord-api-types: 0.38.57
       fast-deep-equal: 3.1.3
       ts-mixer: 6.0.4
       tslib: 2.8.1
@@ -4013,14 +4010,14 @@ snapshots:
       '@discordjs/ws': 2.0.4
       '@sapphire/snowflake': 3.5.5
       '@vladfrangu/async_event_emitter': 2.4.7
-      discord-api-types: 0.38.43
+      discord-api-types: 0.38.57
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
   '@discordjs/formatters@0.6.2':
     dependencies:
-      discord-api-types: 0.38.43
+      discord-api-types: 0.38.57
 
   '@discordjs/rest@2.6.3':
     dependencies:
@@ -4036,7 +4033,7 @@ snapshots:
 
   '@discordjs/util@1.2.0':
     dependencies:
-      discord-api-types: 0.38.43
+      discord-api-types: 0.38.57
 
   '@discordjs/ws@1.2.3':
     dependencies:
@@ -4046,7 +4043,7 @@ snapshots:
       '@sapphire/async-queue': 1.5.5
       '@types/ws': 8.18.1
       '@vladfrangu/async_event_emitter': 2.4.7
-      discord-api-types: 0.38.43
+      discord-api-types: 0.38.57
       tslib: 2.8.1
       ws: 8.20.0
     transitivePeerDependencies:
@@ -4061,7 +4058,7 @@ snapshots:
       '@sapphire/async-queue': 1.5.5
       '@types/ws': 8.18.1
       '@vladfrangu/async_event_emitter': 2.4.7
-      discord-api-types: 0.38.43
+      discord-api-types: 0.38.57
       tslib: 2.8.1
       ws: 8.20.0
     transitivePeerDependencies:
@@ -5652,8 +5649,6 @@ snapshots:
 
   devalue@5.9.4: {}
 
-  discord-api-types@0.38.43: {}
-
   discord-api-types@0.38.57: {}
 
   discord-markdown-parser@1.3.1: {}
@@ -5667,7 +5662,7 @@ snapshots:
       '@discordjs/util': 1.2.0
       '@discordjs/ws': 1.2.3
       '@sapphire/snowflake': 3.5.3
-      discord-api-types: 0.38.43
+      discord-api-types: 0.38.57
       fast-deep-equal: 3.1.3
       lodash.snakecase: 4.1.1
       magic-bytes.js: 1.13.0
@@ -6682,12 +6677,12 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte-check@4.7.7(picomatch@4.0.7)(svelte@5.55.7)(typescript@6.0.3):
+  svelte-check@4.7.7(picomatch@4.0.4)(svelte@5.55.7)(typescript@6.0.3):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@sveltejs/load-config': 0.2.3
       chokidar: 4.0.3
-      fdir: 6.5.0(picomatch@4.0.7)
+      fdir: 6.5.0(picomatch@4.0.4)
       picocolors: 1.1.1
       sade: 1.8.1
       svelte: 5.55.7
